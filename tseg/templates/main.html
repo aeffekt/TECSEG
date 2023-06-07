@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class='content-section'>        
+        <a class="article-title mb-5" href="/"><img src="./static/images/LOGO_reduced.png"></a>
+        <p></p>
+        <p></p>
+        <h7>Sistema informático de L.I.E. S.R.L.</h7>
+        <h3 class="article-title mb-5">Bienvenido al programa de seguimiento de equipos</h3>
+        <div class="article-content mt-5">
+            <p>Si esta en su primera vez, deberá crear una cuenta de usuario para poder usar el sistema.</p>
+            {% if not current_user.is_authenticated %}
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.login') }}">Iniciar sesión</a>
+            {%endif%}
+        </div>
+    </div>
+{% endblock content %}

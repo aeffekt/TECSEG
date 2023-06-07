@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+		<h2>Resultado de la búsqueda "{{ searched }}" </h2>
+		<div class="container">
+    		<div class="content-section">
+    			<h5>Clientes:</h5>
+    			{% for client in clients %}
+    				<a class="article-title" href="{{ url_for('clients.client', client_id=client.id) }}">
+    					<li>{{ client.client_name}} : {{ client.business_name }} </li></a>
+    					<p>
+	    					{% if searched|lower in client.comment|lower %}
+	    						{{ client.comment }}
+	    					{% endif %}
+	    					{% if searched|lower in client.contact|lower %}
+	    						{{ client.contact }}
+	    					{% endif %}
+	    					{% if searched|lower in client.comment|lower %}
+	    						{{ client.comment }}
+	    					{% endif %}
+    					</p>
+    			{% endfor%}
+    		</div>
+    	</div>
+    
+    	<div class="container">
+    		<div class="content-section">
+    			<h5>Equipos:</h5>
+    			{% for equipment in equipments %}
+    				<a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}"><li>{{ equipment.title }}</li></a>
+    					{% if searched|lower in equipment.date_created|lower %}
+    						{{ equipment.date_created }}
+    					{% endif %}
+    					{% if searched|lower in equipment.content|lower %}
+    						{{ equipment.content }}
+    					{% endif %}	    					
+    					<p>Pertenece a: {{ equipment.owner.client_name }}</p>
+    			{% endfor%}
+    		</div>
+    	</div>
+    	<div class="container">
+    		<div class="content-section">
+    			<h5>Mensajes:</h5>
+    			{% for post in posts %}
+    				<a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}"><li>{{ post }}</li></a>
+    			{% endfor%}
+    		</div>
+    	</div>
+{% endblock content %}

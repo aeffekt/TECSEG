@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+
+{% block content %}	
+	<form id="login" class="box" onsubmit="return validate()">
+		<h1>TECSEG</h1>
+		<h3>Tecnología & Seguridad</h2>
+		<hr style="border:10px;">
+		<input autofocus autocomplete="off" id="name" placeholder="Ingrese Nombre" type="text"/>
+		<input id="password" placeholder="Ingrese Contraseña" type="password"/>
+		<input value="INGRESAR" type="submit"/>
+	</form>
+{% endblock %}

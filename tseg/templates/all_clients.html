@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for client in all_clients.items %}
+        <article class="media content-section">
+          	<div class="media-body">
+            	<div class="article-metadata">
+                    <h3><a class="article-title" href="{{ url_for('clients.client', client_id =client.id) }}">{{ client.client_name }}</a></h3>
+            	</div>
+            	<h5 class="article-title" href="">Razón social: {{ client.business_name }}</h5>
+            	<p class="article-content">Contacto: {{ client.contact }}</p>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=client.id) }}">VER EQUIPOS</a>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo</a>
+          </div>
+        </article>
+    {% endfor %}
+    {% for page_num in all_clients.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+        {% if all_clients.page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('clients.all_clients', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('clients.all_clients', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+    {% else %}
+        ...
+    {% endif %}
+    {% endfor %}
+{% endblock content %}

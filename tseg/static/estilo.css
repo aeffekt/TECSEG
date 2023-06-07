@@ -1,0 +1,158 @@
+body {
+  background: #D8D8D8;
+  color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+nav{
+  background-color: #10143B;
+  font-size: 20px;
+}
+
+#banner img{
+  width: 240px;
+  height: 30px;
+}
+
+.menu-horizontal{
+  list-style: none;
+  display: flex;
+  justify-content: left;
+}
+
+.menu-horizontal > li > a{
+  display: block;
+  padding: 15px;
+  color: white;
+  text-decoration: none;  
+}
+
+.menu-horizontal > li:hover{
+  background-color: lightblue;
+}
+
+.menu-vertical{
+  position: absolute;
+  display: none;
+  list-style: none;
+  background-color: rgba(0,0,0, .5);
+  padding-left: 0px;
+}
+
+.menu-horizontal li:hover .menu-vertical{
+  display: block;
+}
+
+.menu-vertical li:hover{
+  background-color: lightblue;
+}
+
+.menu-vertical li a{
+  display: block;
+  color: white;
+  padding: 10px 10px 10px 10px;
+  font-size: 18px;
+}
+
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+.alert {
+  font-family:  Helvetica, sans-serif;
+  font-size: .85rem;
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.btn {
+  margin-top: 10px;
+}
+
+.buscar input{
+  height: 35px;
+  padding: 0 20px;
+  border: 1px solid silver;
+  border-radius: 20px;
+}

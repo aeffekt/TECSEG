@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata" name="eq_ctrl">
+              <div>
+                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}">Editar equipo</a>
+                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Eliminar equipo</button>
+              </div>
+          </div>
+          <p style="font-style: italic;">pertenece a: <a class="mr-2" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.client_name }}</b></a></p>
+          <h2 class="aticle-title">{{ equipment.title }}</h2>
+          <p class="article-content">{{ equipment.content }}</p>
+          <p class="article-content">Fecha de creación: <b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b></p>
+          <p class="article-content">Última modificación: <b>{{ equipment.last_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ equipment.author_eq.username }}</b></p>
+          <p class="article-content">
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=equipment.owner.id) }}">Ir a equipos de {{ equipment.owner.client_name }}...</a>
+          </p>
+        </div>
+    </article>
+     <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.title }}"?</h5>
+            <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Borrar">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

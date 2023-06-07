@@ -1,0 +1,9 @@
+﻿flask
+flask_wtf
+flask-sqlalchemy
+flask-Bcrypt
+flask-login
+flask-mail
+itsdangerous==2.0.1
+email_validator
+pillow

@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+	<div class='content-section'>
+		<form method='POST' action=""> <!-- action= when we post go back to same route-->
+			{{ form.hidden_tag() }} <!-- part of protection -->
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Registrar Usuario</legend>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.username.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.username.errors %}
+						{{ form.username(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.username.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.username(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					{{ form.email.label(class="form-control-label") }}
+					{% if form.email.errors %}
+						{{ form.email(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.email.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.email(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				<div class="form-group">					
+					{{ form.role.label(class="form-control-label") }}					
+					{% if form.role.errors %}
+						{{ form.role(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.role.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.role(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.password.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.password.errors %}
+						{{ form.password(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.password.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.password(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.confirm_password.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.confirm_password.errors %}
+						{{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.confirm_password.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.confirm_password(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+			</fieldset>
+			<div class="form-group">
+				<!-- boottrap for the submit button  -->
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+	<div class="border-top pt-3">
+		<small class="text-muted">
+			¿Ya está registrado? <a class="ml-2" href="{{ url_for('users.login') }}">Iniciar Sesión</a> <!-- nombre de la funcion-->
+		</small>
+
+	</div>
+	
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+    <article class="media content-section">
+      	<div class="media-body">
+        	<div class="article-metadata">
+              <div>
+                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.update_client', client_id=client.id) }}">Editar</a>
+                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Eliminar</button>
+              </div>
+        	</div>
+        	<h4 class="article-title">Nombre: <b>{{ client.client_name }}</b></h4>
+        	<h3 class="article-content">Razón social: <b>{{ client.business_name }}</b></h3>
+          <p class="article-content">Contacto: {{ client.contact }}</p>
+          <p class="article-content">Comentarios: {{ client.comments }}</p>
+          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=client.id) }}">VER EQUIPOS</a>
+          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo</a>
+      </div>
+    </article>
+    <!-- AGREGAR LISTADO DE LOS EQUIPOS-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar a "{{ client.client_name }}"?</h5>
+            <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <form action="{{ url_for('clients.delete_client', client_id=client.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Borrar">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
