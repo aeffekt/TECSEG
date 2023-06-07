@@ -39,9 +39,12 @@
     	</div>
     	<div class="container">
     		<div class="content-section">
-    			<h5>Mensajes:</h5>
-    			{% for post in posts %}
-    				<a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}"><li>{{ post }}</li></a>
+    			<h5>Historias de equipos:</h5>
+    			{% for historia in historias %}
+    				<a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}"><li>{{ historia.title }}</li></a>
+    				{% if searched|lower in historia.content|lower %}
+						{{ historia.content }}
+					{% endif %}					
     			{% endfor%}
     		</div>
     	</div>

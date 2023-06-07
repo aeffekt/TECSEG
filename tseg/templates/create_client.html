@@ -65,6 +65,81 @@
 						{{ form.comments(class="form-control form-control-lg", rows='6') }}
 					{% endif %}
 				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.direccion.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.direccion.errors %}
+						{{ form.direccion(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.direccion.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.direccion(class="form-control form-control-lg", rows='6') }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.pais.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.pais.errors %}
+						{{ form.pais(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.pais.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.pais(class="form-control form-control-lg", rows='6') }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.provincia.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.provincia.errors %}
+						{{ form.provincia(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.provincia.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.provincia(class="form-control form-control-lg", rows='6') }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.ciudad.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.ciudad.errors %}
+						{{ form.ciudad(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.ciudad.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.ciudad(class="form-control form-control-lg", rows='6') }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.codigo_postal.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.codigo_postal.errors %}
+						{{ form.codigo_postal(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.codigo_postal.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.codigo_postal(class="form-control form-control-lg", rows='6') }}
+					{% endif %}
+				</div>
 			</fieldset>
 			<div class="form-group">
 				<!-- boottrap for the submit button  -->

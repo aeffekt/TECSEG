@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for page_num in all_ordenes_reparacion.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) %}
+        {% if page_num %}
+            {% if all_ordenes_reparacion.page == page_num %}                
+                <a class="btn btn-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% for orden_reparacion in all_ordenes_reparacion.items %}
+        <article class="media content-section">
+          	<div class="media-body">
+            	<div class="article-metadata">
+                    <h3><a class="article-title" href="{{ url_for('orden_reparacions.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">{{ orden_reparacion.title }}</a></h3>
+            	</div>
+            	<H5><p class="article-title" href="">{{ orden_reparacion.content }}</p></H5>
+                <a class="article-title" href="{{ url_for('clients.client', client_id =orden_reparacion.owner.id) }}">Cliente: <b>{{ orden_reparacion.owner.client_name }}</b></a>
+                <p class="article-content">Última modificación: <b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_eq.username }}</b></p>
+                <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('orden_reparacions.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">Ver Comentarios</a>
+                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{{ url_for('eq_details.new_eq_detail', orden_reparacion_id = orden_reparacion.id) }}">Añadir Comentario</a>
+          </div>
+      </article>
+    {% endfor %}
+    {% for page_num in all_ordenes_reparacion.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) %}
+        {% if page_num %}
+            {% if all_ordenes_reparacion.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

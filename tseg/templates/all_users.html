@@ -1,26 +1,38 @@
 {% extends "layout.html" %}
-{% block content %}
+{% block content %}    
+    {% for page_num in all_users.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if all_users.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('users.all_users', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('users.all_users', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+    {% endfor %}
     {% for user in all_users.items %}
        <div class="content-section">
-            <div class="media">
-                <a href="{{ url_for('users.account', user=user) }}" ><img class="rounded-circle account-img" src="{{image_path+user.image_file }}"></a>
+            <div class="media">                
+                <a href="{{ url_for('users.account', user_id=user.id) }}" ><img class="rounded-circle account-img" src="{{image_path+user.image_file }}"></a>
                 <div class="media-body">
                     <h2 class="account-heading" >{{ user.username }}</h2>
-                    <p class="text-secondary">{{ user.email }}</p>
-                    <p class="text-secondary">Tipo de usuario: {{ user.role }}</p>                    
+                    <p class="text-secondary">{{ user.email }} - <b>{{ user.role }}</b></p>
+                    <p class="text-secondary"></p>
+                    <a class="btn btn btn-outline-warning btn-sm mt-1 mb-1" href="{{ url_for('users.account', user_id = user.id) }}">Modificar cuenta</a>
                 </div>
             </div>   
         </div>
     {% endfor %}
     {% for page_num in all_users.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-    {% if page_num %}
-        {% if all_users.page == page_num %}
-            <a class="btn btn-info mb-4" href="{{ url_for('users.all_users', page=page_num) }}">{{ page_num }}</a>
+        {% if page_num %}
+            {% if all_users.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('users.all_users', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('users.all_users', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
         {% else %}
-            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.all_users', page=page_num) }}">{{ page_num }}</a>
+            ...
         {% endif %}
-    {% else %}
-        ...
-    {% endif %}
     {% endfor %}
 {% endblock content %}

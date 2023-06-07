@@ -1,9 +1,11 @@
+from flask import flash
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
-from tseg.models import User
+from tseg.models import User, Role
+from tseg import db
 
 class SearchForm(FlaskForm):
 	searched = StringField('Buscar palabra', validators=[DataRequired()])
@@ -20,11 +22,15 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(LoginForm):
+	def __init__(self):
+		super(RegistrationForm, self).__init__()  # Llamar al constructor de la clase padre
+		self.role.choices = [r.role_name for r in Role.query.all()]
+
 	email = StringField('Email', validators=[DataRequired(), Email()])
 	role = SelectField('Tipo de usuario', coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion
 	confirm_password = PasswordField('Confirmar Contraseña', 
 						validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])
-	submit = SubmitField('Registrarse')
+	submit = SubmitField('Registrar Usuario')
 
 	# custom validators = validator_{field_name}
 	def validate_username(self, username):
@@ -39,26 +45,16 @@ class RegistrationForm(LoginForm):
 
 
 class UpdateAccountForm(FlaskForm):
+	def __init__(self):
+		super(UpdateAccountForm, self).__init__()  # Llamar al constructor de la clase padre
+		self.role.choices = [r.role_name for r in Role.query.all()]		
+
 	username = StringField('Nombre de usuario',
 						validators=[DataRequired(), Length(min=2, max=30)], render_kw={'autofocus': True})
-	email = StringField('Email',
-						validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion
-	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
-	submit = SubmitField('Actualizar')
-
-	# custom validators = validator_{field_name}
-	def validate_username(self, username):
-		if username.data != current_user.username:
-			name_already_exist = User.query.filter_by(username=username.data).first()
-			if name_already_exist:
-				raise ValidationError('Ese nombre ya está en uso. Por favor, elija uno diferente')
-
-	def validate_email(self, email):
-		if email.data != current_user.email:
-			mail_already_exist = User.query.filter_by(email=email.data).first()
-			if mail_already_exist:
-				raise ValidationError('Ese Email ya está en uso. Por favor, elija uno diferente')
+	email = StringField('Email', validators=[DataRequired(), Email()])
+	role = SelectField('Tipo de usuario', choices=[], coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion
+	picture = FileField('Seleccionar nueva imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
+	submit = SubmitField('Modificar cuenta')
 
 
 class RequestResetForm(FlaskForm):
@@ -77,3 +73,12 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Aplicar nueva contraseña.')
+
+
+class UpdateRoleForm(FlaskForm):
+	def __init__(self):
+		super(UpdateRoleForm, self).__init__()  # Llamar al constructor de la clase padre
+		self.role.choices = [r.role_name for r in Role.query.all()]
+
+	role = SelectField('Modificar Rol de usuario', coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion	
+	submit = SubmitField('Actualizar')

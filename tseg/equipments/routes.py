@@ -1,8 +1,9 @@
-from flask import render_template, request, Blueprint, flash, redirect, url_for
+from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
-from tseg.models import Equipment, Client
+from tseg.models import Equipment, Client, Eq_detail
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.forms import SearchForm
+from tseg.users.utils import role_required
 from tseg import db
 import re
 
@@ -21,7 +22,7 @@ def layout():
 @equipments.route("/all_equipments")
 def all_equipments():
 	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	all_equips = Equipment.query.order_by(Equipment.date_created.desc()).paginate(page=page, per_page=5)
+	all_equips = Equipment.query.order_by(Equipment.date_created.desc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
 	return render_template('all_equipments.html', 
 							all_equipments=all_equips, 
 							title='Equipos')
@@ -30,12 +31,17 @@ def all_equipments():
 @equipments.route("/equipment-<int:equipment_id>")
 def equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
+	page = request.args.get('page', 1, type=int) # num pagina de mensajes
+	historias =  Eq_detail.query.filter_by(equipo=equipment)\
+					.order_by(Eq_detail.date_modified.desc())\
+					.paginate(page=page, per_page=10)	
 	return render_template("equipment.html", title=equipment.title,
 											equipment=equipment,
-											legend="Ver Equipo")
+											legend="Ver Equipo",
+											historias=historias)
 
 @equipments.route("/add_equipment-<string:client_id>", methods=['GET','POST'] )
-@login_required
+@role_required("Admin", "Técnico")
 def add_equipment(client_id):
 	form = EquipmentForm()
 	if form.validate_on_submit():
@@ -47,22 +53,17 @@ def add_equipment(client_id):
 							client_id=client.id)
 		db.session.add(equipment)
 		db.session.commit()
-		flash('{Equipo agregado!}', 'success')
-		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))
-	elif request.method == 'GET':
-		form.owner.choices = Client.query.all()
-		form.owner.default = Client.query.filter_by(id=client_id).first()
-		form.process() # CARGA EL VALOR 'DEFAULT' EN SELECT		
+		flash(f'Equipo {equipment.title} agregado!', 'success')
+		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))	
 	return render_template('create_equipment.html', title='Agregar equipo', 
 												form=form, legend="Agregar equipo")
 
 
 @equipments.route("/equipment-<int:equipment_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Técnico")
 def update_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	form = EquipmentForm()
-
 	if form.validate_on_submit():
 		client_name, business_name = form.owner.data.split(", ")
 		client = Client.query.filter_by(client_name=client_name, business_name=business_name).first()
@@ -72,24 +73,22 @@ def update_equipment(equipment_id):
 		equipment.author_eq = current_user
 		now = datetime.now()
 		now = now.strftime("%Y-%m-%dT%H:%M:%S")
-		equipment.last_modified = datetime.fromisoformat(now)
+		equipment.date_modified = datetime.fromisoformat(now)
 		db.session.commit()
 		flash("El equipo ha sido editado con éxito", 'success')
 		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))
-	elif request.method == 'GET':
-		client = Client.query.filter_by(id=equipment.client_id).first()
-		form.owner.choices = Client.query.all()
-		form.owner.default = Client.query.filter_by(id=client.id).first()
+	elif request.method == 'GET':		
+		client = Client.query.filter_by(id=equipment.client_id).first()		
+		form.owner.default = f'{client.client_name}, {client.business_name}'
 		form.process()
 		form.title.data = equipment.title
-		form.content.data = equipment.content
-		flash(form.owner.data)
+		form.content.data = equipment.content		
 	return render_template('create_equipment.html',title='Editar equipo', 
 												form=form,
 												legend="Editar equipo")
 
-@equipments.route("/equipment-<int:equipment_id>/delete", methods=['POST'])
-@login_required
+@equipments.route("/equipment-<int:equipment_id>-delete", methods=['POST'])
+@role_required("Admin", "Técnico")
 def delete_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	db.session.delete(equipment)

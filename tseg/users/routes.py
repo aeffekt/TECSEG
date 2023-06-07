@@ -1,16 +1,15 @@
 #users routes
-from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
+from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
-from tseg.models import User, Post, Equipment, Client, Role
+from tseg.models import User, Eq_detail, Equipment, Client, Role
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
-							RequestResetForm, ResetPasswordForm, SearchForm)
-from tseg.users.utils import save_picture, send_reset_email
+							RequestResetForm, ResetPasswordForm, SearchForm, UpdateRoleForm)
+from tseg.users.utils import save_picture, send_reset_email, role_required
 from sqlalchemy import or_
 
 
 users = Blueprint('users', __name__)
-
 
 # pass stuff to navbar through layout (used to search)
 @users.context_processor
@@ -18,43 +17,33 @@ def layout():
 	form = SearchForm()
 	return dict(form=form)
 
-@users.route("/")
+
 @users.route("/home")
 def main():
 	return render_template('main.html', title="home")
 
 
 @users.route("/register", methods=['GET', 'POST'])
-def register():
-	if current_user.is_authenticated:
-		return redirect(url_for('users.main'))
-	form = RegistrationForm()
-	# CARGA EL VALOR 'DEFAULT' EN SELECT	
+@role_required("Admin")
+def register():	
+	form = RegistrationForm()		
 	if form.validate_on_submit():
 		# creación de usuario válido y protección de contraseña
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 		user = User(username=form.username.data, email=form.email.data, password=hashed_password, role=form.role.data)
 		db.session.add(user)
 		db.session.commit()
-		flash(f'Cuenta creada: {form.username.data}', 'success')
-		login_user(user)
-		return redirect(url_for("users.main"))
-	elif request.method == 'GET':
-		form.role.choices = Role.query.all()
-		# el 1er usuario lo crea un "Admin", los demas "User" por defecto
-		if User.query.first:
-			form.role.default = db.session.query(Role.role_name).offset(1).limit(1).scalar()		
-		else:
-			form.role.default = Role.query.first()
-		form.process()
-	return render_template('register.html', title='Register', form=form)	
+		flash(f'Cuenta creada: {form.username.data}', 'success')		
+		return redirect(url_for("users.all_users"))	
+	return render_template('register.html', title='Registrar', form=form)	
 
 
+@users.route("/", methods=['GET', 'POST'])
 @users.route("/login", methods=['GET', 'POST'])
 def login():
 	if current_user.is_authenticated:
 		return redirect(url_for('users.main'))
-	form = LoginForm()
+	form = LoginForm()		
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
 		# checkea en simultaneo si existe el ususario y su contraseña
@@ -64,7 +53,7 @@ def login():
 			# lleva a la pagina que se queria acceder antes de login
 			next_page = request.args.get('next') # metodo request lee ruta barra direcciones
 			flash(f'Sesión iniciada correctamente. Bienvenido {form.username.data}', 'success')
-			return redirect(next_page) if next_page else redirect(url_for('users.main'))
+			return redirect(next_page) if next_page else redirect(url_for('users.main'))		
 		else:
 			flash(f'Inicio de sesión incorrecto: {form.username.data}', 'danger')
 	return render_template('login.html', title='login', form=form)	
@@ -76,40 +65,29 @@ def logout():
 	return redirect('login')
 
 
-@users.route("/account", methods=['GET', 'POST'])
-@login_required 
-def account():
+@users.route("/account-<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def account(user_id):
+	user = User.query.get_or_404(user_id)
 	form = UpdateAccountForm()
 	if form.validate_on_submit():		
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data)
-			current_user.image_file = picture_file
-		current_user.username = form.username.data
-		current_user.email = form.email.data
-		current_user.role = form.role.data
+			user.image_file = picture_file
+		user.username = form.username.data
+		user.email = form.email.data
+		user.role = form.role.data
 		db.session.commit()
-		flash("La cuenta ha sido actualizada.", 'success')
-		return redirect(url_for('users.account'))
-	elif request.method == 'GET':
-		form.role.choices = Role.query.all()
-		form.role.default = current_user.role
+		flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
+		return redirect(url_for('users.account', user_id=user.id))
+	elif request.method == 'GET':		
+		form.role.default = user.role
 		form.process()
-		form.username.data = current_user.username
-		form.email.data = current_user.email
-	image_file = url_for("static", filename='profile_pics/'+current_user.image_file)
-	return render_template('account.html', 
-						title='Datos de cuenta', image_file=image_file, form=form)
-
-
-@users.route("/user-<string:username>")
-def user_posts(username):
-	page = request.args.get('page', 1, type=int) #num pagina de mensajes
-	user = User.query.filter_by(username=username)\
-					.first_or_404()
-	posts = Post.query.filter_by(author=user)\
-					.order_by(Post.date_posted.desc())\
-					.paginate(page=page, per_page=5)
-	return render_template('user_posts.html', posts=posts, user=user)
+		form.username.data = user.username
+		form.email.data = user.email		
+	image_file = url_for("static", filename='profile_pics/'+user.image_file)
+	return render_template('account.html',
+						title='Datos de cuenta', image_file=image_file, form=form, user=user)
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])
@@ -149,7 +127,7 @@ def search():
 	form = SearchForm()
 	equipments = Equipment.query
 	clients = Client.query
-	posts = Post.query
+	eq_details = Eq_detail.query
 	if form.validate_on_submit():
 		searched = form.searched.data
 		equipments = equipments.filter(or_(Equipment.title.like('%'+searched+'%'), \
@@ -161,19 +139,32 @@ def search():
 									Client.comments.like('%'+searched+'%'),
 									Client.contact.like('%'+searched+'%'),
 												))
-		posts = posts.filter(Post.content.like('%'+searched+'%'))
+		historias = eq_details.filter(or_(Eq_detail.title.like('%'+searched+'%'),
+								Eq_detail.content.like('%'+searched+'%')))
 	return render_template('search.html', title="Busqueda", 									
 									searched = searched,									
 									equipments=equipments,
 									clients=clients,
-									posts=posts)
+									historias=historias)
 
 
 @users.route("/users", methods=['GET', 'POST'])
-def all_users():	
+@role_required("Admin")
+def all_users():
+	form = UpdateRoleForm()	
 	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	all_users = User.query.order_by(User.username.desc()).paginate(page=page, per_page=20)
-	image_path = url_for("static", filename='profile_pics/')
+	all_users = User.query.order_by(User.id.desc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
+	image_path = url_for("static", filename='profile_pics/')	
 	return render_template('all_users.html',
 							all_users=all_users,
 							title='Usuarios', image_path=image_path)
+
+@users.route("/user-<string:username>-historias")
+def user_eq_details(username):
+	page = request.args.get('page', 1, type=int) #num pagina de mensajes
+	user = User.query.filter_by(username=username)\
+					.first_or_404()
+	historias = Eq_detail.query.filter_by(author_detalle=user)\
+					.order_by(Eq_detail.date_modified.desc())\
+					.paginate(page=page, per_page=5)
+	return render_template('user_eq_details.html', historias=historias, user=user)

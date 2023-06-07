@@ -4,9 +4,12 @@
 	  	<div class="media">
 		    <img class="rounded-circle account-img" src="{{ image_file }}">
 		    <div class="media-body">
-			    <h2 class="account-heading">{{ current_user.username }}</h2>
-			    <p class="text-secondary">{{ current_user.email }}</p>			    
+			    <h2 class="account-heading">{{ user.username }}</h2>
+			    <p class="text-secondary">{{ user.email }} - <b>{{ user.role }}</b></p>
 		    </div>
+		    {% if current_user.username == user.username %}
+		    	<a class="btn btn-outline-info btn-sm m-1" href="{{ url_for('users.logout') }}">Cerrar sesión</a>
+		    {% endif %}
 	  	</div>
 	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
@@ -38,7 +41,7 @@
 					{% else %}
 						{{ form.email(class="form-control form-control-lg") }}
 					{% endif %}
-				</div>
+				</div>				
 				<div class="form-group">					
 					{{ form.role.label(class="form-control-label") }}					
 					{% if form.role.errors %}
@@ -49,9 +52,14 @@
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.role(class="form-control form-control-lg") }}
-					{% endif %}
+						 {% if current_user.role != "Admin" %}
+				            {{ form.role(class="form-control form-control-lg", disabled=True) }}
+				        {% else %}
+				            {{ form.role(class="form-control form-control-lg") }}
+				        {% endif %}
+				    {% endif %}	
 				</div>
+				<p></p>
 				<div id="picture" class="form-group">
 					{{ form.picture.label() }}
 					{{ form.picture(class="form-control-file") }}
@@ -64,7 +72,7 @@
 			</fieldset>
 			<div id="submit" class="form-group">
 				{{ form.submit(class="btn btn-outline-info") }}
-			</div>
+			</div>			
 		</form>
 	</div>
 {% endblock content %}

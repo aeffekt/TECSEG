@@ -12,8 +12,8 @@
         	<h3 class="article-content">Razón social: <b>{{ client.business_name }}</b></h3>
           <p class="article-content">Contacto: {{ client.contact }}</p>
           <p class="article-content">Comentarios: {{ client.comments }}</p>
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=client.id) }}">VER EQUIPOS</a>
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo</a>
+          <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=client.id) }}">VER EQUIPOS</a>
+          <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo</a>
       </div>
     </article>
     <!-- AGREGAR LISTADO DE LOS EQUIPOS-->

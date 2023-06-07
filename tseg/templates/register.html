@@ -3,7 +3,7 @@
 
 {% block content %}
 	<div class='content-section'>
-		<form method='POST' action=""> <!-- action= when we post go back to same route-->
+		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
 			{{ form.hidden_tag() }} <!-- part of protection -->
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">Registrar Usuario</legend>
@@ -85,11 +85,4 @@
 			</div>
 		</form>
 	</div>
-	<div class="border-top pt-3">
-		<small class="text-muted">
-			¿Ya está registrado? <a class="ml-2" href="{{ url_for('users.login') }}">Iniciar Sesión</a> <!-- nombre de la funcion-->
-		</small>
-
-	</div>
-	
 {% endblock content %}

@@ -1,9 +1,10 @@
-from flask import render_template, request, Blueprint, flash, redirect, url_for
+from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
 from tseg.models import Client, Equipment
 from tseg.clients.forms import ClientForm
 from tseg.users.forms import SearchForm
 from tseg import db
+from tseg.users.utils import role_required
 
 clients = Blueprint('clients', __name__)
 
@@ -14,9 +15,10 @@ def layout():
 	return dict(form=form)
 
 @clients.route("/all_clients")
+@role_required("ServicioCliente", "Admin", "Técnico")
 def all_clients():
 	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	all_clients = Client.query.order_by(Client.client_name.desc()).paginate(page=page, per_page=10)
+	all_clients = Client.query.order_by(Client.client_name.desc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
 	return render_template('all_clients.html', all_clients=all_clients, title='Clientes')
 
 
@@ -29,16 +31,25 @@ def client(client_id):
 
 
 @clients.route("/add_client", methods=['GET','POST'] )
-@login_required
+@role_required("ServicioCliente", "Admin")
 def add_client():
 	form = ClientForm()
 	if form.validate_on_submit():
-		client = Client(client_name=form.client_name.data, 
-						business_name=form.business_name.data, 
+		domicilio = Domicilio(direccion=form.direccion.data)
+		ciudad = Ciudad(cp=form.codigo_postal.data, nombre=form.ciudad.data)
+		provincia = Provincia(nombre=form.provincia.data)
+		pais = Pais(nombre=form.pais.data)
+		client = Client(client_name=form.client_name.data,
+						business_name=form.business_name.data,
 						contact=form.contact.data,
 						comments=form.comments.data,
-						author_cl=current_user)
-		db.session.add(client)
+						domicilio=domicilio,
+						ciudad=ciudad,
+						provincia=provincia,
+						pais=pais,
+						author_cl=current_user
+						)
+		db.session.add_all([domicilio, ciudad, provincia, pais, client])		
 		db.session.commit()
 		flash('Cliente agregado!', 'success')
 		return redirect(url_for('clients.client', client_id=client.id))
@@ -47,7 +58,7 @@ def add_client():
 												legend="Agregar cliente")
 
 @clients.route("/client-<int:client_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("ServicioCliente", "Admin", "Técnico")
 def update_client(client_id):
 	client = Client.query.get_or_404(client_id)
 	form = ClientForm()
@@ -69,7 +80,7 @@ def update_client(client_id):
 												legend="Editar cliente")
 
 @clients.route("/client-<int:client_id>-delete", methods=['POST'])
-@login_required
+@role_required("ServicioCliente", "Admin")
 def delete_client(client_id):
 	client = Client.query.get_or_404(client_id)
 	db.session.delete(client)
@@ -83,6 +94,6 @@ def client_equipments(client_id):
 	page = request.args.get('page', 1, type=int) 
 	client = Client.query.filter_by(id=client_id).first_or_404()
 	equipments = Equipment.query.filter_by(owner=client)\
-					.order_by(Equipment.last_modified.desc())\
+					.order_by(Equipment.date_modified.desc())\
 					.paginate(page=page, per_page=5)
 	return render_template('client_equipments.html', title=client.client_name, equipments=equipments, client=client)

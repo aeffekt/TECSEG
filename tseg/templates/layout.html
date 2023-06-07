@@ -11,7 +11,7 @@
 		
 		
          <!-- CSS usa el metodo de flask para ubicar el archivo-->
-    	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='estilo.css') }}">
+    	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
 		<!-- JS -->
 		<script src="{{ url_for('static', filename='scripts.js') }}"></script>
@@ -28,40 +28,51 @@
 		<header class="site-header">
 			<nav>				
 				<ul class="menu-horizontal">
-					<li><a id="banner" class="navbar-brand mr-4" href="/"><img src="./static/images/LOGO_BANNER.png"></a>					
+					<li><a id="banner" class="navbar-brand mr-4" href="/home"><img src="./static/images/LOGO_BANNER.png"></a>					
 					{% if current_user.is_authenticated %}						
 						{% if current_user.role == "Admin" %}
-							<li><a class="nav-item nav-link" href="{{ url_for('users.all_users') }}">Usuarios</a></li>														
+							<li>
+								<a class="nav-item nav-link" href="{{ url_for('users.all_users') }}">Admin</a>
+								<ul class="menu-vertical">
+									<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}" class="list-group-item list-group-item-light">Agregar nuevo usuario</a>
+								</ul>
+							</li>
 						{% endif %}
 						{% if current_user.role == "ServicioCliente" or current_user.role == "Admin" %}
 							<li>
 								<a class="nav-item nav-link" href="{{ url_for('clients.all_clients') }}">Clientes</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Agregar Cliente nuevo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Agregar nuevo cliente</a></li>
 								</ul>
 							</li>
-						{% endif %}
+						{% endif %}						
 						{% if current_user.role == "Técnico" or current_user.role == "Admin" %}
 							<li>
 								<a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments') }}">Equipos</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar Equipo nuevo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar nuevo equipo</a></li>
+								</ul>
+							</li>
+						{% endif %}
+						{% if current_user.role == "ServicioCliente" or current_user.role == "Admin" or current_user.role == "Técnico" %}
+							<li>
+								<a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion') }}">O.R.</a>
+								<ul class="menu-vertical">
+									<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}" class="list-group-item list-group-item-light">Agregar nueva OR</a></li>
 								</ul>
 							</li>
 						{% endif %}
 						<li>
-							<a class="nav-item nav-link" href="{{ url_for('users.account') }}">Mi Cuenta</a>
+							<a class="nav-item nav-link" href="{{ url_for('users.account', user_id=current_user.id) }}">Mi Cuenta</a>
 							<ul class="menu-vertical">
 								<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
 							</ul>
 						</li>
 
 					{% else %}
-						<li><a class="nav-item nav-link" href="{{ url_for('users.login') }}">Iniciar sesión</a></li>
-		              	<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Registrarse</a></li>
-		            {% endif %}
-
-				</ul>
+						<li><a class="nav-item nav-link" href="{{ url_for('users.login') }}">Iniciar sesión</a></li>		              	
+		            {% endif %}		            
+				</ul>				
 			</nav>
 	    </header>
 
@@ -82,27 +93,35 @@
 	        	</div>
 		        <div class="col-md-4">
 		        	<div class="sticky-top">
-		          		<div class="buscar">
-		          			<form method="POST" action="{{ url_for('users.search') }}" >
-		          				{{ form.hidden_tag() }}
-		          				<input type="search" placeholder="Buscar" name="searched">
-		          				<button class="btn btn-secondary btn-sm mt-1 mb-1">BUSCAR</button>
-		          			</form>
+		          		<div class="buscar">		          			
 		          			{% if current_user.is_authenticated %}
+		          				<form method="POST" action="{{ url_for('users.search') }}" >
+		          				{{ form.hidden_tag() }}
+			          				<input type="search" placeholder="Buscar" name="searched">
+			          				<button class="btn btn-secondary btn-sm mt-1 mb-1">BUSCAR</button>
+		          				</form>
+		          				<br>
 		          				<h4>Últimas novedades</h4>
+		          				<div>
+		          					<article>article</article>
+		          				</div>
 		            		{% endif %}
 		          		</div> 	
 		          	</div>
 	        	</div>
 	      	</div>
-	    </main>   
-	    
-	    <!-- Optional JavaScript -->
-    	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		
+	    </main>
+	    <br>
+		<footer id="footer" class="footer">
+			<!-- Optional JavaScript -->
+	    	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+			<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>			
+		    <div class="copyright">		    	
+		    	&copy; TECSEG 2023 <strong>Agustín Arnaiz</strong>		    	
+		    </div>		    
+		</footer>
 	</body>
 </html>
 
