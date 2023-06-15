@@ -4,8 +4,6 @@ import os
 class Config:	
 	SECRET_KEY = os.getenv('SECRET_KEY')
 	SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
-	#SQLALCHEMY_DATABASE_URI = "sqlite:///E:\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\db_tseg.db"
-	#SQLALCHEMY_DATABASE_URI = "sqlite:///db_tseg.db"
 	MAIL_SERVER = 'smtp.gmail.com'
 	MAIL_PORT = 587
 	MAIL_USE_TLS = True # SECURITY 
@@ -16,4 +14,4 @@ class Config:
 	MAIL_DEFALUT_SENDER = None
 	MAIL_MAX_EMAILS = 15
 	MAIL_ASCII_ATTACHMENTS = False
-	PER_PAGE=5
+	PER_PAGE=10

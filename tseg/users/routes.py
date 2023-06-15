@@ -5,7 +5,7 @@ from tseg import db, bcrypt
 from tseg.models import User, Eq_detail, Equipment, Client, Role
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 							RequestResetForm, ResetPasswordForm, SearchForm, UpdateRoleForm)
-from tseg.users.utils import save_picture, send_reset_email, role_required
+from tseg.users.utils import save_picture, send_reset_email, role_required, extraerId
 from sqlalchemy import or_
 
 
@@ -30,7 +30,8 @@ def register():
 	if form.validate_on_submit():
 		# creación de usuario válido y protección de contraseña
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		user = User(username=form.username.data, email=form.email.data, password=hashed_password, role=form.role.data)
+		user_id = extraerId(form.role.data)
+		user = User(username=form.username.data, email=form.email.data, password=hashed_password, role_id=user_id)
 		db.session.add(user)
 		db.session.commit()
 		flash(f'Cuenta creada: {form.username.data}', 'success')		
@@ -70,24 +71,33 @@ def logout():
 def account(user_id):
 	user = User.query.get_or_404(user_id)
 	form = UpdateAccountForm()
-	if form.validate_on_submit():		
+	if form.validate_on_submit():
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data)
 			user.image_file = picture_file
 		user.username = form.username.data
 		user.email = form.email.data
-		user.role = form.role.data
+		role_id = extraerId(form.role.data)
+		user.role_id = role_id
 		db.session.commit()
 		flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
 		return redirect(url_for('users.account', user_id=user.id))
 	elif request.method == 'GET':		
-		form.role.default = user.role
+		form.role.default = f'[{user.role.id}] {user.role.role_name}'
 		form.process()
 		form.username.data = user.username
 		form.email.data = user.email		
 	image_file = url_for("static", filename='profile_pics/'+user.image_file)
 	return render_template('account.html',
 						title='Datos de cuenta', image_file=image_file, form=form, user=user)
+
+
+
+@users.route("/account-<int:user_id>", methods=['GET', 'POST'])
+@role_required('Admin')
+def delete_account(user_id):
+	pass
+
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])
@@ -122,13 +132,13 @@ def reset_token(token):
 	return render_template('reset_token.html', title='Reset Password', form=form)
 
 
-@users.route("/search", methods=['POST'])
+@users.route("/search", methods=['GET', 'POST'])
 def search():
-	form = SearchForm()
-	equipments = Equipment.query
-	clients = Client.query
-	eq_details = Eq_detail.query
+	form = SearchForm()	
 	if form.validate_on_submit():
+		equipments = Equipment.query
+		clients = Client.query
+		eq_details = Eq_detail.query
 		searched = form.searched.data
 		equipments = equipments.filter(or_(Equipment.title.like('%'+searched+'%'), \
 											Equipment.content.like('%'+searched+'%'),
@@ -141,11 +151,16 @@ def search():
 												))
 		historias = eq_details.filter(or_(Eq_detail.title.like('%'+searched+'%'),
 								Eq_detail.content.like('%'+searched+'%')))
-	return render_template('search.html', title="Busqueda", 									
-									searched = searched,									
+		return render_template('search.html', title="Busqueda",
+									searched = searched,							
 									equipments=equipments,
 									clients=clients,
 									historias=historias)
+	if request.method == 'GET':
+		return render_template('search.html')
+	else:
+		flash('No hay resultados, intente buscar otra palabra', 'warning')
+		return redirect(request.referrer)
 
 
 @users.route("/users", methods=['GET', 'POST'])
@@ -159,6 +174,7 @@ def all_users():
 							all_users=all_users,
 							title='Usuarios', image_path=image_path)
 
+
 @users.route("/user-<string:username>-historias")
 def user_eq_details(username):
 	page = request.args.get('page', 1, type=int) #num pagina de mensajes
@@ -168,3 +184,13 @@ def user_eq_details(username):
 					.order_by(Eq_detail.date_modified.desc())\
 					.paginate(page=page, per_page=5)
 	return render_template('user_eq_details.html', historias=historias, user=user)
+
+
+@users.route("/user_ordenes_reparacion-<string:user_id>")
+def user_ordenes_reparacion(user_id):
+	page = request.args.get('page', 1, type=int) 
+	user = User.query.filter_by(id=user_id).first_or_404()
+	ordenes_reparacion = Orden_reparacion.query.filter_by(author_or=user)\
+					.order_by(Orden_reparacion.date_modified.desc())\
+					.paginate(page=page, per_page=5)
+	return render_template('user_ordenes_reparacion.html', title=user.user_name, ordenes_reparacion=ordenes_reparacion, user=user)

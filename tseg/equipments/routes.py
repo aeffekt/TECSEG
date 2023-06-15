@@ -3,9 +3,8 @@ from flask_login import current_user, login_required
 from tseg.models import Equipment, Client, Eq_detail
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.forms import SearchForm
-from tseg.users.utils import role_required
+from tseg.users.utils import role_required, extraerId
 from tseg import db
-import re
 
 from datetime import datetime
 
@@ -45,12 +44,12 @@ def equipment(equipment_id):
 def add_equipment(client_id):
 	form = EquipmentForm()
 	if form.validate_on_submit():
-		client_name, business_name = form.owner.data.split(", ")
-		client = Client.query.filter_by(client_name=client_name, business_name=business_name).first()				
+		client_id = extraerId(form.owner.data)		
 		equipment = Equipment(title=form.title.data, 
+							numSerie=form.numSerie.data, 
 							content=form.content.data, 
 							author_eq=current_user, 
-							client_id=client.id)
+							client_id=client_id)
 		db.session.add(equipment)
 		db.session.commit()
 		flash(f'Equipo {equipment.title} agregado!', 'success')
@@ -64,12 +63,16 @@ def add_equipment(client_id):
 def update_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	form = EquipmentForm()
-	if form.validate_on_submit():
-		client_name, business_name = form.owner.data.split(", ")
-		client = Client.query.filter_by(client_name=client_name, business_name=business_name).first()
-		equipment.client_id = client.id
+	if form.validate_on_submit():		
+		client_id = extraerId(form.owner.data)
+		equipment.client_id = client_id
 		equipment.title = form.title.data
+		equipment.numSerie = form.numSerie.data
 		equipment.content = form.content.data
+
+
+
+		# !!!!!!!!! agregar modificador!! y dejar autor sin cambiar
 		equipment.author_eq = current_user
 		now = datetime.now()
 		now = now.strftime("%Y-%m-%dT%H:%M:%S")
@@ -78,10 +81,10 @@ def update_equipment(equipment_id):
 		flash("El equipo ha sido editado con éxito", 'success')
 		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))
 	elif request.method == 'GET':		
-		client = Client.query.filter_by(id=equipment.client_id).first()		
-		form.owner.default = f'{client.client_name}, {client.business_name}'
+		form.owner.default = f'[{equipment.owner.id}] {equipment.owner.client_name}, {equipment.owner.business_name}'
 		form.process()
 		form.title.data = equipment.title
+		form.numSerie.data = equipment.numSerie
 		form.content.data = equipment.content		
 	return render_template('create_equipment.html',title='Editar equipo', 
 												form=form,

@@ -16,13 +16,14 @@ class User(db.Model, UserMixin):
 	username = db.Column(db.String(30), unique=True, nullable=False)
 	email = db.Column(db.String(50), unique=True, nullable=False)
 	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-	password = db.Column(db.String(32), unique=True, nullable=False)
-	role = db.Column(db.String(30), unique=False, nullable=False)
+	password = db.Column(db.String(32), unique=True, nullable=False)	
 	role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)	
 	clients = db.relationship('Client', backref='author_cl', lazy=True)
 	equipments = db.relationship('Equipment', backref='author_eq', lazy=True)
-	orden_reparacion = db.relationship('Orden_reparacion', backref='author_or', lazy=True)
+	ordenes_reparacion = db.relationship('Orden_reparacion', backref='author_or', lazy=True, foreign_keys='Orden_reparacion.user_id')
 	eq_details = db.relationship('Eq_detail', backref='author_detalle', lazy=True)
+	ordenes_asignadas = db.relationship('Orden_reparacion', backref='tecnicoAsignado', lazy=True, foreign_keys='Orden_reparacion.tecnico_id')
+
 	
 	def get_reset_token(self, expires_sec=1800):
 		s= Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -44,6 +45,7 @@ class User(db.Model, UserMixin):
 class Role(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	role_name = db.Column(db.String(30), unique=True, nullable=False)
+	user = db.relationship('User', backref='role', lazy=True)
 
 	def __repr__(self):
 		return f'{self.role_name}'
@@ -68,9 +70,10 @@ class Equipment(db.Model):
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(150), unique=False, nullable=False)
+	numSerie = db.Column(db.String(20), unique=False, nullable=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	content = db.Column(db.Text, nullable=False)
+	content = db.Column(db.Text, nullable=False)	
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
 	orden_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
@@ -90,10 +93,18 @@ class Eq_detail(db.Model):
 	content = db.Column(db.Text, nullable=False)
 	equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	tipologia_id = db.Column(db.Integer, db.ForeignKey('tipologiaHistoria.id'), nullable=False)
 
 	def __repr__(self):
 		return f"Historia de equipo('{self.equipment_id}', '{self.title}')"
 
+class TipologiaHistoria(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	tipo = db.Column(db.String(50), unique=True, nullable=False)		
+	#estados = db.relationship('Orden_reparacion', backref='estado', lazy=True)
+
+	def __repr__(self):
+		return f'{self.estado}'
 
 class Orden_reparacion(db.Model):
 	now = datetime.now()
@@ -102,10 +113,12 @@ class Orden_reparacion(db.Model):
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	codigo = db.Column(db.String(150), unique=False, nullable=False)
-	content = db.Column(db.Text, nullable=False)
-	#estado_id = db.Column(db.Integer, db.ForeignKey('estado.estado'), nullable=False)
-	equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
+	content = db.Column(db.Text, nullable=False)	
+	tecnico_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
+	#estado_id = db.Column(db.Integer, db.ForeignKey('estado_or.id'), nullable=False)	
+	
 
 	def __repr__(self):
 		return f"{self.codigo}', '{self.fecha_modificado}'"
@@ -114,6 +127,7 @@ class Orden_reparacion(db.Model):
 class Estado_or(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	estado = db.Column(db.String(30), unique=True, nullable=False)		
+	#estados = db.relationship('Orden_reparacion', backref='estado', lazy=True)
 
 	def __repr__(self):
 		return f'{self.estado}'
@@ -123,15 +137,18 @@ class Domicilio(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	direccion = db.Column(db.String(150), nullable=False)	
 	ciudad_id = db.Column(db.Integer, db.ForeignKey('ciudad.id'), nullable=True)
+	clientes = db.relationship('Client', backref='domicilio', lazy=True)
 
 	def __repr__(self):
 		return f'{self.direccion}'
+
 
 class Ciudad(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	cp = db.Column(db.String(15), nullable=False)
 	nombre = db.Column(db.String(50), nullable=False)	
 	provincia_id = db.Column(db.Integer, db.ForeignKey('provincia.id'), nullable=True)
+	domicilios = db.relationship('Domicilio', backref='ciudad', lazy=True)
 
 	def __repr__(self):
 		return f'{self.cp}'
@@ -141,6 +158,7 @@ class Provincia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)	
 	nombre = db.Column(db.String(50), nullable=False)	
 	pais_id = db.Column(db.Integer, db.ForeignKey('pais.id'), nullable=True)
+	ciudades = db.relationship('Ciudad', backref='provincia', lazy=True)
 
 	def __repr__(self):
 		return f'{self.nombre}'
@@ -149,6 +167,7 @@ class Provincia(db.Model):
 class Pais(db.Model):
 	id = db.Column(db.Integer, primary_key=True)	
 	nombre = db.Column(db.String(50), nullable=False)		
+	provincias = db.relationship('Provincia', backref='pais', lazy=True)
 
 	def __repr__(self):
 		return f'{self.nombre}'

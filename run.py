@@ -1,4 +1,5 @@
-# Programa desarrollado por Agustin Arnaiz a partir de: "Python Flask Tutorial: Full-Featured Web App", por Corey Schafer
+# Programa de servicio de postventa par la empresa LIE SRL
+# Diseñado y desaroolado por: Agustin Arnaiz
 
 from tseg import create_app
 

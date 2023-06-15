@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
-from tseg.models import Client, Equipment
+from tseg.models import Client, Equipment, Pais, Provincia, Ciudad, Domicilio
 from tseg.clients.forms import ClientForm
 from tseg.users.forms import SearchForm
 from tseg import db
@@ -35,27 +35,34 @@ def client(client_id):
 def add_client():
 	form = ClientForm()
 	if form.validate_on_submit():
-		domicilio = Domicilio(direccion=form.direccion.data)
-		ciudad = Ciudad(cp=form.codigo_postal.data, nombre=form.ciudad.data)
-		provincia = Provincia(nombre=form.provincia.data)
-		pais = Pais(nombre=form.pais.data)
+		# busca el ID del pais y comienza a concatenar el domicilio
+		pais = Pais.query.filter_by(nombre=form.pais.data).first()		
+		provincia = Provincia(nombre=form.provincia.data,
+					pais_id=pais)
+		db.session.add(provincia)
+		db.session.commit()
+		ciudad = Ciudad(cp=form.codigo_postal.data, 
+						nombre=form.ciudad.data,
+						provincia_id=provincia.id)
+		db.session.add(ciudad)
+		db.session.commit()
+		domicilio = Domicilio(direccion=form.direccion.data,
+								ciudad_id=ciudad.id)
+		db.session.add(domicilio)
+		db.session.commit()
 		client = Client(client_name=form.client_name.data,
 						business_name=form.business_name.data,
 						contact=form.contact.data,
 						comments=form.comments.data,
-						domicilio=domicilio,
-						ciudad=ciudad,
-						provincia=provincia,
-						pais=pais,
-						author_cl=current_user
-						)
-		db.session.add_all([domicilio, ciudad, provincia, pais, client])		
-		db.session.commit()
+						domicilio_id=domicilio.id,
+						author_cl=current_user)
+		db.session.add(client)
+		db.session.commit()			
 		flash('Cliente agregado!', 'success')
 		return redirect(url_for('clients.client', client_id=client.id))
 	return render_template('create_client.html', title='Nuevo cliente', 
 												form=form,
-												legend="Agregar cliente")
+												legend="Registrar cliente")
 
 @clients.route("/client-<int:client_id>-update", methods=['GET', 'POST'])
 @role_required("ServicioCliente", "Admin", "Técnico")

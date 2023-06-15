@@ -1,35 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for page_num in all_ordenes_reparacion.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) %}
-        {% if page_num %}
-            {% if all_ordenes_reparacion.page == page_num %}                
-                <a class="btn btn-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+    <h2>Órdenes de reparación</h2>
+    <hr 80%>
+    {% set pages = all_ordenes_reparacion.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
+    {% if pages|length > 1 %}
+        {% for page_num in pages %}
+            {% if page_num %}
+                {% if all_ordenes_reparacion.page == page_num %}                
+                    <a class="btn btn-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endfor %}
+        {% endfor %}    
+    {% endif %}    
     {% for orden_reparacion in all_ordenes_reparacion.items %}
         <article class="media content-section">
-          	<div class="media-body">
-            	<div class="article-metadata">
-                    <h3><a class="article-title" href="{{ url_for('orden_reparacions.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">{{ orden_reparacion.title }}</a></h3>
-            	</div>
-            	<H5><p class="article-title" href="">{{ orden_reparacion.content }}</p></H5>
-                <a class="article-title" href="{{ url_for('clients.client', client_id =orden_reparacion.owner.id) }}">Cliente: <b>{{ orden_reparacion.owner.client_name }}</b></a>
-                <p class="article-content">Última modificación: <b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_eq.username }}</b></p>
-                <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('orden_reparacions.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">Ver Comentarios</a>
-                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{{ url_for('eq_details.new_eq_detail', orden_reparacion_id = orden_reparacion.id) }}">Añadir Comentario</a>
-          </div>
+            <div class="row">
+                <div class="col-md-10">
+                  	<div class="media-body">
+                    	<h3><a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">{{ orden_reparacion.codigo }}</a></h3>            	
+                    	<H5><p class="article-title" href="">{{ orden_reparacion.content }}</p></H5>
+                        <p class="article-content">Última modificación: <b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></p>
+                    </div>
+                </div>
+            
+                <div class="col-md-2 text-right">                
+                    <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
+                </div>
+            </div>
+          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar la O.R. "{{ orden_reparacion.codigo }}"?</h5>
+                    <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <form action="{{ url_for('ordenes_reparacion.delete_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}" method="POST">
+                      <input class="btn btn-danger" type="submit" value="Borrar">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
       </article>
     {% endfor %}
-    {% for page_num in all_ordenes_reparacion.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) %}
-        {% if page_num %}
-            {% if all_ordenes_reparacion.page == page_num %}
-                <a class="btn btn-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('orden_reparacions.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+    {% if pages|length > 1 %}
+        {% for page_num in pages %}
+            {% if page_num %}
+                {% if all_ordenes_reparacion.page == page_num %}
+                    <a class="btn btn-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 {% endblock content %}

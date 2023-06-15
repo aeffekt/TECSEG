@@ -7,7 +7,6 @@ from flask_mail import Mail
 from tseg.config import Config
 from flask_login import login_required, current_user
 
-
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 mail = Mail()
@@ -17,7 +16,7 @@ login_manager.login_message_category = 'info' # brinda estetica al msg que no es
 
 
 def create_app(config_class=Config):
-	app = Flask(__name__)
+	app = Flask(__name__)	
 	app.config.from_object(Config)
 	app.config['LOGIN_MESSAGE'] = 'Por favor, inicia sesión para acceder a esta página.' #mensaje de login_required()	
 	db.init_app(app)

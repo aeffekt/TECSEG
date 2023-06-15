@@ -9,6 +9,10 @@ https://www.youtube.com/watch?v=UIJKdCIEXUQ&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUx
 CMD:
 pip install -r requerimientos.txt --yes
 
+
+pip install mysql-connector
+pip install mysql-connector-python
+pip install pymysql
 pip install flask
 pip install flask_wtf
 pip install flask-sqlalchemy
@@ -53,9 +57,6 @@ usar servidor debug (no requiere reiniciar al actualizar)
 CMD: DIR/set FLASK_DEBUG=1
 CMD: flask run
 Browser: "localhost:5000"
-
-Windows 7 SERVER INSTALL:
-https://www.youtube.com/watch?v=dC84NQqjYEc
 
 
 Versión: 0.0.1

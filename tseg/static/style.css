@@ -1,30 +1,56 @@
-body {
-  background: #D8D8D8;
-  color: #333333;
+:root{
+  --primary-color: #aaa;
+  --secondary-color: #222;
+  --container-color: #666;
+  --extra-color: #aaa;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+.theme-light{
+  --primary-color: #000;
+  --secondary-color: #fff;
+  --container-color: #888;
+  --extra-color: #eee;
+}
+
+body {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+main{
+  margin-top: 90px;
+}
+
+h1, h3, h4, h5, h6{
+  color: var(--secondary-color);
+}
+
+h2 {
+  color: var(--primary-color);
 }
 
 nav{
-  background-color: #10143B;
-  font-size: 20px;
+  background-color: #1c232f;
+  font-size: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 77px;
+  z-index: 9999;
 }
 
-form .form-check{
-  padding: 10px;
+.sticky-top {
+  top: 80px; /* Ajusta este valor según la altura de tu menú fijo */
 }
 
-#banner img{
-  width: 240px;
-  height: 30px;
-}
 
 .menu-horizontal{
   list-style: none;
   display: flex;
   justify-content: left;
+  padding-left: 35px;
+  align-items: center;  
 }
 
 .menu-horizontal > li > a{
@@ -35,15 +61,16 @@ form .form-check{
 }
 
 .menu-horizontal > li:hover{
-  background-color: lightblue;
+  background-color: #161d24;
 }
 
 .menu-vertical{
   position: absolute;
   display: none;
   list-style: none;
-  background-color: rgba(0,0,0, .5);
+  background-color: rgba(28,35,47, .5);
   padding-left: 0px;
+  z-index: 9999;
 }
 
 .menu-horizontal li:hover .menu-vertical{
@@ -51,19 +78,42 @@ form .form-check{
 }
 
 .menu-vertical li:hover{
-  background-color: lightblue;
+  background-color: rgba(22,29,36, .5);
 }
 
 .menu-vertical li a{
   display: block;
   color: white;
   padding: 10px 10px 10px 10px;
-  font-size: 18px;
 }
 
 
+#icon{
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  padding-top: 10px;
+}
+
+nav ul img{
+  text-align: right;
+}
+
+form .form-check{
+  padding: 10px;
+}
+
+legend {
+  color: var(--secondary-color);
+}
+
+.form-control{
+  background:  var(--extra-color);
+  width: 90%;
+}
+
 .content-section {
-  background: #ffffff;
+  background:  var(--container-color);
   padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
@@ -71,11 +121,11 @@ form .form-check{
 }
 
 .article-title {
-  color: #444444;
+  color:  var(--secondary-color);
 }
 
 a.article-title:hover {
-  color: #428bca;
+  color: var(--secondary-color);
   text-decoration: none;
 }
 
@@ -96,7 +146,7 @@ a.article-title:hover {
 }
 
 .article-metadata a:hover {
-  color: #333;
+  color: var(--secondary-color);
   text-decoration: none;
 }
 
@@ -120,14 +170,12 @@ a.article-title:hover {
 .alert {
   font-family:  Helvetica, sans-serif;
   font-size: .95rem;
-  padding: 15px;
+  padding: 10px;
   border: 1px solid transparent;
-  border-radius: 4px;
-  position: fixed;
+  border-radius: 4px;  
   bottom: 0;
   left: 0;
-  width: 100%;
-  z-index: 9999;
+  width: 100%;  
 }
 .alert-danger {
   color: #721c24;
@@ -154,19 +202,12 @@ a.article-title:hover {
   margin-top: 10px;
 }
 
-.buscar input{
-  height: 35px;
-  padding: 0 20px;
-  border: 1px solid silver;
-  border-radius: 20px;
-}
-
 .footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #f9f9f9;
+    background-color: var(--primary-color);
     padding: 0px;
     text-align: center;
 }
@@ -174,12 +215,6 @@ a.article-title:hover {
 /* Estilos adicionales para el contenido del footer */
 .footer .copyright {
     font-size: 14px;
-    color: #555;
+    color: var(--secondary-color);
     margin-bottom: 5px;
 }
-
-
-
-
-
-

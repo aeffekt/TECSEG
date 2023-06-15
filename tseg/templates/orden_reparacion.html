@@ -4,26 +4,27 @@
         <div class="media-body">
           <div class="article-metadata" name="eq_ctrl">
               <div>
-                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">Editar Órden de reparación</a>
-                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Eliminar equipo</button>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">Editar</a>                
+                <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
               </div>
-          </div>
-          orden_reparacion.owner.client_name }}</b></a></p>
-          <h1 class="aticle-title">{{ orden_reparacion.title }}</h1>
+          </div>          
+          <h1 class="aticle-title">{{ orden_reparacion.codigo }}</h1>
           <h4 class="article-content">{{ orden_reparacion.content }}</h4>
+          <h5 class="article-content">O.R. del equipo: {{ orden_reparacion.equipo.title }}</h5>
+          <h5 class="article-content">Técnico asignado: {{ orden_reparacion.tecnicoAsignado.username }}</h5>
+          
           <p class="article-content">Fecha de creación: <b>{{ orden_reparacion.date_created.strftime('%d-%m-%Y') }}</b></p>
-          <p class="article-content">Última modificación: <b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_eq.username }}</b></p>
-          <p class="article-content">
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.client_ordenes_reparacion', client_id=orden_reparacion.owner.id) }}">Ir a equipos de {{ orden_reparacion.owner.client_name }}...</a>
-          </p>
+          <p class="article-content">Última modificación: <b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></p>          
         </div>
     </article>
+    <br>    
+    
      <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar la Órden de reparación "{{ orden_reparacion.title }}"?</h5>
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar la orden reparacion "{{ orden_reparacion.codigo }}"?</h5>
             <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
               <span aria-hidden="true">&times;</span>
             </button>

@@ -1,4 +1,4 @@
-import os
+import os, re
 import secrets
 from PIL import Image
 from flask import url_for,current_app, abort
@@ -7,6 +7,13 @@ from flask_mail import Message
 from tseg import mail
 from tseg.users.forms import SearchForm
 from functools import wraps
+
+def extraerId(cadena):
+	patron = r"\[(\d+)\]"
+	id_extraido_list = re.findall(patron, cadena) #busca el id dentro de corchetes
+	if id_extraido_list:
+		return id_extraido_list[0]
+	return None
 
 
 def save_picture(form_picture):
@@ -27,7 +34,7 @@ def save_picture(form_picture):
 	i_cropped = i.crop((left, top, right, bottom))
 
 	i_rgb = i.convert('RGB') # si es png o tiene trnassparencia se la quito asi evita errores
-	output_size = (125,125)
+	output_size = (desired_width,desired_height)
 	i_rgb.thumbnail(output_size)
 	i_rgb.save(picture_path)
 
@@ -50,7 +57,7 @@ def role_required(*roles):
 	def decorator(func):
 		@wraps(func)
 		def wrapper(*args, **kwargs):
-			if not current_user.role in roles:
+			if not current_user.role.role_name in roles:
 				abort(403)  # Error 403: Acceso prohibido
 			return func(*args, **kwargs)
 		return wrapper

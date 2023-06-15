@@ -1,15 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h3 class="mb-3">Equipos de <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.client_name }}</a> ({{ equipments.total }})</h3>    
+    <h3 class="mb-3">Equipos de <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.client_name }}</a> ({{ equipments.total }})</h3>
     <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo nuevo</a></p>    
     {% for equipment in equipments.items %}
-        <article class="media content-section">          	
-        	<div class="article-metadata">
-          		<small class="text-light">Última modificación: {{ equipment.date_modified.strftime('%d-%m-%Y') }}</small>
-        	</div>
-        	<h2><a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">{{ equipment.title }}</a></h2>
-        	<p class="article-content">{{ equipment.content }}</p>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id, client_id=equipment.owner) }}">Editar equipo</a>          
+        <article class="media content-section">
+          	<div class="media-body">
+            	<div class="article-metadata">
+              		<small class="text-muted">Última modificación: {{ equipment.date_modified.strftime('%d-%m-%Y') }}</small>
+            	</div>
+            	<h2><a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">{{ equipment.title }}</a></h2>
+            	<p class="article-content">{{ equipment.content }}</p>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id, client_id=equipment.owner) }}">Editar equipo</a>
+          </div>
         </article>
     {% endfor %}
     {% for page_num in equipments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}

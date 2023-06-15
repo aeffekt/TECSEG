@@ -14,7 +14,7 @@ def layout():
 
 @eq_details.route("/eq_detail-new-<string:equipment_id>", methods=['GET', 'POST'])
 @login_required # impide el acceso sin login
-def new_eq_detail(equipment_id):
+def add_eq_detail(equipment_id):
 	form = Eq_detailForm()
 	equipment = Equipment.query.get_or_404(equipment_id)	
 	if form.validate_on_submit():		

@@ -2,17 +2,85 @@
 {% block content %}
     <article class="media content-section">
       	<div class="media-body">
-        	<div class="article-metadata">
-              <div>
-                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.update_client', client_id=client.id) }}">Editar</a>
-                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Eliminar</button>
-              </div>
+        	<div class="article-metadata">            
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.update_client', client_id=client.id) }}">Editar</a>
+            <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
         	</div>
-        	<h4 class="article-title">Nombre: <b>{{ client.client_name }}</b></h4>
-        	<h3 class="article-content">Razón social: <b>{{ client.business_name }}</b></h3>
-          <p class="article-content">Contacto: {{ client.contact }}</p>
-          <p class="article-content">Comentarios: {{ client.comments }}</p>
-          <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=client.id) }}">VER EQUIPOS</a>
+          <div class="row">
+            <div class="col-md-2">
+              <p>Nombre:</p> 
+            </div>
+            <div class="col-md-8">
+              <h1 class="aticle-title">{{ client.client_name }}</h1></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <p>Razón social:</p> 
+            </div>
+            <div class="col-md-8">
+              <h4 class="article-content">{{ client.business_name }}</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <p>Comentarios:</p> 
+            </div>
+            <div class="col-md-8">
+              <h5 class="article-content">{{ client.comments }}</h5>
+            </div>
+          </div>
+          <div style="font-style: italic;">
+            <div class="row">
+              <div class="col-md-2">
+                <p >Contacto: </p>
+              </div>
+              <div class="col-md-8">
+                <h6 class="article-content">{{ client.contact }}</h6>
+              </div>
+            </div>            
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <p>Domicilio:</p> 
+            </div>
+            <div class="col-md-8">
+              <h6 class="article-content">{{ client.domicilio.direccion }}</h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <p>Ciudad:</p> 
+            </div>
+            <div class="col-md-8">
+              <h6 class="article-content">{{ client.domicilio.ciudad.nombre }}</h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <p>CP:</p> 
+            </div>
+            <div class="col-md-8">
+              <h6 class="article-content">{{ client.domicilio.ciudad.cp }}</h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <p>Provincia:</p> 
+            </div>
+            <div class="col-md-8">
+              <h6 class="article-content">{{ client.domicilio.ciudad.provincia.nombre }}</h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <p>Pais:</p> 
+            </div>
+            <div class="col-md-8">
+              <h6 class="article-content">{{ client.domicilio.ciudad.provincia.pais.nombre }}</h6>
+            </div>
+          </div>
+          <a class="btn btn-outline-light btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=client.id) }}">VER EQUIPOS</a>
           <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo</a>
       </div>
     </article>
