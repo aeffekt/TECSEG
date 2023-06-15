@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
 	clients = db.relationship('Client', backref='author_cl', lazy=True)
 	equipments = db.relationship('Equipment', backref='author_eq', lazy=True)
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='author_or', lazy=True, foreign_keys='Orden_reparacion.user_id')
-	eq_details = db.relationship('Eq_detail', backref='author_detalle', lazy=True)
+	eq_details = db.relationship('Eq_detail', backref='author_historia', lazy=True)
 	ordenes_asignadas = db.relationship('Orden_reparacion', backref='tecnicoAsignado', lazy=True, foreign_keys='Orden_reparacion.tecnico_id')
 
 	
@@ -91,17 +91,17 @@ class Eq_detail(db.Model):
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)
+	tipologia_id = db.Column(db.Integer, db.ForeignKey('tipologia.id'), nullable=False)
 	equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	tipologia_id = db.Column(db.Integer, db.ForeignKey('tipologiaHistoria.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)	
 
 	def __repr__(self):
 		return f"Historia de equipo('{self.equipment_id}', '{self.title}')"
 
-class TipologiaHistoria(db.Model):
+class Tipologia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	tipo = db.Column(db.String(50), unique=True, nullable=False)		
-	#estados = db.relationship('Orden_reparacion', backref='estado', lazy=True)
+	tipo = db.Column(db.String(50), unique=True, nullable=False)
+	eq_detail = db.relationship('Eq_detail', backref='tipologia', lazy=True)
 
 	def __repr__(self):
 		return f'{self.estado}'

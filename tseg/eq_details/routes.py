@@ -4,6 +4,7 @@ from tseg import db
 from tseg.models import Eq_detail, Equipment
 from tseg.eq_details.forms import Eq_detailForm
 from tseg.users.forms import SearchForm
+from tseg.users.utils import extraerId
 
 eq_details = Blueprint('eq_details', __name__)
 
@@ -17,11 +18,13 @@ def layout():
 def add_eq_detail(equipment_id):
 	form = Eq_detailForm()
 	equipment = Equipment.query.get_or_404(equipment_id)	
-	if form.validate_on_submit():		
-		eq_detail = Eq_detail(title=form.title.data,
+	if form.validate_on_submit():
+		tipologia_id = extraerId(form.tipo.data)
+		eq_detail = Eq_detail(tipologia_id=tipologia_id,
+							title=form.title.data,
 							content=form.content.data,
 							equipo=equipment, 
-							author_detalle=current_user)
+							author_historia=current_user)
 		db.session.add(eq_detail)
 		db.session.commit()
 		historias = Eq_detail.query.filter_by(equipment_id=equipment_id).order_by(Eq_detail.date_modified.desc())
@@ -44,7 +47,7 @@ def eq_detail(eq_detail_id):
 @login_required
 def update_eq_detail(eq_detail_id):
 	eq_detail = Eq_detail.query.get_or_404(eq_detail_id)
-	if eq_detail.author_detalle != current_user:
+	if eq_detail.author_historia != current_user:
 		abort(403) #http forbidden
 	form = Eq_detailForm()
 	if form.validate_on_submit():
@@ -64,7 +67,7 @@ def update_eq_detail(eq_detail_id):
 @login_required
 def delete_eq_detail(eq_detail_id):
 	eq_detail = Eq_detail.query.get_or_404(eq_detail_id)
-	if eq_detail.author_detalle != current_user:
+	if eq_detail.author_historia != current_user:
 		abort(403)
 	db.session.delete(eq_detail)
 	db.session.commit()

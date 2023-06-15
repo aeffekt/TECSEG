@@ -2,12 +2,7 @@
 {% block content %}
     <article class="media content-section">
         <div class="media-body">
-          <div class="article-metadata" name="eq_ctrl">
-              <div>                
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}">Editar</a>
-                <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
-              </div>
-          </div>
+          <legend class="border-bottom mb-4">Equipo</legend>
           <div class="row">
             <div class="col-md-2">
               <p>Nombre:</p> 
@@ -49,10 +44,14 @@
             <a class="btn btn-outline-light btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=equipment.owner.id) }}">Ir a equipos de {{ equipment.owner.client_name }}</a>
             <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('eq_details.add_eq_detail', equipment_id = equipment.id) }}">Añadir Historia</a>      
             <a class="btn btn-outline-warning btn-sm mt-1 mb-1" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}">Crear O.R.</a>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}">Editar</a>
+            <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
         </div>
     </article>
-    <br>    
-    {% for page_num in historias.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) %}
+    <br>
+    {% set pages = historias.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
+    {% if pages|length > 1 %}
+      {% for page_num in pages %}
         {% if page_num %}
             {% if historias.page == page_num %}                
                 <a class="btn btn-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
@@ -60,19 +59,45 @@
                 <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
             {% endif %}
         {% endif %}
-    {% endfor %}
-    <article class="media content-section">
-      <h4>Historial del equipo:</h4>
-    </article>
+      {% endfor %}
+    {% endif %}
+    <h6>Historial del equipo:</h6>
+    <hr 80%>    
     {% for historia in historias.items %}
       <article class="media content-section">
-          <h4><a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}">{{ historia.title }}</a></h4>
-          <p class="article-content">{{ historia.content }}</p>
-          <p class="article-content">Última modificación: <b>{{ historia.date_modified.strftime('%d-%m-%Y') }}</b></p>
-          <p class="article-content">Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ historia.author_detalle.username }}</b></p>            
+        <div class="row">
+          <div class="col-md-8">
+            <h4><a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}">{{ historia.title }} ({{ historia.tipologia.tipo }})</a></h4>          
+            <h6 class="article-content">{{ historia.content }}</h6>
+            <p class="article-content">Última modificación: <b>{{ historia.date_modified.strftime('%d-%m-%Y') }}</b></p>
+            <p class="article-content">Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ historia.author_historia.username }}</b></p>
+          </div>
+            <div class="col-md-1">
+            <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
+          </div>
+          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar la historia "{{ historia.title }}"?</h5>
+                    <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <form action="{{ url_for('eq_details.delete_eq_detail', eq_detail_id=historia.id) }}" method="POST">
+                      <input class="btn btn-danger" type="submit" value="Borrar">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
       </article>
     {% endfor %}
-    {% for page_num in historias.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) %}
+    {% set pages = historias.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
+    {% if pages|length > 1 %}
+      {% for page_num in pages %}
         {% if page_num %}
             {% if historias.page == page_num %}                
                 <a class="btn btn-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
@@ -80,7 +105,8 @@
                 <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
             {% endif %}
         {% endif %}
-    {% endfor %}
+      {% endfor %}
+    {% endif %}
      <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">

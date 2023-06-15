@@ -2,19 +2,57 @@
 {% block content %}
     <article class="media content-section">
         <div class="media-body">
-          <div class="article-metadata" name="eq_ctrl">
-              <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">Editar</a>                
-                <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
-              </div>
+          <legend class="border-bottom mb-4">Órden de reparación</legend>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Código:</p> 
+            </div>
+            <div class="col-md-8">
+              <h1 class="aticle-title">{{ orden_reparacion.codigo }}</h1></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Descripción:</p> 
+            </div>
+            <div class="col-md-8">
+              <h4 class="article-content">{{ orden_reparacion.content }}</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>O.R. del equipo:</p> 
+            </div>
+            <div class="col-md-8">
+              <h5 class="article-content">{{ orden_reparacion.equipo.title }}</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Técnico asignado:</p> 
+            </div>
+            <div class="col-md-8">
+              <h5 class="article-content">{{ orden_reparacion.tecnicoAsignado.username }}</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Fecha de creación:</p> 
+            </div>
+            <div class="col-md-8">
+              <p class="article-content"><b>{{ orden_reparacion.date_created.strftime('%d-%m-%Y') }}</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Última modificación:</p> 
+            </div>
+            <div class="col-md-8">
+              <p class="article-content"><b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></p>
+            </div>
           </div>          
-          <h1 class="aticle-title">{{ orden_reparacion.codigo }}</h1>
-          <h4 class="article-content">{{ orden_reparacion.content }}</h4>
-          <h5 class="article-content">O.R. del equipo: {{ orden_reparacion.equipo.title }}</h5>
-          <h5 class="article-content">Técnico asignado: {{ orden_reparacion.tecnicoAsignado.username }}</h5>
-          
-          <p class="article-content">Fecha de creación: <b>{{ orden_reparacion.date_created.strftime('%d-%m-%Y') }}</b></p>
-          <p class="article-content">Última modificación: <b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></p>          
+          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">Editar</a>
+          <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
         </div>
     </article>
     <br>    

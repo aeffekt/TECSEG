@@ -1,14 +1,8 @@
-﻿TECSEG Tecnología & Seguridad - Agustin Arnaiz
+﻿TECSEG Tecnología & Seguridad - Agustin Arnaiz 2023
 
-Este archivo contiene información del programa para desarrolladores.
+SETUP
 
-Programa desarrollado a partir de:
-video tutorial, Python Flask Tutorial: Full-Featured Web App, por Corey Schafer
-https://www.youtube.com/watch?v=UIJKdCIEXUQ&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH&index=4
-
-CMD:
-pip install -r requerimientos.txt --yes
-
+CMD: pip install -r requerimientos.txt --yes
 
 pip install mysql-connector
 pip install mysql-connector-python

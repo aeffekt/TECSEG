@@ -21,11 +21,11 @@ main{
   margin-top: 90px;
 }
 
-h1, h3, h4, h5, h6{
+h1, h3, h4, h5{
   color: var(--secondary-color);
 }
 
-h2 {
+h2, h6{
   color: var(--primary-color);
 }
 
@@ -40,10 +40,14 @@ nav{
   z-index: 9999;
 }
 
-.sticky-top {
-  top: 80px; /* Ajusta este valor según la altura de tu menú fijo */
+.logo{
+   width: 300px;
+   height:300px;
 }
 
+.sticky-top, .modal-dialog{
+  top: 80px; /* Ajuste devalor según la altura de tu menú fijo */
+}
 
 .menu-horizontal{
   list-style: none;

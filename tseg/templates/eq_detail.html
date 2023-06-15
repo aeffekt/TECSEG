@@ -1,20 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
     <article class="media content-section">
-      	<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + 	eq_detail.author_detalle.image_file) }}">
+      	<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + 	eq_detail.author_historia.image_file) }}">
       	<div class="media-body">
         	<div class="article-metadata">
-          		<a class="mr-2" href="{{ url_for('users.user_eq_details', username=eq_detail.author_detalle.username) }}">{{ eq_detail.author_detalle.username }}</a>
+          		<a class="mr-2" href="{{ url_for('users.user_eq_details', username=eq_detail.author_historia.username) }}">{{ eq_detail.author_historia.username }}</a>
           		<small class="text-muted">{{ eq_detail.date_modified.strftime('%Y-%m-%d') }}</small>
-              {% if eq_detail.author_detalle == current_user %}
+              {% if eq_detail.author_historia == current_user %}
                 <div>
-                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('eq_details.update_eq_detail', eq_detail_id=eq_detail.id) }}">Editar historia de equipo</a>
-                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Borrar historia</button>
+                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('eq_details.update_eq_detail', eq_detail_id=eq_detail.id) }}">Editar</a>
+                  <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
                 </div>
               {% endif %}
-        	</div>
-        	<h2 class="aticle-title">{{ eq_detail.title }}</h2>
-        	<p class="article-content">{{ eq_detail.content }}</p>
+        	</div>          
+          <div class="row">
+            <div class="col-md-1">
+              <p>Título:</p> 
+            </div>
+            <div class="col-md-8">
+              <h4 class="aticle-title">{{ eq_detail.title }}</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <p>Tipo:</p> 
+            </div>
+            <div class="col-md-8">
+              <h6 class="aticle-title">{{ eq_detail.tipologia.tipo }}</h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <p>Historia:</p> 
+            </div>
+            <div class="col-md-8">
+              <h6 class="aticle-title">{{ eq_detail.content }}</h6>
+            </div>
+          </div>        	
       </div>
     </article>
      <!-- Modal -->
