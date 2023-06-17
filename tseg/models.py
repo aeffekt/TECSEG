@@ -71,7 +71,7 @@ class Equipment(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(150), unique=False, nullable=False)
 	numSerie = db.Column(db.String(20), unique=False, nullable=True)
-	anio = db.Column(db.Integer, nullable=True)
+	anio = db.Column(db.String(20), unique=False, nullable=True)	
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)	

@@ -11,7 +11,15 @@
                   <h1 class="aticle-title">{{ equipment.title }}</h1></p>
                 </div>
             </div>
-                <div class="row">
+            <div class="row">
+                  <div class="col-md-3">
+                    <small>Pertenece a: </small>
+                  </div>
+                  <div class="col-md-9">
+                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.client_name }}</b></a>
+                  </div>
+                </div>
+            <div class="row">
                 <div class="col-md-3">
                   <small>Descripción:</small> 
                 </div>
@@ -27,15 +35,7 @@
                   <div class="col-md-9">
                     <small><b class="article-title" >{{ equipment.numSerie }}</b></small>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    <small>Pertenece a: </small>
-                  </div>
-                  <div class="col-md-9">
-                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.client_name }}</b></a>
-                  </div>
-                </div>
+                </div>                
                 <div class="row">
                   <div class="col-md-3">
                     <small>Año modelo: </small>
