@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <h2 class="mb-3 article-metadata">Equipos de <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.client_name }}</a> ({{ equipments.total }})</h2>
-    <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo nuevo</a></p>
+    <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Añadir equipo</a></p>
     {% set pages = equipments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) | list %}
     {% if pages|length > 1 %}
         {% for page_num in pages %}

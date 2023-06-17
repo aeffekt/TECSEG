@@ -4,7 +4,7 @@ from tseg import db
 from tseg.models import Eq_detail, Equipment
 from tseg.eq_details.forms import Eq_detailForm
 from tseg.users.forms import SearchForm
-from tseg.users.utils import extraerId
+from tseg.users.utils import extraerId, dateFormat
 
 eq_details = Blueprint('eq_details', __name__)
 
@@ -23,7 +23,7 @@ def add_eq_detail(equipment_id):
 		eq_detail = Eq_detail(tipologia_id=tipologia_id,
 							title=form.title.data,
 							content=form.content.data,
-							equipo=equipment, 
+							equipo_historia=equipment, 
 							author_historia=current_user)
 		db.session.add(eq_detail)
 		db.session.commit()
@@ -39,7 +39,7 @@ def add_eq_detail(equipment_id):
 # ruteo de variables "eq_detail_id"
 @eq_details.route("/eq_detail-<int:eq_detail_id>")
 def eq_detail(eq_detail_id):
-	eq_detail = Eq_detail.query.get_or_404(eq_detail_id)
+	eq_detail = Eq_detail.query.get_or_404(eq_detail_id)	
 	return render_template("eq_detail.html", eq_detail=eq_detail)
 
 
@@ -53,6 +53,7 @@ def update_eq_detail(eq_detail_id):
 	if form.validate_on_submit():
 		eq_detail.title = form.title.data
 		eq_detail.content = form.content.data
+		eq_detail.date_modified = dateFormat()
 		db.session.commit()
 		flash("Su historia ha sido modificada con éxito", 'success')
 		return redirect(url_for('eq_details.eq_detail', eq_detail_id=eq_detail.id))

@@ -78,7 +78,7 @@ class Equipment(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
 	orden_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
-	historias = db.relationship('Eq_detail', backref='equipo', lazy=True)
+	eq_details = db.relationship('Eq_detail', backref='equipo_historia', lazy=True)
 	
 	def __repr__(self):
 		return f"Equipo('{self.title}', '{self.content}')"

@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from tseg.models import Equipment, Client, Eq_detail
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.forms import SearchForm
-from tseg.users.utils import role_required, extraerId
+from tseg.users.utils import role_required, extraerId, dateFormat
 from tseg import db
 
 from datetime import datetime
@@ -20,18 +20,20 @@ def layout():
 
 @equipments.route("/all_equipments")
 def all_equipments():
+	sort_by = request.args.get('sort-by')	
 	page = request.args.get('page', 1, type=int) # num pagina de mensajes
 	all_equips = Equipment.query.order_by(Equipment.date_created.desc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
 	return render_template('all_equipments.html', 
 							all_equipments=all_equips, 
-							title='Equipos')
+							title='Equipos',
+							sort_by=sort_by)
 
 
 @equipments.route("/equipment-<int:equipment_id>")
 def equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	historias =  Eq_detail.query.filter_by(equipo=equipment)\
+	historias =  Eq_detail.query.filter_by(equipo_historia=equipment)\
 					.order_by(Eq_detail.date_modified.desc())\
 					.paginate(page=page, per_page=10)
 	return render_template("equipment.html", title=equipment.title,
@@ -41,10 +43,10 @@ def equipment(equipment_id):
 
 @equipments.route("/add_equipment-<string:client_id>", methods=['GET','POST'] )
 @role_required("Admin", "Técnico")
-def add_equipment(client_id):
-	form = EquipmentForm()
-	if form.validate_on_submit():
-		client_id = extraerId(form.owner.data)		
+def add_equipment(client_id):	
+	form = EquipmentForm()	
+	client = Client.query.filter_by(id=client_id).first()
+	if form.validate_on_submit():		
 		equipment = Equipment(title=form.title.data, 
 							numSerie=form.numSerie.data, 
 							content=form.content.data, 
@@ -55,6 +57,8 @@ def add_equipment(client_id):
 		db.session.commit()
 		flash(f'Equipo {equipment.title} agregado!', 'success')
 		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))	
+	form.owner.default = f'[{client.id}] {client.client_name}, {client.business_name}'	
+	form.process()
 	return render_template('create_equipment.html', title='Agregar equipo', 
 												form=form, legend="Agregar equipo")
 
@@ -70,10 +74,8 @@ def update_equipment(equipment_id):
 		equipment.title = form.title.data
 		equipment.numSerie = form.numSerie.data		
 		equipment.content = form.content.data
-		equipment.anio = form.anio.data
-		now = datetime.now()
-		now = now.strftime("%Y-%m-%dT%H:%M:%S")
-		equipment.date_modified = datetime.fromisoformat(now)
+		equipment.anio = form.anio.data		
+		equipment.date_modified = dateFormat()
 		db.session.commit()
 		flash(f"Se guardaron los cambios", 'success')
 		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))

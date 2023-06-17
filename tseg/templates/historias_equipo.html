@@ -16,19 +16,27 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    {% for equipment in historias.items %}        
+    {% for historia in historias.items %}        
         <article class="media content-section">
             <div class="media-body">
                 <div class="row">
-                    <div class="col-md-11">
-                        <a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=equipment.historias.id) }}">
-                        <h3>{{ equipment.title }}</h3>
-                        <h5 class="article-title" href="">{{ equipment.content }}</h5>
-                        <small class="text-light">Última modificación: {{ equipment.date_modified.strftime('%d-%m-%Y') }}</small>
+                    <div class="col-md-10">
+                        <a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}">
+                        <h3>{{ historia.title }}</h3>
+                        <h5 class="article-title" href="">{{ historia.content }}</h5>
+                        <small class="text-light">Última modificación: {{ historia.date_modified.strftime('%d-%m-%Y') }}</small>
                         </a>
                     </div>
-                    <div class="col-md-1">
-                        <a class="bi bi-chat-dots btn btn-outline-light" title="Añadir Historia" href="{{ url_for('eq_details.add_eq_detail', equipment_id = equipment.id) }}"></a>
+                    <div class="col-md-2">
+                        {% if historia.tipologia.tipo == 'Mensaje' %}
+                        <a class="btn btn-dark btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
+                        {% elif historia.tipologia.tipo == 'Reparación' %}
+                            <a class="btn btn-info btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
+                        {% elif historia.tipologia.tipo == 'Modificación' %}
+                            <a class="btn btn-light btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
+                        {% else %}
+                            <a class="btn btn-light btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
+                        {% endif %}                        
                     </div>
                 </div> 
             </div>

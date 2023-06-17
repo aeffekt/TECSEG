@@ -2,18 +2,38 @@
 {% block content %}
     <h2>Equipos</h2>
     <hr 80%>
-    {% set pages = all_equipments.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
-    {% if pages|length > 1 %}
-        {% for page_num in pages %}
-            {% if page_num %}
-                {% if all_equipments.page == page_num %}                
-                    <a class="btn btn-info mb-4" href="{{ url_for('equipments.all_equipments', page=page_num) }}">{{ page_num }}</a>
-                {% else %}
-                    <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.all_equipments', page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}    
-    {% endif %}    
+    <form id="sort-form" class="mb-4" action="{{url_for('equipments.all_equipments')}}">
+        <!-- formulario para los controles desplegables -->
+        <div class="row">
+            <div class="col-md-7 text-right">
+                {% set pages = all_equipments.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
+                {% if pages|length > 1 %}
+                    {% for page_num in pages %}
+                        {% if page_num %}
+                            {% if all_equipments.page == page_num %}                
+                                <a class="btn btn-info mb-4" href="{{ url_for('equipments.all_equipments', page=page_num) }}">{{ page_num }}</a>
+                            {% else %}
+                                <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.all_equipments', page=page_num) }}">{{ page_num }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}    
+                {% endif %}                
+            </div>
+            <div class="col-md-3">                
+                <select class="form-select"  id="sort-by" name="sort-by">
+                    <option value="title" {% if sort_by == "title" %} selected {% endif %}>Título</option>
+                    <option value="anio" {% if sort_by == "anio" %} selected {% endif %}>Año del modelo</option>
+                    <option value="date_created" {% if sort_by == "date_created" %} selected {% endif %}>Fecha de creación</option>
+                    <option value="date_modified" {{'selected' if sort_by=='date_modified'}}>Fecha de modificación</option>
+                    <option value="owner" {% if sort_by == owner %} selected {% endif %}>Dueño del equipo</option>
+                    <option value="author_eq" {% if sort_by == author_eq %} selected {% endif %}>Autor del equipo</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-light">Ordenar</button>
+            </div>
+        </div>
+    </form>
     {% for equipment in all_equipments.items %}
         <article class="media content-section">
             <div class="media-body">

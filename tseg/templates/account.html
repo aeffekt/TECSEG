@@ -5,15 +5,15 @@
 	  		<legend class="border-bottom mb-4">Información de cuenta</legend>
 	  		<div class="row">
 	  			<div class="col-md-3">
-	  				<img class="rounded-circle account-img" src="{{ image_file }}">		
+	  				<img class="rounded-circle account-img" src="{{ image_file }}">
 	  			</div>
 		    	<div class="col-md-5">
 				    <div class="media-body">
 					    <h2 class="account-heading">{{ user.username }}</h2>
 					    <p class="text">{{ user.email }} - <b>{{ user.role }}</b></p>
 				    </div>
-				</div>				
-			</div>		    
+				</div>
+			</div>
 	  	</div>
 	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
@@ -61,11 +61,10 @@
 				            {{ form.role(class="form-control form-control-lg") }}
 				        {% endif %}
 				    {% endif %}	
-				</div>
-				<p></p>
+				</div>				
 				<div id="picture" class="form-group">
 					{{ form.picture.label() }}
-					{{ form.picture(class="form-control-file") }}
+					{{ form.picture(class="form-control", type="file") }}
 					{% if form.picture.errors %}
 						{% for error in form.picture.errors %}
 							<span class="text-danger">{{ error }}</span></br>)
@@ -73,6 +72,7 @@
 					{% endif %}
 				</div>
 			</fieldset>
+			<br>
 			<div class="row">
 				<div class="col-md-8">
 					<div id="submit" class="form-group">

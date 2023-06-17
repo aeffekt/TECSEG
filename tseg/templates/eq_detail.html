@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
     <article class="media content-section">
-        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + 	eq_detail.author_historia.image_file) }}">
+        
         <div class="media-body">
             <div class="article-metadata">
-                <a class="mr-2" href="{{ url_for('users.user_eq_details', username=eq_detail.author_historia.username) }}">{{ eq_detail.author_historia.username }}</a>
-          		<small class="text-muted">{{ eq_detail.date_modified.strftime('%Y-%m-%d') }}</small>              
+                <a class="mr-2" href="{{ url_for('users.user_eq_details', username=eq_detail.author_historia.username) }}"><img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' +     eq_detail.author_historia.image_file) }}"><p>{{ eq_detail.author_historia.username }}</a>
+          		<small class="text-muted">{{ eq_detail.date_modified.strftime('%Y-%m-%d') }}</small></p>              
             </div>          
             <div class="row">
                 <div class="col-md-3">
@@ -28,7 +28,7 @@
                     <p>Equipo:</p> 
                 </div>
                 <div class="col-md-9">
-                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=eq_detail.equipo.id) }}"><b>{{ eq_detail.equipo.title }}</b></a>
+                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=eq_detail.equipo_historia.id) }}"><b>{{ eq_detail.equipo_historia.title }}</b></a>
                 </div>
             </div>
             <div class="row">
@@ -40,21 +40,13 @@
                 </div>
             </div>
             <div class="row">
-                  <div class="col-md-3">
+                <div class="col-md-3">
                     <small>Última modificación: </small>
-                  </div>
-                  <div class="col-md-9">
+                </div>
+                <div class="col-md-9">
                     <small class="article-content"><b>{{ eq_detail.date_modified.strftime('%d-%m-%Y') }}</b></small>    
-                  </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    <small>Creado el: </small>
-                  </div>
-                  <div class="col-md-9">
-                    <small class="article-content"><b>{{ eq_detail.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ eq_detail.author_historia.username }}</b></small>
-                  </div>
-                </div>
+            </div>                
         </div>  
         {% if eq_detail.author_historia == current_user %}
             <div>

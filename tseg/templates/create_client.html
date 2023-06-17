@@ -92,7 +92,7 @@
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.pais(class="form-control form-control-lg") }}
+						{{ form.pais(class="form-control") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
@@ -100,14 +100,14 @@
 					{{ form.provincia.label(class="form-control-label") }}
 					<!-- errores de entrada  -->
 					{% if form.provincia.errors %}
-						{{ form.provincia(class="form-control form-control-lg is-invalid") }}
+						{{ form.provincia(class="form-control is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.provincia.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.provincia(class="form-control form-control-lg") }}
+						{{ form.provincia(class="form-control") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
@@ -115,14 +115,14 @@
 					{{ form.ciudad.label(class="form-control-label") }}
 					<!-- errores de entrada  -->
 					{% if form.ciudad.errors %}
-						{{ form.ciudad(class="form-control form-control-lg is-invalid") }}
+						{{ form.ciudad(class="form-control is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.ciudad.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.ciudad(class="form-control form-control-lg") }}
+						{{ form.ciudad(class="form-control") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
@@ -130,14 +130,14 @@
 					{{ form.codigo_postal.label(class="form-control-label") }}
 					<!-- errores de entrada  -->
 					{% if form.codigo_postal.errors %}
-						{{ form.codigo_postal(class="form-control form-control-lg is-invalid") }}
+						{{ form.codigo_postal(class="form-control is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.codigo_postal.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.codigo_postal(class="form-control form-control-lg") }}
+						{{ form.codigo_postal(class="form-control") }}
 					{% endif %}
 				</div>
 			</fieldset>
