@@ -2,57 +2,70 @@
 {% block content %}
     <article class="media content-section">
         <div class="media-body">
-          <legend class="border-bottom mb-4">Órden de reparación</legend>
-          <div class="row">
-            <div class="col-md-3">
-              <p>Código:</p> 
+            <legend class="border-bottom mb-4">Órden de reparación</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Código:</p> 
+                </div>
+                <div class="col-md-8">
+                    <h1 class="aticle-title">{{ orden_reparacion.codigo }}</h1></p>
+                </div>
             </div>
-            <div class="col-md-8">
-              <h1 class="aticle-title">{{ orden_reparacion.codigo }}</h1></p>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Descripción:</p> 
+                </div>
+                <div class="col-md-8">
+                    <h5 class="article-content">{{ orden_reparacion.content }}</h5>
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
-              <p>Descripción:</p> 
+            <div class="row">
+                <div class="col-md-3">
+                    <p>O.R. del equipo:</p> 
+                </div>
+                <div class="col-md-8">
+                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=orden_reparacion.equipo_id) }}">{{ orden_reparacion.equipo.title }}</a>
+                </div>
             </div>
-            <div class="col-md-8">
-              <h4 class="article-content">{{ orden_reparacion.content }}</h4>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Técnico asignado:</p> 
+                </div>
+                <div class="col-md-8">
+                    <h5 class="article-content">{{ orden_reparacion.tecnicoAsignado.username }}</h5>
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
-              <p>O.R. del equipo:</p> 
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Estado O.R.:</p> 
+                </div>
+                <div class="col-md-8">
+                    <h5 class="article-content">{{ orden_reparacion.estado.descripcion }}</h5>
+                </div>
             </div>
-            <div class="col-md-8">
-              <h5 class="article-content">{{ orden_reparacion.equipo.title }}</h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <small>Última modificación:</small> 
+                    </div>
+                <div class="col-md-8">
+                    <small class="article-content"><b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b></small>
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
-              <p>Técnico asignado:</p> 
+            <div class="row">
+                <div class="col-md-3">
+                    <small>Fecha de creación:</small> 
+                </div>
+                <div class="col-md-8">
+                    <small class="article-content"><b>{{ orden_reparacion.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></small>
+                </div>
             </div>
-            <div class="col-md-8">
-              <h5 class="article-content">{{ orden_reparacion.tecnicoAsignado.username }}</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
-              <p>Fecha de creación:</p> 
-            </div>
-            <div class="col-md-8">
-              <p class="article-content"><b>{{ orden_reparacion.date_created.strftime('%d-%m-%Y') }}</b></p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
-              <p>Última modificación:</p> 
-            </div>
-            <div class="col-md-8">
-              <p class="article-content"><b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></p>
-            </div>
-          </div>          
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">Editar</a>
-          <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
+            {% if current_user.username == orden_reparacion.tecnicoAsignado.username or current_user.role.role_name =="Admin" %}            
+                <a class="bi bi-x-circle btn btn-outline-light" title="Cancelar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Anulada') }}"></a>
+                <a class="bi bi-check-square btn btn-outline-info" title="Finalizar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Finalizada') }}"></a>
+                
+            {% endif %}
+            <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar O.R."  href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}"></a>
+            <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar O.R."></a>
         </div>
     </article>
     <br>    

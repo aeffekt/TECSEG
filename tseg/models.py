@@ -71,13 +71,14 @@ class Equipment(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(150), unique=False, nullable=False)
 	numSerie = db.Column(db.String(20), unique=False, nullable=True)
+	anio = db.Column(db.Integer, nullable=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)	
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
 	orden_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
-	eq_details = db.relationship('Eq_detail', backref='equipo', lazy=True)
+	historias = db.relationship('Eq_detail', backref='equipo', lazy=True)
 	
 	def __repr__(self):
 		return f"Equipo('{self.title}', '{self.content}')"
@@ -112,12 +113,12 @@ class Orden_reparacion(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	codigo = db.Column(db.String(150), unique=False, nullable=False)
+	codigo = db.Column(db.String(50), unique=False, nullable=False)
 	content = db.Column(db.Text, nullable=False)	
 	tecnico_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
-	#estado_id = db.Column(db.Integer, db.ForeignKey('estado_or.id'), nullable=False)	
+	estado_id = db.Column(db.Integer, db.ForeignKey('estado_or.id'), nullable=False)	
 	
 
 	def __repr__(self):
@@ -126,8 +127,8 @@ class Orden_reparacion(db.Model):
 
 class Estado_or(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	estado = db.Column(db.String(30), unique=True, nullable=False)		
-	#estados = db.relationship('Orden_reparacion', backref='estado', lazy=True)
+	descripcion = db.Column(db.String(30), unique=True, nullable=False)		
+	estados = db.relationship('Orden_reparacion', backref='estado', lazy=True)
 
 	def __repr__(self):
 		return f'{self.estado}'

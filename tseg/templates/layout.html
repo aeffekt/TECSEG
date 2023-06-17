@@ -63,29 +63,18 @@
 							</li>
 						{% endif %}
 							<li>
-								<a class="nav-item nav-link" title="Ir a mi cuenta"  href="{{ url_for('users.account', user_id=current_user.id) }}">Mi Cuenta</a>
+								<a title="Ir a mi cuenta"  href="{{ url_for('users.account', user_id=current_user.id) }}"><img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
 								</ul>
-							</li>						
-						<li class="nav-item dropdown">
-			      	<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Cantidad de items por página"></a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="#">5</a></li>
-								<li><a class="dropdown-item" href="#">10</a></li>
-								<li><a class="dropdown-item" href="#">25</a></li>
-								<li><a class="dropdown-item" href="#">50</a></li>
-								<li><a class="dropdown-item" href="#">100</a></li>
-							</ul>
-						</li>
+							</li>	
 					{% else %}
 						<li><a class="nav-item nav-link" href="{{ url_for('users.login') }}">Iniciar sesión</a></li>
 		      {% endif %}	        
 		      
 	        <li class="text-right">
 	        	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
-	        </li>
-	        
+	        </li>	        
 				</ul>
 			</nav>
 	    </header>
@@ -183,6 +172,11 @@
         }
       };
     });
+    function cambiarColor() {
+		  var selectElement = document.getElementById("estadoSelect");
+		  var selectedOption = selectElement.options[selectElement.selectedIndex];
+		  selectElement.className = selectedOption.className + " selected";
+		}
   </script>
 </html>
 

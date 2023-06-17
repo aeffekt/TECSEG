@@ -33,7 +33,7 @@ def equipment(equipment_id):
 	page = request.args.get('page', 1, type=int) # num pagina de mensajes
 	historias =  Eq_detail.query.filter_by(equipo=equipment)\
 					.order_by(Eq_detail.date_modified.desc())\
-					.paginate(page=page, per_page=10)	
+					.paginate(page=page, per_page=10)
 	return render_template("equipment.html", title=equipment.title,
 											equipment=equipment,
 											legend="Ver Equipo",
@@ -48,6 +48,7 @@ def add_equipment(client_id):
 		equipment = Equipment(title=form.title.data, 
 							numSerie=form.numSerie.data, 
 							content=form.content.data, 
+							anio=form.anio.data, 
 							author_eq=current_user, 
 							client_id=client_id)
 		db.session.add(equipment)
@@ -67,21 +68,18 @@ def update_equipment(equipment_id):
 		client_id = extraerId(form.owner.data)
 		equipment.client_id = client_id
 		equipment.title = form.title.data
-		equipment.numSerie = form.numSerie.data
+		equipment.numSerie = form.numSerie.data		
 		equipment.content = form.content.data
-
-
-
-		# !!!!!!!!! agregar modificador!! y dejar autor sin cambiar
-		equipment.author_eq = current_user
+		equipment.anio = form.anio.data
 		now = datetime.now()
 		now = now.strftime("%Y-%m-%dT%H:%M:%S")
 		equipment.date_modified = datetime.fromisoformat(now)
 		db.session.commit()
-		flash("El equipo ha sido editado con éxito", 'success')
+		flash(f"Se guardaron los cambios", 'success')
 		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))
 	elif request.method == 'GET':		
-		form.owner.default = f'[{equipment.owner.id}] {equipment.owner.client_name}, {equipment.owner.business_name}'
+		form.owner.default = f'[{equipment.owner.id}] {equipment.owner.client_name}, {equipment.owner.business_name}'		
+		form.anio.default = equipment.anio
 		form.process()
 		form.title.data = equipment.title
 		form.numSerie.data = equipment.numSerie
@@ -98,3 +96,13 @@ def delete_equipment(equipment_id):
 	db.session.commit()
 	flash("El equipo ha sido eliminado!", 'success')
 	return redirect(url_for('equipments.all_equipments'))
+
+
+@equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
+def historias_equipo(equipment_id, tipologia_id):	
+	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
+	page = request.args.get('page', 1, type=int) # num pagina de mensajes
+	historias =  Eq_detail.query.filter_by(tipologia_id=tipologia_id, equipment_id=equipment_id)\
+					.order_by(Eq_detail.date_modified.desc())\
+					.paginate(page=page, per_page=10)	
+	return render_template('historias_equipo.html', title=equipo.title, historias=historias, equipo=equipo)

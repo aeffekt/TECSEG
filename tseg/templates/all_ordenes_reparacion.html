@@ -19,35 +19,29 @@
             <div class="row">
                 <div class="col-md-10">
                   	<div class="media-body">
-                    	<h3><a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">{{ orden_reparacion.codigo }}</a></h3>            	
-                    	<H5><p class="article-title" href="">{{ orden_reparacion.content }}</p></H5>
-                        <p class="article-content">Última modificación: <b>{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></p>
+                    	<a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
+                           <h3>{{ orden_reparacion.codigo }}</h3>
+                    	   <h5>{{ orden_reparacion.content }}</h5>                            
+                        </a>
                     </div>
                 </div>
-            
-                <div class="col-md-2 text-right">                
-                    <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
+                <div class="col-md-2 text-end">
+                    <div class="d-grid">
+                        {% if orden_reparacion.estado.descripcion == 'Creada' %}
+                            <i class="btn btn-info btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% elif orden_reparacion.estado.descripcion == 'Asignada' %}
+                            <i class="btn btn-success btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% elif orden_reparacion.estado.descripcion == 'Anulada' %}
+                            <i class="btn btn-secondary btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% elif orden_reparacion.estado.descripcion == 'Finalizada' %}
+                            <i class="btn btn-dark btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% else %}
+                            <i class="btn btn-light btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar la O.R. "{{ orden_reparacion.codigo }}"?</h5>
-                    <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <form action="{{ url_for('ordenes_reparacion.delete_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}" method="POST">
-                      <input class="btn btn-danger" type="submit" value="Borrar">
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-      </article>
+        </article>
     {% endfor %}
     {% if pages|length > 1 %}
         {% for page_num in pages %}

@@ -16,8 +16,18 @@
               <p>Razón social:</p> 
             </div>
             <div class="col-md-8">
-              <h4 class="article-content">{{ client.business_name }}</h4>
+              <h5 class="article-content">{{ client.business_name }}</h5>
             </div>
+          </div>
+          <div style="font-style: italic;">
+            <div class="row">
+              <div class="col-md-2">
+                <small >Contacto: </small>
+              </div>
+              <div class="col-md-8">
+                <h5 class="article-content">{{ client.contact }}</h5>
+              </div>
+            </div>            
           </div>
           <div class="row">
             <div class="col-md-2">
@@ -26,61 +36,50 @@
             <div class="col-md-8">
               <h5 class="article-content">{{ client.comments }}</h5>
             </div>
-          </div>
-          <div style="font-style: italic;">
-            <div class="row">
-              <div class="col-md-2">
-                <p >Contacto: </p>
-              </div>
-              <div class="col-md-8">
-                <h6 class="article-content">{{ client.contact }}</h6>
-              </div>
-            </div>            
-          </div>
+          </div>          
           <div class="row">
             <div class="col-md-2">
-              <p>Domicilio:</p> 
+              <small>Domicilio:</small> 
             </div>
             <div class="col-md-8">
-              <h6 class="article-content">{{ client.domicilio.direccion }}</h6>
+              <h5 class="article-content">{{ client.domicilio.direccion }}</h5>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2">
-              <p>Ciudad:</p> 
+              <small>Ciudad:</small> 
             </div>
             <div class="col-md-8">
-              <h6 class="article-content">{{ client.domicilio.ciudad.nombre }}</h6>
+              <h5 class="article-content">{{ client.domicilio.ciudad.nombre }}</h5>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2">
-              <p>CP:</p> 
+              <small>cp:</small> 
             </div>
             <div class="col-md-8">
-              <h6 class="article-content">{{ client.domicilio.ciudad.cp }}</h6>
+              <h5 class="article-content">{{ client.domicilio.ciudad.cp }}</h5>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2">
-              <p>Provincia:</p> 
+              <small>Provincia:</small> 
             </div>
             <div class="col-md-8">
-              <h6 class="article-content">{{ client.domicilio.ciudad.provincia.nombre }}</h6>
+              <h5 class="article-content">{{ client.domicilio.ciudad.provincia.nombre }}</h5>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2">
-              <p>Pais:</p> 
+              <small>Pais:</small> 
             </div>
             <div class="col-md-8">
-              <h6 class="article-content">{{ client.domicilio.ciudad.provincia.pais.nombre }}</h6>
+              <h5 class="article-content">{{ client.domicilio.ciudad.provincia.pais.nombre }}</h5>
             </div>
           </div>
-          <a class="btn btn-outline-light btn-sm mt-1 mb-1" href="{{ url_for('clients.client_equipments', client_id=client.id) }}">VER EQUIPOS</a>
-          <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo</a>
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('clients.update_client', client_id=client.id) }}">Editar</a>
-          <img src="./static/images/delete.png" width="35" height="30" type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal" title="Eliminar">
+          <a  class="bi bi-search btn btn-outline-light" title="Ir a equipos del cliente" href="{{ url_for('clients.client_equipments', client_id=client.id) }}"></a>
+          <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar cliente" href="{{ url_for('clients.update_client', client_id=client.id) }}"></a>
+          <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar cliente"></a>
       </div>
     </article>
     <!-- AGREGAR LISTADO DE LOS EQUIPOS-->

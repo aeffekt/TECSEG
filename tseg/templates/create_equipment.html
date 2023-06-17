@@ -31,6 +31,19 @@
 						{{ form.numSerie(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
+				<div class="form-group" autofocus>
+					{{ form.anio.label(class="form-control-label") }}					
+					{% if form.anio.errors %}
+						{{ form.anio(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.anio.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.anio(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
 				<div class="form-group">
 					<!-- boottrap  -->
 					{{ form.content.label(class="form-control-label") }}

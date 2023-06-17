@@ -4,7 +4,7 @@
     <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo nuevo</a></p>
     {% set pages = equipments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) | list %}
     {% if pages|length > 1 %}
-        {% for page_num in pages %}    
+        {% for page_num in pages %}
             {% if page_num %}
                 {% if equipments.page == page_num %}
                     <a class="btn btn-info mb-4" href="{{ url_for('clients.client_equipments', client_id=client.id, page=page_num) }}">{{ page_num }}</a>
@@ -16,14 +16,22 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    {% for equipment in equipments.items %}
-        <article class="media content-section">          	
-        	<div class="article-metadata">
-          		<small class="text-light">Última modificación: {{ equipment.date_modified.strftime('%d-%m-%Y') }}</small>
-        	</div>
-        	<h2><a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">{{ equipment.title }}</a></h2>
-        	<p class="article-content">{{ equipment.content }}</p>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id, client_id=equipment.owner) }}">Editar equipo</a>          
+    {% for equipment in equipments.items %}        
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="row">
+                    <div class="col-md-11">
+                        <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
+                        <h3>{{ equipment.title }}</h3>
+                        <h5 class="article-title" href="">{{ equipment.content }}</h5>
+                        <small class="text-light">Última modificación: {{ equipment.date_modified.strftime('%d-%m-%Y') }}</small>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a class="bi bi-chat-dots btn btn-outline-light" title="Añadir Historia" href="{{ url_for('eq_details.add_eq_detail', equipment_id = equipment.id) }}"></a>
+                    </div>
+                </div> 
+            </div>
         </article>
     {% endfor %}
     {% set pages = equipments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) | list %}

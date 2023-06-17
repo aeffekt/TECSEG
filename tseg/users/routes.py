@@ -180,7 +180,7 @@ def user_eq_details(username):
 	page = request.args.get('page', 1, type=int) #num pagina de mensajes
 	user = User.query.filter_by(username=username)\
 					.first_or_404()
-	historias = Eq_detail.query.filter_by(author_detalle=user)\
+	historias = Eq_detail.query.filter_by(author_historia=user)\
 					.order_by(Eq_detail.date_modified.desc())\
 					.paginate(page=page, per_page=5)
 	return render_template('user_eq_details.html', historias=historias, user=user)

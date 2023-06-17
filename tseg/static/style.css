@@ -2,18 +2,24 @@
   --primary-color: #aaa;
   --secondary-color: #222;
   --container-color: #666;
-  --extra-color: #aaa;
+  --extra-color: #222;
 }
 
 .theme-light{
-  --primary-color: #000;
-  --secondary-color: #fff;
-  --container-color: #888;
-  --extra-color: #eee;
+  --primary-color: #fff;
+  --secondary-color: #000;
+  --container-color: #666;
+  --extra-color: #bbb;
+}
+
+
+
+a {
+  text-decoration: none;
 }
 
 body {
-  background: var(--secondary-color);
+  background: var(--extra-color);
   color: var(--primary-color);
 }
 
@@ -36,8 +42,13 @@ nav{
   top: 0;
   left: 0;
   width: 100%;
-  height: 77px;
+  height: 76px;
   z-index: 9999;
+
+}
+
+nav .rounded-circle {
+    object-position: right;
 }
 
 .logo{
@@ -59,7 +70,7 @@ nav{
 
 .menu-horizontal > li > a{
   display: block;
-  padding: 15px;
+  padding: 5px 15px 5px 15px;
   color: white;
   text-decoration: none;  
 }
@@ -99,10 +110,6 @@ nav{
   padding-top: 10px;
 }
 
-nav ul img{
-  text-align: right;
-}
-
 form .form-check{
   padding: 10px;
 }
@@ -111,8 +118,17 @@ legend {
   color: var(--secondary-color);
 }
 
+.modal-content {
+  background-color: var(--secondary-color); /* Reemplaza #ff0000 con el color deseado */
+}
+
+/* Cambiar el color del texto en el mensaje */
+.modal-title {
+  color: var(--primary-color); /* Reemplaza #ffffff con el color deseado */
+}
+
 .form-control{
-  background:  var(--extra-color);
+  background:  var(--primary-color);
   width: 90%;
 }
 
@@ -163,8 +179,7 @@ a.article-title:hover {
 .account-img {
   height: 125px;
   width: 125px;
-  margin-right: 20px;
-  margin-bottom: 16px;
+  
 }
 
 .account-heading {

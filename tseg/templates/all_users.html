@@ -18,18 +18,20 @@
     {% endif %}    
     {% for user in all_users.items %}
        <div class="content-section">
-            <div class="container"> 
-                <div class="row"> 
-                    <div class="col-md-3"> 
-                        <a href="{{ url_for('users.account', user_id=user.id) }}" ><img class="rounded-circle account-img" src="{{image_path+user.image_file }}"></a>
-                    </div>
-                    <div class="col-md-5">
-                        <h4 class="account-heading" >{{ user.username }}</h4>
-                        <h6 class="text">{{ user.email }} - <b>{{ user.role }}</b></h6>
-                        <a class="btn btn btn-outline-warning btn-sm mt-1 mb-1" href="{{ url_for('users.account', user_id = user.id) }}">Modificar cuenta</a>
+            <a href="{{ url_for('users.account', user_id=user.id) }}" >
+                <div class="container"> 
+                    <div class="row"> 
+                        <div class="col-md-3"> 
+                            <img class="rounded-circle account-img" src="{{image_path+user.image_file }}">
+                        </div>
+                        <div class="col-md-9">
+                            <h4 class="account-heading" >{{ user.username }}</h4>                            
+                            <h5>{{ user.role }}</h5>
+                            <h6 class="text">{{ user.email }}</h6>
+                        </div>                    
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     {% endfor %}
     {% if pages|length > 1 %}

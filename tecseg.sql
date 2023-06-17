@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 14-06-2023 a las 16:56:25
+-- Tiempo de generación: 17-06-2023 a las 03:02:09
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -32,17 +32,20 @@ CREATE TABLE IF NOT EXISTS `ciudad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cp` varchar(15) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
-  `id_provincia` int(11) DEFAULT NULL,
+  `provincia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `ciudad`
 --
 
-INSERT INTO `ciudad` (`id`, `cp`, `nombre`, `id_provincia`) VALUES
+INSERT INTO `ciudad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1, '5000', 'Córdoba', 6),
-(2, '6300', 'Santa Rosa', 11);
+(2, '6300', 'Santa Rosa', 11),
+(7, 'codPostal', 'ciud', 85),
+(8, 'codPostal', 'ciud', 86),
+(9, ' ', ' ', 87);
 
 -- --------------------------------------------------------
 
@@ -55,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_name` varchar(150) NOT NULL,
   `business_name` varchar(150) DEFAULT NULL,
-  `contact` int(11) DEFAULT NULL,
+  `contact` varchar(250) DEFAULT NULL,
   `comments` varchar(1000) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `domicilio_id` int(11) DEFAULT NULL,
@@ -69,16 +72,16 @@ CREATE TABLE IF NOT EXISTS `client` (
 --
 
 INSERT INTO `client` (`id`, `client_name`, `business_name`, `contact`, `comments`, `user_id`, `domicilio_id`) VALUES
-(0, 'Luis Ponzonetta', 'TV', 42432432, 'radicado en Uruguay', 1, NULL),
-(1, 'Canal 13 san luis', 'Canal 13 televisión', 42432432, 'Director Nasim', 1, NULL),
-(2, 'Bonarrico', 'Jesus Te Ama', 0, 'contactarlo por mail\r\n\r\n', 2, NULL),
-(3, 'Juan Antonio Acompanies', 'REMAR', 123123123, 'Exportador a Paraguay', 3, NULL),
-(4, 'Pedro Almirón', 'Radio', 2147483647, 'teléfono del técnico\r\n\r\nFernandez: 2996-1235432\r\n\r\n10-14hs solamente', 1, NULL),
-(6, 'Mariangeles Gonzalez', 'MARIAN S.A.', 2147483647, 'persona ficticia', 1, NULL),
-(11, 'Marcelo Gomez', '.com', 2147483647, 'Datos del cliente', 1, NULL),
-(16, 'Oscar de la Fuente', 'De la Hoya', 42432432, 'cliente preferencial', 1, NULL),
-(17, 'Fabio Brandan', 'jta', 1111333222, 'telefono', 10, NULL),
-(18, 'Ana', 'RF Social', 432654765, '', 10, NULL);
+(0, 'Luis Ponzonetta', 'TV Broadcast', '42432432', 'radicado en Uruguay', 1, 9),
+(1, 'Canal 13 san luis', 'Canal 13 televisión', '42432432', 'Director Nasim', 1, 9),
+(2, 'Bonarrico', 'Jesus Te Ama', '0', 'contactarlo por mail\r\n\r\n', 2, 9),
+(3, 'Juan Antonio Acompanies', 'REMAR', '123123123', 'Exportador a Paraguay', 3, 9),
+(4, 'Pedro Almirón', 'Radio Total FM', '2147483647', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 1, 9),
+(6, 'Mariangeles Gonzalez', 'MARIAN S.A.', '2147483647', 'persona ficticia', 1, 9),
+(11, 'Marcelo Gomez', 'Digital Content S.R.L.', '2147483647', 'Datos del cliente', 1, 9),
+(16, 'Oscar de la Fuente', 'De la Hoya S.R.L.', '42432432', 'cliente preferencial', 1, 9),
+(17, 'Fabio Brandan', 'JTA S.A.', '1111333222', 'pregunta mucho y mete mano en los equipos sin avisar', 10, 9),
+(18, 'Ana Lupe', 'RF Argentina S.A.', '432654765', '', 10, 9);
 
 -- --------------------------------------------------------
 
@@ -90,20 +93,21 @@ DROP TABLE IF EXISTS `domicilio`;
 CREATE TABLE IF NOT EXISTS `domicilio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `direccion` varchar(150) DEFAULT NULL,
-  `id_ciudad` int(11) DEFAULT NULL,
-  `id_cliente` int(11) DEFAULT NULL,
+  `ciudad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_cliente` (`id_cliente`),
-  KEY `id_ciudad` (`id_ciudad`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `id_ciudad` (`ciudad_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
 --
 
-INSERT INTO `domicilio` (`id`, `direccion`, `id_ciudad`, `id_cliente`) VALUES
-(1, 'San Martin 514', 2, 18),
-(2, 'Belgrano 519', 1, 6);
+INSERT INTO `domicilio` (`id`, `direccion`, `ciudad_id`) VALUES
+(1, 'San Martin 514', 2),
+(2, 'Belgrano 519', 1),
+(7, 'domicilio', 7),
+(8, 'domicilio', 8),
+(9, ' ', 9);
 
 -- --------------------------------------------------------
 
@@ -146,21 +150,20 @@ INSERT INTO `equipment` (`id`, `title`, `numSerie`, `date_created`, `date_modifi
 (13, 'FM250', NULL, '2022-05-30 02:41:13', '2023-04-20 23:31:42', 'N serie: 213982-2/0422', 1, 3),
 (14, 'TRUD1300', NULL, '2022-06-05 04:03:02', '2023-04-20 23:31:31', 'N serie: 213982-1/0422', 1, 3),
 (15, 'TRUD400', NULL, '2022-06-13 03:21:29', '2023-04-20 23:26:03', '12/08/19\r\n\r\nse agregó una señal de tv digital al Mux\r\n\r\n\r\n\r\n12/08/20\r\n\r\nse repararon 2 ventiladores forzadores de aire del control general\r\n\r\n\r\n\r\n12/08/22\r\n\r\nuna descarga quemó la fuente del sumador', 1, 6),
-(16, 'TRU400', NULL, '2022-06-13 03:22:03', '2023-04-20 23:24:37', '03/02/22\r\n\r\nSe cambió la frecuencia del modulador a CH:13', 1, 6),
+(16, 'TRU400', '12345432/8765', '2022-06-13 03:22:03', '2023-06-14 19:14:47', '03/02/22\r\n\r\nSe cambió la frecuencia del modulador a CH:13', 10, 6),
 (17, 'FM250', NULL, '2022-06-13 03:30:03', '2023-05-20 01:55:28', 'equipo reacondicionado y actualizado a versión \'22', 1, 4),
 (18, 'TRU200', NULL, '2022-06-13 20:56:51', '2023-04-20 23:28:31', 'modelo original TRU250', 1, 4),
 (19, 'TRV100', NULL, '2022-06-13 21:26:02', '2023-04-20 23:23:41', '13/04/20\r\n\r\nReparación de dos módulos de potencia (Atilio)', 1, 6),
 (20, 'TRUD1200', NULL, '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \r\n\r\nnum de serie: 220422-1/0224\r\n\r\narmado: completo\r\n\r\nfirmado: Oscar\r\n\r\n\r\n\r\nfecha: 20/03/22\r\n\r\ntel tecnico: 0345-2321387\r\n\r\nmanual: DMTRUD1200-22.pdf', 1, 0),
-(21, 'FM100', NULL, '2022-06-23 01:15:03', '2023-06-13 10:54:58', 'frec: 101,3MHz\r\n\r\n\r\n\r\nManual enviado via mail', 10, 4),
+(21, 'FM100', '020823-1/0423', '2022-06-23 01:15:03', '2023-06-15 21:40:31', 'frec: 101,3MHz\r\nManual enviado via mail', 10, 4),
 (22, 'FM100', NULL, '2022-06-22 22:16:56', '2023-04-20 23:27:08', 'modelo 2016 con fuente meanwell', 1, 4),
-(23, 'TRV250', NULL, '2022-06-22 22:19:54', '2023-04-20 23:28:05', '12/08/22\r\n\r\nconsultó por modificar la linealidad del amplificador para ser usado para TV digital\r\n\r\nSe programó un envío para el 25/08/22. Se aguarda confirmación', 1, 4),
+(23, 'TRV250', '223454-2/0722', '2022-06-22 22:19:54', '2023-06-16 19:51:54', 'modelo \'22', 10, 4),
 (33, 'Sistema TV Digital', '20230504-1/8765', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16),
 (34, 'DMUX1000', NULL, '2023-05-20 14:39:38', '2023-05-20 14:57:40', 'Nuevo multiplexor de videoswitch', 1, 2),
-(35, 'DMOD1000', NULL, '2023-05-20 14:57:38', '2023-06-13 11:08:13', 'nuevo modulador videoswith', 10, 2),
 (37, 'NDS3542', NULL, '2023-05-20 14:57:38', '2023-05-20 14:57:38', 'modulador chino', 1, 0),
 (59, 'TRU400', NULL, '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3),
 (68, 'FM100', '1234', '2023-06-14 13:07:56', '2023-06-14 13:34:55', 'Este equipo es modelo 2023\r\nTomado de un modelo 2015', 10, 11),
-(69, 'nuevo', '12345', '2023-06-14 13:34:50', '2023-06-14 13:34:50', 'asdfg', 10, 18);
+(69, 'TRM26100', '12345432', '2023-06-14 13:34:50', '2023-06-15 21:31:24', '6 canales', 1, 17);
 
 -- --------------------------------------------------------
 
@@ -175,23 +178,33 @@ CREATE TABLE IF NOT EXISTS `eq_detail` (
   `date_created` datetime DEFAULT NULL,
   `date_modified` datetime DEFAULT NULL,
   `content` varchar(1000) DEFAULT NULL,
+  `tipologia_id` int(11) NOT NULL,
   `equipment_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `eq_detail`
 --
 
-INSERT INTO `eq_detail` (`id`, `title`, `date_created`, `date_modified`, `content`, `equipment_id`, `user_id`) VALUES
-(1, 'Reparacion ventiladores', '2023-06-04 12:16:37', '2023-06-04 12:16:37', 'Se desarmo el equipo y se constato que los ventiladores no funcionaban por lo que se procedió a cambiarlos y eso resolvió el problema', 35, 10),
-(5, 'Cambio de IP', '2023-06-05 16:02:19', '2023-06-05 16:02:19', '192.168.1.101', 35, 10),
-(15, 'Linealidad', '2023-06-05 19:33:17', '2023-06-05 19:33:17', 'equipo ex TRU400, se linealizo para uso digital, y se hizo uso extremo de la potencia para mantener la pot nominal RMS', 1, 10),
-(16, 'retraso en entrega', '2023-06-13 11:08:00', '2023-06-13 11:08:00', 'la entrega se realizo dos semana después de lo pactado', 59, 10),
-(17, 'verificacion por pedido del cliente', '2023-06-14 13:34:50', '2023-06-14 13:34:50', 'se reviso a fondo!', 33, 10);
+INSERT INTO `eq_detail` (`id`, `title`, `date_created`, `date_modified`, `content`, `tipologia_id`, `equipment_id`, `user_id`) VALUES
+(1, 'Reparacion ventiladores', '2023-06-04 12:16:37', '2023-06-04 12:16:37', 'Se desarmo el equipo y se constato que los ventiladores no funcionaban por lo que se procedió a cambiarlos y eso resolvió el problema', 2, NULL, 10),
+(5, 'Cambio de IP', '2023-06-05 16:02:19', '2023-06-05 16:02:19', '192.168.1.101', 3, NULL, 10),
+(15, 'Linealidad', '2023-06-05 19:33:17', '2023-06-05 19:33:17', 'equipo ex TRU400, se linealizo para uso digital, y se hizo uso extremo de la potencia para mantener la pot nominal RMS', 1, 1, 10),
+(16, 'retraso en entrega', '2023-06-13 11:08:00', '2023-06-13 11:08:00', 'la entrega se realizo dos semana después de lo pactado', 1, 59, 10),
+(17, 'verificacion por pedido del cliente', '2023-06-14 13:34:50', '2023-06-14 13:34:50', 'se reviso a fondo!', 2, 33, 10),
+(18, 'ventiladores', '2023-06-15 15:40:48', '2023-06-15 15:40:48', 'se cambiaron los ventiladores del equipo', 2, NULL, 1),
+(19, 'Entregado', '2023-06-15 15:45:42', '2023-06-15 15:45:42', 'se entregó con retardo de dos semanas', 1, 69, 1),
+(20, 'Fuente', '2023-06-15 15:59:36', '2023-06-15 15:59:36', 'falla en la fuente auxiliar, se cambió por fuente meanwell', 2, 69, 1),
+(21, 'IP', '2023-06-16 14:54:54', '2023-06-16 14:54:54', 'se cambio la IP a : 192.168.1.12', 3, 69, 10),
+(22, 'dsa', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'dsa', 1, 69, 10),
+(23, 'envio de equipo', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'Se programó un envío para el 25/08/22. Se aguarda confirmación', 1, 23, 10),
+(24, 'linealidad', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'consultó por modificar la linealidad del amplificador para ser usado para TV digital', 3, 23, 10),
+(25, 'cambio IP', '2023-06-16 20:27:27', '2023-06-16 20:27:27', 'IP: 10.0.0.97', 1, 23, 1),
+(26, 'fotos', '2023-06-16 20:27:27', '2023-06-16 20:27:27', 'se sacaron fotos del frente y fondo', 1, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -202,7 +215,7 @@ INSERT INTO `eq_detail` (`id`, `title`, `date_created`, `date_modified`, `conten
 DROP TABLE IF EXISTS `estado_or`;
 CREATE TABLE IF NOT EXISTS `estado_or` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `estado` varchar(15) DEFAULT NULL,
+  `descripcion` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -210,11 +223,11 @@ CREATE TABLE IF NOT EXISTS `estado_or` (
 -- Volcado de datos para la tabla `estado_or`
 --
 
-INSERT INTO `estado_or` (`id`, `estado`) VALUES
-(1, 'creada'),
-(2, 'asignada'),
-(3, 'anulada'),
-(4, 'finalizada');
+INSERT INTO `estado_or` (`id`, `descripcion`) VALUES
+(1, 'Creada'),
+(2, 'Asignada'),
+(3, 'Anulada'),
+(4, 'Finalizada');
 
 -- --------------------------------------------------------
 
@@ -227,26 +240,29 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date_created` datetime NOT NULL,
   `date_modified` datetime DEFAULT NULL,
-  `codigo` varchar(15) NOT NULL,
+  `codigo` varchar(50) NOT NULL,
   `content` varchar(250) DEFAULT NULL,
   `tecnico_id` int(11) DEFAULT NULL,
   `equipo_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `estado_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
 --
 
-INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`) VALUES
-(2, '2023-06-13 12:20:25', '2023-06-14 13:08:02', '321', '321', 6, 10, 10),
-(6, '2023-06-13 12:41:08', '2023-06-13 12:49:11', '42432/32132', 'dsadsadsa\r\ndsad\r\ndsa', NULL, 3, 10),
-(9, '2023-06-14 11:59:34', '2023-06-14 12:11:55', '20230203-1/8769', 'dsadsadsa', NULL, 13, 10),
-(11, '2023-06-14 12:27:25', '2023-06-14 12:27:25', '321321', 'dsadsa', NULL, 1, 10),
-(12, '2023-06-14 12:28:20', '2023-06-14 12:55:50', '123', 'qwerty', 14, 1, 10);
+INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
+(2, '2023-06-13 12:20:25', '2023-06-16 11:11:02', '230327-1/0423', 'Reparar ventiladores', 6, 10, 10, 4),
+(6, '2023-06-13 12:41:08', '2023-06-16 23:48:01', '210615-1/0621', 'Revisar el equipo, presenta falla RF', 5, 3, 10, 2),
+(9, '2023-06-14 11:59:34', '2023-06-16 23:18:45', '220516-1/1122', 'Se envió el módulo de potencia porque no enciende', 6, 13, 10, 2),
+(12, '2023-06-14 12:28:20', '2023-06-16 23:46:27', '230313-6/0920', 'Pedido de reparación por falla de temperatura', 1, 1, 10, 4),
+(13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422-1/0322', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
+(14, '2023-06-16 12:14:01', '2023-06-16 12:20:52', '230516-1/170523', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
+(15, '2023-06-16 12:33:40', '2023-06-16 23:45:27', '230313-6/0920', 'revisar configuracion', NULL, 34, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -259,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `pais` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `pais`
@@ -285,7 +301,8 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 (17, 'Puerto Rico'),
 (18, 'República Dominicana'),
 (19, 'Uruguay'),
-(20, 'Venezuela');
+(20, 'Venezuela'),
+(21, 'Otro');
 
 -- --------------------------------------------------------
 
@@ -297,15 +314,15 @@ DROP TABLE IF EXISTS `provincia`;
 CREATE TABLE IF NOT EXISTS `provincia` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `id_pais` int(11) DEFAULT NULL,
+  `pais_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `provincia`
 --
 
-INSERT INTO `provincia` (`id`, `nombre`, `id_pais`) VALUES
+INSERT INTO `provincia` (`id`, `nombre`, `pais_id`) VALUES
 (1, 'Buenos Aires', 1),
 (2, 'CABA', 1),
 (3, 'Catamarca', 1),
@@ -384,7 +401,9 @@ INSERT INTO `provincia` (`id`, `nombre`, `id_pais`) VALUES
 (76, 'Santa Catarina', 3),
 (77, 'São Paulo', 3),
 (78, 'Sergipe', 3),
-(79, 'Tocantins', 3);
+(79, 'Tocantins', 3),
+(86, 'prov', 21),
+(87, ' ', 1);
 
 -- --------------------------------------------------------
 
@@ -408,6 +427,28 @@ INSERT INTO `role` (`id`, `role_name`) VALUES
 (2, 'Invitado'),
 (3, 'Técnico'),
 (4, 'ServicioCliente');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipologia`
+--
+
+DROP TABLE IF EXISTS `tipologia`;
+CREATE TABLE IF NOT EXISTS `tipologia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipologia`
+--
+
+INSERT INTO `tipologia` (`id`, `tipo`) VALUES
+(1, 'Mensaje'),
+(2, 'Reparación'),
+(3, 'Modificación');
 
 -- --------------------------------------------------------
 
@@ -441,7 +482,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_i
 (6, 'Oscar', 'oscar@mail.com', '78fcd03e420ea343.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
 (10, 'admin', 'admin@tecseg.com', '61103f056de4ab95.jpg', '$2b$12$dIxpjyQ/uTr8Z7owkfrZKuNoQ5oF4moJHeJgBwjO2X65gmCW.YEWO', 1),
 (11, 'Tomas', 'tomas@tecseg.com', 'c1ed20648c2746a0.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 4),
-(12, 'Juan', 'juan@tecseg.com', '4d3b619fb836ecb5.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
+(12, 'Juan', 'juan@tecseg.com', '708207d226459aaa.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
 (14, 'Jorge', 'jorge@tecseg.com', 'default.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3);
 COMMIT;
 

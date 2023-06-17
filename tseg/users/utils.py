@@ -7,6 +7,12 @@ from flask_mail import Message
 from tseg import mail
 from tseg.users.forms import SearchForm
 from functools import wraps
+from datetime import datetime
+
+def dateFormat():
+	now = datetime.now()
+	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+	return datetime.fromisoformat(now)
 
 def extraerId(cadena):
 	patron = r"\[(\d+)\]"
