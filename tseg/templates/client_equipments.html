@@ -22,10 +22,13 @@
                 <div class="row">
                     <div class="col-md-11">
                         <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-                        <h3>{{ equipment.title }}</h3>
-                        <h5 class="article-title" href="">{{ equipment.content }}</h5>
-                        <small class="text-light">Última modificación: {{ equipment.date_modified.strftime('%d-%m-%Y') }}</small>
+                            <h2>{{ equipment.title }}</h2>
+                            <h6 class="article-title" href="">{{ equipment.content }}</h6>
                         </a>
+                        <small>Cliente: <b>{{ equipment.owner.client_name }}</b>
+                            <p>Modificado: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b>
+                            Creado: <b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b></p>
+                        </small>
                     </div>
                     <div class="col-md-1">
                         <a class="bi bi-chat-dots btn btn-outline-light" title="Añadir Historia" href="{{ url_for('eq_details.add_eq_detail', equipment_id = equipment.id) }}"></a>

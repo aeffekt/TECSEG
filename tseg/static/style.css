@@ -8,11 +8,13 @@
 .theme-light{
   --primary-color: #fff;
   --secondary-color: #000;
-  --container-color: #666;
+  --container-color: #aaa;
   --extra-color: #bbb;
 }
 
-
+.form-switch{
+  margin-left: 30px;
+}
 
 a {
   text-decoration: none;
