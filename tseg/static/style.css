@@ -12,6 +12,8 @@
   --extra-color: #bbb;
 }
 
+
+
 .form-switch{
   margin-left: 30px;
 }
@@ -23,6 +25,7 @@ a {
 body {
   background: var(--extra-color);
   color: var(--primary-color);
+  font-family: Montserrat, sans-serif;
 }
 
 main{

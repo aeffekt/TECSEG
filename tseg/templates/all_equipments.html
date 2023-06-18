@@ -19,7 +19,9 @@
                     {% endfor %}    
                 {% endif %}                
             </div>
-            <div class="col-md-3">                
+            <div class="col-md-3"> 
+
+            <!--              
                 <select class="form-select"  id="sort-by" name="sort-by">
                     <option value="title" {% if sort_by == "title" %} selected {% endif %}>Título</option>
                     <option value="anio" {% if sort_by == "anio" %} selected {% endif %}>Año del modelo</option>
@@ -28,10 +30,12 @@
                     <option value="owner" {% if sort_by == owner %} selected {% endif %}>Dueño del equipo</option>
                     <option value="author_eq" {% if sort_by == author_eq %} selected {% endif %}>Autor del equipo</option>
                 </select>
-            </div>
+                </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-light">Ordenar</button>
             </div>
+            -->
+            
         </div>
     </form>
     {% for equipment in all_equipments.items %}

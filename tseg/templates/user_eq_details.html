@@ -23,8 +23,9 @@
               		<a class="mr-2" href="{{ url_for('users.user_eq_details', username=historia.author_historia.username) }}">{{ historia.author_historia.username }}</a>
               		<small class="text-muted">{{ historia.date_modified.strftime('%Y-%m-%d') }}</small>
             	</div>
-            	<h5><a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}">{{ historia.title }}</a></h5>
-            	<p class="article-content">{{ historia.content }}</p>
+                <a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}"><h2>{{ historia.title }}</h2>
+            	<h5 class="article-content">{{ historia.content }}</h5>
+                </a>
           </div>
         </article>
     {% endfor %}
