@@ -6,16 +6,13 @@
     			<h5>Clientes:</h5>
     			{% for client in clients %}
     				<a class="article-title" href="{{ url_for('clients.client', client_id=client.id) }}">
-    					<li>{{ client.client_name}} : {{ client.business_name }} </li></a>
-    					<p>
-	    					{% if searched|lower in client.comment|lower %}
-	    						{{ client.comment }}
-	    					{% endif %}
+    					<h6><li>{{ client.client_name}} : {{ client.business_name }} </li><h6></a>
+    					<p>	    					
 	    					{% if searched|lower in client.contact|lower %}
-	    						{{ client.contact }}
+	    						<small class="text-muted">{{ client.contact }}</small>
 	    					{% endif %}
-	    					{% if searched|lower in client.comment|lower %}
-	    						{{ client.comment }}
+	    					{% if searched|lower in client.comments|lower %}
+	    						<small class="text-muted">{{ client.comments }}</small>
 	    					{% endif %}
     					</p>
     			{% endfor%}
@@ -26,14 +23,16 @@
     		<div class="content-section">
     			<h5>Equipos:</h5>
     			{% for equipment in equipments %}
-    				<a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}"><li>{{ equipment.title }}</li></a>
-    					{% if searched|lower in equipment.date_created|lower %}
-    						{{ equipment.date_created }}
-    					{% endif %}
-    					{% if searched|lower in equipment.content|lower %}
-    						{{ equipment.content }}
-    					{% endif %}	    					
-    					<p>Pertenece a: {{ equipment.owner.client_name }}</p>
+    				<a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
+    					<h6><li> {{ equipment.title }}</h6></li>
+    				</a>
+    				{% if searched|lower in equipment.anio|lower %}
+    					<small class="text-muted">Año modelo: {{ equipment.anio }}</small>
+    				{% endif %}
+    				{% if searched|lower in equipment.content|lower %}
+    					<small class="text-muted">{{ equipment.content }}</small>
+    				{% endif %}	    					
+    				<small class="text-muted">Pertenece a: {{ equipment.owner.client_name }}</small>
     			{% endfor%}
     		</div>
     	</div>
@@ -41,9 +40,10 @@
     		<div class="content-section">
     			<h5>Historias de equipos:</h5>
     			{% for historia in historias %}
-    				<a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}"><li>{{ historia.title }}</li></a>
+    				<a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}"><h6><li>{{ historia.title }}</h6></li>
+    				</a>
     				{% if searched|lower in historia.content|lower %}
-						{{ historia.content }}
+						<small class="text-muted">{{ historia.content }}</small>
 					{% endif %}					
     			{% endfor%}
     		</div>
