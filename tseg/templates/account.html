@@ -10,11 +10,13 @@
 		    	<div class="col-md-5">
 				    <div class="media-body">
 					    <h2 class="account-heading">{{ user.username }}</h2>
-					    <p class="text">{{ user.email }} - <b>{{ user.role }}</b></p>
+					    <p  class="article-title">{{ user.email }} </p>
+					    <b class="article-title">{{ user.role }}</b>
 				    </div>
 				</div>
-			</div>
+			</div>			
 	  	</div>
+	  	<hr 90%>
 	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
 			{{ form.hidden_tag() }} <!-- part of protection -->

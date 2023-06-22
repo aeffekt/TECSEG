@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 18-06-2023 a las 01:25:01
+-- Tiempo de generación: 22-06-2023 a las 17:12:25
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `tecseg`
 --
-CREATE DATABASE IF NOT EXISTS `tecseg` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `tecseg`;
 
 -- --------------------------------------------------------
 
@@ -77,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `client` (
 INSERT INTO `client` (`id`, `client_name`, `business_name`, `contact`, `comments`, `user_id`, `domicilio_id`) VALUES
 (0, 'Luis Ponzonetta', 'TV Broadcast', '42432432', 'radicado en Uruguay', 1, 9),
 (1, 'Canal 13 san luis', 'Canal 13 televisión', '42432432', 'Director Nasim', 1, 9),
-(2, 'Bonarrico', 'Jesus Te Ama', '02954-4303248', 'o contactarlo por mail: bonarrico@jta.com\r\n\r\n', 2, 9),
+(2, 'Bonarrico', 'Jesus Te Ama', '02954-4303249', 'o contactarlo por mail: bonarrico@jta.com\r\n\r\n', 2, 9),
 (3, 'Juan Antonio Acompanies', 'REMAR', '123123123', 'Exportador a Paraguay', 3, 9),
 (4, 'Pedro Almirón', 'Radio Total FM', '2147483647', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 1, 9),
 (6, 'Mariangeles Gonzalez', 'MARIAN S.A.', '2147483647', 'persona ficticia', 1, 9),
@@ -125,8 +123,8 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `title` varchar(150) NOT NULL,
   `numSerie` varchar(20) DEFAULT NULL,
   `anio` varchar(20) DEFAULT NULL,
-  `date_created` datetime NOT NULL,
-  `date_modified` datetime DEFAULT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content` varchar(1000) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
@@ -140,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `equipment` (
 --
 
 INSERT INTO `equipment` (`id`, `title`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `user_id`, `client_id`) VALUES
-(1, 'TRUD400', '223454-2/0322', '2012', '2022-05-21 04:37:49', '2022-05-21 04:37:49', 'num ser: 1111111111\r\n\r\nCH: 21\r\n\r\nIP: 192.168.0.100', 1, 1),
+(1, 'TRUD400', '121116-2/1221', '2012', '2022-05-21 04:37:49', '2023-06-21 12:24:51', 'CH: 21\r\nIP: 192.168.0.100', 1, 1),
 (2, 'FM250', '193454-2/0719', '2012', '2022-05-21 04:39:05', '2022-05-21 04:39:05', 'num ser: 22222222\r\n\r\nFREC: 103,1MHz\r\n\r\nIP: 192.168.0.101', 3, 1),
 (3, 'MFM4', '213454-2/0222', '2013', '2022-05-21 04:57:38', '2022-05-21 04:57:38', 'num ser: 3333333333', 3, 2),
 (4, 'FM1K', '227455-2/0123', '2014', '2022-05-21 04:59:10', '2022-05-21 04:59:10', 'num ser: 444444444\r\n\r\nFREC: 95,3MHz\r\n\r\nIP: 192.168.0.101', 3, 2),
@@ -168,7 +166,7 @@ INSERT INTO `equipment` (`id`, `title`, `numSerie`, `anio`, `date_created`, `dat
 (37, 'NDS3542', '', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 0),
 (59, 'TRU400', NULL, '2015', '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3),
 (68, 'FM100', '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-17 16:31:12', 'Frec: 98,3MHz', 10, 11),
-(69, 'TRM26100', '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-17 01:26:07', '6 canales', 1, 17),
+(69, 'TRM26100', '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', '6 canales: CH14-19', 1, 17),
 (70, 'DMUX-1000', '230617-1/0723', 'N/D', '2023-06-17 16:02:08', '2023-06-17 16:29:49', 'IP: 192.168.1.136', 1, 0);
 
 -- --------------------------------------------------------
@@ -180,13 +178,13 @@ INSERT INTO `equipment` (`id`, `title`, `numSerie`, `anio`, `date_created`, `dat
 DROP TABLE IF EXISTS `eq_detail`;
 CREATE TABLE IF NOT EXISTS `eq_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(250) DEFAULT NULL,
-  `date_created` datetime DEFAULT NULL,
-  `date_modified` datetime DEFAULT NULL,
+  `title` varchar(250) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content` varchar(1000) DEFAULT NULL,
   `tipologia_id` int(11) NOT NULL,
-  `equipment_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `equipment_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipment_id`)
@@ -197,12 +195,12 @@ CREATE TABLE IF NOT EXISTS `eq_detail` (
 --
 
 INSERT INTO `eq_detail` (`id`, `title`, `date_created`, `date_modified`, `content`, `tipologia_id`, `equipment_id`, `user_id`) VALUES
-(1, 'Reparacion ventiladores', '2023-06-04 12:16:37', '2023-06-04 12:16:37', 'Se desarmo el equipo y se constato que los ventiladores no funcionaban por lo que se procedió a cambiarlos y eso resolvió el problema', 2, NULL, 10),
-(5, 'Cambio de IP', '2023-06-05 16:02:19', '2023-06-05 16:02:19', '192.168.1.101', 3, NULL, 10),
+(1, 'Reparacion ventiladores', '2023-06-04 12:16:37', '2023-06-04 12:16:37', 'Se desarmo el equipo y se constato que los ventiladores no funcionaban por lo que se procedió a cambiarlos y eso resolvió el problema', 2, 21, 10),
+(5, 'Cambio de IP', '2023-06-05 16:02:19', '2023-06-05 16:02:19', '192.168.1.101', 3, 33, 10),
 (15, 'Linealidad', '2023-06-05 19:33:17', '2023-06-05 19:33:17', 'equipo ex TRU400, se linealizo para uso digital, y se hizo uso extremo de la potencia para mantener la pot nominal RMS', 1, 1, 10),
 (16, 'retraso en entrega', '2023-06-13 11:08:00', '2023-06-13 11:08:00', 'la entrega se realizo dos semana después de lo pactado', 1, 59, 10),
 (17, 'verificacion por pedido del cliente', '2023-06-14 13:34:50', '2023-06-14 13:34:50', 'se reviso a fondo!', 2, 33, 10),
-(18, 'ventiladores', '2023-06-15 15:40:48', '2023-06-15 15:40:48', 'se cambiaron los ventiladores del equipo', 2, NULL, 1),
+(18, 'ventiladores', '2023-06-15 15:40:48', '2023-06-15 15:40:48', 'se cambiaron los ventiladores del equipo', 2, 1, 1),
 (19, 'Entregado', '2023-06-15 15:45:42', '2023-06-15 15:45:42', 'se entregó con retardo de dos semanas', 1, 69, 1),
 (20, 'Fuente', '2023-06-15 15:59:36', '2023-06-15 15:59:36', 'falla en la fuente auxiliar, se cambió por fuente meanwell', 2, 69, 1),
 (21, 'IP', '2023-06-16 14:54:54', '2023-06-16 14:54:54', 'se cambio la IP a : 192.168.1.14', 3, 69, 10),
@@ -249,13 +247,13 @@ INSERT INTO `estado_or` (`id`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `orden_reparacion`;
 CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_created` datetime NOT NULL,
-  `date_modified` datetime DEFAULT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `codigo` varchar(50) NOT NULL,
   `content` varchar(250) DEFAULT NULL,
   `tecnico_id` int(11) DEFAULT NULL,
-  `equipo_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `equipo_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `estado_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -270,7 +268,7 @@ INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`,
 (2, '2023-06-13 12:20:25', '2023-06-16 11:11:02', '230327-1/0423', 'Reparar ventiladores', 6, 10, 10, 4),
 (6, '2023-06-13 12:41:08', '2023-06-16 23:48:01', '210615-1/0621', 'Revisar el equipo, presenta falla RF', 5, 3, 10, 2),
 (9, '2023-06-14 11:59:34', '2023-06-16 23:18:45', '220516-1/1122', 'Se envió el módulo de potencia porque no enciende', 6, 13, 10, 2),
-(12, '2023-06-14 12:28:20', '2023-06-17 16:08:38', '230313-6/0920', 'Pedido de reparación por falla de temperatura', NULL, 1, 10, 1),
+(12, '2023-06-14 12:28:20', '2023-06-18 10:25:55', '230313-6/0920', 'Pedido de reparación por falla de temperatura', 1, 1, 10, 2),
 (13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422-1/0322', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
 (14, '2023-06-16 12:14:01', '2023-06-16 12:20:52', '230516-1/170523', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
 (15, '2023-06-16 12:33:40', '2023-06-16 23:45:27', '230313-6/0920', 'revisar configuracion', NULL, 34, 10, 1),
@@ -479,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(50) NOT NULL,
   `image_file` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role_id` int(11) DEFAULT NULL,
+  `role_id` int(11) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`),
@@ -494,12 +492,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_id`) VALUES
 (1, 'Turko', 'arnaizagustin@gmail.com', '18789144792542e0.jpg', '$2b$12$2aL8KrZk6zd4NTk0Hr0UneVLOcQHuZBSLYrRORuElTZOklrI6kw9a', 3),
 (4, 'Alejandro Ruiz', 'toparuiz@mail.com', '51a1e8e115f3c97c.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
-(5, 'Atilio', 'atilio@mail.com', 'f830c0210df9532a.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
+(5, 'Atilio', 'atilioavanzini@mail.com', 'f830c0210df9532a.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
 (6, 'Oscar', 'oscar@mail.com', '78fcd03e420ea343.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
-(10, 'admin', 'admin@tecseg.com', '61103f056de4ab95.jpg', '$2b$12$dIxpjyQ/uTr8Z7owkfrZKuNoQ5oF4moJHeJgBwjO2X65gmCW.YEWO', 1),
+(10, 'admin', 'admin@tecseg.com', 'ba7f10cd2f0cb49a.jpg', '$2b$12$dIxpjyQ/uTr8Z7owkfrZKuNoQ5oF4moJHeJgBwjO2X65gmCW.YEWO', 1),
 (11, 'Tomas', 'tomas@tecseg.com', 'c1ed20648c2746a0.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 4),
-(12, 'Juan', 'juan@tecseg.com', '708207d226459aaa.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
-(14, 'Jorge', 'jorge@tecseg.com', 'default.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3);
+(12, 'Juan', 'juan@tecseg.com', '45cdee9d282966b2.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
+(14, 'Jorge', 'jorge@tecseg.com', '78dbfc154f1e34bb.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

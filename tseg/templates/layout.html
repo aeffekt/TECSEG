@@ -29,7 +29,7 @@
 			<nav>			
 				<ul class="menu-horizontal">
 					<a class="navbar-brand" href="/home"><img src="./static/images/LOGO.png" width="75" height="75"></a>
-					{% if current_user.is_authenticated %}						
+					{% if current_user.is_authenticated %}
 						{% if current_user.role.role_name == "Admin" %}
 							<li>
 								<a class="nav-item nav-link" title="Ver cuentas de usuario"  href="{{ url_for('users.all_users') }}">Admin</a>
@@ -38,23 +38,21 @@
 								</ul>
 							</li>
 						{% endif %}
-						{% if current_user.role.role_name == "ServicioCliente" or current_user.role.role_name == "Admin" %}
+						{% if current_user.role.role_name != "Invitado" %}
 							<li>
 								<a class="nav-item nav-link" title="Vista de Clientes"  href="{{ url_for('clients.all_clients') }}">Clientes</a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Agregar nuevo cliente</a></li>
 								</ul>
 							</li>
-						{% endif %}						
-						{% if current_user.role.role_name == "Técnico" or current_user.role.role_name == "Admin" %}
+						
 							<li>
 								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments') }}">Equipos</a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar nuevo equipo</a></li>
 								</ul>
-							</li>
-						{% endif %}
-						{% if current_user.role.role_name == "ServicioCliente" or current_user.role.role_name == "Admin" or current_user.role.role_name == "Técnico" %}
+							</li>						
+						
 							<li>
 								<a class="nav-item nav-link" title="Órdenes de reparación" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion') }}" >O.R.</a>
 								<ul class="menu-vertical">
@@ -97,38 +95,21 @@
 		          	{% endblock %}
 	        	</div>
 		        <div class="col-md-4">
-		        	<div class="sticky-top">
-		          		<div class="buscar">
-		          			{% if current_user.is_authenticated %}
-		          				<article class="media content-section">		          																	    
-			          				<form class="d-flex ms-auto" role="" method="POST" action="{{  url_for('users.search') }}">
-													{{ form.hidden_tag() }}
-		          						<input class="form-control me-4" type="search" aria-label="Search" placeholder="Buscar..." name="searched">
-			          					<button class="btn btn-outline-info bi bi-search" type="submit"></button>
-		          					</form>
-	          					</article>
-
-	          					<!-- ULTIMAS NOVEDADES
-	          						          					
-	          					<article class="media content-section">
-							      	<div class="media-body">
-							        	<div class="article-metadata">	
-					          				<h4>Últimas novedades</h4>
-						                <div>
-						                    {% for equipment in article1 %}
-						                        <article>{{ equipment.title }}</article>
-						                    {% endfor %}
-						                    {% for orden in article2 %}
-						                        <article>{{ orden.title }}</article>
-						                    {% endfor %}
-						                </div>
-					          			</div>
-					          		</div>
-					          	</article>
-					          -->
-		            		{% endif %}
-		          		</div> 	
-		          	</div>
+		        	<div class="sticky-top">	          		
+        			{% if current_user.is_authenticated %}
+        				<article class="media content-section">		          																	    
+          				<form class="d-flex ms-auto" role="" method="POST" action="{{ url_for('users.search') }}">
+										{{ form.hidden_tag() }}
+										<div class="input-group mb-3">
+											<input class="form-control" type="search" aria-label="Search" placeholder="Buscar..." name="searched">
+											<div class="input-group-append">
+												<button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+											</div>
+										</div>
+									</form>
+      					</article>
+          		{% endif %}		          		
+		         	</div>
 	        	</div>
 	      	</div>
 	    </main>

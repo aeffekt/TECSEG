@@ -5,7 +5,7 @@
     <form id="sort-form" class="mb-4" action="{{url_for('equipments.all_equipments')}}">
         <!-- formulario para los controles desplegables -->
         <div class="row">
-            <div class="col-md-7 text-right">
+            <div class="col-md-6 text-right">
                 {% set pages = all_equipments.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
                 {% if pages|length > 1 %}
                     {% for page_num in pages %}
@@ -19,23 +19,24 @@
                     {% endfor %}    
                 {% endif %}                
             </div>
-            <div class="col-md-3"> 
 
-            <!--              
+            <!-- Ordenamiento de ALL_EQUIPMENTS... a mejorar!
+            <div class="col-md-4">
                 <select class="form-select"  id="sort-by" name="sort-by">
-                    <option value="title" {% if sort_by == "title" %} selected {% endif %}>Título</option>
-                    <option value="anio" {% if sort_by == "anio" %} selected {% endif %}>Año del modelo</option>
-                    <option value="date_created" {% if sort_by == "date_created" %} selected {% endif %}>Fecha de creación</option>
-                    <option value="date_modified" {{'selected' if sort_by=='date_modified'}}>Fecha de modificación</option>
-                    <option value="owner" {% if sort_by == owner %} selected {% endif %}>Dueño del equipo</option>
-                    <option value="author_eq" {% if sort_by == author_eq %} selected {% endif %}>Autor del equipo</option>
+                    <option value="date_modified" {{'selected' if sort_by=='date_modified'}}>Fecha modificado</option>
+                    <option value="date_created" {% if sort_by == 'date_created' %} selected {% endif %}>Fecha creado</option>
+                    <option value="anio" {% if sort_by == 'anio' %} selected {% endif %}>Año del modelo</option>
+                    <option value="title" {% if sort_by == 'title' %} selected {% endif %}>Título</option>
+                </select>
+                <select class="form-select"  id="sort-order" name="sort-order">
+                    <option value="desc" {% if sort_order == 'desc' %} selected {% endif %}>Descendente</option>
+                    <option value="asc" {% if sort_order == 'asc' %} selected {% endif %}>Ascendente</option>
                 </select>
                 </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-light">Ordenar</button>
             </div>
             -->
-            
         </div>
     </form>
     {% for equipment in all_equipments.items %}
@@ -46,7 +47,8 @@
                         <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
                         <h2>{{ equipment.title }}</h2>
                         <h6 class="article-title" href="">{{ equipment.content }}</h6>
-                        <small>Cliente: <b>{{ equipment.owner.client_name }}</b>
+                        <small>
+                            Cliente: <b>{{ equipment.owner.client_name }}</b> - Año modelo: <b>{{ equipment.anio }}</b>
                             <p>Modificado: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b>
                             Creado: <b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b></p>
                         </small>

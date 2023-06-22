@@ -26,6 +26,7 @@
                 <a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}"><h2>{{ historia.title }}</h2>
             	<h5 class="article-content">{{ historia.content }}</h5>
                 </a>
+                <small class="text-muted">Equipo: {{ historia.equipo_historia.title }} - {{ historia.equipo_historia.content }}</small>
           </div>
         </article>
     {% endfor %}
