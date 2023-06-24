@@ -16,6 +16,7 @@ pip install flask-mail
 pip install itsdangerous==2.0.1
 pip install email_validator
 pip install pillow (image)
+pip install requests
 
 
 PYTHON:

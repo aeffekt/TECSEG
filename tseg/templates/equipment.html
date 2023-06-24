@@ -5,26 +5,34 @@
             <legend class="border-bottom mb-4">Equipo</legend>
             <div class="row">
                 <div class="col-md-3">
-                  <small>Nombre:</small> 
+                    <small>Nombre:</small> 
                 </div>
                 <div class="col-md-9">
-                  <h1 class="aticle-title">{{ equipment.title }}</h1></p>
+                    <h1 class="aticle-title">{{ equipment.title }}</h1></p>
                 </div>
             </div>
             <div class="row">
-                  <div class="col-md-3">
-                    <small>Pertenece a: </small>
-                  </div>
-                  <div class="col-md-9">
-                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.client_name }}</b></a>
-                  </div>
-                </div>
-            <div class="row">
                 <div class="col-md-3">
-                  <small>Descripción:</small> 
+                    <small>Pertenece a: </small>
                 </div>
                 <div class="col-md-9">
-                  <h5 class="article-content">{{ equipment.content }}</h5>
+                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.client_name }}</b></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <small>Canal / Frecuencia:</small> 
+                </div>
+                <div class="col-md-9">
+                    <h5 class="article-content">{{ equipment.canal_frec }}</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <small>Descripción:</small> 
+                </div>
+                <div class="col-md-9">
+                    <h5 class="article-content">{{ equipment.content }}</h5>
                 </div>
             </div>
                 <div style="font-style: italic;">            
@@ -49,7 +57,7 @@
                     <small>Última modificación: </small>
                   </div>
                   <div class="col-md-9">
-                    <small class="article-content"><b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></small>    
+                    <small class="article-title"><b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></small>    
                   </div>
                 </div>
                 <div class="row">
@@ -57,7 +65,7 @@
                     <small>Creado el: </small>
                   </div>
                   <div class="col-md-9">
-                    <small class="article-content"><b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
+                    <small class="article-title"><b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
                   </div>
                 </div>
                 </div>

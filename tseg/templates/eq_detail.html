@@ -3,11 +3,18 @@
     <article class="media content-section">
         
         <div class="media-body">
-            <div class="article-metadata">
-                <a title="Autor" class="mr-2" href="{{ url_for('users.user_eq_details', username=eq_detail.author_historia.username) }}">
-                    <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' +     eq_detail.author_historia.image_file) }}"><p>{{ eq_detail.author_historia.username }}</a>
-          		<small title="Fecha creación" class="text-muted">{{ eq_detail.date_created.strftime('%Y-%m-%d') }}</small></p>              
-            </div>          
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="article-metadata">
+                        <a title="Autor" class="mr-2" href="{{ url_for('users.user_eq_details', username=eq_detail.author_historia.username) }}">
+                            <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' +     eq_detail.author_historia.image_file) }}"><p>{{ eq_detail.author_historia.username }}</a>
+                  		<small title="Fecha creación" class="text-muted">{{ eq_detail.date_created.strftime('%Y-%m-%d') }}</small></p>             
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-outline-light bi-arrow-return-left" onclick="goBack()" title="Volver atrás"></button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-3">
                     <p>Título:</p> 

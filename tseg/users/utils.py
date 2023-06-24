@@ -8,6 +8,25 @@ from tseg import mail
 from tseg.users.forms import SearchForm
 from functools import wraps
 from datetime import datetime
+from tseg.models import Ciudad, Provincia, Pais
+
+
+# obtener_informacion_geografica
+def obtener_informacion_geografica(codigo_postal):	
+	ciudad_nombre = ''
+	provincia_nombre = ''
+	pais_nombre = ''
+	ciudad = Ciudad.query.filter_by(cp=codigo_postal).first()
+	if ciudad:
+		provincia = Provincia.query.filter(Provincia.id==ciudad.provincia_id).first()
+		pais = Pais.query.filter(Pais.id==provincia.pais_id).first()
+		ciudad_nombre = ciudad.nombre
+		provincia_nombre = provincia.nombre
+		pais_nombre = pais.nombre
+
+	return ciudad_nombre, provincia_nombre, pais_nombre;
+		
+
 
 def dateFormat():
 	now = datetime.now()

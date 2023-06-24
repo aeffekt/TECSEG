@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-		<h2>Resultado de la búsqueda "{{ searched }}" </h2>
+		<div class="row">
+			<div class="col-md-11">
+				<h2>Resultado de la búsqueda "{{ searched }}" </h2>
+			</div>
+			<div class="col-md-1">
+				<button class="btn btn-outline-light bi-arrow-return-left" onclick="goBack()" title="Volver atrás"></button>
+			</div>
+		</div>
 		<div class="container">
     		<div class="content-section">
     			<h5>Clientes:</h5>
@@ -31,8 +38,9 @@
     				{% endif %}
     				{% if searched|lower in equipment.content|lower %}
     					<small class="text-muted">{{ equipment.content }}</small>
-    				{% endif %}	    					
-    				<small class="text-muted">Pertenece a: {{ equipment.owner.client_name }}</small>
+    				{% endif %}
+    				<small class="text-muted">Canal/Frec: {{ equipment.canal_frec }}</small>
+    				<small><p class="text-muted">Pertenece a: {{ equipment.owner.client_name }}</p></small>
     			{% endfor%}
     		</div>
     	</div>

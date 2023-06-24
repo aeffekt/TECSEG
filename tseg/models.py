@@ -55,14 +55,21 @@ class Client(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	client_name = db.Column(db.String(150), unique=False, nullable=False)
 	business_name = db.Column(db.String(150), unique=False, nullable=False)
+	cuit = db.Column(db.String(13), unique=False, nullable=True)
 	contact = db.Column(db.String(250), unique=False, nullable=False)
 	comments = db.Column(db.Text)	
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	domicilio_id = db.Column(db.Integer, db.ForeignKey('domicilio.id'), nullable=True)
+	cond_fiscal_id = db.Column(db.Integer, db.ForeignKey('cond_fiscal.id'), nullable=True)
 	equipments = db.relationship('Equipment', backref='owner', lazy=True)
 
 	def __repr__(self):
 		return f"{self.client_name}, {self.business_name}"
+
+class Cond_fiscal(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	nombre = db.Column(db.String(50), unique=True, nullable=False)
+	clientes = db.relationship('Client', backref='condicion_fiscal', lazy=True)
 
 
 class Equipment(db.Model):
@@ -70,6 +77,7 @@ class Equipment(db.Model):
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(150), unique=False, nullable=False)
+	canal_frec = db.Column(db.String(50), unique=False, nullable=True)
 	numSerie = db.Column(db.String(20), unique=False, nullable=True)
 	anio = db.Column(db.String(20), unique=False, nullable=True)	
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))

@@ -79,11 +79,12 @@ def equipment(equipment_id):
 @role_required("Admin", "Técnico")
 def add_equipment(client_id):	
 	form = EquipmentForm()	
-	client = Client.query.filter_by(id=client_id).first()
-	if form.validate_on_submit():		
-		equipment = Equipment(title=form.title.data, 
-							numSerie=form.numSerie.data, 
-							content=form.content.data, 
+	if form.validate_on_submit():
+		client_id = extraerId(form.owner.data)	
+		equipment = Equipment(title=form.title.data,
+							canal_frec=form.canal_frec.data,
+							numSerie=form.numSerie.data,
+							content=form.content.data,
 							anio=form.anio.data, 
 							author_eq=current_user, 
 							client_id=client_id)
@@ -91,8 +92,10 @@ def add_equipment(client_id):
 		db.session.commit()
 		flash(f'Equipo {equipment.title} agregado!', 'success')
 		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))	
-	form.owner.default = f'[{client.id}] {client.client_name}, {client.business_name}'	
-	form.process()
+	client = Client.query.filter_by(id=client_id).first()
+	if client:
+		form.owner.default = f'[{client.id}] {client.client_name}, {client.business_name}'
+		form.process()
 	return render_template('create_equipment.html', title='Agregar equipo', 
 												form=form, legend="Agregar equipo")
 
@@ -106,7 +109,8 @@ def update_equipment(equipment_id):
 		client_id = extraerId(form.owner.data)
 		equipment.client_id = client_id
 		equipment.title = form.title.data
-		equipment.numSerie = form.numSerie.data		
+		equipment.canal_frec = form.canal_frec.data
+		equipment.numSerie = form.numSerie.data
 		equipment.content = form.content.data
 		equipment.anio = form.anio.data		
 		equipment.date_modified = dateFormat()
@@ -118,6 +122,7 @@ def update_equipment(equipment_id):
 		form.anio.default = equipment.anio
 		form.process()
 		form.title.data = equipment.title
+		form.canal_frec.data = equipment.canal_frec
 		form.numSerie.data = equipment.numSerie
 		form.content.data = equipment.content		
 	return render_template('create_equipment.html',title='Editar equipo', 

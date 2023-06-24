@@ -40,7 +40,7 @@ def orden_reparacion(orden_reparacion_id):
 @ordenes_reparacion.route("/add_orden_reparacion-<string:equipment_id>", methods=['GET','POST'] )
 @role_required("Admin", "Técnico", "ServicioCliente")
 def add_orden_reparacion(equipment_id):
-	form = OrdenReparacionForm()	
+	form = OrdenReparacionForm()
 	if form.validate_on_submit():
 		equipo_id = extraerId(form.equipo.data)
 		tecnico_id = extraerId(form.tecnico.data)
