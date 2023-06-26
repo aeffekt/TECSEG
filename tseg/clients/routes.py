@@ -63,7 +63,8 @@ def add_client():
 						business_name=form.business_name.data,
 						cond_fiscal_id=cond_fiscal.id,
 						cuit=form.cuit.data,
-						contact=form.contact.data,
+						telefono=form.telefono.data,
+						email=form.email.data,
 						comments=form.comments.data,
 						domicilio_id=domicilio.id,
 						author_cl=current_user)
@@ -98,7 +99,8 @@ def update_client(client_id):
 		client.client_name = form.client_name.data
 		client.business_name = form.business_name.data		
 		client.cuit = form.cuit.data
-		client.contact = form.contact.data
+		client.telefono = form.telefono.data
+		client.email = form.email.data
 		client.comments = form.comments.data
 		db.session.commit()
 		flash("Los datos del cliente han sido actualizado", 'success')
@@ -109,7 +111,8 @@ def update_client(client_id):
 		form.client_name.data = client.client_name
 		form.business_name.data = client.business_name
 		form.cuit.data = client.cuit
-		form.contact.data = client.contact
+		form.telefono.data = client.telefono
+		form.email.data = client.email
 		form.comments.data = client.comments
 
 		# carga datos de domicilio si existen

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField,IntegerField
-from wtforms.validators import DataRequired, ValidationError, Optional
+from wtforms.validators import DataRequired, ValidationError, Optional, Email
 from tseg import db
 from tseg.models import Pais, Provincia, Cond_fiscal
 
@@ -13,7 +13,8 @@ class ClientForm(FlaskForm):
 	business_name = StringField('Razón social')
 	cuit = IntegerField('CUIT', validators=[Optional()])
 	cond_fiscal = SelectField('Condición fiscal', coerce=str, validate_choice=False)
-	contact = StringField('Contacto')
+	telefono = StringField('Teléfono')
+	email = StringField('Email', validators=[DataRequired(), Email()])
 	comments = TextAreaField('Comentarios')
 	domicilio = StringField('Domicilio completo')
 	codigo_postal = StringField('Código Postal')

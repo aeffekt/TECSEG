@@ -6,9 +6,7 @@
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
 				<div class="form-group" autofocus>
-
 					{{ form.title.label(class="form-control-label") }}					
-					
 					{% if form.title.errors %}
 						{{ form.title(class="form-control form-control is-invalid") }}
 						<div class="invalid-feedback">
@@ -84,7 +82,7 @@
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.owner(class="form-control form-control") }}
+						{{ form.owner(class="chosen form-control form-control") }}
 					{% endif %}
 				</div>	
 			</fieldset>

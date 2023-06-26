@@ -116,16 +116,16 @@ cursor: pointer;
 padding-top: 10px;
 }
 
-.form-switch {
+.form-switch, .chosen {
 margin-left: 30px;
 }
 
 
-form .form-check {
+form .form-check .chosen {
 padding: 10px;
 }
 
-.form-control {
+.form-control .chosen{
 background: var(--primary-color);
 width: 90%;
 }
@@ -242,4 +242,10 @@ border-color: #bee5eb;
     font-size: 14px;
     color: var(--secondary-color);
     margin-bottom: 5px;
+}
+
+.nav-img {
+height: 55px;
+width: 55px;
+margin-right: 16px;
 }

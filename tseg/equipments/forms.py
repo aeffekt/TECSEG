@@ -12,7 +12,7 @@ class EquipmentForm(FlaskForm):
 		self.anio.choices = [int(year) for year in range(2000, datetime.now().year + 2)]
 		self.anio.choices.insert(0,'N/D') # agrega item "sin datos"
 
-	title = StringField('Nombre *', validators=[DataRequired()])
+	title = StringField('Modelo *', validators=[DataRequired()])
 	canal_frec = StringField('Canal / Frecuencia')
 	numSerie = StringField('Número de serie')
 	anio = SelectField('Año de fabricación',coerce=str, validate_choice=False)
