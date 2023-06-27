@@ -9,7 +9,7 @@ class ClientForm(FlaskForm):
 		super(ClientForm, self).__init__()  # Llamar al constructor de la clase padre		
 		self.cond_fiscal.choices = [cond_fiscal.nombre for cond_fiscal in Cond_fiscal.query.all()]
 
-	client_name = StringField('Nombre *', validators=[DataRequired()], render_kw={'autofocus': True})
+	client_name = StringField('Nombre completo (*)', validators=[DataRequired()], render_kw={'autofocus': True})
 	business_name = StringField('Razón social')
 	cuit = IntegerField('CUIT', validators=[Optional()])
 	cond_fiscal = SelectField('Condición fiscal', coerce=str, validate_choice=False)
@@ -18,7 +18,7 @@ class ClientForm(FlaskForm):
 	comments = TextAreaField('Comentarios')
 	domicilio = StringField('Domicilio completo')
 	codigo_postal = StringField('Código Postal')
-	ciudad = StringField('Ciudad')
+	localidad = StringField('Localidad')
 	provincia = StringField('Provincia')	
 	pais = StringField('Pais')
 	submit = SubmitField('Agregar')

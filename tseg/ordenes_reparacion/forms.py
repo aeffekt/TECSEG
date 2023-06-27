@@ -11,7 +11,7 @@ class OrdenReparacionForm(FlaskForm):
 		self.tecnico.choices.insert(0,'Asignación pendiente') # agrega item
 		self.estado.choices = [f'[{estado_or.id}] {estado_or.descripcion}' for estado_or in Estado_or.query.all()]
 
-	codigo = StringField('Código *', validators=[DataRequired()])
+	codigo = StringField('Código (*)', validators=[DataRequired()])
 	content = TextAreaField('Descripción')
 	equipo = SelectField('Equipo', coerce=str, validate_choice=False, validators=[DataRequired()])
 	tecnico = SelectField('Técnico encargado', coerce=str, validate_choice=False)

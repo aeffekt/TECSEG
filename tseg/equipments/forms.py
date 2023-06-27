@@ -9,10 +9,10 @@ class EquipmentForm(FlaskForm):
 	def __init__(self):
 		super(EquipmentForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.owner.choices = [f'[{c.id}] {c.client_name}, {c.business_name}' for c in Client.query.all()]
-		self.anio.choices = [int(year) for year in range(2000, datetime.now().year + 2)]
+		self.anio.choices = [int(year) for year in range(datetime.now().year + 1, 1979, -1)]
 		self.anio.choices.insert(0,'N/D') # agrega item "sin datos"
 
-	title = StringField('Modelo *', validators=[DataRequired()])
+	title = StringField('Modelo (*)', validators=[DataRequired()])
 	canal_frec = StringField('Canal / Frecuencia')
 	numSerie = StringField('Número de serie')
 	anio = SelectField('Año de fabricación',coerce=str, validate_choice=False)

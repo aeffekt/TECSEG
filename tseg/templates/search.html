@@ -15,8 +15,11 @@
     				<a class="article-title" href="{{ url_for('clients.client', client_id=client.id) }}">
     					<h6><li>{{ client.client_name}} : {{ client.business_name }} </li><h6></a>
     					<p>	    					
-	    					{% if searched|lower in client.contact|lower %}
-	    						<small class="text-muted">{{ client.contact }}</small>
+	    					{% if searched|lower in client.telefono|lower %}
+	    						<small class="text-muted">{{ client.telefono }}</small>
+	    					{% endif %}
+	    					{% if searched|lower in client.email|lower %}
+	    						<small class="text-muted">{{ client.email }}</small>
 	    					{% endif %}
 	    					{% if searched|lower in client.comments|lower %}
 	    						<small class="text-muted">{{ client.comments }}</small>
@@ -46,9 +49,9 @@
     	</div>
     	<div class="container">
     		<div class="content-section">
-    			<h5>Historias de equipos:</h5>
+    			<h5>Historias:</h5>
     			{% for historia in historias %}
-    				<a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}"><h6><li>{{ historia.title }}</h6></li>
+    				<a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}"><h6><li>{{ historia.title }}</h6></li>
     				</a>
     				{% if searched|lower in historia.content|lower %}
 						<small class="text-muted">{{ historia.content }}</small>

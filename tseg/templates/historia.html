@@ -1,14 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Historia:</h6>
     <article class="media content-section">
         
         <div class="media-body">
             <div class="row">
                 <div class="col-md-11">
                     <div class="article-metadata">
-                        <a title="Autor" class="mr-2" href="{{ url_for('users.user_eq_details', username=eq_detail.author_historia.username) }}">
-                            <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' +     eq_detail.author_historia.image_file) }}"><p>{{ eq_detail.author_historia.username }}</a>
-                  		<small title="Fecha creación" class="text-muted">{{ eq_detail.date_created.strftime('%Y-%m-%d') }}</small></p>             
+                        <a title="Autor" class="mr-2" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}">
+                            <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' +     historia.author_historia.image_file) }}"><p>{{ historia.author_historia.username }}</a>
+                  		<small title="Fecha creación" class="text-muted">{{ historia.date_created.strftime('%Y-%m-%d') }}</small></p>             
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -20,7 +21,7 @@
                     <p>Título:</p> 
                 </div>
                 <div class="col-md-9">
-                    <h3 class="aticle-title">{{ eq_detail.title }}</h3>
+                    <h3 class="aticle-title">{{ historia.title }}</h3>
                 </div>
             </div>
             <div class="row">
@@ -28,7 +29,7 @@
                     <p>Historia:</p> 
                 </div>
                 <div class="col-md-9">
-                    <h5 class="aticle-title">{{ eq_detail.content }}</h5>
+                    <h5 class="aticle-title">{{ historia.content }}</h5>
                 </div>
             </div>
             <div class="row">
@@ -36,7 +37,7 @@
                     <p>Equipo:</p> 
                 </div>
                 <div class="col-md-9">
-                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=eq_detail.equipo_historia.id) }}"><b>{{ eq_detail.equipo_historia.title }}</b></a>
+                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=historia.equipo_historia.id) }}"><b>{{ historia.equipo_historia.title }}</b></a>
                 </div>
             </div>
             <div class="row">
@@ -44,7 +45,7 @@
                         <p>Tipo:</p> 
                 </div>
                 <div class="col-md-9">
-                    <small class="aticle-title">{{ eq_detail.tipologia.tipo }}</small>
+                    <small class="aticle-title">{{ historia.tipologia.tipo }}</small>
                 </div>
             </div>
             <div class="row">
@@ -52,13 +53,13 @@
                     <small>Última modificación: </small>
                 </div>
                 <div class="col-md-9">
-                    <small class="article-content"><b>{{ eq_detail.date_modified }}</b></small>    
+                    <small class="article-content"><b>{{ historia.date_modified }}</b></small>    
                 </div>
             </div>                
         </div>  
-        {% if eq_detail.author_historia == current_user %}
+        {% if historia.author_historia == current_user %}
             <div>
-                <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar historia" href="{{ url_for('eq_details.update_eq_detail', eq_detail_id=eq_detail.id) }}"></a>
+                <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar historia" href="{{ url_for('historias.update_historia', historia_id=historia.id) }}"></a>
                 <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar historia"></a>
             </div>
           {% endif %}        
@@ -75,7 +76,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <form action="{{ url_for('eq_details.delete_eq_detail', eq_detail_id=eq_detail.id) }}" method="POST">
+            <form action="{{ url_for('historias.delete_historia', historia_id=historia.id) }}" method="POST">
               <input class="btn btn-danger" type="submit" value="Borrar">
             </form>
           </div>

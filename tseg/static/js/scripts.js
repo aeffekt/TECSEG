@@ -6,13 +6,14 @@ function goBack() {
 
 // Funcion para captar el codigo postal y buscar GEOLOCALIZACION
 document.addEventListener('DOMContentLoaded', function() {
-  // COMPLETA PAIS, PROVINCIA y CIUDAD a partir de Codigo postal
+  console.log('Llamando a la función actualizarCamposGeograficos');
+  // COMPLETA PAIS, PROVINCIA y LOCALIDAD a partir de Codigo postal
   const codigoPostalInput = document.getElementById('codigo_postal');
   const paisInput = document.getElementById('pais');
   const provinciaInput = document.getElementById('provincia');
-  const ciudadInput = document.getElementById('ciudad');
+  const localidadInput = document.getElementById('localidad');
 
-  // Función para actualizar los campos de país, provincia y ciudad
+  // Función para actualizar los campos de país, provincia y localidad
   function actualizarCamposGeograficos(codigoPostal) {
     console.log('Llamando a la función actualizarCamposGeograficos');
     // Realizar una solicitud al servidor para obtener los datos geográficos
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Actualizar los valores de los campos correspondientes
         paisInput.value = data.pais;
         provinciaInput.value = data.provincia;
-        ciudadInput.value = data.ciudad;
+        localidadInput.value = data.localidad;
       })
       .catch(error => console.error('Error:', error));
   }

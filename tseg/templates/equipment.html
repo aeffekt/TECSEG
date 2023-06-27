@@ -34,8 +34,6 @@
                 <div class="col-md-9">
                     <h5 class="article-content">{{ equipment.content }}</h5>
                 </div>
-            </div>
-                <div style="font-style: italic;">            
                 <div class="row">
                   <div class="col-md-3">
                     <small>Nº Serie: </small>
@@ -68,41 +66,29 @@
                     <small class="article-title"><b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
                   </div>
                 </div>
-                </div>
-                <div class="row">
-                  <div class="col-md6">                    
-                    <a class="bi bi-chat-dots btn btn-outline-light" title="Añadir Historia" href="{{ url_for('eq_details.add_eq_detail', equipment_id = equipment.id) }}"></a>
+            </div>
+            <div class="row">
+                <div class="col-md6">
+                    <a class="bi bi-chat-dots btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
                     <a class="bi bi-wrench btn btn-outline-info" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}" title="Añadir O.R."></a>
                     <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar equipo" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}"></a>
-                    <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar equipo"></a>                
+                    <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar equipo"></a>
                 </div>
             </div>            
         </div>
     </article>
     <br>
-    {% set pages = historias.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
-    {% if pages|length > 1 %}
-      {% for page_num in pages %}
-        {% if page_num %}
-            {% if historias.page == page_num %}                
-                <a class="btn btn-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-    <h6>Historial del equipo:</h6>
-    <hr 80%>    
-    {% for historia in historias.items %}
+    
+    <h6 class="border-bottom border-secondary mb-4">Historial del equipo:</h6>    
+    {% for historia in lista %}
         <article class="media content-section">
             <div class="row">                
                 <div class="col-md-10">
-                    <a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}">
+                    <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}">
                         <h2>{{ historia.title }}</h2>
                         <h5 class="article-content">{{ historia.content }}</h5>
                         <small class="article-content">Última modificación: <b>{{ historia.date_modified.strftime('%d-%m-%Y') }}</b></small>
-                        <small>Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <a class="article-title" href="{{ url_for('users.user_eq_details', username=historia.author_historia.username) }}"><b>{{ historia.author_historia.username }}</b></a></small>                        
+                        <small>Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <a class="article-title" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}"><b>{{ historia.author_historia.username }}</b></a></small>                        
                     </a>
                 </div>
                 <div class="col-md-2 text-end" title="tipo de historia">
@@ -121,18 +107,7 @@
             </div>
       </article>
     {% endfor %}
-    {% set pages = historias.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
-    {% if pages|length > 1 %}
-      {% for page_num in pages %}
-        {% if page_num %}
-            {% if historias.page == page_num %}                
-                <a class="btn btn-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+   
      <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">

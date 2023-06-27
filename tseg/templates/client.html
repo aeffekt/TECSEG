@@ -73,42 +73,42 @@
               </div>
             </div>
           {% endif %}
-          {% if client.domicilio.ciudad %}
+          {% if client.domicilio.localidad %}
             <div class="row">
               <div class="col-md-3">
-                <small>Ciudad:</small> 
+                <small>Localidad:</small> 
               </div>
               <div class="col-md-9">
-                <p class="article-title">{{ client.domicilio.ciudad.nombre }}</p>
+                <p class="article-title">{{ client.domicilio.localidad.nombre }}</p>
               </div>
             </div>
           {% endif %}
-          {% if client.domicilio.ciudad %}
+          {% if client.domicilio.localidad %}
             <div class="row">
               <div class="col-md-3">
                 <small>cp:</small> 
               </div>
               <div class="col-md-9">
-                <p class="article-title">{{ client.domicilio.ciudad.cp }}</p>
+                <p class="article-title">{{ client.domicilio.localidad.cp }}</p>
               </div>
             </div>
-            {% if client.domicilio.ciudad.provincia %}
+            {% if client.domicilio.localidad.provincia %}
               <div class="row">
                 <div class="col-md-3">
                   <small>Provincia:</small> 
                 </div>
                 <div class="col-md-9">
-                  <p class="article-title">{{ client.domicilio.ciudad.provincia.nombre }}</p>
+                  <p class="article-title">{{ client.domicilio.localidad.provincia.nombre }}</p>
                 </div>
               </div>
             
-              {% if client.domicilio.ciudad.provincia.pais %}
+              {% if client.domicilio.localidad.provincia.pais %}
                 <div class="row">
                   <div class="col-md-3">
                     <small>Pais:</small> 
                   </div>
                   <div class="col-md-9">
-                    <p class="article-title">{{ client.domicilio.ciudad.provincia.pais.nombre }}</p>
+                    <p class="article-title">{{ client.domicilio.localidad.provincia.pais.nombre }}</p>
                   </div>
                 </div>
               {% endif %}

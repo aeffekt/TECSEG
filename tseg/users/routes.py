@@ -2,7 +2,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
-from tseg.models import User, Eq_detail, Equipment, Client, Role
+from tseg.models import User, Historia, Equipment, Client, Role
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 							RequestResetForm, ResetPasswordForm, SearchForm, UpdateRoleForm)
 from tseg.users.utils import save_picture, send_reset_email, role_required, extraerId
@@ -18,9 +18,9 @@ def layout():
 	return dict(form=form)
 
 
-@users.route("/home")
-def main():
-	return render_template('main.html', title="home")
+@users.route("/index")
+def index():
+	return render_template('index.html', title="home")
 
 
 @users.route("/register", methods=['GET', 'POST'])
@@ -43,7 +43,7 @@ def register():
 @users.route("/login", methods=['GET', 'POST'])
 def login():
 	if current_user.is_authenticated:
-		return redirect(url_for('users.main'))
+		return redirect(url_for('users.index'))
 	form = LoginForm()		
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
@@ -54,7 +54,7 @@ def login():
 			# lleva a la pagina que se queria acceder antes de login
 			next_page = request.args.get('next') # metodo request lee ruta barra direcciones
 			flash(f'Sesión iniciada correctamente. Bienvenido {form.username.data}', 'success')
-			return redirect(next_page) if next_page else redirect(url_for('users.main'))		
+			return redirect(next_page) if next_page else redirect(url_for('users.index'))		
 		else:
 			flash(f'Inicio de sesión incorrecto: {form.username.data}', 'danger')
 	return render_template('login.html', title='login', form=form)	
@@ -92,18 +92,16 @@ def account(user_id):
 						title='Datos de cuenta', image_file=image_file, form=form, user=user)
 
 
-
 @users.route("/account-<int:user_id>", methods=['GET', 'POST'])
 @role_required('Admin')
 def delete_account(user_id):
 	pass
 
 
-
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('users.main'))
+        return redirect(url_for('users.index'))
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -116,7 +114,7 @@ def reset_request():
 @users.route("/reset_password-<token>", methods=['GET', 'POST'])
 def reset_token(token):
 	if current_user.is_authenticated:
-		return redirect(url_for('users.main'))
+		return redirect(url_for('users.index'))
 	user = User.verify_reset_token(token)
 	if user is None:
 		flash('Token inválido o ha expirado', 'warning')
@@ -138,7 +136,7 @@ def search():
 	if form.validate_on_submit():
 		equipments = Equipment.query
 		clients = Client.query
-		eq_details = Eq_detail.query
+		historias = Historia.query
 		searched = form.searched.data
 		equipments = equipments.filter(or_(Equipment.title.like('%'+searched+'%'), \
 											Equipment.content.like('%'+searched+'%'),
@@ -147,10 +145,11 @@ def search():
 		clients = clients.filter(or_(Client.client_name.like('%'+searched+'%'), \
 									Client.business_name.like('%'+searched+'%'),
 									Client.comments.like('%'+searched+'%'),
-									Client.contact.like('%'+searched+'%'),
+									Client.telefono.like('%'+searched+'%'),
+									Client.email.like('%'+searched+'%'),
 												))
-		historias = eq_details.filter(or_(Eq_detail.title.like('%'+searched+'%'),
-								Eq_detail.content.like('%'+searched+'%')))
+		historias = historias.filter(or_(Historia.title.like('%'+searched+'%'),
+								Historia.content.like('%'+searched+'%')))
 		return render_template('search.html', title="Busqueda",
 									searched = searched,							
 									equipments=equipments,
@@ -159,38 +158,39 @@ def search():
 	if request.method == 'GET':
 		return render_template('search.html')
 	else:
-		flash('No hay resultados, intente buscar otra palabra', 'warning')
+		flash('No hay resultados, intente buscar una palabra', 'light')
+		# retorna a la página que estaba, mostrando el mensaje por búqueda vacía
 		return redirect(request.referrer)
 
 
 @users.route("/users", methods=['GET', 'POST'])
 @role_required("Admin")
 def all_users():
-	form = UpdateRoleForm()	
-	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	all_users = User.query.order_by(User.id.desc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
+	form = UpdateRoleForm()		
+	all_users = User.query.order_by(User.id.desc())
 	image_path = url_for("static", filename='profile_pics/')	
+	filtrar_por = {"username": "Nombre",		
+					"role": "Tipo usuario",
+					"date_created": "Fecha creado",
+					}
 	return render_template('all_users.html',
-							all_users=all_users,
+							lista=all_users,
+							filtrar_por=filtrar_por,
 							title='Usuarios', image_path=image_path)
 
 
 @users.route("/user-<string:username>-historias")
-def user_eq_details(username):
-	page = request.args.get('page', 1, type=int) #num pagina de mensajes
+def user_historias(username):
 	user = User.query.filter_by(username=username)\
 					.first_or_404()
-	historias = Eq_detail.query.filter_by(author_historia=user)\
-					.order_by(Eq_detail.date_modified.desc())\
-					.paginate(page=page, per_page=5)
-	return render_template('user_eq_details.html', historias=historias, user=user)
+	historias = Historia.query.filter_by(author_historia=user)\
+					.order_by(Historia.date_modified.desc())
+	return render_template('user_historias.html', historias=historias, user=user)
 
 
 @users.route("/user_ordenes_reparacion-<string:user_id>")
 def user_ordenes_reparacion(user_id):
-	page = request.args.get('page', 1, type=int) 
 	user = User.query.filter_by(id=user_id).first_or_404()
 	ordenes_reparacion = Orden_reparacion.query.filter_by(author_or=user)\
-					.order_by(Orden_reparacion.date_modified.desc())\
-					.paginate(page=page, per_page=5)
+					.order_by(Orden_reparacion.date_modified.desc())
 	return render_template('user_ordenes_reparacion.html', title=user.user_name, ordenes_reparacion=ordenes_reparacion, user=user)

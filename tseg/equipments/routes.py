@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
-from tseg.models import Equipment, Client, Eq_detail
+from tseg.models import Equipment, Client, Historia
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.forms import SearchForm
 from tseg.users.utils import role_required, extraerId, dateFormat
@@ -21,59 +21,35 @@ def layout():
 
 @equipments.route("/all_equipments")
 def all_equipments():
-	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	all_equips = Equipment.query.order_by(Equipment.date_modified.desc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
-	return render_template('all_equipments.html', 
-							all_equipments=all_equips, 
+	all_equips = Equipment.query.order_by(Equipment.date_modified.desc())
+	filtrar_por = {"title": "Modelo",
+				"numSerie": "Número de serie",
+				"client_id": "Dueño del equipo",
+				"anio": "Año de fabricación",				
+				"date_modified": "Fecha modificado",
+				"date_created": "Fecha creado"}
+	return render_template('all_equipments.html',
+							lista=all_equips,
+							filtrar_por = filtrar_por,
 							title='Equipos')
 
-
-'''  Ordenamiento de ALL_EQUIPMENTS... a mejorar!
-@equipments.route("/all_equipments")
-def all_equipments():
-	sort_by = request.args.get('sort-by')
-	sort_order = request.args.get('sort-order')
-
-	page = request.args.get('page', 1, type=int)
-	per_page = current_app.config['PER_PAGE']
-
-	query = Equipment.query
-
-	# Ordenar por sort_by
-	if sort_by == 'date_created':
-		order_by_column = Equipment.date_created
-	elif sort_by == 'anio':
-		order_by_column = Equipment.anio		
-	elif sort_by == 'title':
-		order_by_column = Equipment.title		
-	else:
-		order_by_column = Equipment.date_modified		
-
-	# Orden ascendente o descendente
-	if sort_order == 'asc':		
-		query = query.order_by(order_by_column.asc())		
-	else:		
-		query = query.order_by(order_by_column.desc())		
-	
-	all_equips = query.paginate(page=page, per_page=per_page)
-	return render_template('all_equipments.html', 
-							all_equipments=all_equips, 
-							title='Equipos',
-							sort_by=sort_by, 
-							sort_order=sort_order)
-'''
 
 @equipments.route("/equipment-<int:equipment_id>")
 def equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
-	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	historias =  Eq_detail.query.filter_by(equipo_historia=equipment)\
-					.order_by(Eq_detail.date_modified.desc())\
-					.paginate(page=page, per_page=10)
+	historias =  Historia.query.filter_by(equipo_historia=equipment).order_by(Historia.date_modified.desc())
+	filtrar_por = {"codigo": "Código", 
+					"estado_id": "estado",
+					"tecnico_id": "Técnico asignado",
+					"equipo_id": "equipo",
+					"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",
+					}
 	return render_template("equipment.html", title=equipment.title,
 											equipment=equipment,
 											legend="Ver Equipo",
-											historias=historias)
+											filtrar_por = filtrar_por,
+											lista=historias)
 
 @equipments.route("/add_equipment-<string:client_id>", methods=['GET','POST'] )
 @role_required("Admin", "Técnico")
@@ -141,9 +117,17 @@ def delete_equipment(equipment_id):
 
 @equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
 def historias_equipo(equipment_id, tipologia_id):	
-	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
-	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	historias =  Eq_detail.query.filter_by(tipologia_id=tipologia_id, equipment_id=equipment_id)\
-					.order_by(Eq_detail.date_modified.desc())\
-					.paginate(page=page, per_page=10)	
-	return render_template('historias_equipo.html', title=equipo.title, historias=historias, equipo=equipo)
+	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()	
+	historias =  Historia.query.filter_by(tipologia_id=tipologia_id, equipment_id=equipment_id)\
+					.order_by(Historia.date_modified.desc())
+	filtrar_por = {"title": "Título", 
+					"tipología_id": "Tipología",					
+					"equipo_id": "equipo",
+					"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",
+					}
+	return render_template('historias_equipo.html', 
+						title=equipo.title, 
+						historias=historias,
+						filtrar_por = filtrar_por,
+						equipo=equipo)

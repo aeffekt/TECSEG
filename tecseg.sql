@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 24-06-2023 a las 22:49:59
+-- Tiempo de generación: 26-06-2023 a las 18:18:02
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -24,11 +24,243 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ciudad`
+-- Estructura de tabla para la tabla `client`
 --
 
-DROP TABLE IF EXISTS `ciudad`;
-CREATE TABLE IF NOT EXISTS `ciudad` (
+DROP TABLE IF EXISTS `client`;
+CREATE TABLE IF NOT EXISTS `client` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_name` varchar(150) NOT NULL,
+  `business_name` varchar(150) DEFAULT NULL,
+  `cuit` bigint(11) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `comments` varchar(1000) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `domicilio_id` int(11) DEFAULT NULL,
+  `cond_fiscal_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `domicilio_id` (`domicilio_id`),
+  KEY `user_id` (`user_id`),
+  KEY `client_cf` (`cond_fiscal_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `client`
+--
+
+INSERT INTO `client` (`id`, `client_name`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
+(1, 'Canal 13 san luis', 'Canal 13 televisión', NULL, '42432432', NULL, 'Director Nasim', 1, 1, 1),
+(2, 'Bonarrico', 'Jesus Te Ama', 20432432421, '02954-4303249', 'bonarrico@jta.com', 'contactarlo por mail: \n\n', 2, 2, 1),
+(3, 'Juan Antonio Acompanies', 'REMAR', 34243243242, '123123123', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 3, 3, 1),
+(4, 'Pedro Almirón', 'Radio Total FM', 20432432421, '2147483647', 'palmiron@yahoo.com', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 1, 4, 3),
+(6, 'Mariangeles Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', NULL, 'persona ficticia', 1, 5, 1),
+(11, 'Marcelo Gomez', 'Digital Content S.R.L.', 20432432421, '2147483647', NULL, 'Datos del cliente', 1, 6, 1),
+(16, 'Oscar de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', NULL, 'cliente preferencial', 1, 7, 4),
+(17, 'Fabio Brandan', 'JTA S.A.', 20432432421, '1111333222', NULL, 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
+(18, 'Ana Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 1),
+(19, 'Luis Ponzonetta', 'TV Broadcast', NULL, '42432432', NULL, 'radicado en Uruguay', 1, 10, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cond_fiscal`
+--
+
+DROP TABLE IF EXISTS `cond_fiscal`;
+CREATE TABLE IF NOT EXISTS `cond_fiscal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `cond_fiscal`
+--
+
+INSERT INTO `cond_fiscal` (`id`, `nombre`) VALUES
+(1, 'IVA Responsable Inscripto'),
+(2, 'IVA no Responsable'),
+(3, 'IVA exento'),
+(4, 'Responsable'),
+(5, 'Monotributo'),
+(6, 'Monotributista Social');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `domicilio`
+--
+
+DROP TABLE IF EXISTS `domicilio`;
+CREATE TABLE IF NOT EXISTS `domicilio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `direccion` varchar(150) DEFAULT NULL,
+  `localidad_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `localidad_id` (`localidad_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `domicilio`
+--
+
+INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
+(1, 'Colón 2162', 870),
+(2, 'Aviador petirosi 123', 33),
+(3, 'San Martin 514', 3),
+(4, 'Entre rios 534', 754),
+(5, 'Belgrano 321', 33),
+(6, 'Av. Olmos 6543', 33),
+(7, 'Constantinopla 43', 33),
+(8, 'Echeverria 3', 33),
+(9, 'Urquiza 432', 766),
+(10, 'Mariano Moreno 678', 871);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `equipment`
+--
+
+DROP TABLE IF EXISTS `equipment`;
+CREATE TABLE IF NOT EXISTS `equipment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) NOT NULL,
+  `canal_frec` varchar(50) DEFAULT NULL,
+  `numSerie` varchar(20) DEFAULT NULL,
+  `anio` varchar(4) DEFAULT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `content` varchar(1000) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `client_id` (`client_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `equipment`
+--
+
+INSERT INTO `equipment` (`id`, `title`, `canal_frec`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `user_id`, `client_id`) VALUES
+(1, 'TRUD400', '21', '121116-2/1221', '2012', '2022-05-21 04:37:49', '2023-06-21 12:24:51', 'IP: 192.168.0.100', 1, 1),
+(2, 'FM250', '103,1MHz', '193454-2/0719', '2012', '2022-05-21 04:39:05', '2022-05-21 04:39:05', 'IP: 192.168.0.101', 5, 1),
+(3, 'MFM4', '101,3MHz', '213454-2/0222', '2013', '2022-05-21 04:57:38', '2022-05-21 04:57:38', NULL, 5, 2),
+(4, 'FM1K', '95,3MHz', '227455-2/0123', '2014', '2022-05-21 04:59:10', '2022-05-21 04:59:10', 'IP: 192.168.0.101', 5, 2),
+(5, 'TRUD1200', '14', '223454-2/0722', '2014', '2022-05-21 05:01:19', '2022-05-21 05:01:19', 'IP: 192.168.0.101', 1, 2),
+(6, 'AGCV2000', NULL, '223454-2/0722', '2018', '2022-05-21 05:01:34', '2023-04-20 23:32:25', NULL, 1, 11),
+(7, 'TRV200', '7', '223454-2/0722', '2019', '2022-05-21 05:10:24', '2022-05-21 05:10:24', NULL, 1, 2),
+(8, 'FM100', '102,5MHz', '223454-2/0722', '2019', '2022-05-21 14:43:33', '2023-04-20 23:33:17', NULL, 1, 1),
+(9, 'FM100', '103,1MHz', '223454-2/0722', '2022', '2022-05-21 14:44:12', '2023-04-20 23:33:07', NULL, 1, 1),
+(10, 'FM100', '105,9MHz', '223454-2/0722', '2020', '2022-05-21 14:45:55', '2023-04-20 23:32:56', NULL, 1, 1),
+(11, 'FM200', '89,1MHz', '223454-2/0722', '2020', '2022-05-24 02:20:00', '2023-04-20 23:32:04', NULL, 1, 3),
+(12, 'FM2000', '91,1MHz', '223454-2/0722', '2020', '2022-05-25 14:58:24', '2023-04-20 23:31:54', NULL, 1, 3),
+(13, 'FM250', '100,5MHz', '223454-2/0722', '2021', '2022-05-30 02:41:13', '2023-04-20 23:31:42', NULL, 1, 3),
+(14, 'TRUD1300', '31', '223454-2/0722', '2021', '2022-06-05 04:03:02', '2023-04-20 23:31:31', NULL, 1, 3),
+(15, 'TRUD400', '30', '223454-2/0722', '2021', '2022-06-13 03:21:29', '2023-06-24 19:33:04', '\r\n', 1, 6),
+(16, 'TRU400', '29', '12345432/8765', '2022', '2022-06-13 03:22:03', '2023-06-24 19:35:36', '', 10, 6),
+(17, 'FM250', '103,1MHz', '223454-3/0522', '2022', '2022-06-13 03:30:03', '2023-06-17 15:12:17', NULL, 1, 4),
+(18, 'TRU200', '15', '190722-1/1219', '2019', '2022-06-13 20:56:51', '2023-06-24 13:58:46', '', 1, 4),
+(19, 'TRV100', '15', '190722-2/1219', 'N/D', '2022-06-13 21:26:02', '2023-06-26 14:55:08', '', 1, 6),
+(20, 'TRUD1200', '17', '190722-3/1219', '2012', '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \narmado: completo\nfirmado: Oscar\ntel tecnico: 0345-2321387\nmanual: DMTRUD1200-22.pdf', 1, 18),
+(21, 'FM100', '103,7MHz', '020823-1/0423', '2023', '2022-06-23 01:15:03', '2023-06-17 15:09:06', NULL, 10, 4),
+(22, 'FM100', '104,1MHz', '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4),
+(23, 'TRV250', '7', '223454-2/0722', '2022', '2022-06-22 22:19:54', '2023-06-17 15:08:41', NULL, 10, 4),
+(33, 'Sistema TV Digital', '31', '230504-1/8765', '2023', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16),
+(34, 'DMUX1000', '31', '190122-1/1219', '2023', '2023-05-20 14:39:38', '2023-06-17 16:48:53', 'IP: 192.168.0.90\r\nNuevo multiplexor de videoswitch', 1, 2),
+(37, 'NDS3542', '31', '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18),
+(59, 'TRU400', '24', '220722-1/1223', '2015', '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3),
+(68, 'FM100', '100,9MHz', '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-17 16:31:12', NULL, 10, 11),
+(69, 'TRM26100', '6 canales Ch 14-19', '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17),
+(70, 'DMUX-1000', '18', '230617-1/0723', NULL, '2023-06-17 16:02:08', '2023-06-17 16:29:49', 'IP: 192.168.1.136', 1, 19);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estado_or`
+--
+
+DROP TABLE IF EXISTS `estado_or`;
+CREATE TABLE IF NOT EXISTS `estado_or` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `estado_or`
+--
+
+INSERT INTO `estado_or` (`id`, `descripcion`) VALUES
+(1, 'Creada'),
+(2, 'Asignada'),
+(3, 'Anulada'),
+(4, 'Finalizada');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historia`
+--
+
+DROP TABLE IF EXISTS `historia`;
+CREATE TABLE IF NOT EXISTS `historia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(250) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `content` varchar(1000) DEFAULT NULL,
+  `tipologia_id` int(11) NOT NULL,
+  `equipment_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `equipment_id` (`equipment_id`),
+  KEY `historia_tipo` (`tipologia_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `historia`
+--
+
+INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content`, `tipologia_id`, `equipment_id`, `user_id`) VALUES
+(1, 'Reparacion ventiladores', '2023-06-04 12:16:37', '2023-06-04 12:16:37', 'Se desarmo el equipo y se constato que los ventiladores no funcionaban por lo que se procedió a cambiarlos y eso resolvió el problema', 2, 21, 10),
+(5, 'Cambio de IP', '2023-06-05 16:02:19', '2023-06-05 16:02:19', '192.168.1.101', 3, 33, 10),
+(15, 'Linealidad', '2023-06-05 19:33:17', '2023-06-05 19:33:17', 'equipo ex TRU400, se linealizo para uso digital, y se hizo uso extremo de la potencia para mantener la pot nominal RMS', 1, 1, 10),
+(16, 'retraso en entrega', '2023-06-13 11:08:00', '2023-06-13 11:08:00', 'la entrega se realizo dos semana después de lo pactado', 1, 59, 10),
+(17, 'verificacion por pedido del cliente', '2023-06-14 13:34:50', '2023-06-14 13:34:50', 'se reviso a fondo!', 2, 33, 10),
+(18, 'ventiladores', '2023-06-15 15:40:48', '2023-06-15 15:40:48', 'se cambiaron los ventiladores del equipo', 2, 1, 1),
+(19, 'Entregado', '2023-06-15 15:45:42', '2023-06-15 15:45:42', 'se entregó con retardo de dos semanas', 1, 69, 1),
+(20, 'Fuente', '2023-06-15 15:59:36', '2023-06-15 15:59:36', 'falla en la fuente auxiliar, se cambió por fuente meanwell', 2, 69, 1),
+(21, 'IP', '2023-06-16 14:54:54', '2023-06-16 14:54:54', 'se cambio la IP a : 192.168.1.14', 3, 69, 10),
+(22, 'Revisión', '2023-06-16 15:56:55', '2023-06-17 15:56:14', 'se revisó el equipo y funciona correctamente.', 1, 69, 10),
+(23, 'envio de equipo', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'Se programó un envío para el 25/08/22. Se aguarda confirmación', 1, 23, 10),
+(24, 'linealidad', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'consultó por modificar la linealidad del amplificador para ser usado para TV digital', 3, 23, 10),
+(25, 'cambio IP', '2023-06-16 20:27:27', '2023-06-16 20:27:27', 'IP: 10.0.0.97', 1, 23, 1),
+(26, 'fotos', '2023-06-16 20:27:27', '2023-06-16 20:27:27', 'se sacaron fotos del frente y fondo', 1, 23, 1),
+(27, 'manual', '2023-06-17 15:03:51', '2023-06-17 15:03:51', 'Manual enviado via mail', 1, 21, 10),
+(28, 'actualización', '2023-06-17 15:03:51', '2023-06-17 15:03:51', 'equipo reacondicionado y actualizado a versión \'22', 3, 17, 10),
+(29, 'Modelo equipo', '2023-06-17 15:21:08', '2023-06-17 15:21:08', 'modelo original TRU250', 1, 18, 10),
+(30, '432', '2023-06-17 16:02:08', '2023-06-17 16:02:08', 'dsa', 1, 69, 10),
+(31, 'modelo', '2023-06-17 16:29:37', '2023-06-17 16:29:37', 'Este equipo es modelo 2023\r\nTomado de un modelo 2016', 3, 68, 1),
+(32, 'cambio fuente', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'una descarga quemó la fuente del sumador', 2, 15, 10),
+(33, 'cambio ventiladores', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'se repararon 2 ventiladores forzadores de aire del control general', 2, 15, 10),
+(34, 'nueva señal', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'se agregó una señal de tv digital al Mux\r\n', 3, 15, 10),
+(35, 'cambio frec', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Se cambió la frecuencia del modulador a CH:13', 3, 16, 10),
+(36, 'modulos quemados', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Reparación de dos módulos de potencia (Atilio)', 2, 19, 10),
+(37, 'dsa', '2023-06-26 13:46:29', '2023-06-26 13:46:29', 'cxz', 1, 19, 1),
+(38, 'dsa', '2023-06-26 13:47:45', '2023-06-26 13:47:45', 'cxz', 1, 19, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `localidad`
+--
+
+DROP TABLE IF EXISTS `localidad`;
+CREATE TABLE IF NOT EXISTS `localidad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cp` int(4) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
@@ -38,10 +270,10 @@ CREATE TABLE IF NOT EXISTS `ciudad` (
 ) ENGINE=InnoDB AUTO_INCREMENT=973 DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `ciudad`
+-- Volcado de datos para la tabla `localidad`
 --
 
-INSERT INTO `ciudad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
+INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (3, 6300, 'Santa Rosa', 11),
 (4, 6360, 'General Pico', 11),
 (5, 6301, 'Toay', 11),
@@ -1016,235 +1248,6 @@ INSERT INTO `ciudad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `client`
---
-
-DROP TABLE IF EXISTS `client`;
-CREATE TABLE IF NOT EXISTS `client` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_name` varchar(150) NOT NULL,
-  `business_name` varchar(150) DEFAULT NULL,
-  `cuit` bigint(11) DEFAULT NULL,
-  `contact` varchar(250) DEFAULT NULL,
-  `comments` varchar(1000) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `domicilio_id` int(11) DEFAULT NULL,
-  `cond_fiscal_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `domicilio_id` (`domicilio_id`),
-  KEY `user_id` (`user_id`),
-  KEY `client_cf` (`cond_fiscal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `client`
---
-
-INSERT INTO `client` (`id`, `client_name`, `business_name`, `cuit`, `contact`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
-(1, 'Canal 13 san luis', 'Canal 13 televisión', NULL, '42432432', 'Director Nasim', 1, 1, 1),
-(2, 'Bonarrico', 'Jesus Te Ama', 20432432421, '02954-4303249', 'o contactarlo por mail: bonarrico@jta.com\r\n\r\n', 2, 2, 1),
-(3, 'Juan Antonio Acompanies', 'REMAR', 34243243242, '123123123', 'Exportador a Paraguay', 3, 3, 1),
-(4, 'Pedro Almirón', 'Radio Total FM', 20432432421, '2147483647', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 1, 4, 3),
-(6, 'Mariangeles Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', 'persona ficticia', 1, 5, 1),
-(11, 'Marcelo Gomez', 'Digital Content S.R.L.', 20432432421, '2147483647', 'Datos del cliente', 1, 6, 1),
-(16, 'Oscar de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', 'cliente preferencial', 1, 7, 4),
-(17, 'Fabio Brandan', 'JTA S.A.', 20432432421, '1111333222', 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
-(18, 'Ana Lupe', 'RF Argentina S.A.', NULL, '432654765', '', 10, 9, 1),
-(19, 'Luis Ponzonetta', 'TV Broadcast', NULL, '42432432', 'radicado en Uruguay', 1, 10, 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `cond_fiscal`
---
-
-DROP TABLE IF EXISTS `cond_fiscal`;
-CREATE TABLE IF NOT EXISTS `cond_fiscal` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `cond_fiscal`
---
-
-INSERT INTO `cond_fiscal` (`id`, `nombre`) VALUES
-(1, 'IVA Responsable Inscripto'),
-(2, 'IVA no Responsable'),
-(3, 'IVA exento'),
-(4, 'Responsable'),
-(5, 'Monotributo'),
-(6, 'Monotributista Social');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `domicilio`
---
-
-DROP TABLE IF EXISTS `domicilio`;
-CREATE TABLE IF NOT EXISTS `domicilio` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `direccion` varchar(150) DEFAULT NULL,
-  `ciudad_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_ciudad` (`ciudad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `domicilio`
---
-
-INSERT INTO `domicilio` (`id`, `direccion`, `ciudad_id`) VALUES
-(1, 'Colón 2162', 870),
-(2, 'Aviador petirosi 123', 33),
-(3, 'San Martin 514', 3),
-(4, 'Entre rios 534', 754),
-(5, 'Belgrano 321', 33),
-(6, 'Av. Olmos 6543', 33),
-(7, 'Constantinopla 43', 33),
-(8, 'Echeverria 3', 33),
-(9, 'Urquiza 432', 766),
-(10, 'Mariano Moreno 678', 871);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `equipment`
---
-
-DROP TABLE IF EXISTS `equipment`;
-CREATE TABLE IF NOT EXISTS `equipment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(150) NOT NULL,
-  `canal_frec` varchar(50) DEFAULT NULL,
-  `numSerie` varchar(20) DEFAULT NULL,
-  `anio` varchar(4) DEFAULT NULL,
-  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `content` varchar(1000) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `client_id` (`client_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `equipment`
---
-
-INSERT INTO `equipment` (`id`, `title`, `canal_frec`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `user_id`, `client_id`) VALUES
-(1, 'TRUD400', '21', '121116-2/1221', '2012', '2022-05-21 04:37:49', '2023-06-21 12:24:51', 'IP: 192.168.0.100', 1, 1),
-(2, 'FM250', '103,1MHz', '193454-2/0719', '2012', '2022-05-21 04:39:05', '2022-05-21 04:39:05', 'IP: 192.168.0.101', 3, 1),
-(3, 'MFM4', '101,3MHz', '213454-2/0222', '2013', '2022-05-21 04:57:38', '2022-05-21 04:57:38', NULL, 3, 2),
-(4, 'FM1K', '95,3MHz', '227455-2/0123', '2014', '2022-05-21 04:59:10', '2022-05-21 04:59:10', 'IP: 192.168.0.101', 3, 2),
-(5, 'TRUD1200', '14', '223454-2/0722', '2014', '2022-05-21 05:01:19', '2022-05-21 05:01:19', 'IP: 192.168.0.101', 1, 2),
-(6, 'AGCV2000', NULL, '223454-2/0722', '2018', '2022-05-21 05:01:34', '2023-04-20 23:32:25', NULL, 1, 11),
-(7, 'TRV200', '7', '223454-2/0722', '2019', '2022-05-21 05:10:24', '2022-05-21 05:10:24', NULL, 1, 2),
-(8, 'FM100', '102,5MHz', '223454-2/0722', '2019', '2022-05-21 14:43:33', '2023-04-20 23:33:17', NULL, 1, 1),
-(9, 'FM100', '103,1MHz', '223454-2/0722', '2022', '2022-05-21 14:44:12', '2023-04-20 23:33:07', NULL, 1, 1),
-(10, 'FM100', '105,9MHz', '223454-2/0722', '2020', '2022-05-21 14:45:55', '2023-04-20 23:32:56', NULL, 1, 1),
-(11, 'FM200', '89,1MHz', '223454-2/0722', '2020', '2022-05-24 02:20:00', '2023-04-20 23:32:04', NULL, 1, 3),
-(12, 'FM2000', '91,1MHz', '223454-2/0722', '2020', '2022-05-25 14:58:24', '2023-04-20 23:31:54', NULL, 1, 3),
-(13, 'FM250', '100,5MHz', '223454-2/0722', '2021', '2022-05-30 02:41:13', '2023-04-20 23:31:42', NULL, 1, 3),
-(14, 'TRUD1300', '31', '223454-2/0722', '2021', '2022-06-05 04:03:02', '2023-04-20 23:31:31', NULL, 1, 3),
-(15, 'TRUD400', '30', '223454-2/0722', '2021', '2022-06-13 03:21:29', '2023-06-24 19:33:04', '\r\n', 1, 6),
-(16, 'TRU400', '29', '12345432/8765', '2022', '2022-06-13 03:22:03', '2023-06-24 19:35:36', '', 10, 6),
-(17, 'FM250', '103,1MHz', '223454-3/0522', '2022', '2022-06-13 03:30:03', '2023-06-17 15:12:17', NULL, 1, 4),
-(18, 'TRU200', '15', '190722-1/1219', '2019', '2022-06-13 20:56:51', '2023-06-24 13:58:46', '', 1, 4),
-(19, 'TRV100', '15', '190722-2/1219', '2022', '2022-06-13 21:26:02', '2023-06-24 19:37:08', '', 1, 6),
-(20, 'TRUD1200', '17', '190722-3/1219', '2012', '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \narmado: completo\nfirmado: Oscar\ntel tecnico: 0345-2321387\nmanual: DMTRUD1200-22.pdf', 1, 18),
-(21, 'FM100', '103,7MHz', '020823-1/0423', '2023', '2022-06-23 01:15:03', '2023-06-17 15:09:06', NULL, 10, 4),
-(22, 'FM100', '104,1MHz', '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4),
-(23, 'TRV250', '7', '223454-2/0722', '2022', '2022-06-22 22:19:54', '2023-06-17 15:08:41', NULL, 10, 4),
-(33, 'Sistema TV Digital', '31', '230504-1/8765', '2023', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16),
-(34, 'DMUX1000', '31', '190122-1/1219', '2023', '2023-05-20 14:39:38', '2023-06-17 16:48:53', 'IP: 192.168.0.90\r\nNuevo multiplexor de videoswitch', 1, 2),
-(37, 'NDS3542', '31', '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18),
-(59, 'TRU400', '24', '220722-1/1223', '2015', '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3),
-(68, 'FM100', '100,9MHz', '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-17 16:31:12', NULL, 10, 11),
-(69, 'TRM26100', '6 canales Ch 14-19', '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17),
-(70, 'DMUX-1000', '18', '230617-1/0723', NULL, '2023-06-17 16:02:08', '2023-06-17 16:29:49', 'IP: 192.168.1.136', 1, 19);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `eq_detail`
---
-
-DROP TABLE IF EXISTS `eq_detail`;
-CREATE TABLE IF NOT EXISTS `eq_detail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(250) NOT NULL,
-  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `content` varchar(1000) DEFAULT NULL,
-  `tipologia_id` int(11) NOT NULL,
-  `equipment_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `equipment_id` (`equipment_id`),
-  KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `eq_detail`
---
-
-INSERT INTO `eq_detail` (`id`, `title`, `date_created`, `date_modified`, `content`, `tipologia_id`, `equipment_id`, `user_id`) VALUES
-(1, 'Reparacion ventiladores', '2023-06-04 12:16:37', '2023-06-04 12:16:37', 'Se desarmo el equipo y se constato que los ventiladores no funcionaban por lo que se procedió a cambiarlos y eso resolvió el problema', 2, 21, 10),
-(5, 'Cambio de IP', '2023-06-05 16:02:19', '2023-06-05 16:02:19', '192.168.1.101', 3, 33, 10),
-(15, 'Linealidad', '2023-06-05 19:33:17', '2023-06-05 19:33:17', 'equipo ex TRU400, se linealizo para uso digital, y se hizo uso extremo de la potencia para mantener la pot nominal RMS', 1, 1, 10),
-(16, 'retraso en entrega', '2023-06-13 11:08:00', '2023-06-13 11:08:00', 'la entrega se realizo dos semana después de lo pactado', 1, 59, 10),
-(17, 'verificacion por pedido del cliente', '2023-06-14 13:34:50', '2023-06-14 13:34:50', 'se reviso a fondo!', 2, 33, 10),
-(18, 'ventiladores', '2023-06-15 15:40:48', '2023-06-15 15:40:48', 'se cambiaron los ventiladores del equipo', 2, 1, 1),
-(19, 'Entregado', '2023-06-15 15:45:42', '2023-06-15 15:45:42', 'se entregó con retardo de dos semanas', 1, 69, 1),
-(20, 'Fuente', '2023-06-15 15:59:36', '2023-06-15 15:59:36', 'falla en la fuente auxiliar, se cambió por fuente meanwell', 2, 69, 1),
-(21, 'IP', '2023-06-16 14:54:54', '2023-06-16 14:54:54', 'se cambio la IP a : 192.168.1.14', 3, 69, 10),
-(22, 'Revisión', '2023-06-16 15:56:55', '2023-06-17 15:56:14', 'se revisó el equipo y funciona correctamente.', 1, 69, 10),
-(23, 'envio de equipo', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'Se programó un envío para el 25/08/22. Se aguarda confirmación', 1, 23, 10),
-(24, 'linealidad', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'consultó por modificar la linealidad del amplificador para ser usado para TV digital', 3, 23, 10),
-(25, 'cambio IP', '2023-06-16 20:27:27', '2023-06-16 20:27:27', 'IP: 10.0.0.97', 1, 23, 1),
-(26, 'fotos', '2023-06-16 20:27:27', '2023-06-16 20:27:27', 'se sacaron fotos del frente y fondo', 1, 23, 1),
-(27, 'manual', '2023-06-17 15:03:51', '2023-06-17 15:03:51', 'Manual enviado via mail', 1, 21, 10),
-(28, 'actualización', '2023-06-17 15:03:51', '2023-06-17 15:03:51', 'equipo reacondicionado y actualizado a versión \'22', 3, 17, 10),
-(29, 'Modelo equipo', '2023-06-17 15:21:08', '2023-06-17 15:21:08', 'modelo original TRU250', 1, 18, 10),
-(30, '432', '2023-06-17 16:02:08', '2023-06-17 16:02:08', 'dsa', 1, 69, 10),
-(31, 'modelo', '2023-06-17 16:29:37', '2023-06-17 16:29:37', 'Este equipo es modelo 2023\r\nTomado de un modelo 2016', 3, 68, 1),
-(32, 'cambio fuente', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'una descarga quemó la fuente del sumador', 2, 15, 10),
-(33, 'cambio ventiladores', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'se repararon 2 ventiladores forzadores de aire del control general', 2, 15, 10),
-(34, 'nueva señal', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'se agregó una señal de tv digital al Mux\r\n', 3, 15, 10),
-(35, 'cambio frec', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Se cambió la frecuencia del modulador a CH:13', 3, 16, 10),
-(36, 'modulos quemados', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Reparación de dos módulos de potencia (Atilio)', 2, 19, 10);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `estado_or`
---
-
-DROP TABLE IF EXISTS `estado_or`;
-CREATE TABLE IF NOT EXISTS `estado_or` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `estado_or`
---
-
-INSERT INTO `estado_or` (`id`, `descripcion`) VALUES
-(1, 'Creada'),
-(2, 'Asignada'),
-(3, 'Anulada'),
-(4, 'Finalizada');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `orden_reparacion`
 --
 
@@ -1272,12 +1275,12 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
 (2, '2023-06-13 12:20:25', '2023-06-16 11:11:02', '230327-1/0423', 'Reparar ventiladores', 6, 10, 10, 4),
-(6, '2023-06-13 12:41:08', '2023-06-16 23:48:01', '210615-1/0621', 'Revisar el equipo, presenta falla RF', 5, 3, 10, 2),
-(9, '2023-06-14 11:59:34', '2023-06-16 23:18:45', '220516-1/1122', 'Se envió el módulo de potencia porque no enciende', 6, 13, 10, 2),
-(12, '2023-06-14 12:28:20', '2023-06-18 10:25:55', '230313-6/0920', 'Pedido de reparación por falla de temperatura', 1, 1, 10, 2),
+(6, '2023-06-13 12:41:08', '2023-06-26 11:19:05', '210615-1/0621', 'Revisar el equipo, presenta falla RF', NULL, 3, 10, 1),
+(9, '2023-06-14 11:59:34', '2023-06-26 11:19:26', '220516-1/1122', 'Se envió el módulo de potencia porque no enciende', NULL, 13, 10, 1),
+(12, '2023-06-14 12:28:20', '2023-06-26 13:53:25', '230313-6/0920', 'Pedido de reparación por falla de temperatura', 1, 1, 10, 2),
 (13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422-1/0322', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
 (14, '2023-06-16 12:14:01', '2023-06-16 12:20:52', '230516-1/170523', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
-(15, '2023-06-16 12:33:40', '2023-06-16 23:45:27', '230313-6/0920', 'revisar configuracion', NULL, 34, 10, 1),
+(15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230313-6/0920', 'revisar configuracion', 5, 34, 10, 2),
 (16, '2023-06-17 16:02:08', '2023-06-17 16:02:08', '223454', 'ver conexión TIBBO por problemas', 1, 14, 10, 2),
 (17, '2023-06-17 16:02:08', '2023-06-17 16:20:02', '193454', 'cambiar de frec a 98,5MHz', 1, 2, 10, 4),
 (18, '2023-06-17 16:02:08', '2023-06-17 16:02:08', '213454', 'problemas entrada 220V', 1, 3, 10, 2),
@@ -1500,18 +1503,12 @@ INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_i
 (6, 'Oscar', 'oscar@mail.com', '78fcd03e420ea343.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
 (10, 'admin', 'admin@tecseg.com', 'ba7f10cd2f0cb49a.jpg', '$2b$12$dIxpjyQ/uTr8Z7owkfrZKuNoQ5oF4moJHeJgBwjO2X65gmCW.YEWO', 1),
 (11, 'Tomas', 'tomas@tecseg.com', 'c1ed20648c2746a0.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 4),
-(12, 'Juan', 'juan@tecseg.com', '45cdee9d282966b2.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
-(14, 'Jorge', 'jorge@tecseg.com', '78dbfc154f1e34bb.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3);
+(12, 'Juan', 'juan@tecseg.com', 'ee259c124c31059d.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
+(14, 'Jorge', 'jorge@tecseg.com', '0cf2ffbae3b4a383.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3);
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `ciudad`
---
-ALTER TABLE `ciudad`
-  ADD CONSTRAINT `ciudad_prov` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `client`
@@ -1522,12 +1519,31 @@ ALTER TABLE `client`
   ADD CONSTRAINT `client_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `eq_detail`
+-- Filtros para la tabla `domicilio`
 --
-ALTER TABLE `eq_detail`
+ALTER TABLE `domicilio`
+  ADD CONSTRAINT `domicilio_ibfk_1` FOREIGN KEY (`localidad_id`) REFERENCES `localidad` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `equipment`
+--
+ALTER TABLE `equipment`
+  ADD CONSTRAINT `equipo_cliente` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `equipo_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `historia`
+--
+ALTER TABLE `historia`
   ADD CONSTRAINT `historia_equipo` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `historia_tipo` FOREIGN KEY (`tipologia_id`) REFERENCES `tipologia` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `historia_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `localidad`
+--
+ALTER TABLE `localidad`
+  ADD CONSTRAINT `ciudad_prov` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `orden_reparacion`

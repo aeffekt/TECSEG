@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
 	clients = db.relationship('Client', backref='author_cl', lazy=True)
 	equipments = db.relationship('Equipment', backref='author_eq', lazy=True)
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='author_or', lazy=True, foreign_keys='Orden_reparacion.user_id')
-	eq_details = db.relationship('Eq_detail', backref='author_historia', lazy=True)
+	historias = db.relationship('Historia', backref='author_historia', lazy=True)
 	ordenes_asignadas = db.relationship('Orden_reparacion', backref='tecnicoAsignado', lazy=True, foreign_keys='Orden_reparacion.tecnico_id')
 
 	
@@ -80,20 +80,20 @@ class Equipment(db.Model):
 	title = db.Column(db.String(150), unique=False, nullable=False)
 	canal_frec = db.Column(db.String(50), unique=False, nullable=True)
 	numSerie = db.Column(db.String(20), unique=False, nullable=True)
-	anio = db.Column(db.String(20), unique=False, nullable=True)	
+	anio = db.Column(db.String(4), unique=False, nullable=True)	
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)	
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
 	orden_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
-	eq_details = db.relationship('Eq_detail', backref='equipo_historia', lazy=True)
+	historias = db.relationship('Historia', backref='equipo_historia', lazy=True)
 	
 	def __repr__(self):
 		return f"Equipo('{self.title}', '{self.content}')"
 
 
-class Eq_detail(db.Model):
+class Historia(db.Model):
 	now = datetime.now()
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	id = db.Column(db.Integer, primary_key=True)
@@ -111,7 +111,7 @@ class Eq_detail(db.Model):
 class Tipologia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	tipo = db.Column(db.String(50), unique=True, nullable=False)
-	eq_detail = db.relationship('Eq_detail', backref='tipologia', lazy=True)
+	historias = db.relationship('Historia', backref='tipologia', lazy=True)
 
 	def __repr__(self):
 		return f'{self.estado}'
@@ -146,19 +146,19 @@ class Estado_or(db.Model):
 class Domicilio(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	direccion = db.Column(db.String(150), nullable=False)	
-	ciudad_id = db.Column(db.Integer, db.ForeignKey('ciudad.id'), nullable=True)
+	localidad_id = db.Column(db.Integer, db.ForeignKey('localidad.id'), nullable=True)
 	clientes = db.relationship('Client', backref='domicilio', lazy=True)
 
 	def __repr__(self):
 		return f'{self.direccion}'
 
 
-class Ciudad(db.Model):
+class Localidad(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	cp = db.Column(db.String(15), nullable=False)
 	nombre = db.Column(db.String(50), nullable=False)	
 	provincia_id = db.Column(db.Integer, db.ForeignKey('provincia.id'), nullable=True)
-	domicilios = db.relationship('Domicilio', backref='ciudad', lazy=True)
+	domicilios = db.relationship('Domicilio', backref='localidad', lazy=True)
 
 	def __repr__(self):
 		return f'{self.cp}'
@@ -168,7 +168,7 @@ class Provincia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)	
 	nombre = db.Column(db.String(50), nullable=False)	
 	pais_id = db.Column(db.Integer, db.ForeignKey('pais.id'), nullable=True)
-	ciudades = db.relationship('Ciudad', backref='provincia', lazy=True)
+	localidades = db.relationship('Localidad', backref='provincia', lazy=True)
 
 	def __repr__(self):
 		return f'{self.nombre}'

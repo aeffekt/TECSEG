@@ -1,27 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h2 class="mb-3 article-metadata">Historias de <a class="mr-2" href="{{ url_for('equipments.equipment', equipment_id=equipo.id) }}">{{ equipo.title }}</a> ({{ historias.total }})</h2>
-    <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('eq_details.add_eq_detail', equipment_id = equipo.id) }}">Agregar historia</a></p>
-    {% set pages = historias.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) | list %}
-    {% if pages|length > 1 %}
-        {% for page_num in pages %}
-            {% if page_num %}
-                {% if historias.page == page_num %}
-                    <a class="btn btn-info mb-4" href="{{ url_for('equipments.equipo_historias', equipment_id=equipo.id, page=page_num) }}">{{ page_num }}</a>
-                {% else %}
-                    <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.equipo_historias', equipment_id=equipo.id, page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% else %}
-            ...
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-    {% for historia in historias.items %}        
+    <h6 class="mb-3 article-metadata">Historias de <a class="mr-2" href="{{ url_for('equipments.equipment', equipment_id=equipo.id) }}">{{ equipo.title }}</a> ({{ historias.total }})</h6>
+    <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('historias.add_historia', equipment_id = equipo.id) }}">Agregar historia</a></p>
+    
+    {% for historia in historias %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="row">
                     <div class="col-md-10">
-                        <a class="article-title" href="{{ url_for('eq_details.eq_detail', eq_detail_id=historia.id) }}">
+                        <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}">
                         <h2>{{ historia.title }}</h2>
                         <h6 class="article-title" href="">{{ historia.content }}</h6>
                         <small>Última modificación: {{ historia.date_modified.strftime('%d-%m-%Y') }}</small>
@@ -42,19 +29,5 @@
             </div>
         </article>
     {% endfor %}
-    {% set pages = historias.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) | list %}
-    {% if pages|length > 1 %}
-        {% for page_num in pages %}    
-            {% if page_num %}
-                {% if historias.page == page_num %}
-                    <a class="btn btn-info mb-4" href="{{ url_for('equipments.equipo_historias', equipment_id=equipo.id, page=page_num) }}">{{ page_num }}</a>
-                {% else %}
-                    <a class="btn btn-outline-info mb-4" href="{{ url_for('equipments.equipo_historias', equipment_id=equipo.id, page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% else %}
-            ...
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
+    
 {% endblock content %}

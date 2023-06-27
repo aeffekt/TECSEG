@@ -1,19 +1,19 @@
 :root {
---primary-color: #aaa;
---secondary-color: #222;
+--title-color:  #222;
+--content-color:#aaa;
 --container-color: #666;
---extra-color: #222;
+--backgound-color: #222;
 }
 
 .theme-light {
---primary-color: #fff;
---secondary-color: #000;
---container-color: #bbb;
---extra-color: #ddd;
+--title-color: #fff;
+--content-color: #000;
+--container-color: #999;
+--backgound-color: #f0f0f0;
 }
 
 hr {
-    color: var(--primary-color);
+    color: var(--content-color);
     border-width: 2px;
 }
 
@@ -22,8 +22,8 @@ text-decoration: none;
 }
 
 body {
-background: var(--extra-color);
-color: var(--primary-color);
+background: var(--backgound-color);
+color: var(--content-color);
 font-family: Montserrat, sans-serif;
 }
 
@@ -32,15 +32,15 @@ margin-top: 90px;
 }
 
 h1, h3, h4, h5 {
-color: var(--secondary-color);
+color: var(--title-color);
 }
 
 h2, h6 {
-color: var(--primary-color);
+color: var(--content-color);
 }
 
 legend {
-color: var(--secondary-color);
+color: var(--title-color);
 }
 
 nav {
@@ -65,6 +65,10 @@ height: 300px;
 
 .sticky-top, .modal-dialog {
 top: 80px; /* distancia del dialogo y buscador a la navbar fija */
+}
+
+.sticky-top select{
+    margin-bottom: 10px;
 }
 
 .menu-horizontal {
@@ -116,27 +120,27 @@ cursor: pointer;
 padding-top: 10px;
 }
 
-.form-switch, .chosen {
+.form-switch {
 margin-left: 30px;
 }
 
 
-form .form-check .chosen {
+form .form-check {
 padding: 10px;
 }
 
 .form-control .chosen{
-background: var(--primary-color);
+background: var(--content-color);
 width: 90%;
 }
 
 
 .modal-content {
-background-color: var(--primary-color);
+background-color: var(--content-color);
 }
 
 .modal-title{
-color: var(--secondary-color);
+color: var(--title-color);
 }
 
 .content-section {
@@ -148,11 +152,11 @@ margin-bottom: 20px;
 }
 
 .article-title {
-color: var(--secondary-color);
+color: var(--title-color);
 }
 
 a.article-title:hover {
-color: var(--secondary-color);
+color: var(--title-color);
 text-decoration: none;
 }
 
@@ -173,7 +177,7 @@ border-bottom: 1px solid #e3e3e3;
 }
 
 .article-metadata a:hover {
-color: var(--secondary-color);
+color: var(--title-color);
 text-decoration: none;
 }
 
@@ -232,7 +236,7 @@ border-color: #bee5eb;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: var(--primary-color);
+    background-color: var(--content-color);
     padding: 0px;
     text-align: center;
 }
@@ -240,7 +244,7 @@ border-color: #bee5eb;
 /* Estilos adicionales para el contenido del footer */
 .footer .copyright {
     font-size: 14px;
-    color: var(--secondary-color);
+    color: var(--container-color);
     margin-bottom: 5px;
 }
 

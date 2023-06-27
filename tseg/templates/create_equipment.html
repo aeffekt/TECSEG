@@ -8,53 +8,53 @@
 				<div class="form-group" autofocus>
 					{{ form.title.label(class="form-control-label") }}					
 					{% if form.title.errors %}
-						{{ form.title(class="form-control form-control is-invalid") }}
+						{{ form.title(class="form-control form-control-sm is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.title.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.title(class="form-control form-control") }}
+						{{ form.title(class="form-control form-control-sm") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
 					{{ form.canal_frec.label(class="form-control-label") }}					
 					{% if form.canal_frec.errors %}
-						{{ form.canal_frec(class="form-control form-control is-invalid") }}
+						{{ form.canal_frec(class="form-control form-control-sm is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.canal_frec.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.canal_frec(class="form-control form-control") }}
+						{{ form.canal_frec(class="form-control form-control-sm") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
 					{{ form.numSerie.label(class="form-control-label") }}					
 					{% if form.numSerie.errors %}
-						{{ form.numSerie(class="form-control form-control is-invalid") }}
+						{{ form.numSerie(class="form-control form-control-sm is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.numSerie.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.numSerie(class="form-control form-control") }}
+						{{ form.numSerie(class="form-control form-control-sm") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
 					{{ form.anio.label(class="form-control-label") }}					
 					{% if form.anio.errors %}
-						{{ form.anio(class="form-control form-control is-invalid") }}
+						{{ form.anio(class="form-control form-control-sm is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.anio.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.anio(class="form-control form-control") }}
+						{{ form.anio(class="chosen form-control form-control-sm") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
@@ -62,27 +62,27 @@
 					{{ form.content.label(class="form-control-label") }}
 					<!-- errores de entrada  -->
 					{% if form.content.errors %}
-						{{ form.content(class="form-control form-control is-invalid") }}
+						{{ form.content(class="form-control form-control-sm is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.content.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.content(class="form-control form-control", rows='3') }}
+						{{ form.content(class="form-control form-control-sm", rows='3') }}
 					{% endif %}
 				</div>
 				<div class="form-group">
 					{{ form.owner.label(class="form-control-label") }}
 					{% if form.owner.errors %}
-						{{ form.owner(class="form-control form-control is-invalid") }}
+						{{ form.owner(class="form-control form-control-sm is-invalid") }}
 						<div class="invalid-feedback">
 							{% for error in form.owner.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.owner(class="chosen form-control form-control") }}
+						{{ form.owner(class="chosen form-control form-control-sm") }}
 					{% endif %}
 				</div>	
 			</fieldset>

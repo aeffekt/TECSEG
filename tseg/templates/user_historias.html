@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Historias de {{ user.username }} ({{ historias.total }})</h6>
+
+    {% for historia in historias %}
+        <article class="media content-section">
+          	<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + 	historia.author_historia.image_file) }}">
+          	<div class="media-body">
+            	<div class="article-metadata">
+              		<a class="mr-2" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}">{{ historia.author_historia.username }}</a>
+              		<small class="text-muted">{{ historia.date_modified.strftime('%Y-%m-%d') }}</small>
+            	</div>
+                <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}"><h2>{{ historia.title }}</h2>
+            	<h5 class="article-content">{{ historia.content }}</h5>
+                </a>
+                <small class="text-muted">Equipo: {{ historia.equipo_historia.title }} - {{ historia.equipo_historia.content }}</small>
+          </div>
+        </article>
+    {% endfor %}
+    
+{% endblock content %}

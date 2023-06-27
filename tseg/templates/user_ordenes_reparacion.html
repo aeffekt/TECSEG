@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
-{% block content %}
-    <h3 class="mb-3">Equipos de <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.client_name }}</a> ({{ equipments.total }})</h3>
-    <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo nuevo</a></p>    
-    {% for equipment in equipments.items %}
+{% block content %}    
+    <h6 class="border-bottom border-secondary mb-4">Equipos de 
+        <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.client_name }}</a> ({{ equipments.total }})</h6>
+    <p>
+        <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo nuevo</a>
+    </p>
+    {% for equipment in equipments %}
         <article class="media content-section">
           	<div class="media-body">
             	<div class="article-metadata">
@@ -14,16 +17,5 @@
           </div>
         </article>
     {% endfor %}
-    {% for page_num in equipments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-    {% if page_num %}
-        {% if equipments.page == page_num %}
-            <a class="btn btn-info mb-4" href="{{ url_for('clients.client_equipments', client_id=client.id, page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-            <a class="btn btn-outline-info mb-4" href="{{ url_for('clients.client_equipments', client_id=client.id, page=page_num) }}">{{ page_num }}</a>
-        {% endif %}
-    {% else %}
-        ...
-    {% endif %}
-    {% endfor %}
-
+    
 {% endblock content %}

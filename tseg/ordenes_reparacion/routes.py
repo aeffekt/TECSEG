@@ -19,14 +19,21 @@ def layout():
 
 
 @ordenes_reparacion.route("/all_ordenes_reparacion")
-def all_ordenes_reparacion():
-	page = request.args.get('page', 1, type=int) # num pagina de mensajes
+def all_ordenes_reparacion():	
 	if current_user.role.role_name == 'Técnico':
-		all_or = Orden_reparacion.query.filter_by(tecnico_id=current_user.id).order_by(Orden_reparacion.estado_id.asc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
+		all_or = Orden_reparacion.query.filter_by(tecnico_id=current_user.id).order_by(Orden_reparacion.estado_id.asc())
 	else:
-		all_or = Orden_reparacion.query.order_by(Orden_reparacion.estado_id.asc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
+		all_or = Orden_reparacion.query.order_by(Orden_reparacion.estado_id.asc())
+		filtrar_por = {"codigo": "Código", 
+					"estado_id": "estado",
+					"tecnico_id": "Técnico asignado",
+					"equipo_id": "equipo",
+					"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",
+					}
 	return render_template('all_ordenes_reparacion.html', 
-							all_ordenes_reparacion=all_or, 
+							lista=all_or, 
+							filtrar_por = filtrar_por,
 							title='Órdenes de reparación')
 
 

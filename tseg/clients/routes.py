@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app, jsonify
 from flask_login import current_user, login_required
-from tseg.models import Client, Equipment, Pais, Provincia, Ciudad, Domicilio, Cond_fiscal
+from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio, Cond_fiscal
 from tseg.clients.forms import ClientForm
 from tseg.users.forms import SearchForm
 from tseg import db
@@ -14,9 +14,9 @@ clients = Blueprint('clients', __name__)
 def obtener_datos_geograficos():
 	codigo_postal = request.args.get('codigo_postal')
 	# Utiliza la función "obtener_informacion_geografica" que definimos anteriormente
-	ciudad, provincia, pais = obtener_informacion_geografica(codigo_postal)
+	localidad, provincia, pais = obtener_informacion_geografica(codigo_postal)
 	# Retorna los datos en formato JSON
-	return jsonify(ciudad=ciudad, provincia=provincia, pais=pais)
+	return jsonify(localidad=localidad, provincia=provincia, pais=pais)
 
 
 # pass stuff to navbar through layout (used to search)
@@ -27,10 +27,18 @@ def layout():
 
 @clients.route("/all_clients")
 @role_required("ServicioCliente", "Admin", "Técnico")
-def all_clients():
-	page = request.args.get('page', 1, type=int) # num pagina de mensajes
-	all_clients = Client.query.order_by(Client.client_name.asc()).paginate(page=page, per_page=current_app.config['PER_PAGE'])
-	return render_template('all_clients.html', all_clients=all_clients, title='Clientes')
+def all_clients():	
+	all_clients = Client.query.order_by(Client.client_name.asc())
+	filtrar_por = {"id": "Número",
+				"client_name": "Nombre",
+				"business_name": "Razón social", 
+				"cond_fiscal_id": "Condición fiscal"
+				}
+				
+	return render_template('all_clients.html', 
+								lista=all_clients, 
+								filtrar_por = filtrar_por,
+								title='Clientes')
 
 
 # ruteo de variables "client_id"
@@ -42,7 +50,7 @@ def client(client_id):
 
 
 @clients.route("/add_client", methods=['GET','POST'] )
-@role_required("ServicioCliente", "Admin")
+@role_required("ServicioCliente", "Admin", "Técnico")
 def add_client():
 	form = ClientForm()
 	if form.validate_on_submit():
@@ -52,11 +60,11 @@ def add_client():
 			pais = Pais.query.filter_by(nombre=form.pais.data).first()			
 		if form.provincia.data:
 			provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais_id=pais.id).first()
-		if form.ciudad.data:
-			ciudad = Ciudad.query.filter_by(nombre=form.ciudad.data, provincia_id=provincia.id).first()
+		if form.localidad.data:
+			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()
 		if form.domicilio.data:
-			domicilio = Domicilio(direccion=form.domicilio.data, ciudad_id=ciudad.id)
-			db.session.add(domicilio)					
+			domicilio = Domicilio(direccion=form.domicilio.data, localidad_id=localidad.id)
+			db.session.add(domicilio)
 		
 		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
 		client = Client(client_name=form.client_name.data,
@@ -86,12 +94,12 @@ def update_client(client_id):
 			pais = Pais.query.filter_by(nombre=form.pais.data).first()			
 		if form.provincia.data:
 			provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais_id=pais.id).first()
-		if form.ciudad.data:
-			ciudad = Ciudad.query.filter_by(nombre=form.ciudad.data, provincia_id=provincia.id).first()		
+		if form.localidad.data:
+			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()		
 						
 		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
 		domicilio.direccion = form.domicilio.data
-		domicilio.ciudad_id = ciudad.id
+		domicilio.localidad_id = localidad.id
 		
 		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
 		client.cond_fiscal_id = cond_fiscal.id
@@ -118,13 +126,13 @@ def update_client(client_id):
 		# carga datos de domicilio si existen
 		if client.domicilio:
 			form.domicilio.data = client.domicilio.direccion
-			if client.domicilio.ciudad:
-				form.ciudad.data = client.domicilio.ciudad.nombre
-				form.codigo_postal.data = client.domicilio.ciudad.cp
-				if client.domicilio.ciudad.provincia:				
-					form.provincia.data = client.domicilio.ciudad.provincia.nombre
-					if client.domicilio.ciudad.provincia.pais:
-						form.pais.data = client.domicilio.ciudad.provincia.pais.nombre
+			if client.domicilio.localidad:
+				form.localidad.data = client.domicilio.localidad.nombre
+				form.codigo_postal.data = client.domicilio.localidad.cp
+				if client.domicilio.localidad.provincia:				
+					form.provincia.data = client.domicilio.localidad.provincia.nombre
+					if client.domicilio.localidad.provincia.pais:
+						form.pais.data = client.domicilio.localidad.provincia.pais.nombre
 		
 	return render_template('create_client.html',title='Editar cliente', 
 												form=form,
@@ -141,10 +149,17 @@ def delete_client(client_id):
 
 
 @clients.route("/client_equipments-<string:client_id>")
-def client_equipments(client_id):
-	page = request.args.get('page', 1, type=int) 
+def client_equipments(client_id):	
 	client = Client.query.filter_by(id=client_id).first_or_404()
 	equipments = Equipment.query.filter_by(owner=client)\
-					.order_by(Equipment.date_modified.desc())\
-					.paginate(page=page, per_page=5)
-	return render_template('client_equipments.html', title=client.client_name, equipments=equipments, client=client)
+					.order_by(Equipment.date_modified.desc())
+	filtrar_por = {"title": "Modelo",
+				"numSerie": "Número de serie",
+				"anio": "Año de fabricación",
+				"date_modified": "Fecha modificado",
+				"date_created": "Fecha creado"}
+	return render_template('client_equipments.html', 
+								title=client.client_name,
+								filtrar_por=filtrar_por,
+								lista=equipments, 
+								client=client)

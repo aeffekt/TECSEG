@@ -28,7 +28,7 @@ def create_app(config_class=Config):
 	# routes se importan acá ya que routes usa "db"
 	from tseg.users.routes import users	
 	from tseg.equipments.routes import equipments	
-	from tseg.eq_details.routes import eq_details
+	from tseg.historias.routes import historias
 	from tseg.clients.routes import clients
 	from tseg.ordenes_reparacion.routes import ordenes_reparacion
 	from tseg.errors.handlers import errors	
@@ -36,7 +36,7 @@ def create_app(config_class=Config):
 
 	app.register_blueprint(users)	
 	app.register_blueprint(equipments)	
-	app.register_blueprint(eq_details)
+	app.register_blueprint(historias)
 	app.register_blueprint(clients)
 	app.register_blueprint(ordenes_reparacion)
 	app.register_blueprint(errors)	

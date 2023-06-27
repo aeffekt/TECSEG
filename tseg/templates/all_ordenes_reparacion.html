@@ -1,20 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h2>Órdenes de reparación</h2>
-    <hr 80%>
-    {% set pages = all_ordenes_reparacion.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=3) | list %}
-    {% if pages|length > 1 %}
-        {% for page_num in pages %}
-            {% if page_num %}
-                {% if all_ordenes_reparacion.page == page_num %}                
-                    <a class="btn btn-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
-                {% else %}
-                    <a class="btn btn-outline-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}    
-    {% endif %}    
-    {% for orden_reparacion in all_ordenes_reparacion.items %}
+    <h6 class="border-bottom border-secondary mb-4">Órdenes de reparación</h6>
+
+    {% for orden_reparacion in lista %}
         <article class="media content-section">
             <div class="row">
                 <div class="col-md-10">
@@ -43,15 +31,5 @@
             </div>
         </article>
     {% endfor %}
-    {% if pages|length > 1 %}
-        {% for page_num in pages %}
-            {% if page_num %}
-                {% if all_ordenes_reparacion.page == page_num %}
-                    <a class="btn btn-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
-                {% else %}
-                    <a class="btn btn-outline-info mb-4" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+    
 {% endblock content %}
