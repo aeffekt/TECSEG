@@ -47,7 +47,7 @@
 						<!-- SOLO admin -->
 						{% if current_user.role.role_name == "Admin" %}
 							<li>
-								<a class="nav-item nav-link" title="Ver cuentas de usuario"  href="{{ url_for('users.all_users') }}">Admin</a>
+								<a class="nav-item nav-link" title="Ver cuentas de usuario"  href="{{ url_for('users.all_users', filterBy='username', filterOrder='asc') }}">Admin</a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}" class="list-group-item list-group-item-light">Agregar nuevo usuario</a></li>
 								</ul>
@@ -56,21 +56,21 @@
 						<!-- SECTOR TODOS menos INVITADOS -->
 						{% if current_user.role.role_name != "Invitado" %}
 							<li>
-								<a class="nav-item nav-link" title="Vista de Clientes"  href="{{ url_for('clients.all_clients') }}">Clientes</a>
+								<a class="nav-item nav-link" title="Vista de Clientes"  href="{{ url_for('clients.all_clients', filterBy='id', filterOrder='asc') }}">Clientes</a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Agregar nuevo cliente</a></li>
 								</ul>
 							</li>
 						
 							<li>
-								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments') }}">Equipos</a>
+								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments', filterBy='title', filterOrder='asc') }}">Equipos</a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar nuevo equipo</a></li>
 								</ul>
 							</li>						
 						
 							<li>
-								<a class="nav-item nav-link" title="Órdenes de reparación" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion') }}" >O.R.</a>
+								<a class="nav-item nav-link" title="Órdenes de reparación" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', filterBy='estado_id', filterOrder='asc') }}" >O.R.</a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}" class="list-group-item list-group-item-light">Agregar nueva OR</a></li>
 								</ul>
@@ -131,16 +131,17 @@
 	          			{% endif %}
 	          			{% if lista %}
 	          			<article class="media content-section">
+	          				<h5 class="border-bottom border-secondary mb-4">Ordenar lista</h5>
 		          			<div class="row">
-		          				<div class="col-md-6">
-								    <select class="form-select" aria-label="Filter by column" id="filterColumn">
+		          				<div class="col-md-8">
+								    <select class="form-select" aria-label="Filter by column" id="filterBy">
 								        {% for key, value in filtrar_por.items() %}
-								            <option data-key="{{ key }}">{{ value }}</option>
+								            <option value="{{ key }}" {% if request.args.get('filterBy') == key %}selected{% endif %}>{{ value }}</option>
 								        {% endfor %}
 								    </select>
 								    <select class="form-select" aria-label="Filter order" id="filterOrder">
-								        <option data-key="asc">Ascendente</option>
-								        <option data-key="desc">Descendente</option>
+								        <option value="asc" {% if request.args.get('filterOrder') == 'asc' %}selected{% endif %}>Ascendente</option>
+        								<option value="desc" {% if request.args.get('filterOrder') == 'desc' %}selected{% endif %}>Descendente</option>
 								    </select>
 								    <button class="btn btn-primary" id="filterButton">Ordenar</button>
 								</div>
@@ -208,14 +209,14 @@
 			    width: '100%',   
 			  });
 
-	  	// Pone en la barra de navegacion los valores de filterColumn y filterOrder
-		document.getElementById('filterButton').addEventListener('click', function() {        
-		        var filterColumn = document.getElementById('filterColumn').value;
-		        var filterOrder = document.getElementById('filterOrder').value;
-		        var url = new URL(window.location.href);
-		        url.searchParams.set('filterColumn', filterColumn);
-		        url.searchParams.set('filterOrder', filterOrder);
-		        window.location.href = url;
+	  	// Pone en la barra de navegacion los valores de filterBy y filterOrder
+		document.getElementById('filterButton').addEventListener('click', function() {
+			var filterBy = document.getElementById('filterBy').value;
+	        var filterOrder = document.getElementById('filterOrder').value;
+	        var url = new URL(window.location.href);
+	        url.searchParams.set('filterBy', filterBy);
+	        url.searchParams.set('filterOrder', filterOrder);
+	        window.location.href = url;
 		});
 
 		</script>

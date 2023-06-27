@@ -5,7 +5,7 @@ from tseg import db, bcrypt
 from tseg.models import User, Historia, Equipment, Client, Role
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 							RequestResetForm, ResetPasswordForm, SearchForm, UpdateRoleForm)
-from tseg.users.utils import save_picture, send_reset_email, role_required, extraerId
+from tseg.users.utils import save_picture, send_reset_email, role_required, extraerId, buscarLista
 from sqlalchemy import or_
 
 
@@ -166,12 +166,10 @@ def search():
 @users.route("/users", methods=['GET', 'POST'])
 @role_required("Admin")
 def all_users():
-	form = UpdateRoleForm()		
-	all_users = User.query.order_by(User.id.desc())
+	all_users = buscarLista(User)
 	image_path = url_for("static", filename='profile_pics/')	
-	filtrar_por = {"username": "Nombre",		
-					"role": "Tipo usuario",
-					"date_created": "Fecha creado",
+	filtrar_por = {"username": "Nombre",
+					"role_id": "Tipo usuario"					
 					}
 	return render_template('all_users.html',
 							lista=all_users,

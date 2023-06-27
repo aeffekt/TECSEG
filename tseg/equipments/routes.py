@@ -3,10 +3,8 @@ from flask_login import current_user, login_required
 from tseg.models import Equipment, Client, Historia
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.forms import SearchForm
-from tseg.users.utils import role_required, extraerId, dateFormat
-
+from tseg.users.utils import role_required, extraerId, dateFormat, buscarLista
 from tseg import db
-
 from datetime import datetime
 
 
@@ -20,14 +18,15 @@ def layout():
 
 
 @equipments.route("/all_equipments")
-def all_equipments():
-	all_equips = Equipment.query.order_by(Equipment.date_modified.desc())
+def all_equipments():	
+	all_equips = buscarLista(Equipment)
 	filtrar_por = {"title": "Modelo",
 				"numSerie": "Número de serie",
 				"client_id": "Dueño del equipo",
 				"anio": "Año de fabricación",				
 				"date_modified": "Fecha modificado",
 				"date_created": "Fecha creado"}
+
 	return render_template('all_equipments.html',
 							lista=all_equips,
 							filtrar_por = filtrar_por,
@@ -117,9 +116,8 @@ def delete_equipment(equipment_id):
 
 @equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
 def historias_equipo(equipment_id, tipologia_id):	
-	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()	
-	historias =  Historia.query.filter_by(tipologia_id=tipologia_id, equipment_id=equipment_id)\
-					.order_by(Historia.date_modified.desc())
+	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
+	historias = buscarLista(Equipment, equipo)	
 	filtrar_por = {"title": "Título", 
 					"tipología_id": "Tipología",					
 					"equipo_id": "equipo",

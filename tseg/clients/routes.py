@@ -4,7 +4,7 @@ from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio
 from tseg.clients.forms import ClientForm
 from tseg.users.forms import SearchForm
 from tseg import db
-from tseg.users.utils import role_required, obtener_informacion_geografica
+from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista
 
 
 clients = Blueprint('clients', __name__)
@@ -27,13 +27,12 @@ def layout():
 
 @clients.route("/all_clients")
 @role_required("ServicioCliente", "Admin", "Técnico")
-def all_clients():	
-	all_clients = Client.query.order_by(Client.client_name.asc())
-	filtrar_por = {"id": "Número",
-				"client_name": "Nombre",
-				"business_name": "Razón social", 
-				"cond_fiscal_id": "Condición fiscal"
-				}
+def all_clients():
+	all_clients = buscarLista(Client)
+	filtrar_por = {"id": "Número ID",
+					"client_name": "Nombre",
+					"business_name": "Razón social",
+					}
 				
 	return render_template('all_clients.html', 
 								lista=all_clients, 

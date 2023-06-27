@@ -9,7 +9,9 @@
                   	<div class="media-body">
                     	<a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
                            <h2>{{ orden_reparacion.codigo }}</h2>
-                    	   <h5>{{ orden_reparacion.content }}</h5>                            
+                    	   <h5>{{ orden_reparacion.content }}</h5>
+                           <small>{{ orden_reparacion.equipo.title }}</small>
+                           <small>{{ orden_reparacion.tecnicoAsignado.username }}</small>
                         </a>
                     </div>
                 </div>

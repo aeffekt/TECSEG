@@ -5,7 +5,7 @@ from tseg import db
 from tseg.models import Orden_reparacion, Equipment, Estado_or
 from tseg.ordenes_reparacion.forms import OrdenReparacionForm
 from tseg.users.forms import SearchForm
-from tseg.users.utils import role_required, extraerId, dateFormat
+from tseg.users.utils import role_required, extraerId, dateFormat, buscarLista
 
 
 ordenes_reparacion = Blueprint('ordenes_reparacion', __name__)
@@ -19,13 +19,14 @@ def layout():
 
 
 @ordenes_reparacion.route("/all_ordenes_reparacion")
-def all_ordenes_reparacion():	
+def all_ordenes_reparacion():
+	
 	if current_user.role.role_name == 'Técnico':
-		all_or = Orden_reparacion.query.filter_by(tecnico_id=current_user.id).order_by(Orden_reparacion.estado_id.asc())
-	else:
-		all_or = Orden_reparacion.query.order_by(Orden_reparacion.estado_id.asc())
-		filtrar_por = {"codigo": "Código", 
-					"estado_id": "estado",
+		all_or = buscarLista(Orden_reparacion, current_user)
+	else:	
+		all_or = buscarLista(Orden_reparacion)
+	filtrar_por = {"estado_id": "estado",
+					"codigo": "Código",					
 					"tecnico_id": "Técnico asignado",
 					"equipo_id": "equipo",
 					"date_modified": "Fecha modificado",

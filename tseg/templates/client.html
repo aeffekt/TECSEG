@@ -5,7 +5,15 @@
           <legend class="border-bottom mb-4">Cliente</legend>
           <div class="row">
             <div class="col-md-3">
-              <p>Nombre:</p> 
+              <p>Número ID:</p>
+            </div>
+            <div class="col-md-9">
+              <h5 class="aticle-title">{{ client.id }}</h1></h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Nombre:</p>
             </div>
             <div class="col-md-9">
               <h1 class="aticle-title">{{ client.client_name }}</h1></p>
@@ -17,26 +25,6 @@
             </div>
             <div class="col-md-9">
               <h5 class="article-title">{{ client.business_name }}</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
-              <p>Condición fiscal:</p> 
-            </div>
-            <div class="col-md-9">
-              <h5 class="article-title">{{ client.condicion_fiscal.nombre }}</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
-              <p>CUIT:</p> 
-            </div>
-            <div class="col-md-9">
-              {% if client.cuit is not none %}                
-                {% set cuit_str = client.cuit|string %}
-                {% set cuit_formatted = cuit_str[:2] + '-' + cuit_str[2:10] + '-' + cuit_str[10:] %}
-                <h5 class="article-title">{{ cuit_formatted }}</h5>
-              {% endif %}              
             </div>
           </div>
           <div class="row">
@@ -63,6 +51,27 @@
               <h5 class="article-content">{{ client.comments }}</h5>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Condición fiscal:</p> 
+            </div>
+            <div class="col-md-9">
+              <h5 class="article-title">{{ client.condicion_fiscal.nombre }}</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>CUIT:</p> 
+            </div>
+            <div class="col-md-9">
+              {% if client.cuit is not none %}                
+                {% set cuit_str = client.cuit|string %}
+                {% set cuit_formatted = cuit_str[:2] + '-' + cuit_str[2:10] + '-' + cuit_str[10:] %}
+                <h5 class="article-title">{{ cuit_formatted }}</h5>
+              {% endif %}              
+            </div>
+          </div>
+          
           {% if client.domicilio.direccion %}
             <div class="row">
               <div class="col-md-3">
