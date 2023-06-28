@@ -13,10 +13,10 @@
           </div>
           <div class="row">
             <div class="col-md-3">
-              <p>Nombre:</p>
+              <p>Nombre / Apellido:</p>
             </div>
             <div class="col-md-9">
-              <h1 class="aticle-title">{{ client.client_name }}</h1></p>
+              <h1 class="aticle-title">{{ client.nombre }} {{ client.apellido }}</h1></p>
             </div>
           </div>
           <div class="row">
@@ -136,7 +136,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar a "{{ client.client_name }}"?</h5>
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar a "{{ client.nombre }} {{ client.apellido }}"?</h5>
             <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
               <span aria-hidden="true">&times;</span>
             </button>

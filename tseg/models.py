@@ -53,7 +53,8 @@ class Role(db.Model):
 
 class Client(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	client_name = db.Column(db.String(150), unique=False, nullable=False)
+	nombre = db.Column(db.String(50), unique=False, nullable=False)
+	apellido = db.Column(db.String(50), unique=False, nullable=False)
 	business_name = db.Column(db.String(150), unique=False, nullable=False)
 	cuit = db.Column(db.String(13), unique=False, nullable=True)
 	telefono = db.Column(db.String(20), unique=False, nullable=True)
@@ -65,7 +66,7 @@ class Client(db.Model):
 	equipments = db.relationship('Equipment', backref='owner', lazy=True)
 
 	def __repr__(self):
-		return f"{self.client_name}, {self.business_name}"
+		return f"{self.nombre} {self.apellido}, {self.business_name}"
 
 class Cond_fiscal(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -76,9 +77,7 @@ class Cond_fiscal(db.Model):
 class Equipment(db.Model):
 	now = datetime.now()
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
-	id = db.Column(db.Integer, primary_key=True)
-	title = db.Column(db.String(150), unique=False, nullable=False)
-	canal_frec = db.Column(db.String(50), unique=False, nullable=True)
+	id = db.Column(db.Integer, primary_key=True)	
 	numSerie = db.Column(db.String(20), unique=False, nullable=True)
 	anio = db.Column(db.String(4), unique=False, nullable=True)	
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
@@ -86,11 +85,31 @@ class Equipment(db.Model):
 	content = db.Column(db.Text, nullable=False)	
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
+	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
+	modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=True)
+	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)
 	orden_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
 	historias = db.relationship('Historia', backref='equipo_historia', lazy=True)
 	
 	def __repr__(self):
 		return f"Equipo('{self.title}', '{self.content}')"
+
+
+class Marca(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	nombre = db.Column(db.String(50), unique=True, nullable=False)
+	equipos = db.relationship('Equipment', backref='marca_eq', lazy=True)
+
+
+class Modelo(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	nombre = db.Column(db.String(50), unique=True, nullable=False)
+	equipos = db.relationship('Equipment', backref='modelo_eq', lazy=True)
+
+class Frecuencia(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	canal = db.Column(db.String(50), unique=True, nullable=False)
+	equipos = db.relationship('Equipment', backref='frecuencia_eq', lazy=True)
 
 
 class Historia(db.Model):

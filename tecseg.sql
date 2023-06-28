@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-06-2023 a las 18:18:02
+-- Tiempo de generación: 28-06-2023 a las 20:28:31
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -30,7 +30,8 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_name` varchar(150) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(50) DEFAULT NULL,
   `business_name` varchar(150) DEFAULT NULL,
   `cuit` bigint(11) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
@@ -49,17 +50,17 @@ CREATE TABLE IF NOT EXISTS `client` (
 -- Volcado de datos para la tabla `client`
 --
 
-INSERT INTO `client` (`id`, `client_name`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
-(1, 'Canal 13 san luis', 'Canal 13 televisión', NULL, '42432432', NULL, 'Director Nasim', 1, 1, 1),
-(2, 'Bonarrico', 'Jesus Te Ama', 20432432421, '02954-4303249', 'bonarrico@jta.com', 'contactarlo por mail: \n\n', 2, 2, 1),
-(3, 'Juan Antonio Acompanies', 'REMAR', 34243243242, '123123123', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 3, 3, 1),
-(4, 'Pedro Almirón', 'Radio Total FM', 20432432421, '2147483647', 'palmiron@yahoo.com', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 1, 4, 3),
-(6, 'Mariangeles Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', NULL, 'persona ficticia', 1, 5, 1),
-(11, 'Marcelo Gomez', 'Digital Content S.R.L.', 20432432421, '2147483647', NULL, 'Datos del cliente', 1, 6, 1),
-(16, 'Oscar de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', NULL, 'cliente preferencial', 1, 7, 4),
-(17, 'Fabio Brandan', 'JTA S.A.', 20432432421, '1111333222', NULL, 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
-(18, 'Ana Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 1),
-(19, 'Luis Ponzonetta', 'TV Broadcast', NULL, '42432432', NULL, 'radicado en Uruguay', 1, 10, 1);
+INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
+(1, 'Canal 13', 'San Luis', 'Canal 13 televisión', NULL, '42432432', NULL, 'Director Nasim', 1, 1, 1),
+(2, 'Pedro', 'Bonarrico', 'Jesus Te Ama', 20432432421, '02954-4303249', 'bonarrico@jta.com', 'contactarlo por mail: \n\n', 4, 2, 1),
+(3, 'Juan Antonio', 'Acompanies', 'REMAR', 34243243242, '123123123', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 4, 3, 1),
+(4, 'Pedro', 'Almirón', 'Radio Total FM', 20432432421, '2147483647', 'palmiron@yahoo.com', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 4, 4, 3),
+(6, 'Mariangeles', 'Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', NULL, 'persona ficticia', 1, 5, 1),
+(11, 'Marcelo', 'Gomez', 'Digital Content S.R.L.', 20432432421, '2147483647', NULL, 'Datos del cliente', 4, 6, 1),
+(16, 'Oscar', 'de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', NULL, 'cliente preferencial', 4, 7, 4),
+(17, 'Fabian', 'Brandan', 'JTA S.A.', 20432432421, '1111333222', NULL, 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
+(18, 'Ana', 'Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 1),
+(19, 'Luis', 'Ponzonetta', 'TV Broadcast', NULL, '42432432', NULL, 'radicado en Uruguay', 1, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -126,8 +127,6 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 DROP TABLE IF EXISTS `equipment`;
 CREATE TABLE IF NOT EXISTS `equipment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(150) NOT NULL,
-  `canal_frec` varchar(50) DEFAULT NULL,
   `numSerie` varchar(20) DEFAULT NULL,
   `anio` varchar(4) DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -135,46 +134,54 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `content` varchar(1000) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
+  `marca_id` int(11) DEFAULT NULL,
+  `modelo_id` int(11) DEFAULT NULL,
+  `frecuencia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `client_id` (`client_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+  KEY `user_id` (`user_id`),
+  KEY `equipment_marca` (`marca_id`),
+  KEY `equipment_modelo` (`modelo_id`),
+  KEY `equipment_canal_frecuencia` (`frecuencia_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
 --
 
-INSERT INTO `equipment` (`id`, `title`, `canal_frec`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `user_id`, `client_id`) VALUES
-(1, 'TRUD400', '21', '121116-2/1221', '2012', '2022-05-21 04:37:49', '2023-06-21 12:24:51', 'IP: 192.168.0.100', 1, 1),
-(2, 'FM250', '103,1MHz', '193454-2/0719', '2012', '2022-05-21 04:39:05', '2022-05-21 04:39:05', 'IP: 192.168.0.101', 5, 1),
-(3, 'MFM4', '101,3MHz', '213454-2/0222', '2013', '2022-05-21 04:57:38', '2022-05-21 04:57:38', NULL, 5, 2),
-(4, 'FM1K', '95,3MHz', '227455-2/0123', '2014', '2022-05-21 04:59:10', '2022-05-21 04:59:10', 'IP: 192.168.0.101', 5, 2),
-(5, 'TRUD1200', '14', '223454-2/0722', '2014', '2022-05-21 05:01:19', '2022-05-21 05:01:19', 'IP: 192.168.0.101', 1, 2),
-(6, 'AGCV2000', NULL, '223454-2/0722', '2018', '2022-05-21 05:01:34', '2023-04-20 23:32:25', NULL, 1, 11),
-(7, 'TRV200', '7', '223454-2/0722', '2019', '2022-05-21 05:10:24', '2022-05-21 05:10:24', NULL, 1, 2),
-(8, 'FM100', '102,5MHz', '223454-2/0722', '2019', '2022-05-21 14:43:33', '2023-04-20 23:33:17', NULL, 1, 1),
-(9, 'FM100', '103,1MHz', '223454-2/0722', '2022', '2022-05-21 14:44:12', '2023-04-20 23:33:07', NULL, 1, 1),
-(10, 'FM100', '105,9MHz', '223454-2/0722', '2020', '2022-05-21 14:45:55', '2023-04-20 23:32:56', NULL, 1, 1),
-(11, 'FM200', '89,1MHz', '223454-2/0722', '2020', '2022-05-24 02:20:00', '2023-04-20 23:32:04', NULL, 1, 3),
-(12, 'FM2000', '91,1MHz', '223454-2/0722', '2020', '2022-05-25 14:58:24', '2023-04-20 23:31:54', NULL, 1, 3),
-(13, 'FM250', '100,5MHz', '223454-2/0722', '2021', '2022-05-30 02:41:13', '2023-04-20 23:31:42', NULL, 1, 3),
-(14, 'TRUD1300', '31', '223454-2/0722', '2021', '2022-06-05 04:03:02', '2023-04-20 23:31:31', NULL, 1, 3),
-(15, 'TRUD400', '30', '223454-2/0722', '2021', '2022-06-13 03:21:29', '2023-06-24 19:33:04', '\r\n', 1, 6),
-(16, 'TRU400', '29', '12345432/8765', '2022', '2022-06-13 03:22:03', '2023-06-24 19:35:36', '', 10, 6),
-(17, 'FM250', '103,1MHz', '223454-3/0522', '2022', '2022-06-13 03:30:03', '2023-06-17 15:12:17', NULL, 1, 4),
-(18, 'TRU200', '15', '190722-1/1219', '2019', '2022-06-13 20:56:51', '2023-06-24 13:58:46', '', 1, 4),
-(19, 'TRV100', '15', '190722-2/1219', 'N/D', '2022-06-13 21:26:02', '2023-06-26 14:55:08', '', 1, 6),
-(20, 'TRUD1200', '17', '190722-3/1219', '2012', '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \narmado: completo\nfirmado: Oscar\ntel tecnico: 0345-2321387\nmanual: DMTRUD1200-22.pdf', 1, 18),
-(21, 'FM100', '103,7MHz', '020823-1/0423', '2023', '2022-06-23 01:15:03', '2023-06-17 15:09:06', NULL, 10, 4),
-(22, 'FM100', '104,1MHz', '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4),
-(23, 'TRV250', '7', '223454-2/0722', '2022', '2022-06-22 22:19:54', '2023-06-17 15:08:41', NULL, 10, 4),
-(33, 'Sistema TV Digital', '31', '230504-1/8765', '2023', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16),
-(34, 'DMUX1000', '31', '190122-1/1219', '2023', '2023-05-20 14:39:38', '2023-06-17 16:48:53', 'IP: 192.168.0.90\r\nNuevo multiplexor de videoswitch', 1, 2),
-(37, 'NDS3542', '31', '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18),
-(59, 'TRU400', '24', '220722-1/1223', '2015', '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3),
-(68, 'FM100', '100,9MHz', '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-17 16:31:12', NULL, 10, 11),
-(69, 'TRM26100', '6 canales Ch 14-19', '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17),
-(70, 'DMUX-1000', '18', '230617-1/0723', NULL, '2023-06-17 16:02:08', '2023-06-17 16:29:49', 'IP: 192.168.1.136', 1, 19);
+INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `user_id`, `client_id`, `marca_id`, `modelo_id`, `frecuencia_id`) VALUES
+(1, '121116-2/1221', '2012', '2022-05-21 04:37:49', '2023-06-28 16:43:13', 'IP: 192.168.0.100', 1, 1, 2, 1, 152),
+(2, '193454-2/0719', '2012', '2022-05-21 04:39:05', '2023-06-28 16:45:44', 'IP: 192.168.0.101', 5, 1, 2, 2, 159),
+(3, '213454-2/0222', '2013', '2022-05-21 04:57:38', '2023-06-28 16:46:50', '', 5, 1, 1, 3, 155),
+(4, '227455-2/0123', '2014', '2022-05-21 04:59:10', '2023-06-28 16:47:11', 'IP: 192.168.0.101', 5, 1, 2, 1, 163),
+(5, '223454-2/0722', '2014', '2022-05-21 05:01:19', '2022-05-21 05:01:19', 'IP: 192.168.0.101', 1, 2, 2, 2, 160),
+(6, '223454-2/0722', '2018', '2022-05-21 05:01:34', '2023-06-28 13:26:50', '', 1, 1, 1, 4, 163),
+(7, '223454-2/0722', '2019', '2022-05-21 05:10:24', '2022-05-21 05:10:24', NULL, 1, 2, 1, 19, 22),
+(8, '223454-2/0722', '2019', '2022-05-21 14:43:33', '2023-04-20 23:33:17', NULL, 1, 1, 2, 18, 19),
+(9, '223454-2/0722', '2022', '2022-05-21 14:44:12', '2023-06-28 17:27:11', '', 1, 1, 1, 4, 156),
+(10, '223454-2/0722', '2020', '2022-05-21 14:45:55', '2023-04-20 23:32:56', NULL, 1, 1, 2, 5, 167),
+(11, '223454-2/0722', '2020', '2022-05-24 02:20:00', '2023-04-20 23:32:04', NULL, 1, 3, 1, 11, 19),
+(12, '223454-2/0722', '2020', '2022-05-25 14:58:24', '2023-04-20 23:31:54', NULL, 1, 6, 1, 11, 25),
+(13, '223454-2/0722', '2021', '2022-05-30 02:41:13', '2023-04-20 23:31:42', NULL, 1, 3, 1, 12, 17),
+(14, '223454-2/0722', '2021', '2022-06-05 04:03:02', '2023-04-20 23:31:31', NULL, 1, 3, 1, 12, 18),
+(15, '223454-2/0722', '2021', '2022-06-13 03:21:29', '2023-06-24 19:33:04', '\r\n', 1, 3, 1, 12, 19),
+(16, '12345432/8765', '2022', '2022-06-13 03:22:03', '2023-06-24 19:35:36', '', 10, 6, 1, 19, 31),
+(17, '223454-3/0522', '2022', '2022-06-13 03:30:03', '2023-06-17 15:12:17', NULL, 1, 4, 2, 1, 189),
+(18, '190722-1/1219', '2019', '2022-06-13 20:56:51', '2023-06-24 13:58:46', '', 1, 4, 1, 22, 16),
+(19, '190722-2/1219', 'N/D', '2022-06-13 21:26:02', '2023-06-26 14:55:08', '', 1, 6, 2, 1, 167),
+(20, '190722-3/1219', '2012', '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \narmado: completo\nfirmado: Oscar\ntel tecnico: 0345-2321387\nmanual: DMTRUD1200-22.pdf', 1, 18, 1, 21, 18),
+(21, '020823-1/0423', '2023', '2022-06-23 01:15:03', '2023-06-28 13:45:09', '', 10, 1, 2, 25, 124),
+(22, '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4, 2, 14, 14),
+(23, '223454-2/0722', '2022', '2022-06-22 22:19:54', '2023-06-17 15:08:41', NULL, 10, 4, 1, 18, 30),
+(33, '230504-1/8765', '2023', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16, 4, 38, 0),
+(34, '190122-1/1219', '2023', '2023-05-20 14:39:38', '2023-06-17 16:48:53', 'IP: 192.168.0.90\r\nNuevo multiplexor de videoswitch', 1, 2, 3, 37, 31),
+(37, '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18, 1, 1, 1),
+(59, '220722-1/1223', '2015', '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3, 3, 35, 1),
+(68, '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-17 16:31:12', NULL, 10, 11, 1, 17, 21),
+(69, '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17, 1, 24, 31),
+(70, '230617-1/0723', NULL, '2023-06-17 16:02:08', '2023-06-17 16:29:49', 'IP: 192.168.1.136', 1, 19, 2, 1, 198),
+(71, '123456-1/0423', '2024', '2023-06-28 13:35:42', '2023-06-28 13:35:42', '', 10, 6, 1, 5, 152),
+(72, '123456-1/0423', '2024', '2023-06-28 13:36:33', '2023-06-28 13:36:33', '', 10, 6, 1, 5, 153);
 
 -- --------------------------------------------------------
 
@@ -202,6 +209,343 @@ INSERT INTO `estado_or` (`id`, `descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `frecuencia`
+--
+
+DROP TABLE IF EXISTS `frecuencia`;
+CREATE TABLE IF NOT EXISTS `frecuencia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `canal` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `frecuencia`
+--
+
+INSERT INTO `frecuencia` (`id`, `canal`) VALUES
+(0, '0'),
+(1, '1'),
+(2, '2'),
+(3, '3'),
+(4, '4'),
+(5, '5'),
+(6, '6'),
+(7, '7'),
+(8, '8'),
+(9, '9'),
+(10, '10'),
+(11, '11'),
+(12, '12'),
+(13, '13'),
+(14, '14'),
+(15, '15'),
+(16, '16'),
+(17, '17'),
+(18, '18'),
+(19, '19'),
+(20, '20'),
+(21, '21'),
+(22, '22'),
+(23, '23'),
+(24, '24'),
+(25, '25'),
+(26, '26'),
+(27, '27'),
+(28, '28'),
+(29, '29'),
+(30, '30'),
+(31, '31'),
+(32, '32'),
+(33, '33'),
+(34, '34'),
+(35, '35'),
+(36, '36'),
+(37, '37'),
+(38, '38'),
+(39, '39'),
+(40, '40'),
+(41, '41'),
+(42, '42'),
+(43, '43'),
+(44, '44'),
+(45, '45'),
+(46, '46'),
+(47, '47'),
+(48, '48'),
+(49, '49'),
+(50, '50'),
+(51, '51'),
+(52, '52'),
+(53, '53'),
+(54, '54'),
+(55, '55'),
+(56, '56'),
+(57, '57'),
+(58, '58'),
+(59, '59'),
+(60, '60'),
+(61, '61'),
+(62, '62'),
+(63, '63'),
+(64, '64'),
+(65, '65'),
+(66, '66'),
+(67, '67'),
+(68, '68'),
+(69, '69'),
+(70, '70'),
+(71, '71'),
+(72, '72'),
+(73, '73'),
+(74, '74'),
+(75, '75'),
+(76, '76'),
+(77, '77'),
+(78, '78'),
+(79, '79'),
+(80, '80'),
+(81, '81'),
+(82, '82'),
+(83, '83'),
+(84, '84'),
+(85, '85'),
+(86, '86'),
+(87, '87'),
+(88, '88'),
+(89, '89'),
+(90, '90'),
+(91, '91'),
+(92, '92'),
+(93, '93'),
+(94, '94'),
+(95, '95'),
+(96, '96'),
+(97, '97'),
+(98, '98'),
+(99, '99'),
+(100, '87.9'),
+(101, '88.1'),
+(102, '88.3'),
+(103, '88.5'),
+(104, '88.7'),
+(105, '88.9'),
+(106, '89.1'),
+(107, '89.3'),
+(108, '89.5'),
+(109, '89.7'),
+(110, '89.9'),
+(111, '90.1'),
+(112, '90.3'),
+(113, '90.5'),
+(114, '90.7'),
+(115, '90.9'),
+(116, '91.1'),
+(117, '91.3'),
+(118, '91.5'),
+(119, '91.7'),
+(120, '91.9'),
+(121, '92.1'),
+(122, '92.3'),
+(123, '92.5'),
+(124, '92.7'),
+(125, '92.9'),
+(126, '93.1'),
+(127, '93.3'),
+(128, '93.5'),
+(129, '93.7'),
+(130, '93.9'),
+(131, '94.1'),
+(132, '94.3'),
+(133, '94.5'),
+(134, '94.7'),
+(135, '94.9'),
+(136, '95.1'),
+(137, '95.3'),
+(138, '95.5'),
+(139, '95.7'),
+(140, '95.9'),
+(141, '96.1'),
+(142, '96.3'),
+(143, '96.5'),
+(144, '96.7'),
+(145, '96.9'),
+(146, '97.1'),
+(147, '97.3'),
+(148, '97.5'),
+(149, '97.7'),
+(150, '97.9'),
+(151, '98.1'),
+(152, '98.3'),
+(153, '98.5'),
+(154, '98.7'),
+(155, '98.9'),
+(156, '99.1'),
+(157, '99.3'),
+(158, '99.5'),
+(159, '99.7'),
+(160, '99.9'),
+(161, '100.1'),
+(162, '100.3'),
+(163, '100.5'),
+(164, '100.7'),
+(165, '100.9'),
+(166, '101.1'),
+(167, '101.3'),
+(168, '101.5'),
+(169, '101.7'),
+(170, '101.9'),
+(171, '102.1'),
+(172, '102.3'),
+(173, '102.5'),
+(174, '102.7'),
+(175, '102.9'),
+(176, '103.1'),
+(177, '103.3'),
+(178, '103.5'),
+(179, '103.7'),
+(180, '103.9'),
+(181, '104.1'),
+(182, '104.3'),
+(183, '104.5'),
+(184, '104.7'),
+(185, '104.9'),
+(186, '105.1'),
+(187, '105.3'),
+(188, '105.5'),
+(189, '105.7'),
+(190, '105.9'),
+(191, '106.1'),
+(192, '106.3'),
+(193, '106.5'),
+(194, '106.7'),
+(195, '106.9'),
+(196, '107.1'),
+(197, '107.3'),
+(198, '107.5'),
+(199, '107.7'),
+(200, '107.9'),
+(201, '540'),
+(202, '550'),
+(203, '560'),
+(204, '570'),
+(205, '580'),
+(206, '590'),
+(207, '600'),
+(208, '610'),
+(209, '620'),
+(210, '630'),
+(211, '640'),
+(212, '650'),
+(213, '660'),
+(214, '670'),
+(215, '680'),
+(216, '690'),
+(217, '700'),
+(218, '710'),
+(219, '720'),
+(220, '730'),
+(221, '740'),
+(222, '750'),
+(223, '760'),
+(224, '770'),
+(225, '780'),
+(226, '790'),
+(227, '800'),
+(228, '810'),
+(229, '820'),
+(230, '830'),
+(231, '840'),
+(232, '850'),
+(233, '860'),
+(234, '870'),
+(235, '880'),
+(236, '890'),
+(237, '900'),
+(238, '910'),
+(239, '920'),
+(240, '930'),
+(241, '940'),
+(242, '950'),
+(243, '960'),
+(244, '970'),
+(245, '980'),
+(246, '990'),
+(247, '1000'),
+(248, '1010'),
+(249, '1020'),
+(250, '1030'),
+(251, '1040'),
+(252, '1050'),
+(253, '1060'),
+(254, '1070'),
+(255, '1080'),
+(256, '1090'),
+(257, '1100'),
+(258, '1110'),
+(259, '1120'),
+(260, '1130'),
+(261, '1140'),
+(262, '1150'),
+(263, '1160'),
+(264, '1170'),
+(265, '1180'),
+(266, '1190'),
+(267, '1200'),
+(268, '1210'),
+(269, '1220'),
+(270, '1230'),
+(271, '1240'),
+(272, '1250'),
+(273, '1260'),
+(274, '1270'),
+(275, '1280'),
+(276, '1290'),
+(277, '1300'),
+(278, '1310'),
+(279, '1320'),
+(280, '1330'),
+(281, '1340'),
+(282, '1350'),
+(283, '1360'),
+(284, '1370'),
+(285, '1380'),
+(286, '1390'),
+(287, '1400'),
+(288, '1410'),
+(289, '1420'),
+(290, '1430'),
+(291, '1440'),
+(292, '1450'),
+(293, '1460'),
+(294, '1470'),
+(295, '1480'),
+(296, '1490'),
+(297, '1500'),
+(298, '1510'),
+(299, '1520'),
+(300, '1530'),
+(301, '1540'),
+(302, '1550'),
+(303, '1560'),
+(304, '1570'),
+(305, '1580'),
+(306, '1590'),
+(307, '1600'),
+(308, '1610'),
+(309, '1620'),
+(310, '1630'),
+(311, '1640'),
+(312, '1650'),
+(313, '1660'),
+(314, '1670'),
+(315, '1680'),
+(316, '1690'),
+(317, '1700');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `historia`
 --
 
@@ -219,7 +563,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipment_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -251,7 +595,8 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (35, 'cambio frec', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Se cambió la frecuencia del modulador a CH:13', 3, 16, 10),
 (36, 'modulos quemados', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Reparación de dos módulos de potencia (Atilio)', 2, 19, 10),
 (37, 'dsa', '2023-06-26 13:46:29', '2023-06-26 13:46:29', 'cxz', 1, 19, 1),
-(38, 'dsa', '2023-06-26 13:47:45', '2023-06-26 13:47:45', 'cxz', 1, 19, 1);
+(38, 'dsa', '2023-06-26 13:47:45', '2023-06-26 13:47:45', 'cxz', 1, 19, 1),
+(39, 'cambio IP', '2023-06-28 16:45:23', '2023-06-28 16:45:23', '192.168.0.136', 1, 9, 10);
 
 -- --------------------------------------------------------
 
@@ -1248,6 +1593,89 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `marca`
+--
+
+DROP TABLE IF EXISTS `marca`;
+CREATE TABLE IF NOT EXISTS `marca` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `marca`
+--
+
+INSERT INTO `marca` (`id`, `nombre`) VALUES
+(1, 'Liecom'),
+(2, 'IA Electrónica'),
+(3, 'VideoSwitch'),
+(4, 'Dexin'),
+(5, 'Ubiquiti'),
+(6, 'Hewlett Packard'),
+(7, 'Otra');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `modelo`
+--
+
+DROP TABLE IF EXISTS `modelo`;
+CREATE TABLE IF NOT EXISTS `modelo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `modelo`
+--
+
+INSERT INTO `modelo` (`id`, `nombre`) VALUES
+(1, 'FM100'),
+(2, 'FM250'),
+(3, 'FM500'),
+(4, 'FM1000'),
+(5, 'FM2000'),
+(6, 'FM3000'),
+(7, 'FM5000'),
+(8, 'FM7000'),
+(9, 'FM10.000'),
+(10, 'FM5.000'),
+(11, 'TRUD70'),
+(12, 'TRUD100'),
+(13, 'TRUD250'),
+(14, 'TRUD400'),
+(15, 'TRUD500'),
+(16, 'TRUD800'),
+(17, 'TRUD900'),
+(18, 'TRUD1000'),
+(19, 'TRUD1200'),
+(20, 'TRUD1800'),
+(21, 'TRUD2400'),
+(22, 'TRU100'),
+(23, 'TRU250'),
+(24, 'TRU350'),
+(25, 'TRU400'),
+(26, 'TRU500'),
+(27, 'TRU1.000'),
+(28, 'TRU2.000'),
+(29, 'TRM2640'),
+(30, 'TRM2650'),
+(31, 'TRM26100'),
+(32, 'NDS3542'),
+(33, 'NDS3542A'),
+(34, 'DMOD-1000'),
+(35, 'DMUX-1000i'),
+(36, 'DMUX-500i'),
+(37, 'DMUX-3000'),
+(38, 'LP211');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `orden_reparacion`
 --
 
@@ -1283,7 +1711,7 @@ INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`,
 (15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230313-6/0920', 'revisar configuracion', 5, 34, 10, 2),
 (16, '2023-06-17 16:02:08', '2023-06-17 16:02:08', '223454', 'ver conexión TIBBO por problemas', 1, 14, 10, 2),
 (17, '2023-06-17 16:02:08', '2023-06-17 16:20:02', '193454', 'cambiar de frec a 98,5MHz', 1, 2, 10, 4),
-(18, '2023-06-17 16:02:08', '2023-06-17 16:02:08', '213454', 'problemas entrada 220V', 1, 3, 10, 2),
+(18, '2023-06-17 16:02:08', '2023-06-27 13:40:29', '213454', 'problemas entrada 220V', 14, 3, 10, 2),
 (19, '2023-06-17 16:02:08', '2023-06-17 16:20:10', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 1, 33, 10, 3);
 
 -- --------------------------------------------------------
@@ -1514,43 +1942,44 @@ INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_i
 -- Filtros para la tabla `client`
 --
 ALTER TABLE `client`
-  ADD CONSTRAINT `client_cf` FOREIGN KEY (`cond_fiscal_id`) REFERENCES `cond_fiscal` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `client_domicilio` FOREIGN KEY (`domicilio_id`) REFERENCES `domicilio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `client_fiscal` FOREIGN KEY (`cond_fiscal_id`) REFERENCES `cond_fiscal` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `client_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `domicilio`
 --
 ALTER TABLE `domicilio`
-  ADD CONSTRAINT `domicilio_ibfk_1` FOREIGN KEY (`localidad_id`) REFERENCES `localidad` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `domicilio_localidad` FOREIGN KEY (`localidad_id`) REFERENCES `localidad` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `equipment`
 --
 ALTER TABLE `equipment`
-  ADD CONSTRAINT `equipo_cliente` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `equipo_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `eq_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_marca` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `historia`
 --
 ALTER TABLE `historia`
-  ADD CONSTRAINT `historia_equipo` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `historia_tipo` FOREIGN KEY (`tipologia_id`) REFERENCES `tipologia` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `historia_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `historia_equipo` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `localidad`
 --
 ALTER TABLE `localidad`
-  ADD CONSTRAINT `ciudad_prov` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `localidad_prov` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `orden_reparacion`
 --
 ALTER TABLE `orden_reparacion`
   ADD CONSTRAINT `or_equipo` FOREIGN KEY (`equipo_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `or_estado` FOREIGN KEY (`estado_id`) REFERENCES `estado_or` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `or_estado` FOREIGN KEY (`estado_id`) REFERENCES `estado_or` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `or_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `or_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
@@ -1564,7 +1993,7 @@ ALTER TABLE `provincia`
 -- Filtros para la tabla `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

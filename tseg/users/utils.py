@@ -16,26 +16,27 @@ from sqlalchemy import asc, desc
 def buscarLista(dBModel, *arg):
 	# Obtener los valores de filterBy y filterOrder desde la solicitud
 	filter_by = request.args.get('filterBy')
-	filter_order = request.args.get('filterOrder')
 	sort_column = getattr(dBModel, filter_by)
-	if arg:
-		if arg[0].username:
-			# filtrar busqueda si la hace un tecnico
-			lista = dBModel.query.filter_by(tecnico_id=arg[0].id)
-		elif arg[0].title:
-			# filtrar busqueda para un equipo determinado
-			lista = dBModel.query.filter_by(equipo_id=arg[0].id).first_or_404()
-		return lista
-			
-	else:				
-		if filter_order == "asc":
-			lista = dBModel.query.order_by(asc(sort_column))
-		else:
-			lista = dBModel.query.order_by(desc(sort_column))
-		if lista:
-			return lista
-	return None
 
+	# ORDEN
+	filter_order = request.args.get('filterOrder')
+	if filter_order == "asc":
+		orden = asc(sort_column)
+	else:
+		orden = desc(sort_column)
+
+	lista = dBModel.query.order_by(orden)
+	if arg:
+		pass
+		# filtrar busqueda si la hace un tecnico
+		#lista = dBModel.query.filter_by(tecnico_id=arg[0].id)
+	
+		# filtrar busqueda para un equipo determinado
+		#lista = dBModel.query.filter_by(equipo_id=arg[0].id).first_or_404()
+	return lista
+	
+	
+	
 
 # obtener_informacion_geografica
 def obtener_informacion_geografica(codigo_postal):	

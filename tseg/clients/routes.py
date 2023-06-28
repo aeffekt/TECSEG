@@ -29,10 +29,7 @@ def layout():
 @role_required("ServicioCliente", "Admin", "Técnico")
 def all_clients():
 	all_clients = buscarLista(Client)
-	filtrar_por = {"id": "Número ID",
-					"client_name": "Nombre",
-					"business_name": "Razón social",
-					}
+	filtrar_por = current_app.config["FILTROS_CLIENTES"]
 				
 	return render_template('all_clients.html', 
 								lista=all_clients, 
@@ -44,7 +41,7 @@ def all_clients():
 @clients.route("/client-<int:client_id>")
 def client(client_id):
 	client = Client.query.get_or_404(client_id)	
-	return render_template("client.html", title=client.client_name,
+	return render_template("client.html", title=f'{client.nombre} {client.apellido}',
 											client=client)
 
 
@@ -66,7 +63,8 @@ def add_client():
 			db.session.add(domicilio)
 		
 		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
-		client = Client(client_name=form.client_name.data,
+		client = Client(nombre=form.nombre.data,
+						apellido=form.apellido.data,
 						business_name=form.business_name.data,
 						cond_fiscal_id=cond_fiscal.id,
 						cuit=form.cuit.data,
@@ -103,7 +101,8 @@ def update_client(client_id):
 		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
 		client.cond_fiscal_id = cond_fiscal.id
 		client.domicilio_id = domicilio.id
-		client.client_name = form.client_name.data
+		client.nombre = form.nombre.data
+		client.apellido = form.apellido.data
 		client.business_name = form.business_name.data		
 		client.cuit = form.cuit.data
 		client.telefono = form.telefono.data
@@ -115,7 +114,8 @@ def update_client(client_id):
 	elif request.method == 'GET':
 		form.cond_fiscal.default = client.condicion_fiscal.nombre		
 		form.process()
-		form.client_name.data = client.client_name
+		form.nombre.data = client.nombre
+		form.apellido.data = client.apellido
 		form.business_name.data = client.business_name
 		form.cuit.data = client.cuit
 		form.telefono.data = client.telefono
@@ -158,7 +158,7 @@ def client_equipments(client_id):
 				"date_modified": "Fecha modificado",
 				"date_created": "Fecha creado"}
 	return render_template('client_equipments.html', 
-								title=client.client_name,
+								title=f'{client.nombre} {client.apellido}',
 								filtrar_por=filtrar_por,
 								lista=equipments, 
 								client=client)

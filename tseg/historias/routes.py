@@ -1,4 +1,4 @@
-from flask import (render_template, url_for, flash, redirect, request, abort, Blueprint)
+from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Historia, Equipment
@@ -32,7 +32,7 @@ def add_historia(equipment_id):
 	return render_template('create_historia.html', title='Nueva Historia', 
 												form=form,
 												equipment=equipment,
-												legend=f'Nueva Historia del equipo: {equipment.title}')
+												legend=f'Nueva Historia del equipo: {equipment.modelo_eq.nombre}')
 
 
 # ruteo de variables "historia_id"

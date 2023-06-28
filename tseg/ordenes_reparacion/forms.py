@@ -6,7 +6,7 @@ from tseg.models import Equipment, User, Estado_or
 class OrdenReparacionForm(FlaskForm):
 	def __init__(self):
 		super(OrdenReparacionForm, self).__init__()  # Llamar al constructor de la clase padre
-		self.equipo.choices = [f'[{e.id}] {e.title} ({e.owner.client_name})' for e in Equipment.query.all()]
+		self.equipo.choices = [f'[{e.id}] {e.title} ({e.owner.nombre} {e.owner.apellido})' for e in Equipment.query.all()]
 		self.tecnico.choices = [f'[{t.id}] {t.username} ({t.role.role_name})' for t in User.query.filter_by(role_id=3)]
 		self.tecnico.choices.insert(0,'Asignación pendiente') # agrega item
 		self.estado.choices = [f'[{estado_or.id}] {estado_or.descripcion}' for estado_or in Estado_or.query.all()]

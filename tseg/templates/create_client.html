@@ -7,17 +7,32 @@
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
 				<div class="form-group" autofocus>
 					<!-- boottrap  -->
-					{{ form.client_name.label(class="form-control-label") }}
+					{{ form.nombre.label(class="form-control-label") }}
 					<!-- errores de entrada  -->
-					{% if form.client_name.errors %}
-						{{ form.client_name(class="form-control form-control-sm is-invalid") }}
+					{% if form.nombre.errors %}
+						{{ form.nombre(class="form-control form-control-sm is-invalid") }}
 						<div class="invalid-feedback">
-							{% for error in form.client_name.errors %}
+							{% for error in form.nombre.errors %}
 								<span>{{ error }}</span>
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.client_name(class="form-control form-control-sm") }}
+						{{ form.nombre(class="form-control form-control-sm") }}
+					{% endif %}
+				</div>
+				<div class="form-group" autofocus>
+					<!-- boottrap  -->
+					{{ form.apellido.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.apellido.errors %}
+						{{ form.apellido(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.apellido.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.apellido(class="form-control form-control-sm") }}
 					{% endif %}
 				</div>
 				<div class="form-group">					

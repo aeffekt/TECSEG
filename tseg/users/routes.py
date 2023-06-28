@@ -138,11 +138,13 @@ def search():
 		clients = Client.query
 		historias = Historia.query
 		searched = form.searched.data
-		equipments = equipments.filter(or_(Equipment.title.like('%'+searched+'%'), \
+		equipments = equipments.filter(or_(Equipment.marca_eq.nombre.like('%'+searched+'%'), \
+											Equipment.modelo_eq.nombre.like('%'+searched+'%'),
 											Equipment.content.like('%'+searched+'%'),
 											Equipment.date_created.like('%'+searched+'%')
 											))
-		clients = clients.filter(or_(Client.client_name.like('%'+searched+'%'), \
+		clients = clients.filter(or_(Client.nombre.like('%'+searched+'%'), \
+									Client.apellido.like('%'+searched+'%'),
 									Client.business_name.like('%'+searched+'%'),
 									Client.comments.like('%'+searched+'%'),
 									Client.telefono.like('%'+searched+'%'),
@@ -167,10 +169,8 @@ def search():
 @role_required("Admin")
 def all_users():
 	all_users = buscarLista(User)
-	image_path = url_for("static", filename='profile_pics/')	
-	filtrar_por = {"username": "Nombre",
-					"role_id": "Tipo usuario"					
-					}
+	image_path = url_for("static", filename='profile_pics/')
+	filtrar_por = current_app.config["FILTROS_USUARIOS"]
 	return render_template('all_users.html',
 							lista=all_users,
 							filtrar_por=filtrar_por,

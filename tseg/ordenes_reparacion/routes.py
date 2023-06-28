@@ -25,13 +25,7 @@ def all_ordenes_reparacion():
 		all_or = buscarLista(Orden_reparacion, current_user)
 	else:	
 		all_or = buscarLista(Orden_reparacion)
-	filtrar_por = {"estado_id": "estado",
-					"codigo": "Código",					
-					"tecnico_id": "Técnico asignado",
-					"equipo_id": "equipo",
-					"date_modified": "Fecha modificado",
-					"date_created": "Fecha creado",
-					}
+	filtrar_por = current_app.config["FILTROS_OR"]	
 	return render_template('all_ordenes_reparacion.html', 
 							lista=all_or, 
 							filtrar_por = filtrar_por,
@@ -70,7 +64,7 @@ def add_orden_reparacion(equipment_id):
 	elif request.method == 'GET':
 		equipment = Equipment.query.filter_by(id=equipment_id).first()
 		if(equipment): # CARGA EL VALOR 'DEFAULT' EN SELECT si encuentra un equipo
-			form.equipo.default = f'[{equipment.id}] {equipment.title} ({equipment.owner.client_name})'
+			form.equipo.default = f'[{equipment.id}] {equipment.modelo_eq.nombre} ({equipment.owner.nombre} {equipment.owner.apellido})'
 			form.process() 
 	return render_template('create_orden_reparacion.html', 
 												title='Agregar O.R.', 
@@ -105,7 +99,7 @@ def update_orden_reparacion(orden_reparacion_id):
 		# si no hay tecnico asignado lo deja vacio
 		if orden_reparacion.tecnicoAsignado:
 			form.tecnico.default = f'[{orden_reparacion.tecnicoAsignado.id}] {orden_reparacion.tecnicoAsignado.username} ({orden_reparacion.tecnicoAsignado.role.role_name})'
-		form.equipo.default = f'[{orden_reparacion.equipo.id}] {orden_reparacion.equipo.title} ({orden_reparacion.equipo.owner.client_name})'
+		form.equipo.default = f'[{orden_reparacion.equipo.id}] {orden_reparacion.equipo.title} ({orden_reparacion.equipo.owner.nombre} {orden_reparacion.equipo.owner.apellido})'
 		form.estado.default = f'[{orden_reparacion.estado.id}] {orden_reparacion.estado.descripcion}'
 		form.process()
 		form.codigo.data = orden_reparacion.codigo

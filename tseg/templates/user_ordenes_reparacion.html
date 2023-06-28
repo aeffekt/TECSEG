@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}    
     <h6 class="border-bottom border-secondary mb-4">Equipos de 
-        <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.client_name }}</a> ({{ equipments.total }})</h6>
+        <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.nombre }} {{ client.apellido }}</a> ({{ equipments.total }})</h6>
     <p>
         <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Crear Equipo nuevo</a>
     </p>
@@ -11,7 +11,7 @@
             	<div class="article-metadata">
               		<small class="text-muted">Última modificación: {{ equipment.date_modified.strftime('%d-%m-%Y') }}</small>
             	</div>
-            	<h2><a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">{{ equipment.title }}</a></h2>
+            	<h2><a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">{{ equipment.modelo_eq.nombre }}</a></h2>
             	<p class="article-content">{{ equipment.content }}</p>
                 <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id, client_id=equipment.owner) }}">Editar equipo</a>
           </div>

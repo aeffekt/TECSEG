@@ -31,9 +31,9 @@
 		
 		<!-- título por defecto, o toma uno 'title' -->
 		{% if title %}
-			<title>TECSEG - {{ title }}</title>
+			<title>{{ title }}</title>
 		{% else %}
-			<title>TECSEG - LOGIN</title>
+			<title>TECSEG</title>
 		{% endif %}
 	</head>
 
@@ -63,7 +63,7 @@
 							</li>
 						
 							<li>
-								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments', filterBy='title', filterOrder='asc') }}">Equipos</a>
+								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments', filterBy='modelo_id', filterOrder='asc') }}">Equipos</a>
 								<ul class="menu-vertical">
 									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar nuevo equipo</a></li>
 								</ul>
@@ -108,9 +108,9 @@
 			            {% endif %}
 		          	{% endwith %}
 
-
 		          	{% block content %}		          	
 		          	{% endblock %}
+		          	
 	        	</div>
 
 	        	<!-- BUSCADOR-->
@@ -131,7 +131,7 @@
 	          			{% endif %}
 	          			{% if lista %}
 	          			<article class="media content-section">
-	          				<h5 class="border-bottom border-secondary mb-4">Ordenar lista</h5>
+	          				<h5 class="border-bottom border-secondary mb-4">Ordenar lista {{ title }}</h5>
 		          			<div class="row">
 		          				<div class="col-md-8">
 								    <select class="form-select" aria-label="Filter by column" id="filterBy">

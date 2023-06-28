@@ -13,7 +13,7 @@
     			<h5>Clientes:</h5>
     			{% for client in clients %}
     				<a class="article-title" href="{{ url_for('clients.client', client_id=client.id) }}">
-    					<h6><li>{{ client.client_name}} : {{ client.business_name }} </li><h6></a>
+    					<h6><li>{{ client.nombre}} {{ client.apellido}} : {{ client.business_name }} </li><h6></a>
     					<p>	    					
 	    					{% if searched|lower in client.telefono|lower %}
 	    						<small class="text-muted">{{ client.telefono }}</small>
@@ -34,7 +34,7 @@
     			<h5>Equipos:</h5>
     			{% for equipment in equipments %}
     				<a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-    					<h6><li> {{ equipment.title }}</h6></li>
+    					<h6><li> {{ equipment.modelo_eq.nombre }}</h6></li>
     				</a>
     				{% if searched|lower in equipment.anio|lower %}
     					<small class="text-muted">Año modelo: {{ equipment.anio }}</small>
@@ -43,7 +43,7 @@
     					<small class="text-muted">{{ equipment.content }}</small>
     				{% endif %}
     				<small class="text-muted">Canal/Frec: {{ equipment.canal_frec }}</small>
-    				<small><p class="text-muted">Pertenece a: {{ equipment.owner.client_name }}</p></small>
+    				<small><p class="text-muted">Pertenece a: {{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</p></small>
     			{% endfor%}
     		</div>
     	</div>

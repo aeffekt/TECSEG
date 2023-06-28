@@ -5,10 +5,18 @@
             <legend class="border-bottom mb-4">Equipo</legend>
             <div class="row">
                 <div class="col-md-3">
+                    <small>Marca:</small> 
+                </div>
+                <div class="col-md-9">
+                    <h5 class="aticle-title">{{ equipment.marca_eq.nombre }}</h5></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
                     <small>Modelo:</small> 
                 </div>
                 <div class="col-md-9">
-                    <h1 class="aticle-title">{{ equipment.title }}</h1></p>
+                    <h1 class="aticle-title">{{ equipment.modelo_eq.nombre }}</h1></p>
                 </div>
             </div>
             <div class="row">
@@ -16,7 +24,7 @@
                     <small>Pertenece a: </small>
                 </div>
                 <div class="col-md-9">
-                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.client_name }}</b></a>
+                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b></a>
                 </div>
             </div>
             <div class="row">
@@ -24,7 +32,7 @@
                     <small>Canal / Frecuencia:</small> 
                 </div>
                 <div class="col-md-9">
-                    <h5 class="article-content">{{ equipment.canal_frec }}</h5>
+                    <h5 class="article-content">{{ equipment.frecuencia_eq.canal }}</h5>
                 </div>
             </div>
             <div class="row">
@@ -94,13 +102,13 @@
                 <div class="col-md-2 text-end" title="tipo de historia">
                   <div class="d-grid">
                     {% if historia.tipologia.tipo == 'Mensaje' %}
-                        <a class="btn btn-dark btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
+                        <a class="btn btn-dark btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
                     {% elif historia.tipologia.tipo == 'Reparación' %}
-                        <a class="btn btn-info btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
+                        <a class="btn btn-info btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
                     {% elif historia.tipologia.tipo == 'Modificación' %}
-                        <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
+                        <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
                     {% else %}
-                        <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
+                        <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
                     {% endif %}
                     </div>
                 </div>
@@ -113,7 +121,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.title }}"?</h5>
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.modelo_eq.nombre }}"?</h5>
             <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
               <span aria-hidden="true">&times;</span>
             </button>

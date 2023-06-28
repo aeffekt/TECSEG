@@ -7,11 +7,11 @@
             <div class="media-body">
                 <div class="row">
                     <div class="col-md-11">
-                        <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-                        <h2>{{ equipment.title }}</h2>
-                        <h6 class="article-title" href="">Canal / Frecuencia: {{ equipment.canal_frec }}</h6>
+                        <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc') }}">
+                        <h2>{{ equipment.modelo_eq.nombre }}</h2>
+                        <h6 class="article-title" href="">Canal / Frecuencia: {{ equipment.frecuencia_eq.canal }}</h6>
                         <small>
-                            Cliente: <b>{{ equipment.owner.client_name }}</b> - Año modelo: <b>{{ equipment.anio }}</b>
+                            Cliente: <b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b> - Año modelo: <b>{{ equipment.anio }}</b>
                             <p>Modificado: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b>
                             Creado: <b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b></p>
                         </small>
