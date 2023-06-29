@@ -18,7 +18,7 @@ def layout():
 
 
 @equipments.route("/all_equipments")
-def all_equipments():	
+def all_equipments():
 	all_equips = buscarLista(Equipment)
 	filtrar_por = current_app.config["FILTROS_EQUIPOS"]
 
@@ -31,13 +31,13 @@ def all_equipments():
 @equipments.route("/equipment-<int:equipment_id>")
 def equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
-	#historias =  buscarLista(Historia)
+	historias =  buscarLista(Historia, equipment)
 	filtrar_por = current_app.config['FILTROS_HISTORIAS']
 	return render_template("equipment.html", title=equipment.modelo_eq.nombre,
 											equipment=equipment,
 											legend="Ver Equipo",
 											filtrar_por = filtrar_por,
-											#lista=historias
+											lista=historias
 											)
 
 @equipments.route("/add_equipment-<string:client_id>", methods=['GET','POST'] )
@@ -66,7 +66,8 @@ def add_equipment(client_id):
 		form.owner.default = f'[{client.id}] {client.nombre} {client.apellido}, {client.business_name}'
 		form.process()
 	return render_template('create_equipment.html', title='Agregar equipo', 
-												form=form, legend="Agregar equipo")
+												form=form, 
+												legend="Agregar equipo")
 
 
 @equipments.route("/equipment-<int:equipment_id>-update", methods=['GET', 'POST'])
@@ -89,7 +90,9 @@ def update_equipment(equipment_id):
 		equipment.date_modified = dateFormat()
 		db.session.commit()
 		flash(f"Se guardaron los cambios", 'success')
-		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))
+		return redirect(url_for('equipments.equipment', equipment_id=equipment.id, 
+														filterBy='date_modified',
+														filterSort='desc'))
 	elif request.method == 'GET':		
 		form.owner.default = f'[{equipment.owner.id}] {equipment.owner.nombre} {equipment.owner.apellido}, {equipment.owner.business_name}'
 		form.anio.default = equipment.anio
@@ -116,15 +119,10 @@ def delete_equipment(equipment_id):
 @equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
 def historias_equipo(equipment_id, tipologia_id):	
 	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
-	historias = buscarLista(Historia)	
-	filtrar_por = {"marca": "Título", 
-					"tipología_id": "Tipología",					
-					"equipo_id": "equipo",
-					"date_modified": "Fecha modificado",
-					"date_created": "Fecha creado",
-					}
+	historias = buscarLista(Historia, equipo)	
+	filtrar_por = current_app.config['FILTROS_HISTORIAS']
 	return render_template('historias_equipo.html', 
-						title=equipo.marca, 
+						title=equipo.modelo_eq.nombre, 
 						lista=historias,
 						filtrar_por = filtrar_por,
 						equipo=equipo)

@@ -5,200 +5,220 @@
 			{{ form.hidden_tag() }} <!-- part of protection -->
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
-				<div class="form-group" autofocus>
-					<!-- boottrap  -->
-					{{ form.nombre.label(class="form-control-label") }}
-					<!-- errores de entrada  -->
-					{% if form.nombre.errors %}
-						{{ form.nombre(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.nombre.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group" autofocus>
+							<!-- boottrap  -->
+							{{ form.nombre.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.nombre.errors %}
+								{{ form.nombre(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.nombre.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.nombre(class="form-control form-control-sm") }}
+							{% endif %}
+						</div>						
+						<div class="form-group">
+							{{ form.email.label(class="form-control-label") }}					
+							{% if form.email.errors %}
+								{{ form.email(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.email.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.email(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.nombre(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group" autofocus>
-					<!-- boottrap  -->
-					{{ form.apellido.label(class="form-control-label") }}
-					<!-- errores de entrada  -->
-					{% if form.apellido.errors %}
-						{{ form.apellido(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.apellido.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.apellido.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.apellido.errors %}
+								{{ form.apellido(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.apellido.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.apellido(class="form-control form-control-sm") }}
+							{% endif %}
+						</div>						
+						<div class="form-group">
+							{{ form.telefono.label(class="form-control-label") }}
+							{% if form.telefono.errors %}
+								{{ form.telefono(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.telefono.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.telefono(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.apellido(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">					
-					{{ form.business_name.label(class="form-control-label") }}					
-					{% if form.business_name.errors %}
-						{{ form.business_name(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.business_name.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.business_name(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.telefono.label(class="form-control-label") }}					
-					{% if form.telefono.errors %}
-						{{ form.telefono(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.telefono.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.telefono(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.email.label(class="form-control-label") }}					
-					{% if form.email.errors %}
-						{{ form.email(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.email.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.email(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">					
-					{{ form.cond_fiscal.label(class="form-control-label") }}					
-					{% if form.cond_fiscal.errors %}
-						{{ form.cond_fiscal(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.cond_fiscal.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.cond_fiscal(class="form-control form-control-sm" ) }}
-					{% endif %}
-				</div>
-				<div class="form-group">					
-					{{ form.cuit.label(class="form-control-label") }}					
-					{% if form.cuit.errors %}
-						{{ form.cuit(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.cuit.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.cuit(class="form-control form-control-sm" ) }}
-					{% endif %}
-				</div>				
-				<div class="form-group">
-					<!-- boottrap  -->
-					{{ form.comments.label(class="form-control-label") }}
-					<!-- errores de entrada  -->
-					{% if form.comments.errors %}
-						{{ form.comments(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.comments.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.comments(class="form-control form-control-sm", rows='3') }}
-					{% endif %}
-				</div>
-
-				<div class="collapse">
+					</div>
 					<div class="form-group">
 						<!-- boottrap  -->
-						{{ form.domicilio.label(class="form-control-label") }}
+						{{ form.comments.label(class="form-control-label") }}
 						<!-- errores de entrada  -->
-						{% if form.domicilio.errors %}
-							{{ form.domicilio(class="form-control form-control-sm is-invalid") }}
+						{% if form.comments.errors %}
+							{{ form.comments(class="form-control form-control-sm is-invalid") }}
 							<div class="invalid-feedback">
-								{% for error in form.domicilio.errors %}
+								{% for error in form.comments.errors %}
 									<span>{{ error }}</span>
 								{% endfor %}
 							</div>
 						{% else %}
-							{{ form.domicilio(class="form-control form-control-sm") }}
+							{{ form.comments(class="form-control form-control-sm", rows='2') }}
 						{% endif %}
 					</div>
-					<div class="form-group">
-						<!-- boottrap  -->
-						{{ form.codigo_postal.label(class="form-control-label") }}
-						<!-- errores de entrada  -->
-						{% if form.codigo_postal.errors %}
-							{{ form.codigo_postal(class="form-control form-control-sm is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.codigo_postal.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
+					<div class="row">
+						<div class="col-md-6">
+							<label for="buttonCollapseDomicilio">Datos de Empresa</label>
+									<p><button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseEmpresa" aria-expanded="false" aria-controls="collapseEmpresa" id="buttonCollapseEmpresa">Mostrar/Ocultar</button></p>
+							<div class="collapse" id="collapseEmpresa">
+									<div class="card card-body">				
+									<div class="form-group">					
+										{{ form.business_name.label(class="form-control-label") }}					
+										{% if form.business_name.errors %}
+											{{ form.business_name(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.business_name.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.business_name(class="form-control form-control-sm") }}
+										{% endif %}
+									</div>
+									<div class="form-group">					
+										{{ form.cuit.label(class="form-control-label") }}					
+										{% if form.cuit.errors %}
+											{{ form.cuit(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.cuit.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.cuit(class="form-control form-control-sm" ) }}
+										{% endif %}
+									</div>
+									<div class="form-group">					
+										{{ form.cond_fiscal.label(class="form-control-label") }}					
+										{% if form.cond_fiscal.errors %}
+											{{ form.cond_fiscal(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.cond_fiscal.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.cond_fiscal(class="form-control form-control-sm" ) }}
+										{% endif %}
+									</div>
+								</div>
 							</div>
-						{% else %}
-							{{ form.codigo_postal(class="form-control form-control-sm", id="codigo_postal") }}
-						{% endif %}
-					</div>
-					<div class="form-group">
-						<!-- boottrap  -->
-						{{ form.localidad.label(class="form-control-label") }}
-						<!-- errores de entrada  -->
-						{% if form.localidad.errors %}
-							{{ form.localidad(class="form-control form-control-sm is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.localidad.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
+						</div>
+						<div class="col-md-6">
+							<label for="buttonCollapseDomicilio">Datos de Domicilio</label>
+								<p><button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio" id="buttonCollapseDomicilio">Mostrar/Ocultar</button></p>
+							<div class="collapse form-group" id="collapseDomicilio">
+									<div class="card card-body">				
+									<div class="form-group">
+										<!-- boottrap  -->
+										{{ form.codigo_postal.label(class="form-control-label") }}
+										<!-- errores de entrada  -->
+										{% if form.codigo_postal.errors %}
+											{{ form.codigo_postal(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.codigo_postal.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.codigo_postal(class="form-control form-control-sm", title="Ingresar CP") }}
+										{% endif %}
+									</div>
+									<div class="form-group">
+										<!-- boottrap  -->
+										{{ form.domicilio.label(class="form-control-label") }}
+										<!-- errores de entrada  -->
+										{% if form.domicilio.errors %}
+											{{ form.domicilio(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.domicilio.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.domicilio(class="form-control form-control-sm") }}
+										{% endif %}
+									</div>
+									<div class="form-group">
+										<!-- boottrap  -->
+										{{ form.localidad.label(class="form-control-label") }}
+										<!-- errores de entrada  -->
+										{% if form.localidad.errors %}
+											{{ form.localidad(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.localidad.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.localidad(class="form-control form-control-sm") }}
+										{% endif %}
+									</div>
+									<div class="form-group">
+										<!-- boottrap  -->
+										{{ form.provincia.label(class="form-control-label") }}
+										<!-- errores de entrada  -->
+										{% if form.provincia.errors %}
+											{{ form.provincia(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.provincia.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.provincia(class="form-control form-control-sm") }}
+										{% endif %}
+									</div>
+									<div class="form-group">
+										<!-- boottrap  -->
+										{{ form.pais.label(class="form-control-label") }}
+										<!-- errores de entrada  -->
+										{% if form.pais.errors %}
+											{{ form.pais(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.pais.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.pais(class="form-control form-control-sm") }}
+										{% endif %}
+									</div>
+								</div>
 							</div>
-						{% else %}
-							{{ form.localidad(class="form-control form-control-sm", id="localidad") }}
-						{% endif %}
-					</div>
-					<div class="form-group">
-						<!-- boottrap  -->
-						{{ form.provincia.label(class="form-control-label") }}
-						<!-- errores de entrada  -->
-						{% if form.provincia.errors %}
-							{{ form.provincia(class="form-control form-control-sm is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.provincia.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-						{% else %}
-							{{ form.provincia(class="form-control form-control-sm", id="provincia") }}
-						{% endif %}
-					</div>
-					<div class="form-group">
-						<!-- boottrap  -->
-						{{ form.pais.label(class="form-control-label") }}
-						<!-- errores de entrada  -->
-						{% if form.pais.errors %}
-							{{ form.pais(class="form-control form-control-sm is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.pais.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-						{% else %}
-							{{ form.pais(class="form-control form-control-sm", id="pais") }}
-						{% endif %}
+						</div>
 					</div>
 				</div>
-				
 			</fieldset>
 			<br>
 			<div class="form-group">
 				<!-- boottrap for the submit button  -->
-				{{ form.submit(class="btn btn-outline-info", value="Crear/Actualizar") }}
+				{{ form.submit(class="btn btn-outline-info") }}
 			</div>
 		</form>
 	</div>	

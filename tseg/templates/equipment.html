@@ -3,94 +3,95 @@
     <article class="media content-section">
         <div class="media-body">
             <legend class="border-bottom mb-4">Equipo</legend>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
                     <small>Marca:</small> 
                 </div>
                 <div class="col-md-9">
-                    <h5 class="aticle-title">{{ equipment.marca_eq.nombre }}</h5></p>
+                    <h5 class="aticle-title">{{ equipment.marca_eq.nombre }}</h5>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
                     <small>Modelo:</small> 
                 </div>
                 <div class="col-md-9">
-                    <h1 class="aticle-title">{{ equipment.modelo_eq.nombre }}</h1></p>
+                    <h1 class="aticle-title">{{ equipment.modelo_eq.nombre }}</h1>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
                     <small>Pertenece a: </small>
                 </div>
                 <div class="col-md-9">
                     <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b></a>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
                     <small>Canal / Frecuencia:</small> 
                 </div>
                 <div class="col-md-9">
                     <h5 class="article-content">{{ equipment.frecuencia_eq.canal }}</h5>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
                     <small>Descripción:</small> 
                 </div>
                 <div class="col-md-9">
                     <h5 class="article-content">{{ equipment.content }}</h5>
                 </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    <small>Nº Serie: </small>
-                  </div>
-                  <div class="col-md-9">
-                    <small><b class="article-title" >{{ equipment.numSerie }}</b></small>
-                  </div>
-                </div>                
-                <div class="row">
-                  <div class="col-md-3">
-                    <small>Año modelo: </small>
-                  </div>
-                  <div class="col-md-9">
-                    <small><b class="article-title" >{{ equipment.anio }}</b></small>                    
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    <small>Última modificación: </small>
-                  </div>
-                  <div class="col-md-9">
-                    <small class="article-title"><b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></small>    
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    <small>Creado el: </small>
-                  </div>
-                  <div class="col-md-9">
-                    <small class="article-title"><b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
-                  </div>
-                </div>
             </div>
-            <div class="row">
-                <div class="col-md6">
-                    <a class="bi bi-chat-dots btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
-                    <a class="bi bi-wrench btn btn-outline-info" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}" title="Añadir O.R."></a>
-                    <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar equipo" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}"></a>
-                    <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar equipo"></a>
-                </div>
-            </div>            
+            <div class="row align-items-center">
+              <div class="col-md-3 text-end">
+                <small>Nº Serie: </small>
+              </div>
+              <div class="col-md-9">
+                <small><b class="article-title" >{{ equipment.numSerie }}</b></small>
+              </div>
+            </div>                
+            <div class="row align-items-center">
+              <div class="col-md-3 text-end">
+                <small>Año modelo: </small>
+              </div>
+              <div class="col-md-9">
+                <small><b class="article-title" >{{ equipment.anio }}</b></small>                    
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-md-3 text-end">
+                <small>Última modificación: </small>
+              </div>
+              <div class="col-md-9">
+                <small class="article-title"><b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></small>    
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-md-3 text-end">
+                <small>Creado el: </small>
+              </div>
+              <div class="col-md-9">
+                <small class="article-title"><b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
+              </div>
+            </div>
         </div>
+        <hr 80%>
+        <div class="row align-items-center">
+            <div class="col-md6">
+                <a class="bi bi-chat btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
+                <a class="bi bi-wrench btn btn-outline-info" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}" title="Añadir O.R."></a>
+                <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar equipo" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}"></a>
+                <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar equipo"></a>
+            </div>
+        </div>        
     </article>
     <br>
     
-    <h6 class="border-bottom border-secondary mb-4">Historial del equipo:</h6>    
+    <h6 class="border-bottom border-secondary mb-4">Historial del equipo ({{ lista.count() }})</h6>
     {% for historia in lista %}
         <article class="media content-section">
-            <div class="row">                
+            <div class="row align-items-center">                
                 <div class="col-md-10">
                     <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}">
                         <h2>{{ historia.title }}</h2>
@@ -113,7 +114,7 @@
                     </div>
                 </div>
             </div>
-      </article>
+        </article>
     {% endfor %}
    
      <!-- Modal -->

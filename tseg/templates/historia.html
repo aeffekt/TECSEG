@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h6 class="border-bottom border-secondary mb-4">Historia:</h6>
+    <h6 class="border-bottom border-secondary mb-4">Historia</h6>
     <article class="media content-section">
         
         <div class="media-body">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-11">
                     <div class="article-metadata">
-                        <a title="Autor" class="mr-2" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}">
-                            <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' +     historia.author_historia.image_file) }}"><p>{{ historia.author_historia.username }}</a>
+                        <a title="ir a historias del Autor" class="mr-2" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}">
+                            <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + historia.author_historia.image_file) }}"><p>{{ historia.author_historia.username }}</a>
                   		<small title="Fecha creación" class="text-muted">{{ historia.date_created.strftime('%Y-%m-%d') }}</small></p>             
                     </div>
                 </div>
@@ -16,46 +16,54 @@
                     <button class="btn btn-outline-light bi-arrow-return-left" onclick="goBack()" title="Volver atrás"></button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Título:</p> 
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                        <small>Tipo:</small>
+                </div>
+                <div class="col-md-9">
+                    <h5 class="aticle-title">{{ historia.tipologia.tipo }}</h5>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Título:</small> 
                 </div>
                 <div class="col-md-9">
                     <h3 class="aticle-title">{{ historia.title }}</h3>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Historia:</p> 
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Historia:</small> 
                 </div>
                 <div class="col-md-9">
                     <h5 class="aticle-title">{{ historia.content }}</h5>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Equipo:</p> 
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Equipo:</small> 
                 </div>
                 <div class="col-md-9">
-                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=historia.equipo_historia.id) }}"><b>{{ historia.equipo_historia.title }}</b></a>
+                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=historia.equipo_historia.id) }}"><b>{{ historia.equipo_historia.modelo_eq.nombre }}</b></a>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                        <p>Tipo:</p> 
-                </div>
-                <div class="col-md-9">
-                    <small class="aticle-title">{{ historia.tipologia.tipo }}</small>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
+            </div>            
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
                     <small>Última modificación: </small>
                 </div>
                 <div class="col-md-9">
-                    <small class="article-content"><b>{{ historia.date_modified }}</b></small>    
+                    <small class="article-title"><b>{{ historia.date_modified }}</b></small>
                 </div>
-            </div>                
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Creado el: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b></small>
+                </div>
+            </div>
         </div>  
         {% if historia.author_historia == current_user %}
             <div>

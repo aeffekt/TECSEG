@@ -72,4 +72,4 @@ def delete_historia(historia_id):
 	db.session.delete(historia)
 	db.session.commit()
 	flash("Su historia ha sido eliminada!", 'success')
-	return redirect(url_for('equipments.equipment', equipment_id=historia.equipment_id))
+	return redirect(url_for('equipments.equipment', equipment_id=historia.equipo_id))

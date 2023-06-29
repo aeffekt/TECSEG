@@ -17,7 +17,7 @@ class EquipmentForm(FlaskForm):
 
 	marca = SelectField('Marca',coerce=str, validate_choice=False, validators=[DataRequired()])
 	modelo = SelectField('Modelo',coerce=str, validate_choice=False, validators=[DataRequired()])	
-	frecuencia = SelectField('Frecuencia',coerce=str)
+	frecuencia = SelectField('Canal / Frecuencia',coerce=str)
 	numSerie = StringField('Número de serie')
 	anio = SelectField('Año de fabricación',coerce=str, validate_choice=False)
 	content = TextAreaField('Descripción')	

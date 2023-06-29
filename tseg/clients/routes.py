@@ -50,7 +50,6 @@ def client(client_id):
 def add_client():
 	form = ClientForm()
 	if form.validate_on_submit():
-
 		# busca el ID del pais y comienza a concatenar el domicilio		
 		if form.pais.data != '':			
 			pais = Pais.query.filter_by(nombre=form.pais.data).first()			
@@ -93,11 +92,9 @@ def update_client(client_id):
 			provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais_id=pais.id).first()
 		if form.localidad.data:
 			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()		
-						
 		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
 		domicilio.direccion = form.domicilio.data
-		domicilio.localidad_id = localidad.id
-		
+		domicilio.localidad_id = localidad.id		
 		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
 		client.cond_fiscal_id = cond_fiscal.id
 		client.domicilio_id = domicilio.id

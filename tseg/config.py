@@ -14,7 +14,7 @@ class Config:
 	MAIL_DEFALUT_SENDER = None
 	MAIL_MAX_EMAILS = 15
 	MAIL_ASCII_ATTACHMENTS = False
-
+	TEXTAREA_ROWS = 2
 	FILTROS_USUARIOS = {"username": "Nombre",
 					"role_id": "Tipo usuario"					
 					}
@@ -23,17 +23,18 @@ class Config:
 					"apellido": "Apellido",
 					"business_name": "Razón social"
 					}
-	FILTROS_EQUIPOS= {"modelo_id": "Modelo",
+	FILTROS_EQUIPOS= {"anio": "Año de fabricación",
+					"modelo_id": "Modelo",
 					"marca_id": "Marca",
-					"frecuencia_id": "Canal / Frecuencia",
-					"client_id": "Dueño del equipo",
-					"numSerie": "Número de serie",					
-					"anio": "Año de fabricación",					
+					"frecuencia_id": "Canal / Frecuencia",					
+					"client_id": "Cliente",
+					"numSerie": "Número de serie",
+					
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
 					}
 	FILTROS_HISTORIAS = {"title": "Título", 
-					"tipología_id": "Tipología",					
+					"tipologia_id": "Tipología",					
 					"equipo_id": "equipo",
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",					

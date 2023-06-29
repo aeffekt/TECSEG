@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 28-06-2023 a las 20:28:31
+-- Tiempo de generación: 29-06-2023 a las 16:52:09
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -44,23 +44,24 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `domicilio_id` (`domicilio_id`),
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
 --
 
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
-(1, 'Canal 13', 'San Luis', 'Canal 13 televisión', NULL, '42432432', NULL, 'Director Nasim', 1, 1, 1),
+(1, 'Canal 13', 'San Luis', 'Canal 13 televisión', NULL, '42432432', '', 'Director Nasim', 1, 1, 1),
 (2, 'Pedro', 'Bonarrico', 'Jesus Te Ama', 20432432421, '02954-4303249', 'bonarrico@jta.com', 'contactarlo por mail: \n\n', 4, 2, 1),
 (3, 'Juan Antonio', 'Acompanies', 'REMAR', 34243243242, '123123123', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 4, 3, 1),
 (4, 'Pedro', 'Almirón', 'Radio Total FM', 20432432421, '2147483647', 'palmiron@yahoo.com', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 4, 4, 3),
 (6, 'Mariangeles', 'Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', NULL, 'persona ficticia', 1, 5, 1),
 (11, 'Marcelo', 'Gomez', 'Digital Content S.R.L.', 20432432421, '2147483647', NULL, 'Datos del cliente', 4, 6, 1),
-(16, 'Oscar', 'de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', NULL, 'cliente preferencial', 4, 7, 4),
+(16, 'Oscar', 'de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', NULL, 'cliente preferencial', 4, 7, 1),
 (17, 'Fabian', 'Brandan', 'JTA S.A.', 20432432421, '1111333222', NULL, 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
-(18, 'Ana', 'Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 1),
-(19, 'Luis', 'Ponzonetta', 'TV Broadcast', NULL, '42432432', NULL, 'radicado en Uruguay', 1, 10, 1);
+(18, 'Ana', 'Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 2),
+(19, 'Luis', 'Ponzonetta', 'TV Broadcast', NULL, '42432432', NULL, 'radicado en Uruguay', 1, 10, 6),
+(20, 'Agustin', 'Arnaiz', '.com', 34243243242, '3513281199', 'arnaizagustin@gmail.com', '', 10, 11, 2);
 
 -- --------------------------------------------------------
 
@@ -100,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -116,7 +117,8 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (7, 'Constantinopla 43', 33),
 (8, 'Echeverria 3', 33),
 (9, 'Urquiza 432', 766),
-(10, 'Mariano Moreno 678', 871);
+(10, 'Mariano Moreno 678', 871),
+(11, 'San Martin 514 dpto 1', 33);
 
 -- --------------------------------------------------------
 
@@ -168,7 +170,7 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (16, '12345432/8765', '2022', '2022-06-13 03:22:03', '2023-06-24 19:35:36', '', 10, 6, 1, 19, 31),
 (17, '223454-3/0522', '2022', '2022-06-13 03:30:03', '2023-06-17 15:12:17', NULL, 1, 4, 2, 1, 189),
 (18, '190722-1/1219', '2019', '2022-06-13 20:56:51', '2023-06-24 13:58:46', '', 1, 4, 1, 22, 16),
-(19, '190722-2/1219', 'N/D', '2022-06-13 21:26:02', '2023-06-26 14:55:08', '', 1, 6, 2, 1, 167),
+(19, '190722-2/1219', '2012', '2022-06-13 21:26:02', '2023-06-28 17:35:02', '', 1, 1, 2, 1, 167),
 (20, '190722-3/1219', '2012', '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \narmado: completo\nfirmado: Oscar\ntel tecnico: 0345-2321387\nmanual: DMTRUD1200-22.pdf', 1, 18, 1, 21, 18),
 (21, '020823-1/0423', '2023', '2022-06-23 01:15:03', '2023-06-28 13:45:09', '', 10, 1, 2, 25, 124),
 (22, '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4, 2, 14, 14),
@@ -177,11 +179,11 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (34, '190122-1/1219', '2023', '2023-05-20 14:39:38', '2023-06-17 16:48:53', 'IP: 192.168.0.90\r\nNuevo multiplexor de videoswitch', 1, 2, 3, 37, 31),
 (37, '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18, 1, 1, 1),
 (59, '220722-1/1223', '2015', '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3, 3, 35, 1),
-(68, '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-17 16:31:12', NULL, 10, 11, 1, 17, 21),
+(68, '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-29 13:37:10', '', 10, 1, 1, 17, 21),
 (69, '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17, 1, 24, 31),
 (70, '230617-1/0723', NULL, '2023-06-17 16:02:08', '2023-06-17 16:29:49', 'IP: 192.168.1.136', 1, 19, 2, 1, 198),
 (71, '123456-1/0423', '2024', '2023-06-28 13:35:42', '2023-06-28 13:35:42', '', 10, 6, 1, 5, 152),
-(72, '123456-1/0423', '2024', '2023-06-28 13:36:33', '2023-06-28 13:36:33', '', 10, 6, 1, 5, 153);
+(72, '123456-1/0423', '2024', '2023-06-28 13:36:33', '2023-06-28 22:21:46', '', 10, 1, 1, 4, 153);
 
 -- --------------------------------------------------------
 
@@ -217,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `frecuencia` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `canal` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `frecuencia`
@@ -557,19 +559,19 @@ CREATE TABLE IF NOT EXISTS `historia` (
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content` varchar(1000) DEFAULT NULL,
   `tipologia_id` int(11) NOT NULL,
-  `equipment_id` int(11) NOT NULL,
+  `equipo_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `equipment_id` (`equipment_id`),
+  KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
 --
 
-INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content`, `tipologia_id`, `equipment_id`, `user_id`) VALUES
+INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content`, `tipologia_id`, `equipo_id`, `user_id`) VALUES
 (1, 'Reparacion ventiladores', '2023-06-04 12:16:37', '2023-06-04 12:16:37', 'Se desarmo el equipo y se constato que los ventiladores no funcionaban por lo que se procedió a cambiarlos y eso resolvió el problema', 2, 21, 10),
 (5, 'Cambio de IP', '2023-06-05 16:02:19', '2023-06-05 16:02:19', '192.168.1.101', 3, 33, 10),
 (15, 'Linealidad', '2023-06-05 19:33:17', '2023-06-05 19:33:17', 'equipo ex TRU400, se linealizo para uso digital, y se hizo uso extremo de la potencia para mantener la pot nominal RMS', 1, 1, 10),
@@ -594,9 +596,8 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (34, 'nueva señal', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'se agregó una señal de tv digital al Mux\r\n', 3, 15, 10),
 (35, 'cambio frec', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Se cambió la frecuencia del modulador a CH:13', 3, 16, 10),
 (36, 'modulos quemados', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Reparación de dos módulos de potencia (Atilio)', 2, 19, 10),
-(37, 'dsa', '2023-06-26 13:46:29', '2023-06-26 13:46:29', 'cxz', 1, 19, 1),
-(38, 'dsa', '2023-06-26 13:47:45', '2023-06-26 13:47:45', 'cxz', 1, 19, 1),
-(39, 'cambio IP', '2023-06-28 16:45:23', '2023-06-28 16:45:23', '192.168.0.136', 1, 9, 10);
+(39, 'cambio IP', '2023-06-28 16:45:23', '2023-06-28 16:45:23', '192.168.0.136', 1, 9, 10),
+(40, 'IP', '2023-06-29 11:11:55', '2023-06-29 11:11:55', 'IP192.168.1.12', 1, 71, 10);
 
 -- --------------------------------------------------------
 
@@ -1966,7 +1967,7 @@ ALTER TABLE `equipment`
 -- Filtros para la tabla `historia`
 --
 ALTER TABLE `historia`
-  ADD CONSTRAINT `historia_equipo` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `historia_equipo` FOREIGN KEY (`equipo_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `localidad`

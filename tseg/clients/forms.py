@@ -15,14 +15,14 @@ class ClientForm(FlaskForm):
 	cuit = IntegerField('CUIT', validators=[Optional()])
 	cond_fiscal = SelectField('Condición fiscal', coerce=str, validate_choice=False)
 	telefono = StringField('Teléfono')
-	email = StringField('Email', validators=[DataRequired(), Email()])
+	email = StringField('Email', validators=[Optional(), Email()])
 	comments = TextAreaField('Comentarios')
 	domicilio = StringField('Domicilio completo')
 	codigo_postal = StringField('Código Postal')
 	localidad = StringField('Localidad')
 	provincia = StringField('Provincia')	
 	pais = StringField('Pais')
-	submit = SubmitField('Agregar')
+	submit = SubmitField('Agregar/Actualizar')
 
 	# validacion del CUIT
 	def validate_cuit(self, cuit):
@@ -30,3 +30,8 @@ class ClientForm(FlaskForm):
 		cant_digitos = len(cuit_str)
 		if cant_digitos != 11:
 			raise ValidationError(f'Ingresar cuit válido o dejar vacío.')
+
+	# validación de email vacío
+	def validate_email(self, email):
+		if email:
+			pass

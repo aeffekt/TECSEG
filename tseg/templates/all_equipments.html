@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h6 class="border-bottom border-secondary mb-4">Equipos</h6>
+    <h6 class="border-bottom border-secondary mb-4">Equipos ({{ lista.count() }})</h6>
  
     {% for equipment in lista %}
         <article class="media content-section">
@@ -18,7 +18,7 @@
                         </a>
                     </div>
                     <div class="col-md-1">
-                        <a class="bi bi-chat-dots btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
+                        <a class="bi bi-chat btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
                     </div>
                 </div> 
             </div>

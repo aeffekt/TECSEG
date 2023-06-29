@@ -7,9 +7,10 @@
 		<meta charset="utf-8">
 		<link rel="icon" href="{{ url_for('static', filename='images/tecseg_icon.png') }}">
 
-	    <!-- Bootstrap CSS -->
+		<!-- Bootstrap CSS -->
 	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 	    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
 	    
 	    <!-- Bootstrap ICONS online -->
 	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -20,13 +21,18 @@
 
 	    <!-- CSS general. !usa el metodo de flask para ubicar el archivo -->
 	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-	    
-	    <!-- JS para SELECT CHOSEN autocompletar -->
+
+	    <!-- JS Bootstrap primero sino chosen no funciona-->	
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>	
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+		<!-- JS para SELECT CHOSEN autocompletar -->
 		<script src="{{ url_for('static', filename='js/jquery_jquery.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/jqueryui_jquery-ui.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/chosen_chosen.jquery.js') }}"></script>
-
-		<!-- JS de funciones generales  -->
+	    
+	    <!-- JS de funciones generales  -->
 		<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 		
 		<!-- título por defecto, o toma uno 'title' -->
@@ -49,7 +55,7 @@
 							<li>
 								<a class="nav-item nav-link" title="Ver cuentas de usuario"  href="{{ url_for('users.all_users', filterBy='username', filterOrder='asc') }}">Admin</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}" class="list-group-item list-group-item-light">Agregar nuevo usuario</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}" class="list-group-item list-group-item-light">Agregar nuevo</a></li>
 								</ul>
 							</li>
 						{% endif %}
@@ -58,21 +64,22 @@
 							<li>
 								<a class="nav-item nav-link" title="Vista de Clientes"  href="{{ url_for('clients.all_clients', filterBy='id', filterOrder='asc') }}">Clientes</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Agregar nuevo cliente</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Agregar nuevo</a></li>
 								</ul>
 							</li>
 						
 							<li>
-								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments', filterBy='modelo_id', filterOrder='asc') }}">Equipos</a>
+								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments', filterBy='anio', filterOrder='desc') }}">Equipos</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar nuevo equipo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar nuevo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username) }}" class="list-group-item list-group-item-light">Mis historias</a></li>
 								</ul>
 							</li>						
 						
 							<li>
 								<a class="nav-item nav-link" title="Órdenes de reparación" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', filterBy='estado_id', filterOrder='asc') }}" >O.R.</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}" class="list-group-item list-group-item-light">Agregar nueva OR</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}" class="list-group-item list-group-item-light">Agregar nueva</a></li>
 								</ul>
 							</li>
 						{% endif %}
@@ -85,11 +92,11 @@
 						</li>	
 					{% else %}
 						<li><a class="nav-item nav-link" href="{{ url_for('users.login') }}">Iniciar sesión</a></li>
-		      {% endif %}
+		      		{% endif %}
 		      
-	        <li class="text-right">
-	        	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
-	        </li>
+		        <li class="text-right">
+		        	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
+		        </li>
 				</ul>
 			</nav>
 
@@ -161,6 +168,8 @@
 		</footer>
 	</body>
 
+
+
 	<script type="text/javascript">
 		
 	  	// THEME COLOR CHANGER
@@ -206,7 +215,8 @@
 	  	$(".chosen").chosen({
 			    search_contains: true,
 			    no_results_text: 'No se encontró: ',
-			    width: '100%',   
+			    width: '100%',
+			    max_shown_results: 30,  
 			  });
 
 	  	// Pone en la barra de navegacion los valores de filterBy y filterOrder

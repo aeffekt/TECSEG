@@ -15,7 +15,7 @@ from sqlalchemy import asc, desc
 # obtener el nombre del atributo para filtrar la búsqueda
 def buscarLista(dBModel, *arg):
 	# Obtener los valores de filterBy y filterOrder desde la solicitud
-	filter_by = request.args.get('filterBy')
+	filter_by = request.args.get('filterBy')	
 	sort_column = getattr(dBModel, filter_by)
 
 	# ORDEN
@@ -27,12 +27,12 @@ def buscarLista(dBModel, *arg):
 
 	lista = dBModel.query.order_by(orden)
 	if arg:
-		pass
-		# filtrar busqueda si la hace un tecnico
-		#lista = dBModel.query.filter_by(tecnico_id=arg[0].id)
-	
-		# filtrar busqueda para un equipo determinado
-		#lista = dBModel.query.filter_by(equipo_id=arg[0].id).first_or_404()
+		# filtrar busqueda de O.R. si la hace un tecnico
+		if isinstance(arg[0], User):			
+			lista = lista.filter_by(tecnico_id=arg[0].id)
+		# filtrar busqueda de Historias para un equipo determinado
+		elif isinstance(arg[0], Equipment):			
+			lista = lista.filter_by(equipo_id=arg[0].id)
 	return lista
 	
 	

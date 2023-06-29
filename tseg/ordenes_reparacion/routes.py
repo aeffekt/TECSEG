@@ -19,8 +19,7 @@ def layout():
 
 
 @ordenes_reparacion.route("/all_ordenes_reparacion")
-def all_ordenes_reparacion():
-	
+def all_ordenes_reparacion():	
 	if current_user.role.role_name == 'Técnico':
 		all_or = buscarLista(Orden_reparacion, current_user)
 	else:	
@@ -99,7 +98,7 @@ def update_orden_reparacion(orden_reparacion_id):
 		# si no hay tecnico asignado lo deja vacio
 		if orden_reparacion.tecnicoAsignado:
 			form.tecnico.default = f'[{orden_reparacion.tecnicoAsignado.id}] {orden_reparacion.tecnicoAsignado.username} ({orden_reparacion.tecnicoAsignado.role.role_name})'
-		form.equipo.default = f'[{orden_reparacion.equipo.id}] {orden_reparacion.equipo.title} ({orden_reparacion.equipo.owner.nombre} {orden_reparacion.equipo.owner.apellido})'
+		form.equipo.default = f'[{orden_reparacion.equipo.id}] {orden_reparacion.equipo.modelo_eq.nombre} ({orden_reparacion.equipo.owner.nombre} {orden_reparacion.equipo.owner.apellido})'
 		form.estado.default = f'[{orden_reparacion.estado.id}] {orden_reparacion.estado.descripcion}'
 		form.process()
 		form.codigo.data = orden_reparacion.codigo

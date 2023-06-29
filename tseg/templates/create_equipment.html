@@ -5,99 +5,105 @@
 			{{ form.hidden_tag() }} <!-- part of protection -->
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
-				<div class="form-group" autofocus>
-					{{ form.marca.label(class="form-control-label") }}					
-					{% if form.marca.errors %}
-						{{ form.marca(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.marca.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group" autofocus>
+							{{ form.marca.label(class="form-control-label") }}					
+							{% if form.marca.errors %}
+								{{ form.marca(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.marca.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.marca(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.marca(class="form-control form-control-sm") }}
-					{% endif %}
+						<div class="form-group">
+							{{ form.modelo.label(class="form-control-label") }}					
+							{% if form.modelo.errors %}
+								{{ form.modelo(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.modelo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.modelo(class="chosen form-control form-control-sm") }}
+							{% endif %}
+						</div>										
+						<div class="form-group">
+							{{ form.frecuencia.label(class="form-control-label") }}					
+							{% if form.frecuencia.errors %}
+								{{ form.frecuencia(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.frecuencia.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.frecuencia(class="chosen form-control form-control-sm") }}
+							{% endif %}
+						</div>												
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							{{ form.numSerie.label(class="form-control-label") }}					
+							{% if form.numSerie.errors %}
+								{{ form.numSerie(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.numSerie.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.numSerie(class="form-control form-control-sm") }}
+							{% endif %}
+						</div>
+						<div class="form-group">
+							{{ form.anio.label(class="form-control-label") }}					
+							{% if form.anio.errors %}
+								{{ form.anio(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.anio.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.anio(class="chosen form-control form-control-sm") }}
+							{% endif %}
+						</div>														
+						<div class="form-group">
+							{{ form.owner.label(class="form-control-label") }}
+							{% if form.owner.errors %}
+								{{ form.owner(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.owner.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.owner(class="chosen form-control form-control-sm") }}
+							{% endif %}
+						</div>
+					</div>
+					<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.content.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.content.errors %}
+								{{ form.content(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.content.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.content(class="form-control form-control-sm", rows='2') }}
+							{% endif %}
+						</div>
 				</div>
-				<div class="form-group" autofocus>
-					{{ form.modelo.label(class="form-control-label") }}					
-					{% if form.modelo.errors %}
-						{{ form.modelo(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.modelo.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.modelo(class="chosen form-control form-control-sm") }}
-					{% endif %}
-				</div>				
-				<div class="form-group">
-					{{ form.frecuencia.label(class="form-control-label") }}					
-					{% if form.frecuencia.errors %}
-						{{ form.frecuencia(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.frecuencia.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.frecuencia(class="chosen form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.numSerie.label(class="form-control-label") }}					
-					{% if form.numSerie.errors %}
-						{{ form.numSerie(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.numSerie.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.numSerie(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.anio.label(class="form-control-label") }}					
-					{% if form.anio.errors %}
-						{{ form.anio(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.anio.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.anio(class="chosen form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					<!-- boottrap  -->
-					{{ form.content.label(class="form-control-label") }}
-					<!-- errores de entrada  -->
-					{% if form.content.errors %}
-						{{ form.content(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.content.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.content(class="form-control form-control-sm", rows='3') }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.owner.label(class="form-control-label") }}
-					{% if form.owner.errors %}
-						{{ form.owner(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.owner.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.owner(class="chosen form-control form-control-sm") }}
-					{% endif %}
-				</div>	
 			</fieldset>
 			<br>
 			<div class="form-group">				

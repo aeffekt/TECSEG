@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h6 class="border-bottom border-secondary mb-4">Clientes</h6>
+    <h6 class="border-bottom border-secondary mb-4">Clientes ({{ lista.count() }})</h6>
 
     {% for client in lista %}
         <article class="media content-section">            

@@ -121,7 +121,7 @@ class Historia(db.Model):
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)
 	tipologia_id = db.Column(db.Integer, db.ForeignKey('tipologia.id'), nullable=False)
-	equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
+	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)	
 
 	def __repr__(self):
