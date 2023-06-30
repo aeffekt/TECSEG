@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Modelos de equipos ({{ lista.count() }})</h6>        
+    {% for modelo in lista %}
+       <div class="content-section">
+            <a href="{{ url_for('modelos.modelo', modelo_id=modelo.id) }}" >
+                <div class="container"> 
+                    <div class="row"> 
+                        <div class="col-md-3"> 
+                            <img class="rounded-3 account-img" src="{{ image_path+modelo.image_file }}">
+                        </div>
+                        <div class="col-md-9">
+                            <h2 class="account-heading" >{{ modelo.nombre }}</h2>
+                            <h5 class="text" >{{ modelo.descripcion }}</h5>
+                        </div>                    
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    
+{% endblock content %}

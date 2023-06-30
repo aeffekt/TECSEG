@@ -2,7 +2,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
-from tseg.models import User, Historia, Equipment, Client, Role
+from tseg.models import User, Historia, Equipment, Client, Role, Marca, Modelo
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 							RequestResetForm, ResetPasswordForm, SearchForm, UpdateRoleForm)
 from tseg.users.utils import save_picture, send_reset_email, role_required, extraerId, buscarLista
@@ -30,13 +30,13 @@ def register():
 	if form.validate_on_submit():
 		# creación de usuario válido y protección de contraseña
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		user_id = extraerId(form.role.data)
-		user = User(username=form.username.data, email=form.email.data, password=hashed_password, role_id=user_id)
+		role_id = extraerId(form.role.data)
+		user = User(username=form.username.data, email=form.email.data, password=hashed_password, role_id=role_id)
 		db.session.add(user)
 		db.session.commit()
 		flash(f'Cuenta creada: {form.username.data}', 'success')		
 		return redirect(url_for("users.all_users"))	
-	return render_template('register.html', title='Registrar', form=form)	
+	return render_template('register.html', title='Registrar', form=form)
 
 
 @users.route("/", methods=['GET', 'POST'])
@@ -73,7 +73,7 @@ def account(user_id):
 	form = UpdateAccountForm()
 	if form.validate_on_submit():
 		if form.picture.data:
-			picture_file = save_picture(form.picture.data)
+			picture_file = save_picture(form.picture.data, 'profile_pics')
 			user.image_file = picture_file
 		user.username = form.username.data
 		user.email = form.email.data
@@ -134,23 +134,20 @@ def reset_token(token):
 def search():
 	form = SearchForm()	
 	if form.validate_on_submit():
-		equipments = Equipment.query
-		clients = Client.query
-		historias = Historia.query
 		searched = form.searched.data
-		equipments = equipments.filter(or_(Equipment.marca_eq.nombre.like('%'+searched+'%'), \
-											Equipment.modelo_eq.nombre.like('%'+searched+'%'),
-											Equipment.content.like('%'+searched+'%'),
-											Equipment.date_created.like('%'+searched+'%')
+		equipments = Equipment.query.filter(or_(Equipment.content.like('%'+searched+'%'),\
+											Equipment.marca_eq.has(Marca.nombre.like('%'+searched+'%')),
+        									Equipment.modelo_eq.has(Modelo.nombre.like('%'+searched+'%')),
+											Equipment.anio.like('%'+searched+'%')
 											))
-		clients = clients.filter(or_(Client.nombre.like('%'+searched+'%'), \
+		clients = Client.query.filter(or_(Client.nombre.like('%'+searched+'%'), \
 									Client.apellido.like('%'+searched+'%'),
 									Client.business_name.like('%'+searched+'%'),
 									Client.comments.like('%'+searched+'%'),
 									Client.telefono.like('%'+searched+'%'),
 									Client.email.like('%'+searched+'%'),
 												))
-		historias = historias.filter(or_(Historia.title.like('%'+searched+'%'),
+		historias = Historia.query.filter(or_(Historia.title.like('%'+searched+'%'),
 								Historia.content.like('%'+searched+'%')))
 		return render_template('search.html', title="Busqueda",
 									searched = searched,							

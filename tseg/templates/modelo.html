@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}		
+	<div class="content-section">
+	  	<div class="media">
+	  		<legend class="border-bottom mb-4">Modelo de equipo</legend>
+	  		<div class="row">
+	  			<div class="col-md-3">
+	  				<img class="rounded-3 account-img" src="{{ image_file }}">
+	  			</div>
+		    	<div class="col-md-5">
+				    <div class="media-body">
+					    <h2 class="account-heading">{{ modelo.nombre }}</h2>
+					    <h6 class="article-title">{{ modelo.descripcion }}</h6>
+				    </div>
+				</div>
+			</div>			
+	  	</div>
+	  	<hr 90%>
+	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
+		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
+			{{ form.hidden_tag() }} <!-- part of protection -->
+			<fieldset class="form-group">				
+				<div id="nombre" class="form-group" autofocus>
+					{{ form.nombre.label(class="form-control-label") }}
+					{% if form.nombre.errors %}
+						{{ form.nombre(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.nombre.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.nombre(class="form-control form-control-sm") }}
+					{% endif %}
+				</div>
+				<div id="descripcion" class="form-group">					
+					{{ form.descripcion.label(class="form-control-label") }}					
+					{% if form.descripcion.errors %}
+						{{ form.descripcion(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.descripcion.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.descripcion(class="form-control form-control-sm") }}
+					{% endif %}
+				</div>				
+				<div id="picture" class="form-group">
+					{{ form.picture.label() }}
+					{% if form.picture.errors %}
+						{{ form.picture(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.picture.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.picture(class="form-control form-control-sm", type="file") }}
+					{% endif %}					
+				</div>
+			</fieldset>
+			<br>
+			<div id="submit" class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+{% endblock content %}

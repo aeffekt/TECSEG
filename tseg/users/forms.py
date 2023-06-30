@@ -50,9 +50,12 @@ class UpdateAccountForm(FlaskForm):
 		self.role.choices = [f'[{r.id}] {r.role_name}' for r in Role.query.all()]
 
 	username = StringField('Nombre de usuario',
-						validators=[DataRequired(), Length(min=2, max=30)], render_kw={'autofocus': True})
+						validators=[DataRequired(), Length(min=2, max=30)], 
+						render_kw={'autofocus': True})
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', choices=[], coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion
+	role = SelectField('Tipo de usuario', choices=[], 
+										coerce=str, 
+										validate_choice=False) # validate_choice=F si no hay error de validacion
 	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Modificar cuenta')
 

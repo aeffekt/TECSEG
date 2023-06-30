@@ -148,14 +148,12 @@ def delete_client(client_id):
 def client_equipments(client_id):	
 	client = Client.query.filter_by(id=client_id).first_or_404()
 	equipments = Equipment.query.filter_by(owner=client)\
-					.order_by(Equipment.date_modified.desc())
-	filtrar_por = {"title": "Modelo",
-				"numSerie": "Número de serie",
-				"anio": "Año de fabricación",
-				"date_modified": "Fecha modificado",
-				"date_created": "Fecha creado"}
-	return render_template('client_equipments.html', 
+					.order_by(Equipment.date_modified.desc())	
+	filtrar_por = current_app.config["FILTROS_EQUIPOS"]
+	image_path = url_for("static", filename='models_pics/')
+	return render_template('client_equipments.html',
 								title=f'{client.nombre} {client.apellido}',
 								filtrar_por=filtrar_por,
-								lista=equipments, 
+								lista=equipments,
+								image_path=image_path,
 								client=client)

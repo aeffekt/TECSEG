@@ -9,8 +9,8 @@
                     <div class="col-md-11">
                         <a class="article-title" href="{{ url_for('clients.client', client_id =client.id) }}">                        
                     	<h2>{{ client.id }} - {{ client.nombre }} {{ client.apellido }}</h2>
-                    	<h6 class="article-title" >Razón social: {{ client.business_name }}</h6>
-                        <small class="article-title" >Teléfono: {{ client.telefono }}</small>
+                    	<h6 class="article-title" >Razón social: <b>{{ client.business_name }}</b></h6>
+                        <small class="article-title" >Teléfono: <b>{{ client.telefono }}</b></small>
                         </a>
                     </div>
                     <div class="col-md-1">

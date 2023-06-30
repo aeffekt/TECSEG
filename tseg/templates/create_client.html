@@ -82,58 +82,13 @@
 						{% endif %}
 					</div>
 					<div class="row">
-						<div class="col-md-6">
-							<label for="buttonCollapseDomicilio">Datos de Empresa</label>
-									<p><button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseEmpresa" aria-expanded="false" aria-controls="collapseEmpresa" id="buttonCollapseEmpresa">Mostrar/Ocultar</button></p>
-							<div class="collapse" id="collapseEmpresa">
-									<div class="card card-body">				
-									<div class="form-group">					
-										{{ form.business_name.label(class="form-control-label") }}					
-										{% if form.business_name.errors %}
-											{{ form.business_name(class="form-control form-control-sm is-invalid") }}
-											<div class="invalid-feedback">
-												{% for error in form.business_name.errors %}
-													<span>{{ error }}</span>
-												{% endfor %}
-											</div>
-										{% else %}
-											{{ form.business_name(class="form-control form-control-sm") }}
-										{% endif %}
-									</div>
-									<div class="form-group">					
-										{{ form.cuit.label(class="form-control-label") }}					
-										{% if form.cuit.errors %}
-											{{ form.cuit(class="form-control form-control-sm is-invalid") }}
-											<div class="invalid-feedback">
-												{% for error in form.cuit.errors %}
-													<span>{{ error }}</span>
-												{% endfor %}
-											</div>
-										{% else %}
-											{{ form.cuit(class="form-control form-control-sm" ) }}
-										{% endif %}
-									</div>
-									<div class="form-group">					
-										{{ form.cond_fiscal.label(class="form-control-label") }}					
-										{% if form.cond_fiscal.errors %}
-											{{ form.cond_fiscal(class="form-control form-control-sm is-invalid") }}
-											<div class="invalid-feedback">
-												{% for error in form.cond_fiscal.errors %}
-													<span>{{ error }}</span>
-												{% endfor %}
-											</div>
-										{% else %}
-											{{ form.cond_fiscal(class="form-control form-control-sm" ) }}
-										{% endif %}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label for="buttonCollapseDomicilio">Datos de Domicilio</label>
-								<p><button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio" id="buttonCollapseDomicilio">Mostrar/Ocultar</button></p>
-							<div class="collapse form-group" id="collapseDomicilio">
-									<div class="card card-body">				
+						<div class="btn-group-toggle" data-toggle="buttons">
+							<button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#collapseEmpresa, #collapseDomicilio" aria-expanded="false" aria-controls="collapseEmpresa collapseDomicilio" id="buttonCollapseCliente">Información ampliada:</button>
+						</div>						
+						<div class="col-md-6">							
+							<div class="collapse" id="collapseDomicilio">
+								<label for="collapseDomicilio">Domicilio</label>
+								<div class="card card-body bg-secondary mb-3">
 									<div class="form-group">
 										<!-- boottrap  -->
 										{{ form.codigo_postal.label(class="form-control-label") }}
@@ -209,9 +164,55 @@
 											{{ form.pais(class="form-control form-control-sm") }}
 										{% endif %}
 									</div>
-								</div>
+								</div>								
 							</div>
 						</div>
+						<div class="col-md-6">							
+							<div class="collapse" id="collapseEmpresa">
+								<label for="collapseEmpresa">Datos de Empresa</label>
+								<div class="card card-body bg-secondary mb-3">				
+									<div class="form-group">					
+										{{ form.business_name.label(class="form-control-label") }}					
+										{% if form.business_name.errors %}
+											{{ form.business_name(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.business_name.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.business_name(class="form-control form-control-sm") }}
+										{% endif %}
+									</div>
+									<div class="form-group">					
+										{{ form.cuit.label(class="form-control-label") }}					
+										{% if form.cuit.errors %}
+											{{ form.cuit(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.cuit.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.cuit(class="form-control form-control-sm" ) }}
+										{% endif %}
+									</div>
+									<div class="form-group">					
+										{{ form.cond_fiscal.label(class="form-control-label") }}					
+										{% if form.cond_fiscal.errors %}
+											{{ form.cond_fiscal(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.cond_fiscal.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.cond_fiscal(class="form-select form-select-sm " ) }}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>						
 					</div>
 				</div>
 			</fieldset>

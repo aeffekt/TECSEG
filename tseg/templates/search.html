@@ -33,7 +33,7 @@
     		<div class="content-section">
     			<h5>Equipos:</h5>
     			{% for equipment in equipments %}
-    				<a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
+    				<a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc') }}">
     					<h6><li> {{ equipment.modelo_eq.nombre }}</h6></li>
     				</a>
     				{% if searched|lower in equipment.anio|lower %}

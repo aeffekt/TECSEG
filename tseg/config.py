@@ -28,10 +28,13 @@ class Config:
 					"marca_id": "Marca",
 					"frecuencia_id": "Canal / Frecuencia",					
 					"client_id": "Cliente",
-					"numSerie": "Número de serie",
-					
+					"numSerie": "Número de serie",					
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
+					}
+	FILTROS_MODELOS= {"nombre": "Nombre",
+					"date_created": "Fecha creado",
+					"date_modified": "Fecha modificado",					
 					}
 	FILTROS_HISTORIAS = {"title": "Título", 
 					"tipologia_id": "Tipología",					

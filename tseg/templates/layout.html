@@ -53,33 +53,41 @@
 						<!-- SOLO admin -->
 						{% if current_user.role.role_name == "Admin" %}
 							<li>
-								<a class="nav-item nav-link" title="Ver cuentas de usuario"  href="{{ url_for('users.all_users', filterBy='username', filterOrder='asc') }}">Admin</a>
+								<a class="menu-horizontal">Admin</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}" class="list-group-item list-group-item-light">Agregar nuevo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}" class="list-group-item list-group-item-light">Registrar Usuario</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', filterBy='username', filterOrder='asc') }}" class="list-group-item list-group-item-light">Ver cuentas de usuarios</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('equipments.reporte_zona') }}" class="list-group-item list-group-item-light">Reporte equipos por zona</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.reporte_tecnico') }}" class="list-group-item list-group-item-light">Reporte OR por técnico</a></li>
 								</ul>
 							</li>
 						{% endif %}
 						<!-- SECTOR TODOS menos INVITADOS -->
 						{% if current_user.role.role_name != "Invitado" %}
 							<li>
-								<a class="nav-item nav-link" title="Vista de Clientes"  href="{{ url_for('clients.all_clients', filterBy='id', filterOrder='asc') }}">Clientes</a>
+								<a class="menu-horizontal">Clientes</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Agregar nuevo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}" class="list-group-item list-group-item-light">Registrar Cliente</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', filterBy='id', filterOrder='asc') }}">Ver todos</a></li>	
 								</ul>
 							</li>
 						
 							<li>
-								<a class="nav-item nav-link" title="Vista de Equipos" href="{{ url_for('equipments.all_equipments', filterBy='anio', filterOrder='desc') }}">Equipos</a>
+								<a class="menu-horizontal">Equipos</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar nuevo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}" class="list-group-item list-group-item-light">Agregar Equipo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', filterBy='anio', filterOrder='desc') }}">Ver todos</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}" class="list-group-item list-group-item-light">Agregar Modelo</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', filterBy='date_modified', filterOrder='desc') }}" class="list-group-item list-group-item-light">Ver Modelos</a></li>
 									<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username) }}" class="list-group-item list-group-item-light">Mis historias</a></li>
 								</ul>
 							</li>						
 						
 							<li>
-								<a class="nav-item nav-link" title="Órdenes de reparación" href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', filterBy='estado_id', filterOrder='asc') }}" >O.R.</a>
+								<a class="menu-horizontal" title="Órdenes de reparación">O.R.</a>
 								<ul class="menu-vertical">
-									<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}" class="list-group-item list-group-item-light">Agregar nueva</a></li>
+									<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}" class="list-group-item list-group-item-light">Crear O.R.</a></li>
+									<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', filterBy='estado_id', filterOrder='asc') }}">Ver todas</a></li>
 								</ul>
 							</li>
 						{% endif %}
@@ -92,15 +100,13 @@
 						</li>	
 					{% else %}
 						<li><a class="nav-item nav-link" href="{{ url_for('users.login') }}">Iniciar sesión</a></li>
-		      		{% endif %}
-		      
-		        <li class="text-right">
-		        	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
-		        </li>
+		      		{% endif %}		      
+			        <li class="text-end">
+			        	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
+			        </li>
 				</ul>
 			</nav>
-
-	  </header>
+	  	</header>
 
 	    <main role="main" class="container">
 	      	<div class="row">
@@ -114,12 +120,9 @@
 			              	{% endfor %}
 			            {% endif %}
 		          	{% endwith %}
-
 		          	{% block content %}		          	
-		          	{% endblock %}
-		          	
+		          	{% endblock %}		          	
 	        	</div>
-
 	        	<!-- BUSCADOR-->
 		        <div class="col-md-4">
 		        	<div class="sticky-top">
@@ -160,16 +163,12 @@
 	      	</div>
 	    </main>
 	    <br>
-
 		<footer id="footer" class="footer">
 			<div class="copyright">
 				&copy; TECSEG 2023 | <strong>Agustín Arnaiz</strong>
 			</div>
 		</footer>
 	</body>
-
-
-
 	<script type="text/javascript">
 		
 	  	// THEME COLOR CHANGER
@@ -216,7 +215,7 @@
 			    search_contains: true,
 			    no_results_text: 'No se encontró: ',
 			    width: '100%',
-			    max_shown_results: 30,  
+			    max_shown_results: 100,  
 			  });
 
 	  	// Pone en la barra de navegacion los valores de filterBy y filterOrder
@@ -228,7 +227,5 @@
 	        url.searchParams.set('filterOrder', filterOrder);
 	        window.location.href = url;
 		});
-
 		</script>
-    
 </html>

@@ -87,12 +87,9 @@ class Equipment(db.Model):
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
 	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
 	modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=True)
-	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)
+	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)	
 	orden_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
 	historias = db.relationship('Historia', backref='equipo_historia', lazy=True)
-	
-	def __repr__(self):
-		return f"Equipo('{self.title}', '{self.content}')"
 
 
 class Marca(db.Model):
@@ -102,14 +99,26 @@ class Marca(db.Model):
 
 
 class Modelo(db.Model):
+	now = datetime.now()
+	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	id = db.Column(db.Integer, primary_key=True)
 	nombre = db.Column(db.String(50), unique=True, nullable=False)
+	descripcion = db.Column(db.String(250), unique=True, nullable=False)
+	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	image_file = db.Column(db.String(20), nullable=False, default='default_eq.jpg')
 	equipos = db.relationship('Equipment', backref='modelo_eq', lazy=True)
 
 class Frecuencia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	canal = db.Column(db.String(50), unique=True, nullable=False)
+	unidad_id = db.Column(db.Integer, db.ForeignKey('unidad.id'), nullable=False)
 	equipos = db.relationship('Equipment', backref='frecuencia_eq', lazy=True)
+
+class Unidad(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	nombre = db.Column(db.String(10), unique=True, nullable=False)	
+	frecuencias = db.relationship('Frecuencia', backref='rango', lazy=True)
 
 
 class Historia(db.Model):

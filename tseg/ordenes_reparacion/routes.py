@@ -130,3 +130,8 @@ def update_estado(orden_reparacion_id, estado_descripcion):
 	db.session.commit()
 	flash("La órden de reparación se ha actualizado", 'success')	
 	return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id))
+
+
+@ordenes_reparacion.route("/reporte_or_tecnico")
+def reporte_tecnico(user_id):
+	pass

@@ -20,6 +20,6 @@ class EquipmentForm(FlaskForm):
 	frecuencia = SelectField('Canal / Frecuencia',coerce=str)
 	numSerie = StringField('Número de serie')
 	anio = SelectField('Año de fabricación',coerce=str, validate_choice=False)
-	content = TextAreaField('Descripción')	
+	content = TextAreaField('Descripción')
 	owner = SelectField('Cliente',coerce=str, validate_choice=False, validators=[DataRequired()])
 	submit = SubmitField('Crear / Actualizar')

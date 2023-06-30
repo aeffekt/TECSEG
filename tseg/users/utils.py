@@ -67,27 +67,35 @@ def extraerId(cadena):
 	return None
 
 
-def save_picture(form_picture):
+def save_picture(form_picture, folder):
+	img = Image.open(form_picture)
+	
 	random_hex = secrets.token_hex(8) #crea nombre random para la imagen elegida
 	_, f_ext = os.path.splitext(form_picture.filename)
 	picture_fn = random_hex + f_ext #conserva la extension original del archivo
-	picture_path = os.path.join(current_app.root_path, 'static\profile_pics', picture_fn)
-	# resize image	
-	
-	i = Image.open(form_picture)
-	width, height = i.size
-	desired_width = 125  # Ancho deseado en píxeles
-	desired_height = 125  # Alto deseado en píxeles
-	left = (width - desired_width) // 2
-	top = (height - desired_height) // 2
-	right = (width + desired_width) // 2
-	bottom = (height + desired_height) // 2
-	i_cropped = i.crop((left, top, right, bottom))
+	picture_path = os.path.join(current_app.root_path, f'static\\{folder}', picture_fn)
 
-	i_rgb = i.convert('RGB') # si es png o tiene trnassparencia se la quito asi evita errores
-	output_size = (desired_width,desired_height)
-	i_rgb.thumbnail(output_size)
-	i_rgb.save(picture_path)
+	# se toma el ancho y alto de la imagen
+	width, height = img.size
+	top = 0
+	bottom = height
+	left = 0
+	right = width
+
+	if width > height:		
+		diff = (width - height)/2
+		left = diff
+		right = width - diff
+	elif height > width:
+		diff = (height - width)/2
+		top = diff
+		bottom = height - diff
+	output_size = (right-left,bottom-top)
+	img_cropped = img.crop((left, top, right, bottom))
+	
+	img_rgb = img_cropped.convert('RGB') # si es png o tiene trnassparencia se la quito asi evita errores
+	img_rgb.thumbnail(output_size)
+	img_rgb.save(picture_path)
 
 	return picture_fn
 

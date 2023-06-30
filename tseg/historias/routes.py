@@ -32,7 +32,9 @@ def add_historia(equipment_id):
 	return render_template('create_historia.html', title='Nueva Historia', 
 												form=form,
 												equipment=equipment,
-												legend=f'Nueva Historia del equipo: {equipment.modelo_eq.nombre}')
+												legend=f'Nueva Historia: \
+												{equipment.modelo_eq.nombre} de \
+												{equipment.owner.nombre} {equipment.owner.apellido}')
 
 
 # ruteo de variables "historia_id"

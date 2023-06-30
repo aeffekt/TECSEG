@@ -21,11 +21,11 @@ def layout():
 def all_equipments():
 	all_equips = buscarLista(Equipment)
 	filtrar_por = current_app.config["FILTROS_EQUIPOS"]
-
+	image_path = url_for("static", filename='models_pics/')
 	return render_template('all_equipments.html',
 							lista=all_equips,
 							filtrar_por = filtrar_por,
-							title='Equipos')
+							title='Equipos', image_path=image_path)
 
 
 @equipments.route("/equipment-<int:equipment_id>")
@@ -33,11 +33,13 @@ def equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	historias =  buscarLista(Historia, equipment)
 	filtrar_por = current_app.config['FILTROS_HISTORIAS']
+	image_path = url_for("static", filename='models_pics/')
 	return render_template("equipment.html", title=equipment.modelo_eq.nombre,
 											equipment=equipment,
 											legend="Ver Equipo",
 											filtrar_por = filtrar_por,
-											lista=historias
+											lista=historias, 
+											image_path=image_path
 											)
 
 @equipments.route("/add_equipment-<string:client_id>", methods=['GET','POST'] )
@@ -117,7 +119,7 @@ def delete_equipment(equipment_id):
 
 
 @equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
-def historias_equipo(equipment_id, tipologia_id):	
+def historias_equipo(equipment_id, tipologia_id):
 	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
 	historias = buscarLista(Historia, equipo)	
 	filtrar_por = current_app.config['FILTROS_HISTORIAS']
@@ -126,3 +128,8 @@ def historias_equipo(equipment_id, tipologia_id):
 						lista=historias,
 						filtrar_por = filtrar_por,
 						equipo=equipo)
+
+
+@equipments.route("/reporte_zonal")
+def reporte_zona():
+	pass
