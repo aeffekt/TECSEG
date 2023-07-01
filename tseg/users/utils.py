@@ -14,12 +14,15 @@ from sqlalchemy import asc, desc
 
 # obtener el nombre del atributo para filtrar la búsqueda
 def buscarLista(dBModel, *arg):
+	# si no hay parametros los toma por defecto del modelo DB
+	default_filter_by = dBModel.__table__.columns.keys()[0]
+	
 	# Obtener los valores de filterBy y filterOrder desde la solicitud
-	filter_by = request.args.get('filterBy')	
+	filter_by = request.args.get('filterBy', default_filter_by)
+	filter_order = request.args.get('filterOrder', 'desc')
 	sort_column = getattr(dBModel, filter_by)
 
-	# ORDEN
-	filter_order = request.args.get('filterOrder')
+	# ORDEN	
 	if filter_order == "asc":
 		orden = asc(sort_column)
 	else:

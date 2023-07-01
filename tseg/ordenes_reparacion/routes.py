@@ -118,7 +118,7 @@ def delete_orden_reparacion(orden_reparacion_id):
 	db.session.delete(orden_reparacion)
 	db.session.commit()
 	flash(f"La órden de reparacion {orden_reparacion.codigo} ha sido eliminada!", 'success')
-	return redirect(url_for('ordenes_reparacion.all_ordenes_reparacion'))
+	return redirect(url_for('ordenes_reparacion.all_ordenes_reparacion', filterBy='estado_id', filterOrder='asc' ))
 
 
 @ordenes_reparacion.route("/update_estado-<int:orden_reparacion_id>-<string:estado_descripcion>", methods=['GET'])
@@ -134,4 +134,12 @@ def update_estado(orden_reparacion_id, estado_descripcion):
 
 @ordenes_reparacion.route("/reporte_or_tecnico")
 def reporte_tecnico(user_id):
-	pass
+	if current_user.role.role_name == 'Técnico':
+		all_or = buscarLista(Orden_reparacion, current_user)
+	else:	
+		all_or = buscarLista(Orden_reparacion)
+	filtrar_por = current_app.config["FILTROS_OR"]	
+	return render_template('reporte_tecnico.html', 
+							lista=all_or, 
+							filtrar_por = filtrar_por,
+							title='Reporte Órdenes de reparación')

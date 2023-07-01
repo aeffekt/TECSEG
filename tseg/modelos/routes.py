@@ -60,9 +60,12 @@ def modelo(modelo_id):
 @role_required("Admin", "Técnico")
 def add_modelo():
 	form = ModeloForm()
-	if form.validate_on_submit():
-		modelo = Modelo(nombre=form.nombre.data, 
-							descripcion=form.descripcion.data)
+	if form.validate_on_submit():		
+		modelo = Modelo(nombre=form.nombre.data,						
+						descripcion=form.descripcion.data)
+		if form.picture.data:
+			picture_file = save_picture(form.picture.data, 'models_pics')
+			modelo.image_file = picture_file
 		db.session.add(modelo)
 		db.session.commit()
 		flash(f'modelo {modelo.nombre} agregado!', 'success')
@@ -92,7 +95,7 @@ def update_modelo(modelo_id):
 												form=form,
 												legend="Editar modelo")
 
-@modelos.route("/modelo-<int:modelo_id>-delete", methods=['POST'])
+@modelos.route("/modelo-<int:modelo_id>-delete", methods=['GET', 'POST'])
 @role_required("Admin", "Técnico")
 def delete_modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)

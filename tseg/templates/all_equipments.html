@@ -10,7 +10,7 @@
                         <img class="rounded-3 account-img" src="{{image_path+equipment.modelo_eq.image_file }}">
                         </div>
                     <div class="col-md-8">
-                        <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc') }}">
+                        <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
                         <h2>{{ equipment.modelo_eq.nombre }}</h2>
                         <h6 class="article-title" href="">Canal / Frecuencia: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango.nombre }}</b></h6>
                         <small>

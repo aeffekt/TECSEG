@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Órdenes de reparación ({{ lista.count() }})</h6>
+
+    {% for orden_reparacion in lista %}
+        <article class="media content-section">
+            <div class="row">
+                <div class="col-md-10">
+                  	<div class="media-body">
+                    	<a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
+                           <h2>{{ orden_reparacion.codigo }}</h2>
+                    	   <h5>{{ orden_reparacion.content }}</h5>
+                           <small>{{ orden_reparacion.equipo.title }}</small>
+                           <small>{{ orden_reparacion.tecnicoAsignado.username }}</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 text-end">
+                    <div class="d-grid">
+                        {% if orden_reparacion.estado.descripcion == 'Creada' %}
+                            <i class="btn btn-info btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% elif orden_reparacion.estado.descripcion == 'Asignada' %}
+                            <i class="btn btn-success btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% elif orden_reparacion.estado.descripcion == 'Anulada' %}
+                            <i class="btn btn-secondary btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% elif orden_reparacion.estado.descripcion == 'Finalizada' %}
+                            <i class="btn btn-dark btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% else %}
+                            <i class="btn btn-light btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+    
+{% endblock content %}

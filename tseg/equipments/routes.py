@@ -18,7 +18,7 @@ def layout():
 
 
 @equipments.route("/all_equipments")
-def all_equipments():
+def all_equipments():	
 	all_equips = buscarLista(Equipment)
 	filtrar_por = current_app.config["FILTROS_EQUIPOS"]
 	image_path = url_for("static", filename='models_pics/')
@@ -62,7 +62,7 @@ def add_equipment(client_id):
 		db.session.add(equipment)
 		db.session.commit()
 		flash(f'Equipo {equipment.modelo_eq.nombre} agregado!', 'success')
-		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))	
+		return redirect(url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc'))
 	client = Client.query.filter_by(id=client_id).first()
 	if client:
 		form.owner.default = f'[{client.id}] {client.nombre} {client.apellido}, {client.business_name}'
@@ -114,15 +114,15 @@ def delete_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	db.session.delete(equipment)
 	db.session.commit()
-	flash("El equipo ha sido eliminado!", 'success')
-	return redirect(url_for('equipments.all_equipments'))
+	flash(f"El equipo ha sido eliminado!", 'success')
+	return redirect(url_for('equipments.all_equipments', filterBy='anio', filterOrder='desc'))
 
 
 @equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
 def historias_equipo(equipment_id, tipologia_id):
 	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
 	historias = buscarLista(Historia, equipo)	
-	filtrar_por = current_app.config['FILTROS_HISTORIAS']
+	filtrar_por = current_app.config['FILTROS_HISTORIAS']	
 	return render_template('historias_equipo.html', 
 						title=equipo.modelo_eq.nombre, 
 						lista=historias,

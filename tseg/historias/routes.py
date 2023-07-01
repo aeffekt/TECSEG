@@ -26,9 +26,10 @@ def add_historia(equipment_id):
 							equipo_historia=equipment, 
 							author_historia=current_user)
 		db.session.add(historia)
+
 		db.session.commit()
 		flash('Se ha guardado la nueva Historia de equipo!', 'success')
-		return redirect(url_for('equipments.equipment', equipment_id=equipment_id))
+		return redirect(url_for('equipments.equipment', equipment_id=equipment_id, filterBy='date_modified', filterOrder='desc'))
 	return render_template('create_historia.html', title='Nueva Historia', 
 												form=form,
 												equipment=equipment,
@@ -74,4 +75,4 @@ def delete_historia(historia_id):
 	db.session.delete(historia)
 	db.session.commit()
 	flash("Su historia ha sido eliminada!", 'success')
-	return redirect(url_for('equipments.equipment', equipment_id=historia.equipo_id))
+	return redirect(url_for('equipments.equipment', equipment_id=historia.equipo_id, filterBy='date_modified', filterOrder='desc'))

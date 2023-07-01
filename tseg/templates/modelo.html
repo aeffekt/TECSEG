@@ -61,8 +61,15 @@
 				</div>
 			</fieldset>
 			<br>
-			<div id="submit" class="form-group">
-				{{ form.submit(class="btn btn-outline-info") }}
+			<div class="row">
+				<div class="col-md-3">
+					<div id="submit" class="form-group">
+						{{ form.submit(class="btn btn-outline-info") }}
+					</div>
+				</div>
+				<div class="col-md-9">
+					<a class="bi bi-trash-fill btn btn-outline-danger" href="{{ url_for('modelos.delete_modelo', modelo_id=modelo.id) }}" title="Eliminar modelo"></a>
+				</div>
 			</div>
 		</form>
 	</div>

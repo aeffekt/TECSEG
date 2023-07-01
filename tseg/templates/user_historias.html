@@ -14,13 +14,13 @@
                 <div class="col-md-2 text-end" title="tipo de historia">
                     <div class="d-grid">
                         {% if historia.tipologia.tipo == 'Mensaje' %}
-                            <a class="btn btn-dark btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
+                            <a class="btn btn-dark btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
                         {% elif historia.tipologia.tipo == 'Reparación' %}
-                            <a class="btn btn-info btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
+                            <a class="btn btn-info btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
                         {% elif historia.tipologia.tipo == 'Modificación' %}
-                            <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
+                            <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
                         {% else %}
-                            <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id, filterBy='id', filterOrder='asc') }}">{{ historia.tipologia.tipo }}</a>
+                            <a class="btn btn-light btn-block btn-sm" href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id) }}">{{ historia.tipologia.tipo }}</a>
                         {% endif %}
                     </div>
                 </div>

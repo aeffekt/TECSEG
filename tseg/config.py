@@ -36,11 +36,11 @@ class Config:
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",					
 					}
-	FILTROS_HISTORIAS = {"title": "Título", 
+	FILTROS_HISTORIAS = {"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",
+					"title": "Título", 
 					"tipologia_id": "Tipología",					
 					"equipo_id": "equipo",
-					"date_created": "Fecha creado",
-					"date_modified": "Fecha modificado",					
 					}
 	FILTROS_OR = {"estado_id": "estado",
 					"codigo": "Código",					

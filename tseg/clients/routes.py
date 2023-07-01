@@ -27,10 +27,9 @@ def layout():
 
 @clients.route("/all_clients")
 @role_required("ServicioCliente", "Admin", "Técnico")
-def all_clients():
+def all_clients():	
 	all_clients = buscarLista(Client)
-	filtrar_por = current_app.config["FILTROS_CLIENTES"]
-				
+	filtrar_por = current_app.config["FILTROS_CLIENTES"]				
 	return render_template('all_clients.html', 
 								lista=all_clients, 
 								filtrar_por = filtrar_por,
