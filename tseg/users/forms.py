@@ -13,9 +13,9 @@ class SearchForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-	username = StringField('Nombre de usuario *',
+	username = StringField('Nombre de usuario',
 						validators=[DataRequired(), Length(min=2, max=30)], render_kw={'autofocus': True})
-	password = PasswordField('Contraseña *',
+	password = PasswordField('Contraseña',
 						validators=[DataRequired(), Length(min=0, max=128)])
 	remember = BooleanField('Recordarme')
 	submit = SubmitField('Iniciar Sesión')
@@ -26,9 +26,9 @@ class RegistrationForm(LoginForm):
 		super(RegistrationForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.role.choices = [r.role_name for r in Role.query.all()]
 
-	email = StringField('Email *', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario *', coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion
-	confirm_password = PasswordField('Confirmar Contraseña *', 
+	email = StringField('Email', validators=[DataRequired(), Email()])
+	role = SelectField('Tipo de usuario', coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion
+	confirm_password = PasswordField('Confirmar Contraseña', 
 						validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])
 	submit = SubmitField('Registrar Usuario')
 
@@ -49,11 +49,11 @@ class UpdateAccountForm(FlaskForm):
 		super(UpdateAccountForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.role.choices = [r for r in Role.query.all()]
 
-	username = StringField('Nombre de usuario *',
+	username = StringField('Nombre de usuario',
 						validators=[DataRequired(), Length(min=2, max=30)], 
 						render_kw={'autofocus': True})
-	email = StringField('Email *', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario *', choices=[], 
+	email = StringField('Email', validators=[DataRequired(), Email()])
+	role = SelectField('Tipo de usuario', choices=[], 
 										coerce=str, 
 										validate_choice=False) # validate_choice=F si no hay error de validacion
 	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])

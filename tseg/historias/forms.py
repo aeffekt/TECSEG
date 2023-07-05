@@ -10,6 +10,6 @@ class HistoriaForm(FlaskForm):
 		self.tipo.choices = [f'[{tipologia.id}] {tipologia.tipo}' for tipologia in Tipologia.query.all()]
 
 	tipo = SelectField('Tipo de historia', coerce=str, validate_choice=False, validators=[DataRequired()])
-	title = StringField('Titulo *', validators=[DataRequired()])
+	title = StringField('Titulo', validators=[DataRequired()])
 	content = TextAreaField('Historia')
 	submit = SubmitField('Aceptar')

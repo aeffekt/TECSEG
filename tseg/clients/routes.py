@@ -41,31 +41,45 @@ def client(client_id):
 def add_client():
 	form = ClientForm()
 	if form.validate_on_submit():
-		# busca el ID del pais y comienza a concatenar el domicilio		
-		if form.pais.data != '':			
-			pais = Pais.query.filter_by(nombre=form.pais.data).first()			
-		if form.provincia.data:
-			provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais_id=pais.id).first()
-		if form.localidad.data:
-			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()
-		if form.domicilio.data:
-			domicilio = Domicilio(direccion=form.domicilio.data, localidad_id=localidad.id)
-			db.session.add(domicilio)
-		
-		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
-		client = Client(nombre=form.nombre.data,
-						apellido=form.apellido.data,
-						business_name=form.business_name.data,
-						cond_fiscal_id=cond_fiscal.id,
-						cuit=form.cuit.data,
-						telefono=form.telefono.data,
-						email=form.email.data,
-						comments=form.comments.data,
-						domicilio_id=domicilio.id,
-						author_cl=current_user)
 		try:
+			# busca el ID del pais y comienza a concatenar el domicilio		
+			if form.pais.data != '':			
+				pais = Pais.query.filter_by(nombre=form.pais.data).first()
+				if not pais:
+					pais=Pais(nombre=form.pais.data)
+					db.session.add(pais)				
+			if form.provincia.data:
+				provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais=pais).first()
+				if not provincia:
+					provincia=Provincia(nombre=form.provincia.data, pais=pais)
+					db.session.add(provincia)				
+			if form.localidad.data:
+				localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
+				if not localidad:
+					localidad=Localidad(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia)
+					db.session.add(localidad)
+			else:
+				localidad = None
+			domicilio = Domicilio.query.filter_by(direccion=form.domicilio.data)\
+										.join(Domicilio.localidad)\
+										.filter(Localidad.nombre == form.localidad.data).first()
+			if not domicilio:			
+				domicilio = Domicilio(direccion=form.domicilio.data, localidad=localidad)
+				db.session.add(domicilio)		
+			cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
+			client = Client(nombre=form.nombre.data,
+							apellido=form.apellido.data,
+							business_name=form.business_name.data,
+							cond_fiscal=cond_fiscal,
+							cuit=form.cuit.data,
+							telefono=form.telefono.data,
+							email=form.email.data,
+							comments=form.comments.data,
+							domicilio=domicilio,
+							author_cl=current_user)
+		
 			db.session.add(client)
-			db.session.commit()			
+			db.session.commit()		
 			flash('Cliente agregado!', 'success')
 			return redirect(url_for('clients.client', client_id=client.id))
 		except Exception as err:
@@ -109,7 +123,7 @@ def update_client(client_id):
 			return redirect(url_for('clients.client', client_id=client.id))
 			
 	elif request.method == 'GET':
-		form.cond_fiscal.default = client.condicion_fiscal.nombre		
+		form.cond_fiscal.default = client.cond_fiscal.nombre		
 		form.process()
 		form.nombre.data = client.nombre
 		form.apellido.data = client.apellido

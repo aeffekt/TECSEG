@@ -10,8 +10,8 @@ class ModeloForm(FlaskForm):
 		self.anio.choices = [f"'{str(year)[2:]}" for year in range(datetime.now().year + 1, 1999, -1)]
 		self.anio.choices.insert(0,'N/D')
 
-	nombre = StringField('Nombre *', validators=[DataRequired()])
-	anio = SelectField('Año del modelo *',coerce=str, validators=[DataRequired()])
+	nombre = StringField('Nombre', validators=[DataRequired()])
+	anio = SelectField('Año del modelo',coerce=str, validators=[DataRequired()])
 	descripcion = TextAreaField('Descripción')
 	picture = FileField('Imagen de equipo', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Crear / Actualizar')

@@ -10,8 +10,8 @@ class OrdenReparacionForm(FlaskForm):
 		self.tecnico.choices = [t for t in User.query.filter_by(role_id=3)]
 		self.tecnico.choices.insert(0,'Asignación pendiente') # agrega item		
 
-	codigo = StringField('Código *', validators=[DataRequired()])
-	content = TextAreaField('Descripción *', validators=[DataRequired()])
+	codigo = StringField('Código', validators=[DataRequired()])
+	content = TextAreaField('Descripción', validators=[DataRequired()])
 	equipo = SelectField('Equipo', coerce=str, validate_choice=False, validators=[DataRequired()])
 	tecnico = SelectField('Técnico encargado', coerce=str, validate_choice=False)
 	submit = SubmitField('Agregar')

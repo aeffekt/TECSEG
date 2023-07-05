@@ -52,16 +52,16 @@
 				{% endif %}
 				<!-- SECTOR PARA TODOS LOS USUARIOS -->
 				<li>
-					<a title="Ir a mi cuenta"  href="{{ url_for('users.account', user_id=current_user.id) }}"><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
+					<a title="Ir a mi cuenta" ><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
 					<ul class="menu-vertical">
+						<li><a class="nav-item nav-link" href="{{ url_for('users.account', user_id=current_user.id) }}">Ir a mi cuenta</a></li>
 						<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
 					</ul>
-				</li>
-				<li class="text-right">
-		        	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
-		        </li>
+				</li>				
 			{% endif %}
-	      
+	      	<li class="text-right">
+		       	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
+		    </li>
 		</ul>
 	</nav>
 </div>

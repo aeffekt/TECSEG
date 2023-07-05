@@ -71,7 +71,7 @@ class Client(db.Model):
 class Cond_fiscal(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	nombre = db.Column(db.String(50), unique=True, nullable=False)
-	clientes = db.relationship('Client', backref='condicion_fiscal', lazy=True)
+	clientes = db.relationship('Client', backref='cond_fiscal', lazy=True)
 
 
 class Equipment(db.Model):

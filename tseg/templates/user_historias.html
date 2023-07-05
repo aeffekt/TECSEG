@@ -9,7 +9,7 @@
                     <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}"><h2>{{ historia.title }}</h2>
                 	<h5 class="article-content">{{ historia.content }}</h5>
                     </a>
-                    <small class="article-title">Equipo: <b>{{ historia.equipo_historia.modelo_eq.nombre }}</b> de <b>{{ historia.equipo_historia.owner.business_name }}</b></small>
+                    <small class="article-title">Equipo: <b>{{ historia.eq_historia.modelo_eq.nombre }}</b> de <b>{{ historia.eq_historia.owner.business_name }}</b></small>
                 </div>
                 <div class="col-md-2 text-end" title="tipo de historia">
                     <div class="d-grid">

@@ -49,7 +49,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							{{ form.numSerie.label(class="form-control-label") }}					
+							{{ form.numSerie.label(class="form-control-label") }}<span class="red"> *</span>
 							{% if form.numSerie.errors %}
 								{{ form.numSerie(class="form-control form-control-sm is-invalid") }}
 								<div class="invalid-feedback">
@@ -75,7 +75,7 @@
 							{% endif %}
 						</div>														
 						<div class="form-group">
-							{{ form.owner.label(class="form-control-label") }}
+							{{ form.owner.label(class="form-control-label") }}<span class="red"> *</span>
 							{% if form.owner.errors %}
 								{{ form.owner(class="form-control form-control-sm is-invalid") }}
 								<div class="invalid-feedback">

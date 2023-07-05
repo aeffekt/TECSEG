@@ -17,7 +17,7 @@ def add_historia(equipment_id):
 		historia = Historia(tipologia_id=tipologia_id,
 							title=form.title.data,
 							content=form.content.data,
-							equipo_historia=equipment, 
+							eq_historia=equipment, 
 							author_historia=current_user)
 		try:
 			db.session.add(historia)

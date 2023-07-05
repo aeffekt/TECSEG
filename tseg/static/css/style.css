@@ -43,6 +43,10 @@ legend {
 color: var(--title-color);
 }
 
+.red {  
+  color: red;  
+}
+
 nav {
 background-color: #1c232f;
 font-size: 16px;

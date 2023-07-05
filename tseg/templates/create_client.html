@@ -9,7 +9,7 @@
 					<div class="col-md-6">
 						<div class="form-group" autofocus>
 							<!-- boottrap  -->
-							{{ form.nombre.label(class="form-control-label") }}
+							{{ form.nombre.label(class="form-control-label") }}<span class="red"> *</span>
 							<!-- errores de entrada  -->
 							{% if form.nombre.errors %}
 								{{ form.nombre(class="form-control form-control-sm is-invalid") }}
@@ -39,7 +39,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<!-- boottrap  -->
-							{{ form.apellido.label(class="form-control-label") }}
+							{{ form.apellido.label(class="form-control-label") }}<span class="red"> *</span>
 							<!-- errores de entrada  -->
 							{% if form.apellido.errors %}
 								{{ form.apellido(class="form-control form-control-sm is-invalid") }}
