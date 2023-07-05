@@ -5,7 +5,6 @@ from flask import url_for,current_app, abort, request
 from flask_login import current_user
 from flask_mail import Message
 from tseg import mail
-from tseg.users.forms import SearchForm
 from functools import wraps
 from datetime import datetime
 from tseg.models import Equipment, Client, User, Historia, Orden_reparacion, Localidad, Provincia, Pais
@@ -13,17 +12,29 @@ from sqlalchemy import asc, desc
 
 
 # obtener el nombre del atributo para filtrar la búsqueda
+def validar_ingreso_dato(dBModel, *arg):
+	
+	columns = dBModel.__table__.columns.keys()[0]
+	
+	validate = dBModel.query.filter_by(orden).first()
+	if validate:
+		return False
+	else:
+		return True
+
+
+# obtener el nombre del atributo para filtrar la búsqueda
 def buscarLista(dBModel, *arg):
 	# si no hay parametros los toma por defecto del modelo DB
-	default_filter_by = dBModel.__table__.columns.keys()[0]
+	default_order_by = dBModel.__table__.columns.keys()[0]
 	
 	# Obtener los valores de filterBy y filterOrder desde la solicitud
-	filter_by = request.args.get('filterBy', default_filter_by)
-	filter_order = request.args.get('filterOrder', 'desc')
-	sort_column = getattr(dBModel, filter_by)
+	order_by = request.args.get('orderBy', default_order_by)
+	order_order = request.args.get('orderOrder', 'desc')
+	sort_column = getattr(dBModel, order_by)
 
 	# ORDEN	
-	if filter_order == "asc":
+	if order_order == "asc":
 		orden = asc(sort_column)
 	else:
 		orden = desc(sort_column)
@@ -37,8 +48,6 @@ def buscarLista(dBModel, *arg):
 		elif isinstance(arg[0], Equipment):			
 			lista = lista.filter_by(equipo_id=arg[0].id)
 	return lista
-	
-	
 	
 
 # obtener_informacion_geografica
@@ -62,11 +71,12 @@ def dateFormat():
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	return datetime.fromisoformat(now)
 
-def extraerId(cadena):
-	patron = r"\[(\d+)\]"
-	id_extraido_list = re.findall(patron, cadena) #busca el id dentro de corchetes
-	if id_extraido_list:
-		return id_extraido_list[0]
+# extrae datos dentro de corchetes
+def identificador_en_corchete(cadena):
+	patron = r"\[([^]]+)\]"
+	cadena_en_patron = re.findall(patron, cadena)  # busca el id dentro de corchetes	
+	if cadena_en_patron:
+		return cadena_en_patron[0]
 	return None
 
 

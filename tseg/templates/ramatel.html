@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block content %}		
+	<div class="content-section">
+	  	<div class="media">
+	  		<legend class="border-bottom mb-4">Código Ramatel</legend>
+	  		<div class="row">	  			
+		    	<div class="col-md-5">
+				    <div class="media-body">
+					    <h2 class="account-heading">{{ ramatel.codigo }}</h2>
+					    <h6 class="article-title">Modelo: {{ ramatel.modelo }}</h6>
+				    </div>
+				</div>
+			</div>			
+	  	</div>
+	  	<hr 90%>
+	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
+		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
+			{{ form.hidden_tag() }} <!-- part of protection -->
+			<fieldset class="form-group">				
+				<div id="nombre" class="form-group" autofocus>
+					{{ form.codigo.label(class="form-control-label") }}
+					{% if form.codigo.errors %}
+						{{ form.codigo(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.codigo.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.codigo(class="form-control form-control-sm") }}
+					{% endif %}
+				</div>				
+				<div id="descripcion" class="form-group">					
+					{{ form.modelo.label(class="form-control-label") }}					
+					{% if form.modelo.errors %}
+						{{ form.modelo(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.modelo.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.modelo(class="form-control form-control-sm") }}
+					{% endif %}
+				</div>				
+			</fieldset>
+			<br>			
+			<div id="submit" class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+				<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar"></a>
+			</div>
+		</form>
+	</div>
+	<!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar "{{ ramatel.codigo }}"?</h5>
+            <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <form action="{{ url_for('ramatels.delete_ramatel', ramatel_id=ramatel.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Borrar">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

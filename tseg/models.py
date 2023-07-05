@@ -39,7 +39,7 @@ class User(db.Model, UserMixin):
 		return User.query.get(user_id)
 
 	def __repr__(self):
-		return f"User('{self.username}', '{self.email}')"
+		return f"{self.username} ({self.role.role_name})"
 
 
 class Role(db.Model):
@@ -48,7 +48,7 @@ class Role(db.Model):
 	user = db.relationship('User', backref='role', lazy=True)
 
 	def __repr__(self):
-		return f'{self.role_name}'
+		return self.role_name
 
 
 class Client(db.Model):
@@ -66,7 +66,7 @@ class Client(db.Model):
 	equipments = db.relationship('Equipment', backref='owner', lazy=True)
 
 	def __repr__(self):
-		return f"{self.nombre} {self.apellido}, {self.business_name}"
+		return f"[{self.id}] {self.nombre} {self.apellido}, {self.business_name}"
 
 class Cond_fiscal(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -78,8 +78,8 @@ class Equipment(db.Model):
 	now = datetime.now()
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	id = db.Column(db.Integer, primary_key=True)	
-	numSerie = db.Column(db.String(20), unique=False, nullable=True)
-	anio = db.Column(db.String(4), unique=False, nullable=True)	
+	numSerie = db.Column(db.String(20), unique=True, nullable=False)
+	anio = db.Column(db.String(4), unique=False, nullable=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)	
@@ -88,8 +88,11 @@ class Equipment(db.Model):
 	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
 	modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=True)
 	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)	
-	orden_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
-	historias = db.relationship('Historia', backref='equipo_historia', lazy=True)
+	ordenes_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
+	historias = db.relationship('Historia', backref='eq_historia', lazy=True)
+
+	def __repr__(self):
+		return f'[{self.numSerie}] {self.modelo_eq.nombre} ({self.owner.nombre} {self.owner.apellido})'
 
 
 class Marca(db.Model):
@@ -103,11 +106,22 @@ class Modelo(db.Model):
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	id = db.Column(db.Integer, primary_key=True)
 	nombre = db.Column(db.String(50), unique=True, nullable=False)
+	anio = db.Column(db.String(4), unique=False, nullable=False)
 	descripcion = db.Column(db.String(250), unique=True, nullable=False)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	anio = db.Column(db.String(4), unique=False, nullable=False)
 	image_file = db.Column(db.String(20), nullable=False, default='default_eq.jpg')
+	ramatel_id = db.Column(db.Integer, db.ForeignKey('ramatel.id'), nullable=False)
 	equipos = db.relationship('Equipment', backref='modelo_eq', lazy=True)
+
+
+class Ramatel(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	codigo = db.Column(db.String(15), unique=True, nullable=False)
+	modelo = db.Column(db.String(15), unique=True, nullable=False)
+	modelos = db.relationship('Modelo', backref='ramatel_obj', lazy=True)
+	
 
 class Frecuencia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -130,11 +144,11 @@ class Historia(db.Model):
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)
 	tipologia_id = db.Column(db.Integer, db.ForeignKey('tipologia.id'), nullable=False)
-	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)	
+	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id', onupdate='CASCADE'), nullable=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
-		return f"Historia de equipo('{self.equipment_id}', '{self.title}')"
+		return f"Historia de equipo('{self.eq_historia.modelo_eq.nombre}', '{self.title}')"
 
 class Tipologia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -159,7 +173,7 @@ class Orden_reparacion(db.Model):
 	
 
 	def __repr__(self):
-		return f"{self.codigo}', '{self.fecha_modificado}'"
+		return f"{self.codigo}', '{self.estado}'"
 
 
 class Estado_or(db.Model):
@@ -168,7 +182,7 @@ class Estado_or(db.Model):
 	estados = db.relationship('Orden_reparacion', backref='estado', lazy=True)
 
 	def __repr__(self):
-		return f'{self.estado}'
+		return f'{self.descripcion}'
 
 
 class Domicilio(db.Model):

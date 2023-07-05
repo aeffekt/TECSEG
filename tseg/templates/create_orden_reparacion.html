@@ -5,59 +5,65 @@
 			{{ form.hidden_tag() }} <!-- part of protection -->
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
-				<div class="form-group" autofocus>
-					{{ form.codigo.label(class="form-control-label") }}					
-					{% if form.codigo.errors %}
-						{{ form.codigo(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.codigo.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group" autofocus>
+							{{ form.codigo.label(class="form-control-label") }}					
+							{% if form.codigo.errors %}
+								{{ form.codigo(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.codigo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.codigo(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.codigo(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					<!-- boottrap  -->
-					{{ form.content.label(class="form-control-label") }}
-					<!-- errores de entrada  -->
-					{% if form.content.errors %}
-						{{ form.content(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.content.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.content.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.content.errors %}
+								{{ form.content(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.content.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.content(class="form-control form-control-sm", rows='2') }}
+							{% endif %}
+						</div>												
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							{{ form.equipo.label(class="form-control-label") }}
+							{% if form.equipo.errors %}
+								{{ form.equipo(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.equipo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.equipo(class="chosen form-select form-select-sm") }}
+							{% endif %}
+						</div>						
+						<div class="form-group">
+							{{ form.tecnico.label(class="form-control-label") }}
+							{% if form.tecnico.errors %}
+								{{ form.tecnico(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.tecnico.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.tecnico(class="form-select form-select-sm custom-select") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.content(class="form-control form-control-sm", rows='2') }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.equipo.label(class="form-control-label") }}
-					{% if form.equipo.errors %}
-						{{ form.equipo(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.equipo.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.equipo(class="chosen form-select form-select-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.tecnico.label(class="form-control-label") }}
-					{% if form.tecnico.errors %}
-						{{ form.tecnico(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.tecnico.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.tecnico(class="form-select form-select-sm") }}
-					{% endif %}
+					</div>
 				</div>
 			</fieldset>
 			<br>

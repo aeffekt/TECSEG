@@ -4,23 +4,17 @@ from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
 from tseg.models import User, Historia, Equipment, Client, Role, Marca, Modelo
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
-							RequestResetForm, ResetPasswordForm, SearchForm, UpdateRoleForm)
-from tseg.users.utils import save_picture, send_reset_email, role_required, extraerId, buscarLista
+							RequestResetForm, ResetPasswordForm, SearchForm)
+from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista
 from sqlalchemy import or_
+from sqlalchemy.exc import IntegrityError
 
 
 users = Blueprint('users', __name__)
 
-# pass stuff to navbar through layout (used to search)
-@users.context_processor
-def layout():
-	form = SearchForm()
-	return dict(form=form)
-
-
-@users.route("/index")
+@users.route("/")
 def index():
-	return render_template('index.html', title="home")
+	return render_template('index.html', title="TECSEG")
 
 
 @users.route("/register", methods=['GET', 'POST'])
@@ -30,8 +24,11 @@ def register():
 	if form.validate_on_submit():
 		# creación de usuario válido y protección de contraseña
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		role_id = extraerId(form.role.data)
-		user = User(username=form.username.data, email=form.email.data, password=hashed_password, role_id=role_id)
+		role = Role.query.filter_by(role_name=form.role.data).first()
+		user = User(username=form.username.data, 
+			email=form.email.data, 
+			password=hashed_password, 
+			role=role)
 		db.session.add(user)
 		db.session.commit()
 		flash(f'Cuenta creada: {form.username.data}', 'success')		
@@ -39,7 +36,6 @@ def register():
 	return render_template('register.html', title='Registrar', form=form)
 
 
-@users.route("/", methods=['GET', 'POST'])
 @users.route("/login", methods=['GET', 'POST'])
 def login():
 	if current_user.is_authenticated:
@@ -71,19 +67,25 @@ def logout():
 def account(user_id):
 	user = User.query.get_or_404(user_id)
 	form = UpdateAccountForm()
-	if form.validate_on_submit():
-		if form.picture.data:
-			picture_file = save_picture(form.picture.data, 'profile_pics')
-			user.image_file = picture_file
-		user.username = form.username.data
-		user.email = form.email.data
-		role_id = extraerId(form.role.data)
-		user.role_id = role_id
-		db.session.commit()
-		flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
-		return redirect(url_for('users.account', user_id=user.id))
+	if form.validate_on_submit():		
+		try:
+			if form.picture.data:
+				picture_file = save_picture(form.picture.data, 'profile_pics')
+				user.image_file = picture_file
+			user.username = form.username.data
+			user.email = form.email.data
+			role = Role.query.filter_by(role_name=form.role.data).first()
+			user.role = role
+			db.session.commit()
+			flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
+			return redirect(url_for('users.account', user_id=user.id))
+		# except especial que requiere el rollback para evitar error de ejecucion por integrityError
+		except IntegrityError as err:
+			db.session.rollback()
+			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+			return redirect(url_for('users.account', user_id=user.id))
 	elif request.method == 'GET':		
-		form.role.default = f'[{user.role.id}] {user.role.role_name}'
+		form.role.default = user.role
 		form.process()
 		form.username.data = user.username
 		form.email.data = user.email		
@@ -157,7 +159,7 @@ def search():
 	if request.method == 'GET':
 		return render_template('search.html')
 	else:
-		flash('No hay resultados, intente buscar una palabra', 'light')
+		flash('No hay resultados, intente buscar una palabra', 'info')
 		# retorna a la página que estaba, mostrando el mensaje por búqueda vacía
 		return redirect(request.referrer)
 
@@ -167,10 +169,10 @@ def search():
 def all_users():
 	all_users = buscarLista(User)
 	image_path = url_for("static", filename='profile_pics/')
-	filtrar_por = current_app.config["FILTROS_USUARIOS"]
+	orderBy = current_app.config["ORDER_USUARIOS"]
 	return render_template('all_users.html',
 							lista=all_users,
-							filtrar_por=filtrar_por,
+							orderBy=orderBy,
 							title='Usuarios', image_path=image_path)
 
 
@@ -180,7 +182,11 @@ def user_historias(username):
 					.first_or_404()
 	historias = Historia.query.filter_by(author_historia=user)\
 					.order_by(Historia.date_modified.desc())
-	return render_template('user_historias.html', historias=historias, user=user)
+	orderBy = current_app.config["ORDER_HISTORIAS"]
+	return render_template('user_historias.html', 
+		orderBy=orderBy, 
+		lista=historias, 
+		user=user)
 
 
 @users.route("/user_ordenes_reparacion-<string:user_id>")

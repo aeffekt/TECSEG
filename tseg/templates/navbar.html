@@ -1,0 +1,67 @@
+<div class="navbar">
+	<nav>			
+		<ul class="menu-horizontal">
+			<a class="navbar-brand" href="/"><img src="./static/images/LOGO.png"></a>
+			<!-- SOLO REGISTRADOS -->
+			{% if current_user.is_authenticated %}
+				<!-- SOLO admin -->
+				{% if current_user.role.role_name == "Admin" %}
+					<li>
+						<a class="menu-horizontal">Admin</a>
+						<ul class="menu-vertical">
+							<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Registrar Usuario</a></li>									
+							<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}">Ver cuentas de usuarios</a></li>
+							<hr>
+							<li><a class="nav-item nav-link" href="{{ url_for('ramatels.add_ramatel') }}">Registrar Código Ramatel</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('ramatels.all_ramatels') }}">Buscar Códigos Ramatel</a></li>
+							<hr>
+							<li><a class="nav-item nav-link" href="{{ url_for('equipments.reporte_zona') }}">Reporte equipos por zona</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.reporte_tecnico', user_id=current_user.id) }}">Reporte O.R. por técnico</a></li>
+						</ul>
+					</li>
+				{% endif %}
+				<!-- SECTOR TODOS menos INVITADOS -->
+				{% if current_user.role.role_name != "Invitado" %}
+					<li>
+						<a class="menu-horizontal">Clientes</a>
+						<ul class="menu-vertical">
+							<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}">Registrar Cliente</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}">Buscar cliente</a></li>	
+						</ul>
+					</li>
+				
+					<li>
+						<a class="menu-horizontal">Equipos</a>
+						<ul class="menu-vertical">
+							<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}">Agregar Equipo</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}">Buscar equipo</a></li>
+							<hr>
+							<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Agregar Modelo</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelo de equipo</a></li>
+							<hr>
+							<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}">Mis historias</a></li>
+						</ul>
+					</li>						
+					<li>
+						<a class="menu-horizontal" title="Órdenes de reparación">O.R.</a>
+						<ul class="menu-vertical">
+							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Crear O.R.</a></li>
+							<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar O.R.</a></li>
+						</ul>
+					</li>
+				{% endif %}
+				<!-- SECTOR PARA TODOS LOS USUARIOS -->
+				<li>
+					<a title="Ir a mi cuenta"  href="{{ url_for('users.account', user_id=current_user.id) }}"><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
+					<ul class="menu-vertical">
+						<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
+					</ul>
+				</li>
+				<li class="text-right">
+		        	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
+		        </li>
+			{% endif %}
+	      
+		</ul>
+	</nav>
+</div>

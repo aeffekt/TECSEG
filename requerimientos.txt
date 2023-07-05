@@ -11,15 +11,3 @@ itsdangerous==2.0.1
 email_validator
 pillow
 requests
-
-
-
-ABM Cliente+direccion, OR
-
-reporte equipos del cliente
-reporte historial de equipo
-
-Ordenamiento de datos de listas
-
-Estadistica OR (tecnico, por fecha) ¿sobrecarga?
-Estadistica Equipos por zona, ¿politica de mercado?

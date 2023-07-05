@@ -2,7 +2,6 @@ from flask import render_template, request, Blueprint, flash, redirect, url_for,
 from flask_login import current_user, login_required
 from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio, Cond_fiscal
 from tseg.clients.forms import ClientForm
-from tseg.users.forms import SearchForm
 from tseg import db
 from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista
 
@@ -18,21 +17,14 @@ def obtener_datos_geograficos():
 	# Retorna los datos en formato JSON
 	return jsonify(localidad=localidad, provincia=provincia, pais=pais)
 
-
-# pass stuff to navbar through layout (used to search)
-@clients.context_processor
-def layout():
-	form = SearchForm()
-	return dict(form=form)
-
 @clients.route("/all_clients")
 @role_required("ServicioCliente", "Admin", "Técnico")
 def all_clients():	
 	all_clients = buscarLista(Client)
-	filtrar_por = current_app.config["FILTROS_CLIENTES"]				
+	orderBy = current_app.config["ORDER_CLIENTES"]				
 	return render_template('all_clients.html', 
 								lista=all_clients, 
-								filtrar_por = filtrar_por,
+								orderBy = orderBy,
 								title='Clientes')
 
 
@@ -71,10 +63,14 @@ def add_client():
 						comments=form.comments.data,
 						domicilio_id=domicilio.id,
 						author_cl=current_user)
-		db.session.add(client)
-		db.session.commit()			
-		flash('Cliente agregado!', 'success')
-		return redirect(url_for('clients.client', client_id=client.id))
+		try:
+			db.session.add(client)
+			db.session.commit()			
+			flash('Cliente agregado!', 'success')
+			return redirect(url_for('clients.client', client_id=client.id))
+		except Exception as err:
+			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+			return redirect(url_for('clients.add_client'))
 	return render_template('create_client.html', title='Nuevo cliente', 
 												form=form,
 												legend="Registrar cliente")
@@ -104,9 +100,14 @@ def update_client(client_id):
 		client.telefono = form.telefono.data
 		client.email = form.email.data
 		client.comments = form.comments.data
-		db.session.commit()
-		flash("Los datos del cliente han sido actualizado", 'success')
-		return redirect(url_for('clients.client', client_id=client.id))
+		try:
+			db.session.commit()
+			flash("Los datos del cliente han sido actualizado", 'success')
+			return redirect(url_for('clients.client', client_id=client.id))
+		except Exception as err:
+			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+			return redirect(url_for('clients.client', client_id=client.id))
+			
 	elif request.method == 'GET':
 		form.cond_fiscal.default = client.condicion_fiscal.nombre		
 		form.process()
@@ -137,6 +138,7 @@ def update_client(client_id):
 @role_required("ServicioCliente", "Admin")
 def delete_client(client_id):
 	client = Client.query.get_or_404(client_id)
+	db.session.delete(client.domicilio)
 	db.session.delete(client)
 	db.session.commit()
 	flash("El cliente ha sido eliminado!", 'success')
@@ -148,11 +150,11 @@ def client_equipments(client_id):
 	client = Client.query.filter_by(id=client_id).first_or_404()
 	equipments = Equipment.query.filter_by(owner=client)\
 					.order_by(Equipment.date_modified.desc())	
-	filtrar_por = current_app.config["FILTROS_EQUIPOS"]
+	orderBy = current_app.config["ORDER_EQUIPOS"]
 	image_path = url_for("static", filename='models_pics/')
 	return render_template('client_equipments.html',
 								title=f'{client.nombre} {client.apellido}',
-								filtrar_por=filtrar_por,
+								orderBy=orderBy,
 								lista=equipments,
 								image_path=image_path,
 								client=client)

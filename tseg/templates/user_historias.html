@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h6 class="border-bottom border-secondary mb-4">Historias de {{ user.username }} ({{ historias.count() }})</h6>
+    <h6 class="border-bottom border-secondary mb-4">Historias de {{ user.username }} ({{ lista.count() }})</h6>
 
-    {% for historia in historias %}
-        <article class="media content-section">
+    {% for historia in lista %}
+        <article class="media content-section-list">
             <div class="row">
                 <div class="col-md-10" title="tipo de historia">
                     <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}"><h2>{{ historia.title }}</h2>

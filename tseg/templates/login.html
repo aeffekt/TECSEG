@@ -3,7 +3,9 @@
 
 {% block content %}
 <div class="row">
-	<div class="col-md-8">
+	<div class="col-md-6">
+	</div>
+	<div class="col-md-6">
 		<div class='content-section'>
 			<form method='POST' action=""> <!-- action= when we post go back to same route-->
 				{{ form.hidden_tag() }} <!-- part of protection -->
@@ -55,12 +57,6 @@
 				</div>
 			</form>
 		</div>
-	</div>
-	<div class="col-md-1">
-		<br>
-	</div>
-	<div class="col-md-3">
-		<img src="./static/images/LOGO.png" width="350" height="350"></a>	
 	</div>
 </div>
 {% endblock content %}

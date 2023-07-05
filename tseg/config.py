@@ -15,34 +15,37 @@ class Config:
 	MAIL_MAX_EMAILS = 15
 	MAIL_ASCII_ATTACHMENTS = False
 	TEXTAREA_ROWS = 2
-	FILTROS_USUARIOS = {"username": "Nombre",
+	ORDER_USUARIOS = {"username": "Nombre",
 					"role_id": "Tipo usuario"					
 					}
-	FILTROS_CLIENTES = {"id": "Número ID",
+	ORDER_CLIENTES = {"id": "Número ID",
 					"nombre": "Nombre",
 					"apellido": "Apellido",
 					"business_name": "Razón social"
 					}
-	FILTROS_EQUIPOS= {"anio": "Año de fabricación",
+	ORDER_EQUIPOS= {"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",
+					"anio": "Año de fabricación",
 					"modelo_id": "Modelo",
 					"marca_id": "Marca",
 					"frecuencia_id": "Canal / Frecuencia",					
 					"client_id": "Cliente",
-					"numSerie": "Número de serie",					
-					"date_created": "Fecha creado",
-					"date_modified": "Fecha modificado",
+					"numSerie": "Número de serie",
 					}
-	FILTROS_MODELOS= {"nombre": "Nombre",
+	ORDER_MODELOS= {"nombre": "Nombre",
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",					
 					}
-	FILTROS_HISTORIAS = {"date_modified": "Fecha modificado",
+	ORDER_RAMATEL= {"codigo": "Código",
+					"modelo": "Modelo",					
+					}
+	ORDER_HISTORIAS = {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",
 					"title": "Título", 
-					"tipologia_id": "Tipología",					
+					"tipologia_id": "Tipología",
 					"equipo_id": "equipo",
 					}
-	FILTROS_OR = {"estado_id": "estado",
+	ORDER_OR = {"estado_id": "estado",
 					"codigo": "Código",					
 					"tecnico_id": "Técnico asignado",
 					"equipo_id": "equipo",					

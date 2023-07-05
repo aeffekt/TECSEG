@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 30-06-2023 a las 21:56:20
+-- Tiempo de generación: 05-07-2023 a las 02:09:27
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `apellido` varchar(50) DEFAULT NULL,
+  `apellido` varchar(50) NOT NULL,
   `business_name` varchar(150) DEFAULT NULL,
   `cuit` bigint(11) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
@@ -41,10 +41,11 @@ CREATE TABLE IF NOT EXISTS `client` (
   `domicilio_id` int(11) DEFAULT NULL,
   `cond_fiscal_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_cliente_nombre_apellido` (`nombre`,`apellido`),
   KEY `domicilio_id` (`domicilio_id`),
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -53,14 +54,13 @@ CREATE TABLE IF NOT EXISTS `client` (
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
 (1, 'Canal 13', 'San Luis', 'Canal 13 televisión', NULL, '42432432', '', 'Director Nasim', 1, 1, 1),
 (2, 'Pedro', 'Bonarrico', 'Jesus Te Ama', 20432432421, '02954-4303249', 'bonarrico@jta.com', 'contactarlo por mail: \n\n', 4, 2, 1),
-(3, 'Juan Antonio', 'Acompanies', 'REMAR', 34243243242, '123123123', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 4, 3, 1),
+(3, 'Juan Antonio', 'Acompanies', 'REMAR', 34243243242, '954-424687', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 4, 3, 1),
 (4, 'Pedro', 'Almirón', 'Radio Total FM', 20432432421, '2147483647', 'palmiron@yahoo.com', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 4, 4, 3),
 (6, 'Mariangeles', 'Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', NULL, 'persona ficticia', 1, 5, 1),
 (11, 'Marcelo', 'Gomez', 'Digital Content S.R.L.', 20432432421, '2147483647', NULL, 'Datos del cliente', 4, 6, 1),
 (16, 'Oscar', 'de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', NULL, 'cliente preferencial', 4, 7, 1),
-(17, 'Fabian', 'Brandan', 'JTA S.A.', 20432432421, '1111333222', NULL, 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
+(17, 'Fabian', 'Brandan', 'JTA S.A.', 20432432421, '1132899112', '', 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
 (18, 'Ana', 'Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 2),
-(19, 'Luis', 'Ponzonetta', 'TV Broadcast', NULL, '42432432', NULL, 'radicado en Uruguay', 1, 10, 6),
 (20, 'Agustin', 'Arnaiz', '.com', 34243243242, '3513281199', 'arnaizagustin@gmail.com', '', 10, 11, 2);
 
 -- --------------------------------------------------------
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `cond_fiscal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `cond_fiscal`
@@ -82,11 +82,16 @@ CREATE TABLE IF NOT EXISTS `cond_fiscal` (
 
 INSERT INTO `cond_fiscal` (`id`, `nombre`) VALUES
 (1, 'IVA Responsable Inscripto'),
-(2, 'IVA no Responsable'),
-(3, 'IVA exento'),
-(4, 'Responsable'),
-(5, 'Monotributo'),
-(6, 'Monotributista Social');
+(2, 'IVA Sujeto Exento'),
+(3, 'Consumidor final'),
+(4, 'Responsable Monotributo'),
+(5, 'Sujeto No Categorizado'),
+(6, 'Proveedor del Exterior'),
+(7, 'Cliente del Exterior'),
+(8, 'IVA Liberado - Ley Nº 19.640'),
+(9, 'Monotributista  Social'),
+(10, 'IVA No Alcanzado'),
+(11, 'Monotributista Trabajador Independiente');
 
 -- --------------------------------------------------------
 
@@ -101,24 +106,23 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
 --
 
 INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
-(1, 'Colón 2162', 870),
+(1, 'Los cajones 2162', 870),
 (2, 'Aviador petirosi 123', 33),
 (3, 'San Martin 514', 3),
-(4, 'Entre rios 534', 754),
-(5, 'Belgrano 321', 33),
-(6, 'Av. Olmos 6543', 33),
-(7, 'Constantinopla 43', 33),
-(8, 'Echeverria 3', 33),
-(9, 'Urquiza 432', 766),
-(10, 'Mariano Moreno 678', 871),
-(11, 'San Martin 514 dpto 1', 33);
+(4, 'Urquiza 534', 754),
+(5, 'Belgrano 519', 33),
+(6, 'Av. Olmos 543', 33),
+(7, 'Mariano Moreno 678', 33),
+(8, 'Jose E. Echeverria 2783', 33),
+(9, 'Litoral 432', 766),
+(11, 'Beccar Varela 669', 33);
 
 -- --------------------------------------------------------
 
@@ -129,7 +133,7 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 DROP TABLE IF EXISTS `equipment`;
 CREATE TABLE IF NOT EXISTS `equipment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `numSerie` varchar(20) DEFAULT NULL,
+  `numSerie` varchar(20) NOT NULL,
   `anio` varchar(4) DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -140,12 +144,13 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `modelo_id` int(11) DEFAULT NULL,
   `frecuencia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `eq_numSerie` (`numSerie`),
   KEY `client_id` (`client_id`),
   KEY `user_id` (`user_id`),
   KEY `equipment_marca` (`marca_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
@@ -156,34 +161,35 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (2, '193454-2/0719', '2012', '2022-05-21 04:39:05', '2023-06-28 16:45:44', 'IP: 192.168.0.101', 5, 1, 2, 2, 159),
 (3, '213454-2/0222', '2013', '2022-05-21 04:57:38', '2023-06-28 16:46:50', '', 5, 1, 1, 3, 155),
 (4, '227455-2/0123', '2014', '2022-05-21 04:59:10', '2023-06-28 16:47:11', 'IP: 192.168.0.101', 5, 1, 2, 1, 163),
-(5, '223454-2/0722', '2014', '2022-05-21 05:01:19', '2022-05-21 05:01:19', 'IP: 192.168.0.101', 1, 2, 2, 2, 160),
-(6, '223454-2/0722', '2018', '2022-05-21 05:01:34', '2023-06-28 13:26:50', '', 1, 1, 1, 4, 163),
-(7, '223454-2/0722', '2019', '2022-05-21 05:10:24', '2022-05-21 05:10:24', NULL, 1, 2, 1, 19, 22),
-(8, '223454-2/0722', '2019', '2022-05-21 14:43:33', '2023-04-20 23:33:17', NULL, 1, 1, 2, 18, 19),
-(9, '223454-2/0722', '2022', '2022-05-21 14:44:12', '2023-06-28 17:27:11', '', 1, 1, 1, 4, 156),
-(10, '223454-2/0722', '2020', '2022-05-21 14:45:55', '2023-04-20 23:32:56', NULL, 1, 1, 2, 5, 167),
-(11, '223454-2/0722', '2020', '2022-05-24 02:20:00', '2023-04-20 23:32:04', NULL, 1, 3, 1, 11, 19),
-(12, '223454-2/0722', '2020', '2022-05-25 14:58:24', '2023-04-20 23:31:54', NULL, 1, 6, 1, 11, 25),
-(13, '223454-2/0722', '2021', '2022-05-30 02:41:13', '2023-04-20 23:31:42', NULL, 1, 3, 1, 12, 17),
-(14, '223454-2/0722', '2021', '2022-06-05 04:03:02', '2023-04-20 23:31:31', NULL, 1, 3, 1, 12, 18),
-(15, '223454-2/0722', '2021', '2022-06-13 03:21:29', '2023-06-24 19:33:04', '\r\n', 1, 3, 1, 12, 19),
+(5, '243454-2/0722', '2014', '2022-05-21 05:01:19', '2022-05-21 05:01:19', 'IP: 192.168.0.101', 1, 2, 2, 2, 160),
+(6, '223154-3/0722', '2018', '2022-05-21 05:01:34', '2023-06-28 13:26:50', '', 1, 1, 1, 4, 163),
+(7, '223454-4/0722', '2019', '2022-05-21 05:10:24', '2023-07-03 13:46:09', '', 1, 1, 1, 19, 22),
+(8, '223464-5/0722', '2019', '2022-05-21 14:43:33', '2023-04-20 23:33:17', NULL, 1, 1, 2, 19, 19),
+(9, '223354-6/0722', '2022', '2022-05-21 14:44:12', '2023-06-28 17:27:11', '', 1, 1, 1, 4, 156),
+(10, '223454-7/0722', '2020', '2022-05-21 14:45:55', '2023-04-20 23:32:56', NULL, 1, 1, 2, 5, 167),
+(11, '213454-2/0722', '2020', '2022-05-24 02:20:00', '2023-04-20 23:32:04', NULL, 1, 3, 1, 11, 19),
+(12, '223554-2/0722', '2020', '2022-05-25 14:58:24', '2023-04-20 23:31:54', NULL, 1, 6, 1, 11, 25),
+(13, '223454-11/0722', '2021', '2022-05-30 02:41:13', '2023-04-20 23:31:42', NULL, 1, 3, 1, 23, 17),
+(15, '223454-2/0724', '2021', '2022-06-13 03:21:29', '2023-06-24 19:33:04', '\r\n', 1, 3, 1, 15, 19),
 (16, '12345432/8765', '2022', '2022-06-13 03:22:03', '2023-06-24 19:35:36', '', 10, 6, 1, 19, 31),
-(17, '223454-3/0522', '2022', '2022-06-13 03:30:03', '2023-06-17 15:12:17', NULL, 1, 4, 2, 1, 189),
+(17, '213454-3/0522', '2022', '2022-06-13 03:30:03', '2023-06-17 15:12:17', NULL, 1, 4, 2, 1, 189),
 (18, '190722-1/1219', '2019', '2022-06-13 20:56:51', '2023-06-24 13:58:46', '', 1, 4, 1, 22, 16),
 (19, '190722-2/1219', '2012', '2022-06-13 21:26:02', '2023-06-28 17:35:02', '', 1, 1, 2, 1, 167),
-(20, '190722-3/1219', '2012', '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \narmado: completo\nfirmado: Oscar\ntel tecnico: 0345-2321387\nmanual: DMTRUD1200-22.pdf', 1, 18, 1, 21, 18),
+(20, '190722-3/1219', '2012', '2022-06-22 21:32:29', '2023-04-20 23:30:59', 'Rack: 6 modulos \narmado: completo\nfirmado: Oscar\ntel tecnico: 0345-2321387\nmanual: DMTRUD1200-22.pdf', 1, 18, 1, 26, 18),
 (21, '020823-1/0423', '2023', '2022-06-23 01:15:03', '2023-06-28 13:45:09', '', 10, 1, 2, 25, 124),
-(22, '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4, 2, 14, 14),
-(23, '223454-2/0722', '2022', '2022-06-22 22:19:54', '2023-06-17 15:08:41', NULL, 10, 4, 1, 18, 30),
+(22, '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4, 2, 46, 7),
+(23, '223494-2/0722', '2022', '2022-06-22 22:19:54', '2023-06-17 15:08:41', NULL, 10, 4, 1, 25, 30),
 (33, '230504-1/8765', '2023', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16, 4, 38, 0),
 (34, '190122-1/1219', '2023', '2023-05-20 14:39:38', '2023-06-17 16:48:53', 'IP: 192.168.0.90\r\nNuevo multiplexor de videoswitch', 1, 2, 3, 37, 31),
 (37, '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18, 1, 1, 1),
-(59, '220722-1/1223', '2015', '2023-06-05 19:33:17', '2023-06-13 15:41:00', 'canal:13\r\n(ex canal: 14)', 10, 3, 3, 35, 1),
-(68, '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-29 13:37:10', '', 10, 1, 1, 17, 21),
-(69, '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17, 1, 24, 31),
-(70, '230617-1/0723', NULL, '2023-06-17 16:02:08', '2023-06-17 16:29:49', 'IP: 192.168.1.136', 1, 19, 2, 1, 198),
-(71, '123456-1/0423', '2024', '2023-06-28 13:35:42', '2023-06-30 12:58:41', '', 10, 1, 1, 5, 152),
-(72, '123456-1/0423', '2024', '2023-06-28 13:36:33', '2023-06-28 22:21:46', '', 10, 1, 1, 4, 153);
+(59, '220722-1/1223', '2020', '2023-06-05 19:33:17', '2023-07-04 10:28:08', '(ex canal: 14)', 10, 3, 3, 37, 13),
+(68, '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-29 13:37:10', '', 10, 1, 1, 46, 5),
+(69, '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17, 1, 36, 31),
+(71, '123456-1/0423', '2024', '2023-06-28 13:35:42', '2023-07-03 19:33:05', '', 10, 1, 1, 5, 152),
+(72, '230617-3/0723', 'N/D', '2023-07-03 23:53:09', '2023-07-04 00:39:12', '', 10, 1, 1, 3, 111),
+(85, '230617-2/0723', 'N/D', '2023-07-04 00:23:41', '2023-07-04 00:23:41', '', 10, 1, 1, 1, 0),
+(86, '230412-1/0423', '2024', '2023-07-04 09:17:13', '2023-07-04 09:17:13', '', 10, 20, 1, 13, 22),
+(87, '230617-1/0723', '2023', '2023-07-04 21:36:14', '2023-07-04 21:36:14', '', 10, 6, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +224,7 @@ DROP TABLE IF EXISTS `frecuencia`;
 CREATE TABLE IF NOT EXISTS `frecuencia` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `canal` varchar(50) NOT NULL,
-  `unidad_id` int(11) DEFAULT NULL,
+  `unidad_id` int(11) NOT NULL DEFAULT '6',
   PRIMARY KEY (`id`),
   KEY `frec_unidad` (`unidad_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8;
@@ -228,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `frecuencia` (
 --
 
 INSERT INTO `frecuencia` (`id`, `canal`, `unidad_id`) VALUES
-(0, '0', NULL),
+(0, 'N/D', 6),
 (1, '1', 4),
 (2, '2', 4),
 (3, '3', 4),
@@ -561,7 +567,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content` varchar(1000) DEFAULT NULL,
   `tipologia_id` int(11) NOT NULL,
-  `equipo_id` int(11) NOT NULL,
+  `equipo_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -1603,7 +1609,8 @@ DROP TABLE IF EXISTS `marca`;
 CREATE TABLE IF NOT EXISTS `marca` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_marca_nombre` (`nombre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
@@ -1611,13 +1618,13 @@ CREATE TABLE IF NOT EXISTS `marca` (
 --
 
 INSERT INTO `marca` (`id`, `nombre`) VALUES
-(1, 'Liecom'),
-(2, 'IA Electrónica'),
-(3, 'VideoSwitch'),
 (4, 'Dexin'),
-(5, 'Ubiquiti'),
 (6, 'Hewlett Packard'),
-(7, 'Otra');
+(2, 'IA Electrónica'),
+(1, 'Liecom'),
+(7, 'Otra'),
+(5, 'Ubiquiti'),
+(3, 'VideoSwitch');
 
 -- --------------------------------------------------------
 
@@ -1630,56 +1637,50 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `descripcion` varchar(250) DEFAULT NULL,
-  `image_file` varchar(20) DEFAULT 'default_eq.jpg',
+  `image_file` varchar(20) NOT NULL DEFAULT 'default_eq.jpg',
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+  `anio` varchar(4) DEFAULT NULL,
+  `ramatel_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_modelo_nombre_anio` (`nombre`,`anio`),
+  KEY `modelo_ramatel` (`ramatel_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
 --
 
-INSERT INTO `modelo` (`id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`) VALUES
-(1, 'FM100 \'22', 'STM', '9b0a1133e8efc0ad.JPG', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(2, 'FM250 \'23', 'STM', '00a0d44c7702e1a5.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(3, 'FM500 \'19', 'STM', 'd54af0ea5584e2ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(4, 'FM1000', 'CTM', '4d36499baa010264.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(5, 'FM2000 \'23', 'STM', 'b67f8b1f6f96a97e.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(6, 'FM3000', 'CTM', 'b3de7d3f5614eda7.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(7, 'FM5000', 'rack', 'e79276700afad2e6.JPG', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(8, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(9, 'FM10.000', 'rack', 'dabdd62a9281a944.JPG', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(10, 'FM5.000', 'rack CTM', '4883a88e4aa7c4ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(11, 'TRUD70', 'STM', '0d0fb90ce98ad382.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(12, 'TRUD100', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(13, 'TRUD250', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(14, 'TRUD400', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(15, 'TRUD500', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(16, 'TRUD800', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(17, 'TRUD900', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(18, 'TRUD1000', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(19, 'TRUD1200', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(20, 'TRUD1800', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(21, 'TRUD2400', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(22, 'TRU100', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(23, 'TRU250', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(24, 'TRU350', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(25, 'TRU400', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(26, 'TRU500', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(27, 'TRU1.000', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(28, 'TRU2.000', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(29, 'TRM2640', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(30, 'TRM2650', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(31, 'TRM26100', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(32, 'NDS3542', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(33, 'NDS3542A', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(34, 'DMOD-1000', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(35, 'DMUX-1000i', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(36, 'DMUX-500i', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(37, 'DMUX-3000', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(38, 'LP211', 'CTM', 'default_eq.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39'),
-(40, 'FM100 \'23', 'encendido posterior', '2e02a8e0c60f655d.jpg', '2023-06-30 12:39:07', '2023-06-30 12:39:07');
+INSERT INTO `modelo` (`id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `ramatel_id`) VALUES
+(0, 'N/D', 'Modelo de equipo no específico', 'default_eq.jpg', '2023-07-04 10:08:24', '2023-07-04 11:24:01', 'N/D', NULL),
+(1, 'FM100', 'STM', '9b0a1133e8efc0ad.JPG', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'17', 2),
+(2, 'FM250', 'STM', '00a0d44c7702e1a5.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3),
+(3, 'FM500', 'STM', 'd54af0ea5584e2ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4),
+(4, 'FM1000', 'CTM', '4d36499baa010264.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 5),
+(5, 'FM2000', 'STM', 'b67f8b1f6f96a97e.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 6),
+(6, 'FM3000', 'CTM', 'b3de7d3f5614eda7.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', NULL),
+(8, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL),
+(10, 'FM5000', 'rack CTM', '4883a88e4aa7c4ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 7),
+(11, 'TRUD70', 'STM', '0d0fb90ce98ad382.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'20', NULL),
+(13, 'TRUD250', 'CTM', 'a865c54b13d4b420.JPG', '2023-06-30 10:17:39', '2023-07-04 10:46:01', '\'20', 9),
+(15, 'TRUD500', 'CTM', 'ac25db2c48c2802b.JPG', '2023-06-30 10:17:39', '2023-07-04 10:47:31', '\'21', 10),
+(19, 'TRUD1200', 'CTM', 'b551d0cb2c616c88.JPG', '2023-06-30 10:17:39', '2023-07-04 10:55:33', '\'10', 11),
+(20, 'TRUD1800', 'CTM', 'e7f3f00e4feb84d3.JPG', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL),
+(22, 'TRV5000', 'CTM', 'ac43080af69e7ac5.JPG', '2023-06-30 10:17:39', '2023-07-04 11:22:04', '\'10', NULL),
+(23, 'TRU250', 'CTM', 'b826b5271375f5bb.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL),
+(25, 'TRU400', 'CTM', '2b82d39020339dce.jpg', '2023-06-30 10:17:39', '2023-07-04 11:11:20', '\'08', NULL),
+(26, 'TRU500', 'CTM', 'a42b1c7599f290cf.jpg', '2023-06-30 10:17:39', '2023-07-04 11:12:53', '\'19', NULL),
+(30, 'TRM2650', 'CTM', '7c7c38654f7e1563.jpg', '2023-06-30 10:17:39', '2023-07-04 10:23:40', '\'23', NULL),
+(31, 'TRM26100', 'CTM', '6a75e05653aa3660.jpg', '2023-06-30 10:17:39', '2023-07-04 10:22:48', '\'16', NULL),
+(32, 'NDS3542', 'HDMI', 'b7da03f8bccd689d.jpg', '2023-06-30 10:17:39', '2023-07-04 10:38:38', '\'16', NULL),
+(33, 'NDS3542A', 'SDI', '47c3e06c73d0fbd7.jpg', '2023-06-30 10:17:39', '2023-07-04 10:38:13', '\'17', NULL),
+(34, 'DMOD-1000', 'CTM', '983d6e0b7a8cf0e9.png', '2023-06-30 10:17:39', '2023-07-04 10:36:24', '\'21', NULL),
+(36, 'DMUX-500i', 'CTM', '64261f290660c662.jpg', '2023-06-30 10:17:39', '2023-07-04 10:29:21', '\'19', NULL),
+(37, 'DMUX-3100', 'CTM', 'c62ba952cffab5c6.png', '2023-06-30 10:17:39', '2023-07-04 10:28:35', '\'20', NULL),
+(38, 'LP211', 'CTM', 'a3bd839633bbd039.jpg', '2023-06-30 10:17:39', '2023-07-04 10:28:56', '\'18', NULL),
+(40, 'FM100 \'23', 'encendido posterior', '2e02a8e0c60f655d.jpg', '2023-06-30 12:39:07', '2023-06-30 12:39:07', '\'23', 2),
+(46, 'TRV100', 'STM', '73ca8466b7df3f00.JPG', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12),
+(47, 'FM50', '', 'default_eq.jpg', '2023-07-04 13:21:30', '2023-07-04 13:21:30', '\'22', 1);
 
 -- --------------------------------------------------------
 
@@ -1693,7 +1694,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `codigo` varchar(50) NOT NULL,
-  `content` varchar(250) DEFAULT NULL,
+  `content` varchar(250) NOT NULL,
   `tecnico_id` int(11) DEFAULT NULL,
   `equipo_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -1717,7 +1718,6 @@ INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`,
 (13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422-1/0322', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
 (14, '2023-06-16 12:14:01', '2023-06-16 12:20:52', '230516-1/170523', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
 (15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230313-6/0920', 'revisar configuracion', 5, 34, 10, 2),
-(16, '2023-06-17 16:02:08', '2023-06-17 16:02:08', '223454', 'ver conexión TIBBO por problemas', 1, 14, 10, 2),
 (17, '2023-06-17 16:02:08', '2023-06-17 16:20:02', '193454', 'cambiar de frec a 98,5MHz', 1, 2, 10, 4),
 (18, '2023-06-17 16:02:08', '2023-06-27 13:40:29', '213454', 'problemas entrada 220V', 14, 3, 10, 2),
 (19, '2023-06-17 16:02:08', '2023-06-17 16:20:10', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 1, 33, 10, 3);
@@ -1865,6 +1865,41 @@ INSERT INTO `provincia` (`id`, `nombre`, `pais_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ramatel`
+--
+
+DROP TABLE IF EXISTS `ramatel`;
+CREATE TABLE IF NOT EXISTS `ramatel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(15) NOT NULL,
+  `modelo` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_ramatel_codigo` (`codigo`),
+  UNIQUE KEY `uq_ramatel_modelo` (`modelo`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `ramatel`
+--
+
+INSERT INTO `ramatel` (`id`, `codigo`, `modelo`) VALUES
+(1, 'H-16503', 'FM50'),
+(2, 'H-16505', 'FM100'),
+(3, '32-522', 'FM250'),
+(4, '32-407', 'FM500'),
+(5, 'H-23104', 'FM1000'),
+(6, 'H-23105', 'FM2000'),
+(7, 'H-22011', 'FM5000'),
+(8, 'C-22679', 'FM10.000'),
+(9, 'C-15701', 'TRUD250'),
+(10, 'C-15697', 'TRUD500'),
+(11, 'C-12130', 'TRUD1200'),
+(12, '40-155', 'TRV100'),
+(24, '123', 'da');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `role`
 --
 
@@ -1895,7 +1930,8 @@ DROP TABLE IF EXISTS `tipologia`;
 CREATE TABLE IF NOT EXISTS `tipologia` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tipo` (`tipo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
@@ -1904,8 +1940,8 @@ CREATE TABLE IF NOT EXISTS `tipologia` (
 
 INSERT INTO `tipologia` (`id`, `tipo`) VALUES
 (1, 'Mensaje'),
-(2, 'Reparación'),
-(3, 'Modificación');
+(3, 'Modificación'),
+(2, 'Reparación');
 
 -- --------------------------------------------------------
 
@@ -1917,19 +1953,21 @@ DROP TABLE IF EXISTS `unidad`;
 CREATE TABLE IF NOT EXISTS `unidad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `unidad`
 --
 
 INSERT INTO `unidad` (`id`, `nombre`) VALUES
+(3, 'GHz'),
 (1, 'KHz'),
 (2, 'MHz'),
-(3, 'GHz'),
-(4, 'VHF'),
-(5, 'UHF');
+(5, 'Uhf'),
+(6, 'Un.'),
+(4, 'Vhf');
 
 -- --------------------------------------------------------
 
@@ -1988,10 +2026,10 @@ ALTER TABLE `domicilio`
 -- Filtros para la tabla `equipment`
 --
 ALTER TABLE `equipment`
-  ADD CONSTRAINT `eq_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `eq_marca` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_marca` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
@@ -2004,7 +2042,7 @@ ALTER TABLE `frecuencia`
 -- Filtros para la tabla `historia`
 --
 ALTER TABLE `historia`
-  ADD CONSTRAINT `historia_equipo` FOREIGN KEY (`equipo_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `historia_equipo` FOREIGN KEY (`equipo_id`) REFERENCES `equipment` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `historia_tipo` FOREIGN KEY (`tipologia_id`) REFERENCES `tipologia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `historia_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
@@ -2013,6 +2051,12 @@ ALTER TABLE `historia`
 --
 ALTER TABLE `localidad`
   ADD CONSTRAINT `localidad_prov` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `modelo`
+--
+ALTER TABLE `modelo`
+  ADD CONSTRAINT `modelo_ramatel` FOREIGN KEY (`ramatel_id`) REFERENCES `ramatel` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `orden_reparacion`

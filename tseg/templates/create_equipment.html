@@ -17,7 +17,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.marca(class="form-select form-select-sm") }}
+								{{ form.marca(class="form-select form-select-sm custom-select") }}
 							{% endif %}
 						</div>
 						<div class="form-group">
@@ -30,7 +30,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.modelo(class="chosen form-select form-select-sm") }}
+								{{ form.modelo(class="chosen form-select form-select-sm custom-select") }}
 							{% endif %}
 						</div>										
 						<div class="form-group">
@@ -43,7 +43,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.frecuencia(class="chosen form-select form-select-sm") }}
+								{{ form.frecuencia(class="chosen form-select form-select-sm custom-select") }}
 							{% endif %}
 						</div>												
 					</div>
@@ -71,7 +71,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.anio(class="chosen form-select form-select-sm") }}
+								{{ form.anio(class="chosen form-select form-select-sm custom-select") }}
 							{% endif %}
 						</div>														
 						<div class="form-group">
@@ -84,7 +84,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.owner(class="chosen form-select form-select-sm") }}
+								{{ form.owner(class="chosen form-select form-select-sm custom-select") }}
 							{% endif %}
 						</div>
 					</div>

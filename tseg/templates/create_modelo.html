@@ -23,6 +23,21 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.anio.label(class="form-control-label") }}
+					<!-- errores de entrada  -->
+					{% if form.anio.errors %}
+						{{ form.anio(class="form-control form-control is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.anio.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.anio(class="form-control form-control") }}
+					{% endif %}
+				</div>
+				<div class="form-group">
 					{{ form.descripcion.label(class="form-control-label") }}
 					{% if form.descripcion.errors %}
 						{{ form.descripcion(class="form-control form-control is-invalid") }}

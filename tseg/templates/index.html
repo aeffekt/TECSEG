@@ -1,17 +1,37 @@
 {% extends "layout.html" %}
 {% block content %}        
-    <div class='text-center'>
+    {% if current_user.is_authenticated %}
+    <div class="tarjeta-nav">
         <div class="row">
-            <div class="col-md-4">                
+            <div class="col-md-6">
+                <a href="{{ url_for('clients.all_clients') }}">CLIENTES</a>                
             </div>
-            <div class="col-md-4">
-                <a class="article-title mb-5" href="/"><img class="logo" src="./static/images/LOGO.png"></a>                
-                {% if not current_user.is_authenticated %}                   
-                            
-                {%endif%}
+            <div class="col-md-6">
+                <a href="{{ url_for('equipments.all_equipments') }}">EQUIPOS</a>                
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-md-6">                
+                <a href="{{ url_for('modelos.all_modelos') }}">
+                MODELOS</a>  
             </div>
-            <div class="col-md-4">                
+            <div class="col-md-6">                
+                <a href="{{ url_for('users.account', user_id=current_user.id) }}">MI CUENTA</a>
             </div>
+            
         </div>
     </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <div class="text-center">
+                    <a class="banner" href="/login"><img class="logo" src="./static/images/LOGO.png"></a>
+                    <br>
+                    <a class="btn btn-outline-info btn-lg" type="button" href="{{ url_for('users.login') }}">Iniciar sesión</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock content %}

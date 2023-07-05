@@ -9,8 +9,10 @@
 	  			</div>
 		    	<div class="col-md-5">
 				    <div class="media-body">
-					    <h2 class="account-heading">{{ modelo.nombre }}</h2>
-					    <h6 class="article-title">{{ modelo.descripcion }}</h6>
+					    <h2 class="account-heading">{{ modelo.nombre }} {{  modelo.anio  }}</h2>
+					    <h6 class="article-title">Descripción: {{ modelo.descripcion }}</h6>
+					    <h6 class="article-title">Ramatel: {{ modelo.ramatel_obj.codigo }}</h6>
+					    <small class="article-title">Modificado: {{ modelo.date_modified }}</small>
 				    </div>
 				</div>
 			</div>			
@@ -31,6 +33,19 @@
 						</div>
 					{% else %}
 						{{ form.nombre(class="form-control form-control-sm") }}
+					{% endif %}
+				</div>
+				<div id="anio" class="form-group" autofocus>
+					{{ form.anio.label(class="form-control-label") }}
+					{% if form.anio.errors %}
+						{{ form.anio(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.anio.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.anio(class="form-control form-control-sm") }}
 					{% endif %}
 				</div>
 				<div id="descripcion" class="form-group">					
@@ -60,17 +75,30 @@
 					{% endif %}					
 				</div>
 			</fieldset>
-			<br>
-			<div class="row">
-				<div class="col-md-3">
-					<div id="submit" class="form-group">
-						{{ form.submit(class="btn btn-outline-info") }}
-					</div>
-				</div>
-				<div class="col-md-9">
-					<a class="bi bi-trash-fill btn btn-outline-danger" href="{{ url_for('modelos.delete_modelo', modelo_id=modelo.id) }}" title="Eliminar modelo"></a>
-				</div>
+			<br>			
+			<div id="submit" class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+				<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar"></a>
 			</div>
 		</form>
 	</div>
+	<!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar "{{ modelo.nombre }} {{ modelo.anio }}"?</h5>
+            <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <form action="{{ url_for('modelos.delete_modelo', modelo_id=modelo.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Borrar">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock content %}
