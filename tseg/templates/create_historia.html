@@ -5,50 +5,57 @@
 			{{ form.hidden_tag() }} <!-- part of protection -->
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-3">{{ legend }}</legend>
-				<div class="form-group">
-					<!-- boottrap  -->
-					{{ form.tipo.label(class="form-control-label") }}
-					<!-- errores de entrada  -->
-					{% if form.tipo.errors %}
-						{{ form.tipo(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.tipo.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.tipo.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.tipo.errors %}
+								{{ form.tipo(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.tipo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.tipo(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.tipo(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					<!-- boottrap  -->
-					{{ form.title.label(class="form-control-label") }}<span class="red"> *</span>
-					<!-- errores de entrada  -->
-					{% if form.title.errors %}
-						{{ form.title(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.title.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.content.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.content.errors %}
+								{{ form.content(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.content.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.content(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.title(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					<!-- boottrap  -->
-					{{ form.content.label(class="form-control-label") }}
-					<!-- errores de entrada  -->
-					{% if form.content.errors %}
-						{{ form.content(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.content.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.title.label(class="form-control-label") }}<span class="red"> *</span>
+							<!-- errores de entrada  -->
+							{% if form.title.errors %}
+								{{ form.title(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.title.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.title(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.content(class="form-control form-control-sm") }}
-					{% endif %}
+						
+					</div>
 				</div>
 			</fieldset>
 			<br>

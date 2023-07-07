@@ -1,7 +1,7 @@
 <div class="navbar">
-	<nav>			
+	<nav>
 		<ul class="menu-horizontal">
-			<a class="navbar-brand" href="/"><img src="./static/images/LOGO.png"></a>
+			<a class="navbar-brand" href="/"><img src="./static/images/LOGO_small.png"></a>
 			<!-- SOLO REGISTRADOS -->
 			{% if current_user.is_authenticated %}
 				<!-- SOLO admin -->
@@ -12,8 +12,8 @@
 							<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Registrar Usuario</a></li>									
 							<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}">Ver cuentas de usuarios</a></li>
 							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('ramatels.add_ramatel') }}">Registrar Código Ramatel</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('ramatels.all_ramatels') }}">Buscar Códigos Ramatel</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Registrar Homologación</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones') }}">Buscar Homologaciónes</a></li>
 							<hr>
 							<li><a class="nav-item nav-link" href="{{ url_for('equipments.reporte_zona') }}">Reporte equipos por zona</a></li>
 							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.reporte_tecnico', user_id=current_user.id) }}">Reporte O.R. por técnico</a></li>
@@ -60,7 +60,7 @@
 				</li>				
 			{% endif %}
 	      	<li class="text-right">
-		       	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="icon" title="Cambiar tema">
+		       	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="theme_icon" title="Cambiar tema">
 		    </li>
 		</ul>
 	</nav>

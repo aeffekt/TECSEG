@@ -16,11 +16,13 @@ def all_ordenes_reparacion():
 		all_or = buscarLista(Orden_reparacion, current_user)
 	else:	
 		all_or = buscarLista(Orden_reparacion)
-	orderBy = current_app.config["ORDER_OR"]	
+	orderBy = current_app.config["ORDER_OR"]
+	item_type = 'Órden de Reparación'
 	return render_template('all_ordenes_reparacion.html', 
 							lista=all_or, 
 							orderBy = orderBy,
-							title='Órdenes de reparación')
+							title='Órdenes de reparación',
+							item_type=item_type)
 
 
 # ruteo de variables "Orden_reparacion_id"
@@ -35,9 +37,10 @@ def orden_reparacion(orden_reparacion_id):
 def add_orden_reparacion(equipment_id):
 	form = OrdenReparacionForm()
 	if form.validate_on_submit():		
-		serie = identificador_en_corchete(form.equipo.data)		
-		equipment = Equipment.query.filter_by(numSerie=serie).first()
-		user = User.query.filter_by(id=form.tecnico.data).first()
+		numSerie = identificador_en_corchete(form.equipo.data)
+		equipment = Equipment.query.filter_by(numSerie=numSerie).first()
+		username = form.tecnico.data.split()[0]  # Obtener el nombre de usuario del valor __repr__		
+		user = User.query.filter_by(username=username).first()
 		if user:
 			estado_id = 2 # si hay tecnico asignado se pone en "asignada"
 		else:
@@ -76,16 +79,17 @@ def update_orden_reparacion(orden_reparacion_id):
 		flash(f'{orden_reparacion.author_or}, {current_user}, {current_user.role.role_name}','danger')
 		abort(403) #http forbidden
 	form = OrdenReparacionForm()
-	if form.validate_on_submit():
-		equipment = Equipment.query.filter_by(form.equipo.data).first()
-		user = User.query.filter_by(form.tecnico.data).first()
-		
-		orden_reparacion.tecnico_id = user.id
+	if form.validate_on_submit():		
+		numSerie = identificador_en_corchete(form.equipo.data)
+		equipment = Equipment.query.filter_by(numSerie=numSerie).first()
+		username = form.tecnico.data.split()[0]  # Obtener el nombre de usuario del valor __repr__		
+		user = User.query.filter_by(username=username).first()
 		if user:			
 			orden_reparacion.estado_id = 2 # si se asignó un técnico, se cambia el estado
 		else:
 			orden_reparacion.estado_id = 1
-		orden_reparacion.equipo_id = equipment_id				
+		orden_reparacion.tecnicoAsignado = user
+		orden_reparacion.equipo = equipment
 		orden_reparacion.date_modified = dateFormat()
 		orden_reparacion.codigo = form.codigo.data
 		orden_reparacion.content = form.content.data
@@ -100,8 +104,7 @@ def update_orden_reparacion(orden_reparacion_id):
 		# si no hay tecnico asignado lo deja vacio
 		if orden_reparacion.tecnicoAsignado:
 			form.tecnico.default = orden_reparacion.tecnicoAsignado
-		form.equipo.default = orden_reparacion.equipo
-		form.estado.default = f'[{orden_reparacion.estado.id}] {orden_reparacion.estado.descripcion}'
+		form.equipo.default = orden_reparacion.equipo		
 		form.process()
 		form.codigo.data = orden_reparacion.codigo
 		form.content.data = orden_reparacion.content	

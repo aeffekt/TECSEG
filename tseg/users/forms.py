@@ -25,9 +25,10 @@ class RegistrationForm(LoginForm):
 	def __init__(self):
 		super(RegistrationForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.role.choices = [r.role_name for r in Role.query.all()]
+		self.role.choices.insert(0,'')
 
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', coerce=str, validate_choice=False) # validate_choice=F si no hay error de validacion
+	role = SelectField('Tipo de usuario', coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'}) # validate_choice=F si no hay error de validacion
 	confirm_password = PasswordField('Confirmar Contraseña', 
 						validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])
 	submit = SubmitField('Registrar Usuario')

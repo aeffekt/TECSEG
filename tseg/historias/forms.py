@@ -9,7 +9,7 @@ class HistoriaForm(FlaskForm):
 		super(HistoriaForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.tipo.choices = [f'[{tipologia.id}] {tipologia.tipo}' for tipologia in Tipologia.query.all()]
 
-	tipo = SelectField('Tipo de historia', coerce=str, validate_choice=False, validators=[DataRequired()])
+	tipo = SelectField('Tipo de historia', coerce=str, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
 	title = StringField('Titulo', validators=[DataRequired()])
 	content = TextAreaField('Historia')
 	submit = SubmitField('Aceptar')

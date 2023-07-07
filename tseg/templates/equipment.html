@@ -12,24 +12,30 @@
                     <b>
                         <small  class="article-title" style="display: block;">{{ equipment.marca_eq.nombre }}</small>
                         <small class="article-title" style="display: block;">{{ equipment.modelo_eq.descripcion }}</small>
-                        <small class="article-title" style="display: block;">{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango.nombre }}</small>
+                        <small class="article-title" style="display: block;">{{ equipment.modelo_eq.homologacion }}</small>
+                        <small class="article-title" style="display: block;">{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</small>
                     </b>                    
                 </div>
             </div>        
             <hr 90%>
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
-                    <small>Cliente:</small> 
+                    <small>Nº Serie: </small>                    
                 </div>
-                <div class="col-md-3">
-                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b></a>
+                <div class="col-md-9">
+                    <small><b class="article-title" >{{ equipment.numSerie }}</b></small>                    
                 </div>
-                <div class="col-md-3">
-                    
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-end">
+                        <small>Cliente:</small> 
+                    </div>
+                    <div class="col-md-9">
+                        <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b></a>
+                    </div>
                 </div>
-                <div class="col-md-3">
+               
 
-                </div>
+               
             </div>
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
@@ -38,15 +44,7 @@
                 <div class="col-md-9">
                     <h5 class="article-content">{{ equipment.content }}</h5>
                 </div>
-            </div>
-            <div class="row align-items-center">
-              <div class="col-md-3 text-end">
-                <small>Nº Serie: </small>
-              </div>
-              <div class="col-md-9">
-                <small><b class="article-title" >{{ equipment.numSerie }}</b></small>
-              </div>
-            </div>                
+            </div>                         
             <div class="row align-items-center">
               <div class="col-md-3 text-end">
                 <small>Año fabricación: </small>
@@ -93,7 +91,7 @@
                     <div class="col-md-10">
                         <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}">
                             <h2>{{ historia.title }}</h2>
-                            <h5 class="article-content">{{ historia.content }}</h5>
+                            <h6 class="article-title">{{ historia.content }}</h6>
                             <small class="article-content">Última modificación: <b>{{ historia.date_modified.strftime('%d-%m-%Y') }}</b></small>
                             <small>Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <a class="article-title" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}"><b>{{ historia.author_historia.username }}</b></a></small>                        
                         </a>

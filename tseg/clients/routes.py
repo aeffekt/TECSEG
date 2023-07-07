@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio, Cond_fiscal
 from tseg.clients.forms import ClientForm
 from tseg import db
-from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista
+from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista,identificador_en_corchete
 
 
 clients = Blueprint('clients', __name__)
@@ -19,13 +19,20 @@ def obtener_datos_geograficos():
 
 @clients.route("/all_clients")
 @role_required("ServicioCliente", "Admin", "Técnico")
-def all_clients():	
+def all_clients():
+	select_item = request.args.get('selectItem', '')
+	if select_item:
+		client_id = identificador_en_corchete(select_item)
+		return redirect(url_for('clients.client', client_id=client_id))
+		
 	all_clients = buscarLista(Client)
-	orderBy = current_app.config["ORDER_CLIENTES"]				
+	orderBy = current_app.config["ORDER_CLIENTES"]
+	item_type = 'Cliente'
 	return render_template('all_clients.html', 
 								lista=all_clients, 
 								orderBy = orderBy,
-								title='Clientes')
+								title='Clientes',
+								item_type=item_type)
 
 
 # ruteo de variables "client_id"

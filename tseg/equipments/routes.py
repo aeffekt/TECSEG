@@ -12,28 +12,42 @@ equipments = Blueprint('equipments', __name__)
 
 
 @equipments.route("/all_equipments")
-def all_equipments():	
+def all_equipments():
+	image_path = url_for("static", filename='models_pics/')
+	select_item = request.args.get('selectItem', '')
+	if select_item:
+		numSerie = identificador_en_corchete(select_item)
+		equipment = Equipment.query.filter_by(numSerie=numSerie).first()		
+		return redirect(url_for('equipments.equipment', equipment_id=equipment.id, 
+														filterBy='date_modified',
+														filterSort='desc'))
+		
 	all_equips = buscarLista(Equipment)
 	orderBy = current_app.config["ORDER_EQUIPOS"]
-	image_path = url_for("static", filename='models_pics/')
+	item_type = 'Equipo'
 	return render_template('all_equipments.html',
 							lista=all_equips,
 							orderBy = orderBy,
-							title='Equipos', image_path=image_path)
+							title='Equipos', 
+							image_path=image_path,
+							item_type=item_type)
 
 
 @equipments.route("/equipment-<int:equipment_id>")
 def equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
+	select_item = request.args.get('selectItem')
 	historias =  buscarLista(Historia, equipment)
 	orderBy = current_app.config['ORDER_HISTORIAS']
+	item_type = 'Historia'
 	image_path = url_for("static", filename='models_pics/')
 	return render_template("equipment.html", title=equipment.modelo_eq.nombre,
 											equipment=equipment,
 											legend="Ver Equipo",
 											orderBy = orderBy,
 											lista=historias, 
-											image_path=image_path
+											image_path=image_path,
+											item_type=item_type
 											)
 
 @equipments.route("/add_equipment-<string:client_id>", methods=['GET','POST'] )

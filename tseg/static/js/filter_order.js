@@ -9,13 +9,3 @@ document.getElementById('filterButton').addEventListener('click', function() {
     url.searchParams.set('orderOrder', orderOrder);
     window.location.href = url;
 });
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    var selectItem = document.getElementById("selectItem");
-    var emptyOption = document.createElement("option");
-    emptyOption.text = "";
-    emptyOption.value = "";
-
-    selectItem.insertBefore(emptyOption, selectItem.firstChild);
-});

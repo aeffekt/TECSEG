@@ -35,6 +35,21 @@
 								{{ form.email(class="form-control form-control-sm") }}
 							{% endif %}
 						</div>
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.comments.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.comments.errors %}
+								{{ form.comments(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.comments.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.comments(class="form-control form-control-sm", rows='2') }}
+							{% endif %}
+						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
@@ -66,25 +81,11 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="form-group">
-						<!-- boottrap  -->
-						{{ form.comments.label(class="form-control-label") }}
-						<!-- errores de entrada  -->
-						{% if form.comments.errors %}
-							{{ form.comments(class="form-control form-control-sm is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.comments.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-						{% else %}
-							{{ form.comments(class="form-control form-control-sm", rows='2') }}
-						{% endif %}
-					</div>
+					
 					<div class="row">
 						<div class="btn-group-toggle" data-toggle="buttons">
 							<button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#collapseEmpresa, #collapseDomicilio" aria-expanded="false" aria-controls="collapseEmpresa collapseDomicilio" id="buttonCollapseCliente">Información ampliada:</button>
-						</div>						
+						</div>				
 						<div class="col-md-6">							
 							<div class="collapse" id="collapseDomicilio">
 								<label for="collapseDomicilio">Domicilio</label>
@@ -170,9 +171,9 @@
 						<div class="col-md-6">							
 							<div class="collapse" id="collapseEmpresa">
 								<label for="collapseEmpresa">Datos de Empresa</label>
-								<div class="card card-body bg-secondary mb-3">				
-									<div class="form-group">					
-										{{ form.business_name.label(class="form-control-label") }}					
+								<div class="card card-body bg-secondary mb-3">
+									<div class="form-group">
+										{{ form.business_name.label(class="form-control-label") }}	
 										{% if form.business_name.errors %}
 											{{ form.business_name(class="form-control form-control-sm is-invalid") }}
 											<div class="invalid-feedback">

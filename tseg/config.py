@@ -36,7 +36,7 @@ class Config:
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",					
 					}
-	ORDER_RAMATEL= {"codigo": "Código",
+	ORDER_HOMOLOGACION= {"codigo": "Código",
 					"modelo": "Modelo",					
 					}
 	ORDER_HISTORIAS = {"date_modified": "Fecha modificado",

@@ -13,7 +13,7 @@ class ClientForm(FlaskForm):
 	apellido = StringField('Apellido', validators=[DataRequired()])
 	business_name = StringField('Razón social')
 	cuit = IntegerField('CUIT', validators=[Optional()])
-	cond_fiscal = SelectField('Condición fiscal', coerce=str, validate_choice=False)
+	cond_fiscal = SelectField('Condición fiscal', coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 	telefono = StringField('Teléfono')
 	email = StringField('Email', validators=[Optional(), Email()])
 	comments = TextAreaField('Comentarios')

@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import login_required
-from tseg.models import Modelo, Client, Historia, Ramatel
+from tseg.models import Modelo, Client, Historia, Homologacion
 from tseg.modelos.forms import ModeloForm
 from tseg.users.utils import role_required, buscarLista, save_picture
 from tseg import db
@@ -16,11 +16,13 @@ def all_modelos():
 	all_modelos = buscarLista(Modelo)
 	image_path = url_for("static", filename='models_pics/')
 	orderBy = current_app.config['ORDER_MODELOS']
+	item_type = 'Modelo'
 	return render_template('all_modelos.html', 
 							lista=all_modelos,
 							orderBy=orderBy,
 							title='Modelos de equipo',
-							image_path=image_path)
+							image_path=image_path,
+							item_type=item_type)
 
 @modelos.route("/modelo-<int:modelo_id>-update", methods=['GET', 'POST'])
 @login_required
@@ -65,10 +67,10 @@ def add_modelo():
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data, 'models_pics')
 			modelo.image_file = picture_file
-		ramatel = Ramatel.query.filter_by(modelo=form.nombre.data).first()		
+		homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()		
 		modelo = Modelo(nombre=form.nombre.data,
 						anio=form.anio.data,
-						ramatel_obj=ramatel,
+						homologacion_obj=homologacion,
 						descripcion=form.descripcion.data)
 		try:
 			db.session.add(modelo)

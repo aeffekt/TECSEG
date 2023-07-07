@@ -11,7 +11,7 @@ class ModeloForm(FlaskForm):
 		self.anio.choices.insert(0,'N/D')
 
 	nombre = StringField('Nombre', validators=[DataRequired()])
-	anio = SelectField('Año del modelo',coerce=str, validators=[DataRequired()])
+	anio = SelectField('Año del modelo',coerce=str, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
 	descripcion = TextAreaField('Descripción')
 	picture = FileField('Imagen de equipo', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Crear / Actualizar')

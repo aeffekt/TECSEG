@@ -4,7 +4,7 @@
 		<meta content="initial-scale=1, width=device-width" name="viewport">
 		<meta charset="utf-8">
 
-		<link rel="icon" href="{{ url_for('static', filename='images/tecseg_icon.png') }}">
+		<link rel="icon" href="{{ url_for('static', filename='images/logo_icon.png') }}">
 
 		<!-- Bootstrap CSS -->
 	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -87,7 +87,7 @@
 
 		// THEME COLOR CHANGER
 		function initializeTheme() {
-		  var icon = document.getElementById("icon");
+		  var icon = document.getElementById("theme_icon");
 		  var body = document.body;
 
 		  // Recuperar el estado del tema del almacenamiento local si es el light
@@ -125,5 +125,4 @@
 		  initializeTheme();
 		});
 	</script>
-
 </html>

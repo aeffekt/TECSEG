@@ -112,15 +112,18 @@ class Modelo(db.Model):
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	anio = db.Column(db.String(4), unique=False, nullable=False)
 	image_file = db.Column(db.String(20), nullable=False, default='default_eq.jpg')
-	ramatel_id = db.Column(db.Integer, db.ForeignKey('ramatel.id'), nullable=False)
+	homologacion_id = db.Column(db.Integer, db.ForeignKey('homologacion.id'), nullable=False)
 	equipos = db.relationship('Equipment', backref='modelo_eq', lazy=True)
 
 
-class Ramatel(db.Model):
+class Homologacion(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	codigo = db.Column(db.String(15), unique=True, nullable=False)
 	modelo = db.Column(db.String(15), unique=True, nullable=False)
-	modelos = db.relationship('Modelo', backref='ramatel_obj', lazy=True)
+	modelos = db.relationship('Modelo', backref='homologacion', lazy=True)
+
+	def __repr__(self):
+		return f'Código Homologación: {self.codigo}'
 	
 
 class Frecuencia(db.Model):
@@ -133,6 +136,9 @@ class Unidad(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	nombre = db.Column(db.String(10), unique=True, nullable=False)	
 	frecuencias = db.relationship('Frecuencia', backref='rango', lazy=True)
+
+	def __repr__(self):
+		return self.nombre
 
 
 class Historia(db.Model):

@@ -1,17 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
     <h6 class="border-bottom border-secondary mb-4">Órdenes de reparación ({{ lista.count() }})</h6>
-
     {% for orden_reparacion in lista %}
         <article class="media content-section-list">
             <div class="row">
                 <div class="col-md-10">
                   	<div class="media-body">
                     	<a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
-                           <h2>{{ orden_reparacion.codigo }}</h2>
-                    	   <h5>{{ orden_reparacion.content }}</h5>
-                           <small>{{ orden_reparacion.equipo.title }}</small>
-                           <small>{{ orden_reparacion.tecnicoAsignado.username }}</small>
+                            <h2>{{ orden_reparacion.codigo }}</h2>
+                    	    <h6 class="article-title">{{ orden_reparacion.content }}</h6>
+                            <small>{{ orden_reparacion.equipo.title }}</small>
+                            {% if orden_reparacion.tecnicoAsignado %}
+                                <small>Técnico asignado: <b>{{ orden_reparacion.tecnicoAsignado.username }}</b></small>
+                            {% endif %}
                         </a>
                     </div>
                 </div>

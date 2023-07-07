@@ -12,24 +12,13 @@ from sqlalchemy import asc, desc
 
 
 # obtener el nombre del atributo para filtrar la búsqueda
-def validar_ingreso_dato(dBModel, *arg):
-	
-	columns = dBModel.__table__.columns.keys()[0]
-	
-	validate = dBModel.query.filter_by(orden).first()
-	if validate:
-		return False
-	else:
-		return True
-
-
-# obtener el nombre del atributo para filtrar la búsqueda
 def buscarLista(dBModel, *arg):
-	# si no hay parametros los toma por defecto del modelo DB
-	default_order_by = dBModel.__table__.columns.keys()[0]
-	
+	order_by = dBModel.__table__.columns.keys()[0]
+	select_item = request.args.get('selectItem', '')
 	# Obtener los valores de filterBy y filterOrder desde la solicitud
-	order_by = request.args.get('orderBy', default_order_by)
+	if not select_item:
+		# sino hay un elemento seleccionado, carga orden por parametro
+		order_by = request.args.get('orderBy', order_by)
 	order_order = request.args.get('orderOrder', 'desc')
 	sort_column = getattr(dBModel, order_by)
 

@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h6 class="border-bottom border-secondary mb-4">Códigos Ramatel ({{ lista.count() }})</h6>        
-    {% for ramatel in lista %}
+    <h6 class="border-bottom border-secondary mb-4">Códigos Homologaciones ({{ lista.count() }})</h6>        
+    {% for homologacion in lista %}
        <div class="content-section-list">
-            <a href="{{ url_for('ramatels.ramatel', ramatel_id=ramatel.id) }}" >
+            <a href="{{ url_for('homologaciones.homologacion', homologacion_id=homologacion.id) }}" >
                 <div class="container"> 
                     <div class="row">                        
                         <div class="col-md-9">
-                            <h2 >{{ ramatel.codigo }}</h2>
-                            <h5 >{{ ramatel.modelo }}</h5>
+                            <h2 >{{ homologacion.codigo }}</h2>
+                            <h5 >{{ homologacion.modelo }}</h5>
                         </div>                    
                     </div>
                 </div>

@@ -12,7 +12,7 @@
                     <div class="col-md-8">
                         <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
                         <h2>{{ equipment.modelo_eq.nombre }}</h2>
-                        <h6 class="article-title" href="">Canal / Frecuencia: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango.nombre }}</b></h6>
+                        <h6 class="article-title" href="">Canal / Frecuencia: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></h6>
                         <small>
                             Cliente: <b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b> - Año modelo: <b>{{ equipment.anio }}</b>
                             <p>Modificado: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b>

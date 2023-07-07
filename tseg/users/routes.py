@@ -170,10 +170,13 @@ def all_users():
 	all_users = buscarLista(User)
 	image_path = url_for("static", filename='profile_pics/')
 	orderBy = current_app.config["ORDER_USUARIOS"]
+	item_type = 'Usuario'
 	return render_template('all_users.html',
 							lista=all_users,
 							orderBy=orderBy,
-							title='Usuarios', image_path=image_path)
+							title='Usuarios', 
+							image_path=image_path,
+							item_type=item_type)
 
 
 @users.route("/user-<string:username>-historias")

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-07-2023 a las 02:09:27
+-- Tiempo de generación: 06-07-2023 a las 16:46:11
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `domicilio_id` (`domicilio_id`),
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS `cond_fiscal` (
 --
 
 INSERT INTO `cond_fiscal` (`id`, `nombre`) VALUES
+(0, 'Sin especificar'),
 (1, 'IVA Responsable Inscripto'),
 (2, 'IVA Sujeto Exento'),
 (3, 'Consumidor final'),
@@ -106,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -141,8 +142,8 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `user_id` int(11) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
   `marca_id` int(11) DEFAULT NULL,
-  `modelo_id` int(11) DEFAULT NULL,
-  `frecuencia_id` int(11) DEFAULT NULL,
+  `modelo_id` int(11) NOT NULL,
+  `frecuencia_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `eq_numSerie` (`numSerie`),
   KEY `client_id` (`client_id`),
@@ -150,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `equipment_marca` (`marca_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
@@ -179,7 +180,7 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (21, '020823-1/0423', '2023', '2022-06-23 01:15:03', '2023-06-28 13:45:09', '', 10, 1, 2, 25, 124),
 (22, '220223-1/0422', '2016', '2022-06-22 22:16:56', '2023-06-17 15:10:29', NULL, 1, 4, 2, 46, 7),
 (23, '223494-2/0722', '2022', '2022-06-22 22:19:54', '2023-06-17 15:08:41', NULL, 10, 4, 1, 25, 30),
-(33, '230504-1/8765', '2023', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16, 4, 38, 0),
+(33, '230504-1/8765', '2023', '2023-04-20 23:24:06', '2023-06-14 13:45:31', 'Encoder LP211_IP: 192.168.1.30\r\nMultiplexor DMUX1000_IP: 192.168.1.40\r\nModulador 3542_IP: 192.168.1.90', 10, 16, 4, 38, 1),
 (34, '190122-1/1219', '2023', '2023-05-20 14:39:38', '2023-06-17 16:48:53', 'IP: 192.168.0.90\r\nNuevo multiplexor de videoswitch', 1, 2, 3, 37, 31),
 (37, '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18, 1, 1, 1),
 (59, '220722-1/1223', '2020', '2023-06-05 19:33:17', '2023-07-04 10:28:08', '(ex canal: 14)', 10, 3, 3, 37, 13),
@@ -187,9 +188,10 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (69, '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17, 1, 36, 31),
 (71, '123456-1/0423', '2024', '2023-06-28 13:35:42', '2023-07-03 19:33:05', '', 10, 1, 1, 5, 152),
 (72, '230617-3/0723', 'N/D', '2023-07-03 23:53:09', '2023-07-04 00:39:12', '', 10, 1, 1, 3, 111),
-(85, '230617-2/0723', 'N/D', '2023-07-04 00:23:41', '2023-07-04 00:23:41', '', 10, 1, 1, 1, 0),
+(85, '230617-2/0723', 'N/D', '2023-07-04 00:23:41', '2023-07-04 00:23:41', '', 10, 1, 1, 1, 2),
 (86, '230412-1/0423', '2024', '2023-07-04 09:17:13', '2023-07-04 09:17:13', '', 10, 20, 1, 13, 22),
-(87, '230617-1/0723', '2023', '2023-07-04 21:36:14', '2023-07-04 21:36:14', '', 10, 6, 1, 1, 1);
+(87, '230617-1/0723', '2023', '2023-07-04 21:36:14', '2023-07-06 10:23:31', '', 10, 6, 1, 1, 161),
+(90, '1234', 'N/D', '2023-07-06 12:07:16', '2023-07-06 12:07:16', '', 10, 6, NULL, 46, 0);
 
 -- --------------------------------------------------------
 
@@ -227,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `frecuencia` (
   `unidad_id` int(11) NOT NULL DEFAULT '6',
   PRIMARY KEY (`id`),
   KEY `frec_unidad` (`unidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `frecuencia`
@@ -573,7 +575,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -605,7 +607,42 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (35, 'cambio frec', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Se cambió la frecuencia del modulador a CH:13', 3, 16, 10),
 (36, 'modulos quemados', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Reparación de dos módulos de potencia (Atilio)', 2, 19, 10),
 (39, 'cambio IP', '2023-06-28 16:45:23', '2023-06-28 16:45:23', '192.168.0.136', 1, 9, 10),
-(40, 'IP', '2023-06-29 11:11:55', '2023-06-29 11:11:55', 'IP192.168.1.12', 1, 71, 10);
+(40, 'IP', '2023-06-29 11:11:55', '2023-06-29 11:11:55', 'IP192.168.1.12', 1, 71, 10),
+(41, 'IP', '2023-07-05 09:51:15', '2023-07-05 09:51:15', 'IP: 192.168.1.136', 3, 87, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `homologacion`
+--
+
+DROP TABLE IF EXISTS `homologacion`;
+CREATE TABLE IF NOT EXISTS `homologacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(15) NOT NULL,
+  `modelo` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_homologacion_codigo` (`codigo`),
+  UNIQUE KEY `uq_homologacion_modelo` (`modelo`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `homologacion`
+--
+
+INSERT INTO `homologacion` (`id`, `codigo`, `modelo`) VALUES
+(1, 'H-16503', 'FM50'),
+(2, 'H-16505', 'FM100'),
+(3, '32-522', 'FM250'),
+(4, '32-407', 'FM500'),
+(5, 'H-23104', 'FM1000'),
+(6, 'H-23105', 'FM2000'),
+(7, 'H-22011', 'FM5000'),
+(8, 'C-22679', 'FM10.000'),
+(9, 'C-15701', 'TRUD250'),
+(10, 'C-15697', 'TRUD500'),
+(11, 'C-12130', 'TRUD1200'),
+(12, '40-155', 'TRV100');
 
 -- --------------------------------------------------------
 
@@ -1641,18 +1678,18 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `anio` varchar(4) DEFAULT NULL,
-  `ramatel_id` int(11) DEFAULT NULL,
+  `homologacion_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_modelo_nombre_anio` (`nombre`,`anio`),
-  KEY `modelo_ramatel` (`ramatel_id`)
+  KEY `modelo_homologacion` (`homologacion_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
 --
 
-INSERT INTO `modelo` (`id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `ramatel_id`) VALUES
-(0, 'N/D', 'Modelo de equipo no específico', 'default_eq.jpg', '2023-07-04 10:08:24', '2023-07-04 11:24:01', 'N/D', NULL),
+INSERT INTO `modelo` (`id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `homologacion_id`) VALUES
+(0, 'N/D', 'Modelo no específico', 'default_eq.jpg', '2023-07-06 10:45:57', '2023-07-06 10:45:57', 'N/D', NULL),
 (1, 'FM100', 'STM', '9b0a1133e8efc0ad.JPG', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'17', 2),
 (2, 'FM250', 'STM', '00a0d44c7702e1a5.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3),
 (3, 'FM500', 'STM', 'd54af0ea5584e2ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4),
@@ -1704,7 +1741,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
@@ -1712,7 +1749,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
 (2, '2023-06-13 12:20:25', '2023-06-16 11:11:02', '230327-1/0423', 'Reparar ventiladores', 6, 10, 10, 4),
-(6, '2023-06-13 12:41:08', '2023-06-26 11:19:05', '210615-1/0621', 'Revisar el equipo, presenta falla RF', NULL, 3, 10, 1),
+(6, '2023-06-13 12:41:08', '2023-07-06 09:23:43', '210615-1/0621', 'Revisar el equipo, presenta falla RF', NULL, 3, 10, 3),
 (9, '2023-06-14 11:59:34', '2023-06-26 11:19:26', '220516-1/1122', 'Se envió el módulo de potencia porque no enciende', NULL, 13, 10, 1),
 (12, '2023-06-14 12:28:20', '2023-06-26 13:53:25', '230313-6/0920', 'Pedido de reparación por falla de temperatura', 1, 1, 10, 2),
 (13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422-1/0322', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
@@ -1861,41 +1898,6 @@ INSERT INTO `provincia` (`id`, `nombre`, `pais_id`) VALUES
 (77, 'São Paulo', 3),
 (78, 'Sergipe', 3),
 (79, 'Tocantins', 3);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ramatel`
---
-
-DROP TABLE IF EXISTS `ramatel`;
-CREATE TABLE IF NOT EXISTS `ramatel` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(15) NOT NULL,
-  `modelo` varchar(15) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_ramatel_codigo` (`codigo`),
-  UNIQUE KEY `uq_ramatel_modelo` (`modelo`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `ramatel`
---
-
-INSERT INTO `ramatel` (`id`, `codigo`, `modelo`) VALUES
-(1, 'H-16503', 'FM50'),
-(2, 'H-16505', 'FM100'),
-(3, '32-522', 'FM250'),
-(4, '32-407', 'FM500'),
-(5, 'H-23104', 'FM1000'),
-(6, 'H-23105', 'FM2000'),
-(7, 'H-22011', 'FM5000'),
-(8, 'C-22679', 'FM10.000'),
-(9, 'C-15701', 'TRUD250'),
-(10, 'C-15697', 'TRUD500'),
-(11, 'C-12130', 'TRUD1200'),
-(12, '40-155', 'TRV100'),
-(24, '123', 'da');
 
 -- --------------------------------------------------------
 
@@ -2056,7 +2058,7 @@ ALTER TABLE `localidad`
 -- Filtros para la tabla `modelo`
 --
 ALTER TABLE `modelo`
-  ADD CONSTRAINT `modelo_ramatel` FOREIGN KEY (`ramatel_id`) REFERENCES `ramatel` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `modelo_homologacion` FOREIGN KEY (`homologacion_id`) REFERENCES `homologacion` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `orden_reparacion`

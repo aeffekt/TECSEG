@@ -2,12 +2,12 @@
 {% block content %}		
 	<div class="content-section">
 	  	<div class="media">
-	  		<legend class="border-bottom mb-4">Código Ramatel</legend>
+	  		<legend class="border-bottom mb-4">Código homologación</legend>
 	  		<div class="row">	  			
 		    	<div class="col-md-5">
 				    <div class="media-body">
-					    <h2 class="account-heading">{{ ramatel.codigo }}</h2>
-					    <h6 class="article-title">Modelo: {{ ramatel.modelo }}</h6>
+					    <h2 class="account-heading">{{ homologacion.codigo }}</h2>
+					    <h6 class="article-title">Modelo: {{ homologacion.modelo }}</h6>
 				    </div>
 				</div>
 			</div>			
@@ -56,14 +56,14 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar "{{ ramatel.codigo }}"?</h5>
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar "{{ homologacion.codigo }}"?</h5>
             <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <form action="{{ url_for('ramatels.delete_ramatel', ramatel_id=ramatel.id) }}" method="POST">
+            <form action="{{ url_for('homologaciones.delete_homologacion', homologacion_id=homologacion.id) }}" method="POST">
               <input class="btn btn-danger" type="submit" value="Borrar">
             </form>
           </div>
