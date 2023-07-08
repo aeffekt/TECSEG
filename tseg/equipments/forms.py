@@ -8,7 +8,7 @@ from datetime import datetime
 class EquipmentForm(FlaskForm):
 	def __init__(self):
 		super(EquipmentForm, self).__init__()  # Llamar al constructor de la clase padre
-		self.marca.choices = [marca.nombre for marca in Marca.query.all()]
+		self.marca.choices = [marca.nombre for marca in Marca.query.order_by(Marca.id).all()]
 		self.marca.choices.insert(0,'')
 		self.modelo.choices = [mod.nombre for mod in Modelo.query.all()]
 		self.frecuencia.choices = [f.canal for f in Frecuencia.query.all()]
@@ -16,7 +16,6 @@ class EquipmentForm(FlaskForm):
 		self.owner.choices.insert(0,'') # agrega item "sin datos"
 		self.anio.choices = [int(year) for year in range(datetime.now().year + 1, 1999, -1)]
 		self.anio.choices.insert(0,'N/D') # agrega item "sin datos"
-		
 
 	marca = SelectField('Marca',coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 	modelo = SelectField('Modelo',coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
@@ -25,4 +24,8 @@ class EquipmentForm(FlaskForm):
 	anio = SelectField('Año de fabricación',coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item'})
 	content = TextAreaField('Descripción')
 	owner = SelectField('Cliente',coerce=str, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item'})
-	submit = SubmitField('Crear / Actualizar')	
+	submit = SubmitField('Crear / Actualizar')
+
+	def validate_numSerie(self, numSerie):
+		if ' ' in numSerie.data:
+			raise ValidationError('El número de serie no puede contener espacios')

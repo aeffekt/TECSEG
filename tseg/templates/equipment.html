@@ -8,7 +8,7 @@
                     <img class="rounded-3 account-img" src="{{image_path+equipment.modelo_eq.image_file }}">
                 </div>
                 <div class="col-md-9">
-                    <a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo_eq.id) }}"><h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo_eq.nombre }} {{ equipment.modelo_eq.anio }}</h2></a>
+                    <a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo_eq.id) }}"><h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo_eq }}</h2></a>
                     <b>
                         <small  class="article-title" style="display: block;">{{ equipment.marca_eq.nombre }}</small>
                         <small class="article-title" style="display: block;">{{ equipment.modelo_eq.descripcion }}</small>
@@ -42,7 +42,7 @@
                     <small>Descripción:</small> 
                 </div>
                 <div class="col-md-9">
-                    <h5 class="article-content">{{ equipment.content }}</h5>
+                    <h6 class="article-title">{{ equipment.content }}</h6>
                 </div>
             </div>                         
             <div class="row align-items-center">

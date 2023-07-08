@@ -115,6 +115,9 @@ class Modelo(db.Model):
 	homologacion_id = db.Column(db.Integer, db.ForeignKey('homologacion.id'), nullable=False)
 	equipos = db.relationship('Equipment', backref='modelo_eq', lazy=True)
 
+	def __repr__(self):
+		return f'{self.nombre} {self.anio}'
+
 
 class Homologacion(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -123,7 +126,7 @@ class Homologacion(db.Model):
 	modelos = db.relationship('Modelo', backref='homologacion', lazy=True)
 
 	def __repr__(self):
-		return f'Código Homologación: {self.codigo}'
+		return f'Homologación: {self.codigo}'
 	
 
 class Frecuencia(db.Model):
@@ -154,7 +157,7 @@ class Historia(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
-		return f"Historia de equipo('{self.eq_historia.modelo_eq.nombre}', '{self.title}')"
+		return f"[{self.id}] {self.eq_historia.modelo_eq.nombre} {self.title}"
 
 class Tipologia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -162,7 +165,7 @@ class Tipologia(db.Model):
 	historias = db.relationship('Historia', backref='tipologia', lazy=True)
 
 	def __repr__(self):
-		return f'{self.estado}'
+		return f'[{self.id}] {self.tipo}'
 
 class Orden_reparacion(db.Model):
 	now = datetime.now()
@@ -179,7 +182,7 @@ class Orden_reparacion(db.Model):
 	
 
 	def __repr__(self):
-		return f"{self.codigo}', '{self.estado}'"
+		return f"{self.codigo} '{self.estado}'"
 
 
 class Estado_or(db.Model):

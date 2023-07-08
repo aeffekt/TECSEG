@@ -2,16 +2,26 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Orden_reparacion, Equipment, User, Estado_or
+from tseg.models import Orden_reparacion, Equipment, User, Estado_or, Role
 from tseg.ordenes_reparacion.forms import OrdenReparacionForm
-
+from sqlalchemy import func
 from tseg.users.utils import role_required, dateFormat, buscarLista, identificador_en_corchete
 
 
 ordenes_reparacion = Blueprint('ordenes_reparacion', __name__)
 
 @ordenes_reparacion.route("/all_ordenes_reparacion")
-def all_ordenes_reparacion():	
+def all_ordenes_reparacion():
+	try:
+		select_item = request.args.get('selectItem', '')
+		if select_item:
+			codigo_str = select_item.split()[0]
+			# divide el __repr__ y obtiene el código en pos 2		
+			orden = Orden_reparacion.query.filter_by(codigo=codigo_str).first()
+			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden.id))
+	except Exception as err:
+		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
+		return redirect(url_for('ordenes_reparacion.all_ordenes_reparacion'))
 	if current_user.role.role_name == 'Técnico':
 		all_or = buscarLista(Orden_reparacion, current_user)
 	else:	
@@ -78,7 +88,7 @@ def update_orden_reparacion(orden_reparacion_id):
 	if orden_reparacion.author_or != current_user and orden_reparacion.tecnicoAsignado != current_user:
 		flash(f'{orden_reparacion.author_or}, {current_user}, {current_user.role.role_name}','danger')
 		abort(403) #http forbidden
-	form = OrdenReparacionForm()
+	form = OrdenReparacionForm(orden_reparacion)
 	if form.validate_on_submit():		
 		numSerie = identificador_en_corchete(form.equipo.data)
 		equipment = Equipment.query.filter_by(numSerie=numSerie).first()
@@ -139,9 +149,23 @@ def update_estado(orden_reparacion_id, estado_descripcion):
 
 @ordenes_reparacion.route("/reporte_tecnico")
 def reporte_tecnico():
-	all_or = buscarLista(Orden_reparacion)
-	orderBy = current_app.config["ORDER_OR"]	
-	return render_template('reporte_tecnico.html', 
-							lista=all_or, 
+	query = db.session.query(
+			User.username.label('Nombre'),
+			func.count(Orden_reparacion.id).label('Cantidad')).\
+	join(Role, User.role_id == Role.id).\
+	filter(Role.role_name == 'tecnico').\
+	join(Orden_reparacion, Orden_reparacion.tecnico_id == User.id).\
+	group_by(User.username).\
+	order_by(func.count(Orden_reparacion.id).desc())
+
+	# Obtener los resultados
+	result = query.all()
+
+	# Obtener los resultados
+	asignaciones_tecnicos = query.all()
+	orderBy = current_app.config["ORDER_TECNICO"]	
+	return render_template('reporte_zona.html',
+							lista=asignaciones_tecnicos,
 							orderBy = orderBy,
-							title='Reporte Órdenes de reparación')
+							nombre_reporte='Reporte de O.R. por técnico',
+							title='Reporte O.R.')

@@ -15,7 +15,7 @@
 							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Registrar Homologación</a></li>
 							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones') }}">Buscar Homologaciónes</a></li>
 							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('equipments.reporte_zona') }}">Reporte equipos por zona</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('equipments.reporte_zona', orderBy='cantidad', orderOrder='desc') }}">Reporte equipos por zona</a></li>
 							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.reporte_tecnico', user_id=current_user.id) }}">Reporte O.R. por técnico</a></li>
 						</ul>
 					</li>

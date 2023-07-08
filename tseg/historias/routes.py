@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Historia, Equipment
+from tseg.models import Historia, Equipment, Tipologia
 from tseg.historias.forms import HistoriaForm
 from tseg.users.utils import identificador_en_corchete, dateFormat
 
@@ -50,6 +50,9 @@ def update_historia(historia_id):
 		abort(403) #http forbidden
 	form = HistoriaForm()
 	if form.validate_on_submit():
+		tipologia_id = identificador_en_corchete(form.tipo.data)
+		tipologia = Tipologia.query.get_or_404(tipologia_id)
+		historia.tipologia = tipologia
 		historia.title = form.title.data
 		historia.content = form.content.data
 		historia.date_modified = dateFormat()
@@ -61,6 +64,8 @@ def update_historia(historia_id):
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('equipments.update_historia', historia_id=historia.id))
 	elif request.method == 'GET':
+		form.tipo.default = historia.tipologia
+		form.process()
 		form.title.data = historia.title
 		form.content.data = historia.content
 	return render_template('create_historia.html',	title='Editar historia', 

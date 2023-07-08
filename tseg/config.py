@@ -52,4 +52,9 @@ class Config:
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
 					}
-
+	ORDER_ZONA = {"cantidad": "Cantidad",
+					"provincia": "Provincia",
+					}
+	ORDER_TECNICO = {"cantidad": "Cantidad",
+					"username": "Nombre",
+					}

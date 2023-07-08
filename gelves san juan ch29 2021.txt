@@ -1,0 +1,15 @@
+29/07/21
+TRUD250 (150W) 
+la señal viaja via fibra SDI 4 pelos convierte a HDMI
+
+ENC-MOD: L542
+tiene 2 señales 7,5Mb.. quiere agregar 3er señal
+
+20/08/21
+recibe la señal en 720 bien, pero no en 1080... problema de conversor parece (no nuestro).
+
+26/01/23
+se agregó las 4 señales
+#1: 6M  - #2#3#4: 3M
+
+

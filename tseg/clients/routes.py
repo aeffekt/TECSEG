@@ -110,7 +110,7 @@ def update_client(client_id):
 			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()		
 		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
 		domicilio.direccion = form.domicilio.data
-		domicilio.localidad_id = localidad.id		
+		domicilio.localidad = localidad
 		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
 		client.cond_fiscal_id = cond_fiscal.id
 		client.domicilio_id = domicilio.id

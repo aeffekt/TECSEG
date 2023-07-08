@@ -124,8 +124,13 @@
             {% endif %}
           {% endif %}
           <hr 80%>
+          
           <a  class="bi bi-search btn btn-outline-light" title="Ir a equipos del cliente" href="{{ url_for('clients.client_equipments', client_id=client.id) }}"></a>
+
+          <a class="bi bi-plus-square btn btn-outline-info" title="Agregar equipo al cliente" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}"></a>
+          
           <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar cliente" href="{{ url_for('clients.update_client', client_id=client.id) }}"></a>
+          
           <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar cliente"></a>
       </div>
     </article>

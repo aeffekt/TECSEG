@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 06-07-2023 a las 16:46:11
+-- Tiempo de generación: 07-07-2023 a las 16:54:09
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -53,15 +53,14 @@ CREATE TABLE IF NOT EXISTS `client` (
 
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
 (1, 'Canal 13', 'San Luis', 'Canal 13 televisión', NULL, '42432432', '', 'Director Nasim', 1, 1, 1),
-(2, 'Pedro', 'Bonarrico', 'Jesus Te Ama', 20432432421, '02954-4303249', 'bonarrico@jta.com', 'contactarlo por mail: \n\n', 4, 2, 1),
+(2, 'Héctor', 'Bonarrico', 'Jesus Te Ama', NULL, '261 618 8088', '', 'ANYDESK: 255 433 310\r\npass: ?\r\n\r\nEnlace 11G\r\n\r\nTecnico Luis Fernandez (externo) - 261 558 6978\r\nTecnico Juan Silva (interno) - 261 618 8088', 4, 2, 1),
 (3, 'Juan Antonio', 'Acompanies', 'REMAR', 34243243242, '954-424687', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 4, 3, 1),
 (4, 'Pedro', 'Almirón', 'Radio Total FM', 20432432421, '2147483647', 'palmiron@yahoo.com', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 4, 4, 3),
 (6, 'Mariangeles', 'Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', NULL, 'persona ficticia', 1, 5, 1),
 (11, 'Marcelo', 'Gomez', 'Digital Content S.R.L.', 20432432421, '2147483647', NULL, 'Datos del cliente', 4, 6, 1),
 (16, 'Oscar', 'de la Fuente', 'De la Hoya S.R.L.', 20432432421, '42432432', NULL, 'cliente preferencial', 4, 7, 1),
-(17, 'Fabian', 'Brandan', 'JTA S.A.', 20432432421, '1132899112', '', 'Suele modificar configuraciones sin preguntar antes', 10, 8, 1),
-(18, 'Ana', 'Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 2),
-(20, 'Agustin', 'Arnaiz', '.com', 34243243242, '3513281199', 'arnaizagustin@gmail.com', '', 10, 11, 2);
+(17, 'Favio', 'Brandan', 'FIVE TV', NULL, '1155637121', '', 'anydesk= 129445228\r\npass= universal14070', 10, 8, 1),
+(18, 'Ana', 'Lupe', 'RF Argentina S.A.', NULL, '432654764', 'analupe@rfsa.com.ar', '', 10, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -115,15 +114,14 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
 
 INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (1, 'Los cajones 2162', 870),
-(2, 'Aviador petirosi 123', 33),
+(2, 'Lavalle 327', 974),
 (3, 'San Martin 514', 3),
 (4, 'Urquiza 534', 754),
 (5, 'Belgrano 519', 33),
 (6, 'Av. Olmos 543', 33),
 (7, 'Mariano Moreno 678', 33),
-(8, 'Jose E. Echeverria 2783', 33),
-(9, 'Litoral 432', 766),
-(11, 'Beccar Varela 669', 33);
+(8, 'Calle Dominico 276', 973),
+(9, 'Litoral 432', 766);
 
 -- --------------------------------------------------------
 
@@ -151,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `equipment_marca` (`marca_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
@@ -185,13 +183,13 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (37, '190322-1/1219', '2015', '2023-05-20 14:57:38', '2023-06-17 16:48:09', 'IP: 192.168.1.90\r\nmodulador chino, 13 segmentos capa A', 1, 18, 1, 1, 1),
 (59, '220722-1/1223', '2020', '2023-06-05 19:33:17', '2023-07-04 10:28:08', '(ex canal: 14)', 10, 3, 3, 37, 13),
 (68, '190522-2/1220', '2023', '2023-06-14 13:07:56', '2023-06-29 13:37:10', '', 10, 1, 1, 46, 5),
-(69, '230306-1/0723', '2023', '2023-06-14 13:34:50', '2023-06-21 12:47:57', NULL, 1, 17, 1, 36, 31),
 (71, '123456-1/0423', '2024', '2023-06-28 13:35:42', '2023-07-03 19:33:05', '', 10, 1, 1, 5, 152),
 (72, '230617-3/0723', 'N/D', '2023-07-03 23:53:09', '2023-07-04 00:39:12', '', 10, 1, 1, 3, 111),
 (85, '230617-2/0723', 'N/D', '2023-07-04 00:23:41', '2023-07-04 00:23:41', '', 10, 1, 1, 1, 2),
-(86, '230412-1/0423', '2024', '2023-07-04 09:17:13', '2023-07-04 09:17:13', '', 10, 20, 1, 13, 22),
 (87, '230617-1/0723', '2023', '2023-07-04 21:36:14', '2023-07-06 10:23:31', '', 10, 6, 1, 1, 161),
-(90, '1234', 'N/D', '2023-07-06 12:07:16', '2023-07-06 12:07:16', '', 10, 6, NULL, 46, 0);
+(90, '1234', 'N/D', '2023-07-06 12:07:16', '2023-07-06 12:07:16', '', 10, 6, NULL, 46, 0),
+(92, '220101-1/0122', '2022', '2023-07-07 11:44:41', '2023-07-07 11:58:27', '16QAM modo3 convolución 5/6 IG: 1/16\r\n#1 señal 9 MBps \"FIVE TV\"\r\n#2 señal 3,5 MBps \"TV Channel\"', 10, 17, 4, 32, 16),
+(93, '220101-2/0122', '2022', '2023-07-07 11:44:41', '2023-07-07 11:44:41', '', 10, 17, 1, 13, 16);
 
 -- --------------------------------------------------------
 
@@ -229,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `frecuencia` (
   `unidad_id` int(11) NOT NULL DEFAULT '6',
   PRIMARY KEY (`id`),
   KEY `frec_unidad` (`unidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `frecuencia`
@@ -575,7 +573,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -588,10 +586,6 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (16, 'retraso en entrega', '2023-06-13 11:08:00', '2023-06-13 11:08:00', 'la entrega se realizo dos semana después de lo pactado', 1, 59, 10),
 (17, 'verificacion por pedido del cliente', '2023-06-14 13:34:50', '2023-06-14 13:34:50', 'se reviso a fondo!', 2, 33, 10),
 (18, 'ventiladores', '2023-06-15 15:40:48', '2023-06-15 15:40:48', 'se cambiaron los ventiladores del equipo', 2, 1, 1),
-(19, 'Entregado', '2023-06-15 15:45:42', '2023-06-15 15:45:42', 'se entregó con retardo de dos semanas', 1, 69, 1),
-(20, 'Fuente', '2023-06-15 15:59:36', '2023-06-15 15:59:36', 'falla en la fuente auxiliar, se cambió por fuente meanwell', 2, 69, 1),
-(21, 'IP', '2023-06-16 14:54:54', '2023-06-16 14:54:54', 'se cambio la IP a : 192.168.1.14', 3, 69, 10),
-(22, 'Revisión', '2023-06-16 15:56:55', '2023-06-17 15:56:14', 'se revisó el equipo y funciona correctamente.', 1, 69, 10),
 (23, 'envio de equipo', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'Se programó un envío para el 25/08/22. Se aguarda confirmación', 1, 23, 10),
 (24, 'linealidad', '2023-06-16 15:56:55', '2023-06-16 15:56:55', 'consultó por modificar la linealidad del amplificador para ser usado para TV digital', 3, 23, 10),
 (25, 'cambio IP', '2023-06-16 20:27:27', '2023-06-16 20:27:27', 'IP: 10.0.0.97', 1, 23, 1),
@@ -599,7 +593,6 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (27, 'manual', '2023-06-17 15:03:51', '2023-06-17 15:03:51', 'Manual enviado via mail', 1, 21, 10),
 (28, 'actualización', '2023-06-17 15:03:51', '2023-06-17 15:03:51', 'equipo reacondicionado y actualizado a versión \'22', 3, 17, 10),
 (29, 'Modelo equipo', '2023-06-17 15:21:08', '2023-06-17 15:21:08', 'modelo original TRU250', 1, 18, 10),
-(30, '432', '2023-06-17 16:02:08', '2023-06-17 16:02:08', 'dsa', 1, 69, 10),
 (31, 'modelo', '2023-06-17 16:29:37', '2023-06-17 16:29:37', 'Este equipo es modelo 2023\r\nTomado de un modelo 2016', 3, 68, 1),
 (32, 'cambio fuente', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'una descarga quemó la fuente del sumador', 2, 15, 10),
 (33, 'cambio ventiladores', '2023-06-24 19:08:21', '2023-06-24 19:08:21', 'se repararon 2 ventiladores forzadores de aire del control general', 2, 15, 10),
@@ -608,7 +601,15 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (36, 'modulos quemados', '2023-06-24 19:33:39', '2023-06-24 19:33:39', 'Reparación de dos módulos de potencia (Atilio)', 2, 19, 10),
 (39, 'cambio IP', '2023-06-28 16:45:23', '2023-06-28 16:45:23', '192.168.0.136', 1, 9, 10),
 (40, 'IP', '2023-06-29 11:11:55', '2023-06-29 11:11:55', 'IP192.168.1.12', 1, 71, 10),
-(41, 'IP', '2023-07-05 09:51:15', '2023-07-05 09:51:15', 'IP: 192.168.1.136', 3, 87, 10);
+(41, 'IP', '2023-07-05 09:51:15', '2023-07-05 09:51:15', 'IP: 192.168.1.136', 3, 87, 10),
+(42, 'IP', '2023-07-07 10:12:24', '2023-07-07 11:23:31', '192.168.1.100', 3, 90, 10),
+(43, 'Cambio ventiladores', '2023-07-07 10:12:24', '2023-07-07 10:12:24', 'Se reemplazaron los ventiladores de 220 por unos de 48V', 2, 90, 10),
+(44, 'IP', '2023-07-07 11:44:41', '2023-07-07 11:44:41', '192.168.1.136', 1, 92, 10),
+(45, 'Codec audio', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'MPEG2- mejor recepción de clientes', 1, 92, 10),
+(46, 'Ficha alimentación', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'falla en la ficha de alimentación del mod, se asistió por teléfono para encontrar la falla', 2, 93, 10),
+(47, 'Señal #2', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'se agregó la señal 16.2', 3, 93, 10),
+(48, 'charla con cliente', '2023-07-07 13:45:43', '2023-07-07 13:45:43', 'todo OK', 1, 22, 10),
+(49, 'IP', '2023-07-07 13:45:43', '2023-07-07 13:45:43', '192.168.1.100', 3, 22, 10);
 
 -- --------------------------------------------------------
 
@@ -624,7 +625,7 @@ CREATE TABLE IF NOT EXISTS `homologacion` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_homologacion_codigo` (`codigo`),
   UNIQUE KEY `uq_homologacion_modelo` (`modelo`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `homologacion`
@@ -658,7 +659,7 @@ CREATE TABLE IF NOT EXISTS `localidad` (
   `provincia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ciudad_prov` (`provincia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=973 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=975 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `localidad`
@@ -1634,7 +1635,9 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (969, 2100, 'Esperanza', 21),
 (970, 2132, 'Fighiera', 21),
 (971, 2132, 'San José del Rincón', 21),
-(972, 2132, 'Santa Fe Oeste', 21);
+(972, 2132, 'Santa Fe Oeste', 21),
+(973, 1757, 'Gregorio de Laferrere', 1),
+(974, 5500, 'Mendoza', 13);
 
 -- --------------------------------------------------------
 
@@ -1648,7 +1651,7 @@ CREATE TABLE IF NOT EXISTS `marca` (
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_marca_nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `marca`
@@ -1659,7 +1662,8 @@ INSERT INTO `marca` (`id`, `nombre`) VALUES
 (6, 'Hewlett Packard'),
 (2, 'IA Electrónica'),
 (1, 'Liecom'),
-(7, 'Otra'),
+(8, 'Otra'),
+(7, 'TeamCast'),
 (5, 'Ubiquiti'),
 (3, 'VideoSwitch');
 
@@ -1682,7 +1686,7 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_modelo_nombre_anio` (`nombre`,`anio`),
   KEY `modelo_homologacion` (`homologacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
@@ -1693,7 +1697,7 @@ INSERT INTO `modelo` (`id`, `nombre`, `descripcion`, `image_file`, `date_created
 (1, 'FM100', 'STM', '9b0a1133e8efc0ad.JPG', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'17', 2),
 (2, 'FM250', 'STM', '00a0d44c7702e1a5.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3),
 (3, 'FM500', 'STM', 'd54af0ea5584e2ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4),
-(4, 'FM1000', 'CTM', '4d36499baa010264.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 5),
+(4, 'FM1000', 'CTM', '4d36499baa010264.jpg', '2023-06-30 10:17:39', '2023-07-07 10:54:26', '\'23', 5),
 (5, 'FM2000', 'STM', 'b67f8b1f6f96a97e.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 6),
 (6, 'FM3000', 'CTM', 'b3de7d3f5614eda7.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', NULL),
 (8, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL),
@@ -1715,9 +1719,12 @@ INSERT INTO `modelo` (`id`, `nombre`, `descripcion`, `image_file`, `date_created
 (36, 'DMUX-500i', 'CTM', '64261f290660c662.jpg', '2023-06-30 10:17:39', '2023-07-04 10:29:21', '\'19', NULL),
 (37, 'DMUX-3100', 'CTM', 'c62ba952cffab5c6.png', '2023-06-30 10:17:39', '2023-07-04 10:28:35', '\'20', NULL),
 (38, 'LP211', 'CTM', 'a3bd839633bbd039.jpg', '2023-06-30 10:17:39', '2023-07-04 10:28:56', '\'18', NULL),
-(40, 'FM100 \'23', 'encendido posterior', '2e02a8e0c60f655d.jpg', '2023-06-30 12:39:07', '2023-06-30 12:39:07', '\'23', 2),
+(40, 'FM100', 'encendido posterior', '2e02a8e0c60f655d.jpg', '2023-06-30 12:39:07', '2023-07-07 10:48:50', '\'23', 2),
 (46, 'TRV100', 'STM', '73ca8466b7df3f00.JPG', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12),
-(47, 'FM50', '', 'default_eq.jpg', '2023-07-04 13:21:30', '2023-07-04 13:21:30', '\'22', 1);
+(47, 'FM50', '', 'default_eq.jpg', '2023-07-04 13:21:30', '2023-07-04 13:21:30', '\'22', 1),
+(48, 'Router', '', '025bb31c31fbd2f2.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL),
+(49, 'Switch', '', '7a1a80f2c44bcceb.jpg', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
+(50, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.jpg', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL);
 
 -- --------------------------------------------------------
 
@@ -1737,26 +1744,27 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   `user_id` int(11) NOT NULL,
   `estado_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo` (`codigo`),
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
 --
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
-(2, '2023-06-13 12:20:25', '2023-06-16 11:11:02', '230327-1/0423', 'Reparar ventiladores', 6, 10, 10, 4),
-(6, '2023-06-13 12:41:08', '2023-07-06 09:23:43', '210615-1/0621', 'Revisar el equipo, presenta falla RF', NULL, 3, 10, 3),
-(9, '2023-06-14 11:59:34', '2023-06-26 11:19:26', '220516-1/1122', 'Se envió el módulo de potencia porque no enciende', NULL, 13, 10, 1),
-(12, '2023-06-14 12:28:20', '2023-06-26 13:53:25', '230313-6/0920', 'Pedido de reparación por falla de temperatura', 1, 1, 10, 2),
-(13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422-1/0322', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
-(14, '2023-06-16 12:14:01', '2023-06-16 12:20:52', '230516-1/170523', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
-(15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230313-6/0920', 'revisar configuracion', 5, 34, 10, 2),
+(2, '2023-06-13 12:20:25', '2023-06-16 11:11:02', '230327', 'Reparar ventiladores', 6, 10, 10, 4),
+(6, '2023-06-13 12:41:08', '2023-07-06 09:23:43', '210615', 'Revisar el equipo, presenta falla RF', NULL, 3, 10, 3),
+(9, '2023-06-14 11:59:34', '2023-07-07 11:07:32', '220516', 'Se envió el módulo de potencia porque no enciende', NULL, 13, 10, 1),
+(12, '2023-06-14 12:28:20', '2023-07-06 16:41:10', '230314', 'Pedido de reparación por falla de temperatura', NULL, 1, 10, 1),
+(13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
+(14, '2023-06-16 12:14:01', '2023-07-07 11:07:21', '230516', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
+(15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230315', 'revisar configuracion', 5, 34, 10, 2),
 (17, '2023-06-17 16:02:08', '2023-06-17 16:20:02', '193454', 'cambiar de frec a 98,5MHz', 1, 2, 10, 4),
-(18, '2023-06-17 16:02:08', '2023-06-27 13:40:29', '213454', 'problemas entrada 220V', 14, 3, 10, 2),
+(18, '2023-06-17 16:02:08', '2023-07-06 16:41:58', '213454', 'problemas entrada 220V', 14, 3, 10, 3),
 (19, '2023-06-17 16:02:08', '2023-06-17 16:20:10', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 1, 33, 10, 3);
 
 -- --------------------------------------------------------
@@ -1998,7 +2006,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_id`) VALUES
 (1, 'Turko', 'arnaizagustin@gmail.com', '18789144792542e0.jpg', '$2b$12$2aL8KrZk6zd4NTk0Hr0UneVLOcQHuZBSLYrRORuElTZOklrI6kw9a', 3),
-(4, 'Alejandro Ruiz', 'toparuiz@mail.com', '51a1e8e115f3c97c.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
+(4, 'AlejandroRuiz', 'toparuiz@mail.com', '51a1e8e115f3c97c.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
 (5, 'Atilio', 'atilioavanzini@mail.com', 'f830c0210df9532a.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
 (6, 'Oscar', 'oscar@mail.com', '78fcd03e420ea343.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
 (10, 'admin', 'admin@tecseg.com', 'ba7f10cd2f0cb49a.jpg', '$2b$12$dIxpjyQ/uTr8Z7owkfrZKuNoQ5oF4moJHeJgBwjO2X65gmCW.YEWO', 1),

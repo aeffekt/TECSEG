@@ -20,8 +20,7 @@ def all_equipments():
 		equipment = Equipment.query.filter_by(numSerie=numSerie).first()		
 		return redirect(url_for('equipments.equipment', equipment_id=equipment.id, 
 														filterBy='date_modified',
-														filterSort='desc'))
-		
+														filterSort='desc'))		
 	all_equips = buscarLista(Equipment)
 	orderBy = current_app.config["ORDER_EQUIPOS"]
 	item_type = 'Equipo'
@@ -37,6 +36,9 @@ def all_equipments():
 def equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	select_item = request.args.get('selectItem')
+	if select_item:
+		historia_id = identificador_en_corchete(select_item)		
+		return redirect(url_for('historias.historia', historia_id=historia_id))
 	historias =  buscarLista(Historia, equipment)
 	orderBy = current_app.config['ORDER_HISTORIAS']
 	item_type = 'Historia'
@@ -141,7 +143,9 @@ def delete_equipment(equipment_id):
 @equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
 def historias_equipo(equipment_id, tipologia_id):
 	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
-	historias = buscarLista(Historia, equipo)	
+	historias = buscarLista(Historia, equipo)
+	if tipologia_id:
+		historias = historias.filter_by(tipologia_id=tipologia_id)
 	orderBy = current_app.config['ORDER_HISTORIAS']	
 	return render_template('historias_equipo.html', 
 						title=equipo.modelo_eq.nombre, 
@@ -153,14 +157,22 @@ def historias_equipo(equipment_id, tipologia_id):
 @role_required("Admin")
 @equipments.route("/reporte_zonal")
 def reporte_zona():
-	all_equips = Equipment.query.order_by(Equipment.id).join(Client, Equipment.client_id == Client.id).\
-    join(Domicilio, Client.domicilio_id == Domicilio.id).\
-    join(Localidad, Domicilio.localidad_id == Localidad.id).\
-    join(Provincia, Localidad.provincia_id == Provincia.id).\
-    where(Provincia.nombre=='Córdoba').all()	
-	orderBy = current_app.config["ORDER_EQUIPOS"]
-	image_path = url_for("static", filename='models_pics/')
+	query = db.session.query(
+					    Provincia.nombre.label('Provincia'),
+					    func.count(Equipment.id).label('Cantidad')
+						).\
+	join(Localidad, Provincia.localidades).\
+	join(Domicilio, Localidad.domicilios).\
+	join(Client, Domicilio.clientes).\
+	join(Equipment, Client.equipments).\
+	group_by(Provincia.nombre).\
+	order_by(func.count(Equipment.id).desc())
+
+	# Obtener los resultados
+	equipos_por_provincia = query.all()
+	orderBy = current_app.config["ORDER_ZONA"]	
 	return render_template('reporte_zona.html',
-							lista=all_equips,
+							lista=equipos_por_provincia,
 							orderBy = orderBy,
-							title='Reporte por zona', image_path=image_path)
+							nombre_reporte='Reporte equipos por Provincia',
+							title='Reporte por zona')

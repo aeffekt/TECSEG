@@ -1,0 +1,64 @@
+Cliente Bonarrico Mendoza
+
+ANYDESK: 255 433 310
+pass: ?
+
+Enlace 11G
+
+Tecnico Luis Fernandez (externo) - 261 558 6978
+Tecnico Juan Silva (interno) - 261 618 8088
+ 
+ESTUDIO:
+Enlace 11G
+	IP: 192.168.1.21
+Router HEX blanco (internet) 
+	IP:192.168.88.1
+
+ENCODER 3224V 4-1 IP sin display 192.168.88.135 - (Las 4 señales se configuran igual)
+	CH4 y CH3= 10Mbps H.264 FULL-HD 1080p
+	out-ip: 224.2.2.2 port:2236/2237 respectivamente
+	CH4: KINGDOM TV
+	CH3: VTV
+
+antes:
+ENCODER HD LP211 - IP: 192.168.88.130 (SNMP)
+ENCODER SD LP221 - IP: 192.168.88.30 (SNMP) 
+	(en prestamo!!!) toma señal del HD via ASI
+
+
+
+EN planta transmisora:
+Enlace 11G - IP: 192.168.1.20
+Switch HP - IP:192.168.88.246 (dicen fallan algunos puertos)
+MODULADOR IP MUX L3306 ISDB-T - IP: 192.168.88.136 (webserver)
+	64qam 8K 1/32 3/4 
+	RF-FREC: 503MHz RF-level: -10dBm
+
+
+09/11/21
+Se conecto encoder SD que recibe via ASI al HD y los suma
+sale por 224.2.2.2 puerto 2234
+ENC SD - IP 192.168.88.30
+
+Presenta Falla el encoder SD
+
+27/12/21
+Se configuro 4x encoder salida IP NDS3224V 
+IP=192.168.1.136
+IP-OUT: 224.2.2.2:77
+encoders entradas 4 y 3 
+
+24/01/22
+no se tiene acceso al modulador fuera de estudio via remoto
+
+26/01/22
+Se conectó el nuevo encoder sin display con 2 señales
+out-IP 224.2.2.2 port 2236 (in #3) y 2237 (in #4)
+!quedo en 720.. quieren 1080
+
+28/01/22
+Quedó funcionando bien en full-hd
+
+19/05/22
+encoder 3224V falla, calor en integrados de entrada en #1 y #4
+se programa un 3542 para prestamo: #1 Kingdom TV y #2 VTV

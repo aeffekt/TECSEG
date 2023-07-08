@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, ValidationError
 from datetime import datetime
 
 class ModeloForm(FlaskForm):
@@ -15,3 +15,7 @@ class ModeloForm(FlaskForm):
 	descripcion = TextAreaField('Descripción')
 	picture = FileField('Imagen de equipo', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Crear / Actualizar')
+
+	def validate_nombre(self, nombre):		
+		if ' ' in nombre.data:
+			raise ValidationError('El nombre de modelo no puede contener espacios')

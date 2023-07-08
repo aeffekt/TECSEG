@@ -28,16 +28,20 @@ class RegistrationForm(LoginForm):
 		self.role.choices.insert(0,'')
 
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'}) # validate_choice=F si no hay error de validacion
+	role = SelectField('Tipo de usuario', coerce=str, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'}) # validate_choice=F si no hay error de validacion
 	confirm_password = PasswordField('Confirmar Contraseña', 
 						validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])
 	submit = SubmitField('Registrar Usuario')
 
 	# custom validators = validator_{field_name}
 	def validate_username(self, username):
+		if ' ' in username.data:
+			raise ValidationError('El nombre de usuario no puede contener espacios')
 		name_already_exist = User.query.filter_by(username=username.data).first()
 		if name_already_exist:
 			raise ValidationError('Ese nombre ya está en uso. Por favor, elija uno diferente')
+		
+
 
 	def validate_email(self, email):
 		mail_already_exist = User.query.filter_by(email=email.data).first()
@@ -59,6 +63,11 @@ class UpdateAccountForm(FlaskForm):
 										validate_choice=False) # validate_choice=F si no hay error de validacion
 	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Modificar cuenta')
+
+	# custom validators = validator_{field_name}
+	def validate_username(self, username):		
+		if ' ' in username.data:
+			raise ValidationError('El nombre de usuario no puede contener espacios')
 
 
 class RequestResetForm(FlaskForm):

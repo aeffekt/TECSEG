@@ -167,6 +167,12 @@ def search():
 @users.route("/users", methods=['GET', 'POST'])
 @role_required("Admin")
 def all_users():
+	select_item = request.args.get('selectItem', '')
+	if select_item:
+		repr_split_list = select_item.split()
+		# divide el __repr__ y obtiene el código en pos 2		
+		user = User.query.filter_by(username=repr_split_list[0]).first()
+		return redirect(url_for('users.account', user_id=user.id))
 	all_users = buscarLista(User)
 	image_path = url_for("static", filename='profile_pics/')
 	orderBy = current_app.config["ORDER_USUARIOS"]

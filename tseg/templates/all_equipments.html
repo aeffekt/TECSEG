@@ -11,7 +11,7 @@
                         </div>
                     <div class="col-md-8">
                     <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-                        <h2>{{ equipment.modelo_eq.nombre }} {{ equipment.modelo_eq.anio }}</h2>
+                        <h2>{{ equipment.modelo_eq }}</h2>
                         <h6 class="article-title" href=""><b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }} </b>- Nº serie: <b>{{ equipment.numSerie }}</b></h6>
                         <small>
                             Cliente: <b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b> - Año fabricación: <b>{{ equipment.anio }}</b>

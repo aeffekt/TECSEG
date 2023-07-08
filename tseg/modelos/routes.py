@@ -13,6 +13,16 @@ modelos = Blueprint('modelos', __name__)
 
 @modelos.route("/all_modelos")
 def all_modelos():
+	try:
+		select_item = request.args.get('selectItem', '')
+		if select_item:
+			nombre_modelo, anio = select_item.split()
+			# divide el __repr__ y obtiene el código en pos 2		
+			modelo = Modelo.query.filter_by(nombre=nombre_modelo, anio=anio).first()
+			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
+	except Exception as err:
+		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
+		return redirect(url_for('modelos.all_modelos'))
 	all_modelos = buscarLista(Modelo)
 	image_path = url_for("static", filename='models_pics/')
 	orderBy = current_app.config['ORDER_MODELOS']
@@ -28,6 +38,7 @@ def all_modelos():
 @login_required
 def modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)
+	
 	form = ModeloForm()
 	if form.validate_on_submit():
 		if form.picture.data:
@@ -58,20 +69,19 @@ def modelo(modelo_id):
 						modelo=modelo)
 
 
-
 @modelos.route("/add_modelo", methods=['GET','POST'] )
 @role_required("Admin", "Técnico")
 def add_modelo():
 	form = ModeloForm()
 	if form.validate_on_submit():
 		if form.picture.data:
-			picture_file = save_picture(form.picture.data, 'models_pics')
-			modelo.image_file = picture_file
+			picture_file = save_picture(form.picture.data, 'models_pics')			
 		homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()		
 		modelo = Modelo(nombre=form.nombre.data,
 						anio=form.anio.data,
-						homologacion_obj=homologacion,
-						descripcion=form.descripcion.data)
+						homologacion=homologacion,
+						descripcion=form.descripcion.data,
+						image_file=picture_file)
 		try:
 			db.session.add(modelo)
 			db.session.commit()
