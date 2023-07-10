@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import login_required
-from tseg.models import Modelo, Client, Historia, Homologacion
+from tseg.models import Modelo, Client, Historia, Homologacion, Marca
 from tseg.modelos.forms import ModeloForm
 from tseg.users.utils import role_required, buscarLista, save_picture
 from tseg import db
@@ -37,13 +37,14 @@ def all_modelos():
 @modelos.route("/modelo-<int:modelo_id>-update", methods=['GET', 'POST'])
 @login_required
 def modelo(modelo_id):
-	modelo = Modelo.query.get_or_404(modelo_id)
-	
+	modelo = Modelo.query.get_or_404(modelo_id)	
 	form = ModeloForm()
 	if form.validate_on_submit():
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data, 'models_pics')
-			modelo.image_file = picture_file
+			modelo.image_file = picture_file		
+		marca = Marca.query.filter_by(nombre=form.marca.data).first()
+		modelo.marca = marca
 		modelo.nombre = form.nombre.data
 		modelo.anio = form.anio.data
 		modelo.descripcion = form.descripcion.data
@@ -57,7 +58,8 @@ def modelo(modelo_id):
 		except Exception as err:
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
-	elif request.method == 'GET':		
+	elif request.method == 'GET':
+		form.marca.data = modelo.marca.nombre if modelo.marca else None	
 		form.nombre.data = modelo.nombre
 		form.anio.data = modelo.anio
 		form.descripcion.data = modelo.descripcion	
@@ -76,11 +78,13 @@ def add_modelo():
 	if form.validate_on_submit():
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data, 'models_pics')			
-		homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()		
+		homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()
+		marca = Marca.query.filter_by(nombre=form.marca.data).first()
 		modelo = Modelo(nombre=form.nombre.data,
 						anio=form.anio.data,
-						homologacion=homologacion,
 						descripcion=form.descripcion.data,
+						homologacion=homologacion,						
+						marca=marca,						
 						image_file=picture_file)
 		try:
 			db.session.add(modelo)

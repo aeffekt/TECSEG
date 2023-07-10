@@ -84,22 +84,24 @@ class Equipment(db.Model):
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	content = db.Column(db.Text, nullable=False)	
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
-	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
+	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)	
 	modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=True)
 	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)	
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
 	historias = db.relationship('Historia', backref='eq_historia', lazy=True)
 
 	def __repr__(self):
-		return f'[{self.numSerie}] {self.modelo_eq.nombre} ({self.owner.nombre} {self.owner.apellido})'
+		return f'[{self.numSerie}] {self.modelo} ({self.owner.nombre} {self.owner.apellido})'
 
 
 class Marca(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	nombre = db.Column(db.String(50), unique=True, nullable=False)
-	equipos = db.relationship('Equipment', backref='marca_eq', lazy=True)
+	modelos = db.relationship('Modelo', backref='marca', lazy=True)
 
+	def __repr__(self):
+		return self.nombre
+	
 
 class Modelo(db.Model):
 	now = datetime.now()
@@ -112,8 +114,9 @@ class Modelo(db.Model):
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	anio = db.Column(db.String(4), unique=False, nullable=False)
 	image_file = db.Column(db.String(20), nullable=False, default='default_eq.jpg')
+	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
 	homologacion_id = db.Column(db.Integer, db.ForeignKey('homologacion.id'), nullable=False)
-	equipos = db.relationship('Equipment', backref='modelo_eq', lazy=True)
+	equipos = db.relationship('Equipment', backref='modelo', lazy=True)
 
 	def __repr__(self):
 		return f'{self.nombre} {self.anio}'
@@ -126,7 +129,7 @@ class Homologacion(db.Model):
 	modelos = db.relationship('Modelo', backref='homologacion', lazy=True)
 
 	def __repr__(self):
-		return f'Homologación: {self.codigo}'
+		return self.codigo
 	
 
 class Frecuencia(db.Model):
@@ -157,7 +160,7 @@ class Historia(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
-		return f"[{self.id}] {self.eq_historia.modelo_eq.nombre} {self.title}"
+		return f"[{self.id}] {self.eq_historia.modelo.nombre} {self.title}"
 
 class Tipologia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

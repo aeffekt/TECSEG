@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h6 class="mb-3 article-metadata">Historias de <a class="mr-2" href="{{ url_for('equipments.equipment', equipment_id=equipo.id) }}">{{ equipo.modelo_eq.nombre }}</a> ({{ lista.count() }})</h6>
+    <h6 class="mb-3 article-metadata">Historias de <a class="mr-2" href="{{ url_for('equipments.equipment', equipment_id=equipo.id) }}">{{ equipo.modelo.nombre }}</a> ({{ lista.count() }})</h6>
     <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('historias.add_historia', equipment_id = equipo.id) }}">Agregar historia</a></p>
     
     {% for historia in lista %}

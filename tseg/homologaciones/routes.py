@@ -11,10 +11,8 @@ homologaciones = Blueprint('homologaciones', __name__)
 @homologaciones.route("/all_homologaciones")
 def all_homologaciones():
 	select_item = request.args.get('selectItem', '')
-	if select_item:
-		repr_split_list = select_item.split()
-		# divide el __repr__ y obtiene el código en pos 2
-		homologacion = Homologacion.query.filter_by(codigo=repr_split_list[2]).first()
+	if select_item:		
+		homologacion = Homologacion.query.filter_by(codigo=select_item).first()
 		return redirect(url_for('homologaciones.homologacion', homologacion_id=homologacion.id))
 	all_homologaciones = buscarLista(Homologacion)	
 	orderBy = current_app.config['ORDER_HOMOLOGACION']

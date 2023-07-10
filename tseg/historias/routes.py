@@ -31,7 +31,7 @@ def add_historia(equipment_id):
 												form=form,
 												equipment=equipment,
 												legend=f'Nueva Historia: \
-												{equipment.modelo_eq.nombre} de \
+												{equipment.modelo} de \
 												{equipment.owner.nombre} {equipment.owner.apellido}')
 
 

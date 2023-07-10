@@ -5,25 +5,38 @@
             <legend class="border-bottom mb-4">Equipo</legend>
             <div class="row">
                 <div class="col-md-3">
-                    <img class="rounded-3 account-img" src="{{image_path+equipment.modelo_eq.image_file }}">
+                  <div class="img-container">
+                    <a href="#" onclick="abrirImagen('{{ image_path+equipment.modelo.image_file }}'); return false;">
+                      <img class="rounded-3 account-img" src="{{ image_path+equipment.modelo.image_file }}" alt="Imagen" />
+                      <div class="overlay">
+                        <div class="overlay-content">Abrir Imagen</div>
+                      </div>
+                    </a>
+                  </div>
                 </div>
                 <div class="col-md-9">
-                    <a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo_eq.id) }}"><h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo_eq }}</h2></a>
-                    <b>
-                        <small  class="article-title" style="display: block;">{{ equipment.marca_eq.nombre }}</small>
-                        <small class="article-title" style="display: block;">{{ equipment.modelo_eq.descripcion }}</small>
-                        <small class="article-title" style="display: block;">{{ equipment.modelo_eq.homologacion }}</small>
-                        <small class="article-title" style="display: block;">{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</small>
-                    </b>                    
+                  <div class="media-body">
+                    <a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo.id) }}"><h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo }}</h2></a>
+                    <h6 class="article-title">Marca: <b>{{ equipment.modelo.marca }}</b></h6>
+                    <h6 class="article-title">Descripción: <b>{{ equipment.modelo.descripcion }}</b></h6>
+                    <h6 class="article-title">Homologación: <b>{{ equipment.modelo.homologacion }}</b></h6>
+                    <small class="article-title">Modificado: <b>{{ equipment.modelo.date_modified }}</b></small>
+                  </div>
                 </div>
-            </div>        
+            </div>
             <hr 90%>
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
-                    <small>Nº Serie: </small>                    
+                    <small>Nº Serie: </small>
                 </div>
                 <div class="col-md-9">
-                    <small><b class="article-title" >{{ equipment.numSerie }}</b></small>                    
+                    <small><b class="article-title" >{{ equipment.numSerie }}</b></small>
+                </div>
+                <div class="col-md-3 text-end">
+                  <small>Canal / Frecuencia: </small>
+                </div>
+                <div class="col-md-9">
+                    <small><b class="article-title" >{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></small>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-md-3 text-end">
@@ -119,7 +132,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.modelo_eq.nombre }}"?</h5>
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.modelo.nombre }}"?</h5>
             <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
               <span aria-hidden="true">&times;</span>
             </button>

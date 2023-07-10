@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-07-2023 a las 16:54:09
+-- Tiempo de generación: 10-07-2023 a las 16:09:02
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `domicilio_id` (`domicilio_id`),
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -146,7 +146,6 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   UNIQUE KEY `eq_numSerie` (`numSerie`),
   KEY `client_id` (`client_id`),
   KEY `user_id` (`user_id`),
-  KEY `equipment_marca` (`marca_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
@@ -573,7 +572,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -609,7 +608,8 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (46, 'Ficha alimentación', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'falla en la ficha de alimentación del mod, se asistió por teléfono para encontrar la falla', 2, 93, 10),
 (47, 'Señal #2', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'se agregó la señal 16.2', 3, 93, 10),
 (48, 'charla con cliente', '2023-07-07 13:45:43', '2023-07-07 13:45:43', 'todo OK', 1, 22, 10),
-(49, 'IP', '2023-07-07 13:45:43', '2023-07-07 13:45:43', '192.168.1.100', 3, 22, 10);
+(49, 'IP', '2023-07-07 13:45:43', '2023-07-07 13:45:43', '192.168.1.100', 3, 22, 10),
+(50, 'Fuente', '2023-07-07 20:51:42', '2023-07-07 20:51:42', 'cambio de la fuente switching 200W', 2, 90, 10);
 
 -- --------------------------------------------------------
 
@@ -1651,7 +1651,7 @@ CREATE TABLE IF NOT EXISTS `marca` (
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_marca_nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `marca`
@@ -1662,7 +1662,7 @@ INSERT INTO `marca` (`id`, `nombre`) VALUES
 (6, 'Hewlett Packard'),
 (2, 'IA Electrónica'),
 (1, 'Liecom'),
-(8, 'Otra'),
+(0, 'N/D'),
 (7, 'TeamCast'),
 (5, 'Ubiquiti'),
 (3, 'VideoSwitch');
@@ -1676,55 +1676,58 @@ INSERT INTO `marca` (`id`, `nombre`) VALUES
 DROP TABLE IF EXISTS `modelo`;
 CREATE TABLE IF NOT EXISTS `modelo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `marca_id` int(11) DEFAULT NULL,
   `nombre` varchar(50) NOT NULL,
   `descripcion` varchar(250) DEFAULT NULL,
-  `image_file` varchar(20) NOT NULL DEFAULT 'default_eq.jpg',
+  `image_file` varchar(50) NOT NULL DEFAULT 'default_eq.jpg',
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `anio` varchar(4) DEFAULT NULL,
   `homologacion_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_modelo_nombre_anio` (`nombre`,`anio`),
-  KEY `modelo_homologacion` (`homologacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+  KEY `modelo_homologacion` (`homologacion_id`),
+  KEY `modelo_marca` (`marca_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
 --
 
-INSERT INTO `modelo` (`id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `homologacion_id`) VALUES
-(0, 'N/D', 'Modelo no específico', 'default_eq.jpg', '2023-07-06 10:45:57', '2023-07-06 10:45:57', 'N/D', NULL),
-(1, 'FM100', 'STM', '9b0a1133e8efc0ad.JPG', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'17', 2),
-(2, 'FM250', 'STM', '00a0d44c7702e1a5.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3),
-(3, 'FM500', 'STM', 'd54af0ea5584e2ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4),
-(4, 'FM1000', 'CTM', '4d36499baa010264.jpg', '2023-06-30 10:17:39', '2023-07-07 10:54:26', '\'23', 5),
-(5, 'FM2000', 'STM', 'b67f8b1f6f96a97e.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 6),
-(6, 'FM3000', 'CTM', 'b3de7d3f5614eda7.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', NULL),
-(8, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL),
-(10, 'FM5000', 'rack CTM', '4883a88e4aa7c4ef.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 7),
-(11, 'TRUD70', 'STM', '0d0fb90ce98ad382.jpg', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'20', NULL),
-(13, 'TRUD250', 'CTM', 'a865c54b13d4b420.JPG', '2023-06-30 10:17:39', '2023-07-04 10:46:01', '\'20', 9),
-(15, 'TRUD500', 'CTM', 'ac25db2c48c2802b.JPG', '2023-06-30 10:17:39', '2023-07-04 10:47:31', '\'21', 10),
-(19, 'TRUD1200', 'CTM', 'b551d0cb2c616c88.JPG', '2023-06-30 10:17:39', '2023-07-04 10:55:33', '\'10', 11),
-(20, 'TRUD1800', 'CTM', 'e7f3f00e4feb84d3.JPG', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL),
-(22, 'TRV5000', 'CTM', 'ac43080af69e7ac5.JPG', '2023-06-30 10:17:39', '2023-07-04 11:22:04', '\'10', NULL),
-(23, 'TRU250', 'CTM', 'b826b5271375f5bb.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL),
-(25, 'TRU400', 'CTM', '2b82d39020339dce.jpg', '2023-06-30 10:17:39', '2023-07-04 11:11:20', '\'08', NULL),
-(26, 'TRU500', 'CTM', 'a42b1c7599f290cf.jpg', '2023-06-30 10:17:39', '2023-07-04 11:12:53', '\'19', NULL),
-(30, 'TRM2650', 'CTM', '7c7c38654f7e1563.jpg', '2023-06-30 10:17:39', '2023-07-04 10:23:40', '\'23', NULL),
-(31, 'TRM26100', 'CTM', '6a75e05653aa3660.jpg', '2023-06-30 10:17:39', '2023-07-04 10:22:48', '\'16', NULL),
-(32, 'NDS3542', 'HDMI', 'b7da03f8bccd689d.jpg', '2023-06-30 10:17:39', '2023-07-04 10:38:38', '\'16', NULL),
-(33, 'NDS3542A', 'SDI', '47c3e06c73d0fbd7.jpg', '2023-06-30 10:17:39', '2023-07-04 10:38:13', '\'17', NULL),
-(34, 'DMOD-1000', 'CTM', '983d6e0b7a8cf0e9.png', '2023-06-30 10:17:39', '2023-07-04 10:36:24', '\'21', NULL),
-(36, 'DMUX-500i', 'CTM', '64261f290660c662.jpg', '2023-06-30 10:17:39', '2023-07-04 10:29:21', '\'19', NULL),
-(37, 'DMUX-3100', 'CTM', 'c62ba952cffab5c6.png', '2023-06-30 10:17:39', '2023-07-04 10:28:35', '\'20', NULL),
-(38, 'LP211', 'CTM', 'a3bd839633bbd039.jpg', '2023-06-30 10:17:39', '2023-07-04 10:28:56', '\'18', NULL),
-(40, 'FM100', 'encendido posterior', '2e02a8e0c60f655d.jpg', '2023-06-30 12:39:07', '2023-07-07 10:48:50', '\'23', 2),
-(46, 'TRV100', 'STM', '73ca8466b7df3f00.JPG', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12),
-(47, 'FM50', '', 'default_eq.jpg', '2023-07-04 13:21:30', '2023-07-04 13:21:30', '\'22', 1),
-(48, 'Router', '', '025bb31c31fbd2f2.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL),
-(49, 'Switch', '', '7a1a80f2c44bcceb.jpg', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
-(50, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.jpg', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL);
+INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `homologacion_id`) VALUES
+(0, 0, 'N/D', 'Modelo no específico', 'default_eq.png', '2023-07-06 10:45:57', '2023-07-06 10:45:57', 'N/D', NULL),
+(1, 2, 'FM100', 'STM', '9b0a1133e8efc0ad-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-09 12:55:38', '\'17', 2),
+(2, 2, 'FM250', 'STM', '00a0d44c7702e1a5-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3),
+(3, 1, 'FM500', 'STM', 'd54af0ea5584e2ef-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4),
+(4, 1, 'FM1000', 'CTM', '4d36499baa010264-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-07 10:54:26', '\'23', 5),
+(5, 1, 'FM2000', 'STM', 'b67f8b1f6f96a97e-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 6),
+(6, 1, 'FM3000', 'CTM', 'b3de7d3f5614eda7-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', NULL),
+(8, 1, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL),
+(10, 1, 'FM5000', 'rack CTM', '4883a88e4aa7c4ef-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 7),
+(11, 1, 'TRUD70', 'STM', '0d0fb90ce98ad382-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'20', NULL),
+(13, 1, 'TRUD250', 'CTM', 'a865c54b13d4b420-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:46:01', '\'20', 9),
+(15, 1, 'TRUD500', 'CTM', 'ac25db2c48c2802b-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:47:31', '\'21', 10),
+(19, 1, 'TRUD1200', 'CTM', 'b551d0cb2c616c88-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:55:33', '\'10', 11),
+(20, 1, 'TRUD1800', 'CTM', 'e7f3f00e4feb84d3-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL),
+(22, 1, 'TRV5000', 'CTM', 'ac43080af69e7ac5.JPG', '2023-06-30 10:17:39', '2023-07-04 11:22:04', '\'10', NULL),
+(23, 1, 'TRU250', 'CTM', 'b826b5271375f5bb.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL),
+(25, 1, 'TRU400', 'CTM', '2b82d39020339dce-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 11:11:20', '\'08', NULL),
+(26, 1, 'TRU500', 'CTM', 'a42b1c7599f290cf-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 11:12:53', '\'19', NULL),
+(30, 1, 'TRM2650', 'CTM', '7c7c38654f7e1563.jpg', '2023-06-30 10:17:39', '2023-07-04 10:23:40', '\'23', NULL),
+(31, 1, 'TRM26100', 'CTM', '6a75e05653aa3660-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:22:48', '\'16', NULL),
+(32, 4, 'NDS3542', 'HDMI', 'b7da03f8bccd689d.png', '2023-06-30 10:17:39', '2023-07-04 10:38:38', '\'16', NULL),
+(33, 4, 'NDS3542A', 'SDI', '47c3e06c73d0fbd7.png', '2023-06-30 10:17:39', '2023-07-04 10:38:13', '\'17', NULL),
+(34, 3, 'DMOD-1000', '', '983d6e0b7a8cf0e9.png', '2023-06-30 10:17:39', '2023-07-09 12:18:02', '\'21', NULL),
+(36, 3, 'DMUX-500i', '', '64261f290660c662.png', '2023-06-30 10:17:39', '2023-07-09 12:18:29', '\'19', NULL),
+(37, 3, 'DMUX-3100', '', 'c62ba952cffab5c6.png', '2023-06-30 10:17:39', '2023-07-09 12:18:18', '\'20', NULL),
+(38, 4, 'LP211', 'CTM', 'a3bd839633bbd039.png', '2023-06-30 10:17:39', '2023-07-04 10:28:56', '\'18', NULL),
+(40, 2, 'FM100', 'enc. posterior', '2e02a8e0c60f655d-removebg-preview.png', '2023-06-30 12:39:07', '2023-07-09 12:18:53', '\'23', 2),
+(46, 1, 'TRV100', 'STM', '73ca8466b7df3f00-removebg-preview.png', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12),
+(47, 2, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-07-04 13:21:30', '\'22', 1),
+(48, 0, 'Router', '', '7a1a80f2c44bcceb.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL),
+(49, 0, 'Switch', '', 'a1c2e38a214e88e7.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
+(50, 0, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
+(51, 1, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8);
 
 -- --------------------------------------------------------
 
@@ -1749,7 +1752,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
@@ -1757,15 +1760,15 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
 (2, '2023-06-13 12:20:25', '2023-06-16 11:11:02', '230327', 'Reparar ventiladores', 6, 10, 10, 4),
-(6, '2023-06-13 12:41:08', '2023-07-06 09:23:43', '210615', 'Revisar el equipo, presenta falla RF', NULL, 3, 10, 3),
+(6, '2023-06-13 12:41:08', '2023-07-10 12:49:38', '210615', 'Revisar el equipo, presenta falla RF.', 1, 3, 10, 2),
 (9, '2023-06-14 11:59:34', '2023-07-07 11:07:32', '220516', 'Se envió el módulo de potencia porque no enciende', NULL, 13, 10, 1),
 (12, '2023-06-14 12:28:20', '2023-07-06 16:41:10', '230314', 'Pedido de reparación por falla de temperatura', NULL, 1, 10, 1),
 (13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
 (14, '2023-06-16 12:14:01', '2023-07-07 11:07:21', '230516', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
-(15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230315', 'revisar configuracion', 5, 34, 10, 2),
+(15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230315', 'revisar configuracion', 1, 34, 10, 2),
 (17, '2023-06-17 16:02:08', '2023-06-17 16:20:02', '193454', 'cambiar de frec a 98,5MHz', 1, 2, 10, 4),
 (18, '2023-06-17 16:02:08', '2023-07-06 16:41:58', '213454', 'problemas entrada 220V', 14, 3, 10, 3),
-(19, '2023-06-17 16:02:08', '2023-06-17 16:20:10', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 1, 33, 10, 3);
+(19, '2023-06-17 16:02:08', '2023-07-09 15:05:22', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 1, 33, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -1917,7 +1920,8 @@ DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `id` int(11) NOT NULL,
   `role_name` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1928,7 +1932,8 @@ INSERT INTO `role` (`id`, `role_name`) VALUES
 (1, 'Admin'),
 (2, 'Invitado'),
 (3, 'Técnico'),
-(4, 'ServicioCliente');
+(4, 'ServicioCliente'),
+(5, 'Comercial');
 
 -- --------------------------------------------------------
 
@@ -2010,7 +2015,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_i
 (5, 'Atilio', 'atilioavanzini@mail.com', 'f830c0210df9532a.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
 (6, 'Oscar', 'oscar@mail.com', '78fcd03e420ea343.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
 (10, 'admin', 'admin@tecseg.com', 'ba7f10cd2f0cb49a.jpg', '$2b$12$dIxpjyQ/uTr8Z7owkfrZKuNoQ5oF4moJHeJgBwjO2X65gmCW.YEWO', 1),
-(11, 'Tomas', 'tomas@tecseg.com', 'c1ed20648c2746a0.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 4),
+(11, 'Tomas', 'tomas@tecseg.com', 'c1ed20648c2746a0.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
 (12, 'Juan', 'juan@tecseg.com', 'ee259c124c31059d.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
 (14, 'Jorge', 'jorge@tecseg.com', '0cf2ffbae3b4a383.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3);
 
@@ -2038,7 +2043,6 @@ ALTER TABLE `domicilio`
 ALTER TABLE `equipment`
   ADD CONSTRAINT `eq_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `eq_marca` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
@@ -2066,7 +2070,8 @@ ALTER TABLE `localidad`
 -- Filtros para la tabla `modelo`
 --
 ALTER TABLE `modelo`
-  ADD CONSTRAINT `modelo_homologacion` FOREIGN KEY (`homologacion_id`) REFERENCES `homologacion` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `modelo_homologacion` FOREIGN KEY (`homologacion_id`) REFERENCES `homologacion` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `modelo_marca` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `orden_reparacion`

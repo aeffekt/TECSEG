@@ -34,3 +34,17 @@ document.addEventListener('DOMContentLoaded', function() {
     actualizarCamposGeograficos(codigoPostal);
   });
 });
+
+
+// abrir imagen en pantalla
+function abrirImagen(src) {
+  var ventana = window.open("", "_blank");
+  ventana.document.write("<html><head><title>Imagen</title></head><body style='background: grey; margin: 0;'><h2>Haga click para volver</h2><img src='" + src + "' style='max-width: 100%; max-height: 100vh; display: block; margin: auto;'/></body></html>");
+  ventana.document.close();
+  
+  ventana.addEventListener('click', function() {
+    ventana.close();
+  });
+  }
+
+

@@ -4,15 +4,23 @@
 	  	<div class="media">
 	  		<legend class="border-bottom mb-4">Modelo de equipo</legend>
 	  		<div class="row">
-	  			<div class="col-md-3">
-	  				<img class="rounded-3 account-img" src="{{ image_file }}">
-	  			</div>
-		    	<div class="col-md-5">
+				<div class="col-md-3">
+					<div class="img-container">
+					  <a href="#" onclick="abrirImagen('{{ image_file }}'); return false;">
+						<img class="rounded-3 account-img" src="{{ image_file }}" alt="Imagen" />
+						<div class="overlay">
+						  <div class="overlay-content">Abrir Imagen</div>
+						</div>
+					  </a>
+					</div>
+				  </div>	  			
+		    	<div class="col-md-9">
 				    <div class="media-body">
 					    <h2 class="account-heading">{{ modelo  }}</h2>
-					    <h6 class="article-title">Descripción: {{ modelo.descripcion }}</h6>
-					    <h6 class="article-title">Homologación: {{ modelo.homologacion.codigo }}</h6>
-					    <small class="article-title">Modificado: {{ modelo.date_modified }}</small>
+						<h6 class="article-title">Marca: <b>{{ modelo.marca }}</b></h6>
+					    <h6 class="article-title">Descripción: <b>{{ modelo.descripcion }}</b></h6>
+					    <h6 class="article-title">Homologación: <b>{{ modelo.homologacion }}</b></h6>
+					    <h6 class="article-title">Modificado: <b>{{ modelo.date_modified }}</b></h6>
 				    </div>
 				</div>
 			</div>			
@@ -21,58 +29,77 @@
 	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
 			{{ form.hidden_tag() }} <!-- part of protection -->
-			<fieldset class="form-group">				
-				<div id="nombre" class="form-group" autofocus>
-					{{ form.nombre.label(class="form-control-label") }}
-					{% if form.nombre.errors %}
-						{{ form.nombre(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.nombre.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+			<fieldset class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						<div id="nombre" class="form-group" autofocus>
+							{{ form.nombre.label(class="form-control-label") }}
+							{% if form.nombre.errors %}
+								{{ form.nombre(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.nombre.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.nombre(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.nombre(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div id="anio" class="form-group" autofocus>
-					{{ form.anio.label(class="form-control-label") }}
-					{% if form.anio.errors %}
-						{{ form.anio(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.anio.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+						<div id="marca" class="form-group">
+							{{ form.marca.label() }}
+							{% if form.marca.errors %}
+								{{ form.marca(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.marca.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.marca(class="form-control form-control-sm", type="file") }}
+							{% endif %}					
+						</div>						
+					</div>
+					<div class="col-md-6">
+						<div id="anio" class="form-group" autofocus>
+							{{ form.anio.label(class="form-control-label") }}
+							{% if form.anio.errors %}
+								{{ form.anio(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.anio.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.anio(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.anio(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>
-				<div id="descripcion" class="form-group">					
-					{{ form.descripcion.label(class="form-control-label") }}					
-					{% if form.descripcion.errors %}
-						{{ form.descripcion(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.descripcion.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.descripcion(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>				
-				<div id="picture" class="form-group">
-					{{ form.picture.label() }}
-					{% if form.picture.errors %}
-						{{ form.picture(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.picture.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.picture(class="form-control form-control-sm", type="file") }}
-					{% endif %}					
+						<div id="picture" class="form-group">
+							{{ form.picture.label() }}
+							{% if form.picture.errors %}
+								{{ form.picture(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.picture.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.picture(class="form-control form-control-sm", type="file") }}
+							{% endif %}					
+						</div>						
+					</div>
+					<div id="descripcion" class="form-group">					
+						{{ form.descripcion.label(class="form-control-label") }}					
+						{% if form.descripcion.errors %}
+							{{ form.descripcion(class="form-control form-control-sm is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.descripcion.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.descripcion(class="form-control form-control-sm") }}
+						{% endif %}
+					</div>
 				</div>
 			</fieldset>
 			<br>			

@@ -7,9 +7,7 @@ from datetime import datetime
 
 class EquipmentForm(FlaskForm):
 	def __init__(self):
-		super(EquipmentForm, self).__init__()  # Llamar al constructor de la clase padre
-		self.marca.choices = [marca.nombre for marca in Marca.query.order_by(Marca.id).all()]
-		self.marca.choices.insert(0,'')
+		super(EquipmentForm, self).__init__()  # Llamar al constructor de la clase padre		
 		self.modelo.choices = [mod.nombre for mod in Modelo.query.all()]
 		self.frecuencia.choices = [f.canal for f in Frecuencia.query.all()]
 		self.owner.choices = [f'[{c.id}] {c.nombre} {c.apellido}, {c.business_name}' for c in Client.query.all()]		

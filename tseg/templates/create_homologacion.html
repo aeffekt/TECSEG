@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 
-
 {% block content %}
 	<div class='content-section'>
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
@@ -38,7 +37,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.modelo(class="form-control form-control") }}
+								{{ form.modelo(class="chosen form-control form-control") }}
 							{% endif %}
 						</div>
 					</div>

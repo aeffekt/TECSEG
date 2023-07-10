@@ -2,10 +2,10 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
-from tseg.models import User, Historia, Equipment, Client, Role, Marca, Modelo
+from tseg.models import User, Historia, Equipment, Client, Role, Marca, Modelo, Orden_reparacion
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 							RequestResetForm, ResetPasswordForm, SearchForm)
-from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista
+from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista, identificador_en_corchete
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 
@@ -137,11 +137,15 @@ def search():
 	form = SearchForm()	
 	if form.validate_on_submit():
 		searched = form.searched.data
-		equipments = Equipment.query.filter(or_(Equipment.content.like('%'+searched+'%'),\
-											Equipment.marca_eq.has(Marca.nombre.like('%'+searched+'%')),
-        									Equipment.modelo_eq.has(Modelo.nombre.like('%'+searched+'%')),
-											Equipment.anio.like('%'+searched+'%')
-											))
+		equipments = Equipment.query.filter(or_(
+												Equipment.content.like('%'+searched+'%'),
+												Equipment.anio.like('%'+searched+'%'),												
+												Equipment.modelo.has(
+													Modelo.nombre.like('%'+searched+'%'),													
+													),
+												)												
+											)
+		
 		clients = Client.query.filter(or_(Client.nombre.like('%'+searched+'%'), \
 									Client.apellido.like('%'+searched+'%'),
 									Client.business_name.like('%'+searched+'%'),
@@ -187,6 +191,10 @@ def all_users():
 
 @users.route("/user-<string:username>-historias")
 def user_historias(username):
+	select_item = request.args.get('selectItem', '')	
+	if select_item:
+		historia_id = identificador_en_corchete(select_item)
+		return redirect(url_for('historias.historia', historia_id=historia_id))
 	user = User.query.filter_by(username=username)\
 					.first_or_404()
 	historias = Historia.query.filter_by(author_historia=user)\

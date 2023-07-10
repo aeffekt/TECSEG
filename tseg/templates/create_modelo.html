@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 
-
 {% block content %}
 	<div class='content-section'>
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
@@ -8,7 +7,7 @@
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">Registrar nuevo modelo de equipo</legend>
 				<div class="row">
-					<div class="col-md-6">					
+					<div class="col-md-6">										
 						<div class="form-group">
 							<!-- boottrap  -->
 							{{ form.nombre.label(class="form-control-label") }}<span class="red"> *</span>
@@ -25,19 +24,20 @@
 							{% endif %}
 						</div>
 						<div class="form-group">
-							{{ form.descripcion.label(class="form-control-label") }}
-							{% if form.descripcion.errors %}
-								{{ form.descripcion(class="form-control form-control is-invalid") }}
+							<!-- boottrap  -->
+							{{ form.marca.label(class="form-control-label") }}<span class="red"> *</span>
+							<!-- errores de entrada  -->
+							{% if form.marca.errors %}
+								{{ form.marca(class="form-control form-control is-invalid") }}
 								<div class="invalid-feedback">
-									{% for error in form.descripcion.errors %}
+									{% for error in form.marca.errors %}
 										<span>{{ error }}</span>
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.descripcion(class="form-control form-control") }}
+								{{ form.marca(class="form-select form-select-sm custom-select") }}
 							{% endif %}
 						</div>
-						
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
@@ -68,6 +68,19 @@
 								{{ form.picture(class="form-control form-control-sm", type="file") }}
 							{% endif %}					
 						</div>
+					</div>
+					<div class="form-group">
+						{{ form.descripcion.label(class="form-control-label") }}
+						{% if form.descripcion.errors %}
+							{{ form.descripcion(class="form-control form-control is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.descripcion.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.descripcion(class="form-control form-control") }}
+						{% endif %}
 					</div>
 				</div>
 			</fieldset>

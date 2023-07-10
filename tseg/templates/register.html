@@ -37,8 +37,6 @@
 								{{ form.email(class="form-control form-control") }}
 							{% endif %}
 						</div>
-					</div>
-					<div class="col-md-6">
 						<div class="form-group">					
 							{{ form.role.label(class="form-control-label") }}<span class="red"> *</span>					
 							{% if form.role.errors %}
@@ -52,6 +50,9 @@
 								{{ form.role(class="form-select form-select custom-select") }}
 							{% endif %}
 						</div>
+					</div>
+					<div class="col-md-6">
+						
 						<div class="form-group">
 							<!-- boottrap  -->
 							{{ form.password.label(class="form-control-label") }}<span class="red"> *</span>
