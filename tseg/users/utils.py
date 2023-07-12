@@ -7,7 +7,7 @@ from flask_mail import Message
 from tseg import mail
 from functools import wraps
 from datetime import datetime
-from tseg.models import Equipment, Client, User, Historia, Orden_reparacion, Localidad, Provincia, Pais
+from tseg.models import Equipment, Client, User, Historia, Orden_reparacion, Localidad, Provincia, Pais, Tipologia
 from sqlalchemy import asc, desc
 
 
@@ -28,14 +28,33 @@ def buscarLista(dBModel, *arg):
 	else:
 		orden = desc(sort_column)
 
-	lista = dBModel.query.order_by(orden)
+	lista = dBModel.query.order_by(orden)	
 	if arg:
-		# filtrar busqueda de O.R. si la hace un tecnico
-		if isinstance(arg[0], User):			
-			lista = lista.filter_by(tecnico_id=arg[0].id)
-		# filtrar busqueda de Historias para un equipo determinado
-		elif isinstance(arg[0], Equipment):			
-			lista = lista.filter_by(equipo_id=arg[0].id)
+
+		# filtrado extra de O.R.
+		if dBModel==Orden_reparacion:
+			# ordenes de reparacion por tecnico
+			if isinstance(arg[0], User):
+				lista = lista.filter_by(tecnico_id=arg[0].id)
+
+			# ordenes de reparacion por equipo
+			if isinstance(arg[0], Equipment):
+				lista = lista.filter_by(equipo_id=arg[0].id)
+		
+		# filtrado extra Historias 
+		elif dBModel==Historia:
+
+			# para un equipo determinado
+			if isinstance(arg[0], Equipment):
+				lista = lista.filter_by(equipo_id=arg[0].id)
+				if len(arg)==2:
+					lista.filter_by(tipologia_id=arg[1])
+
+			# para un usuario determinado
+			if isinstance(arg[0], User):
+				print(arg)
+				print(arg[0])
+				lista = lista.filter_by(author_historia=arg[0])
 	return lista
 	
 

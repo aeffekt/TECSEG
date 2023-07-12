@@ -11,24 +11,22 @@
                     	    <h6 class="article-title">{{ orden_reparacion.content }}</h6>
                             <small>{{ orden_reparacion.equipo.title }}</small>
                             {% if orden_reparacion.tecnicoAsignado %}
-                                <small>Técnico asignado: <b>{{ orden_reparacion.tecnicoAsignado.username }}</b></small>
+                                <small>Equipo: <b>{{ orden_reparacion.equipo.modelo }}</b> Técnico asignado: <b>{{ orden_reparacion.tecnicoAsignado.username }}</b></small>
                             {% endif %}
                         </a>
                     </div>
                 </div>
                 <div class="col-md-2 text-end">
                     <div class="d-grid">
-                        {% if orden_reparacion.estado.descripcion == 'Creada' %}
-                            <i class="btn btn-info btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
-                        {% elif orden_reparacion.estado.descripcion == 'Asignada' %}
-                            <i class="btn btn-success btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
-                        {% elif orden_reparacion.estado.descripcion == 'Anulada' %}
-                            <i class="btn btn-secondary btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
-                        {% elif orden_reparacion.estado.descripcion == 'Finalizada' %}
-                            <i class="btn btn-dark btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
-                        {% else %}
-                            <i class="btn btn-light btn-block btn-sm">{{ orden_reparacion.estado.descripcion }}</i>
-                        {% endif %}
+                        <a class="btn btn-{% if orden_reparacion.estado.descripcion == 'Creada' %}warning
+                                          {% elif orden_reparacion.estado.descripcion == 'Asignada' %}success
+                                          {% elif orden_reparacion.estado.descripcion == 'Anulada' %}dark
+                                          {% elif orden_reparacion.estado.descripcion == 'Finalizada' %}secondary
+                                          {% endif %} btn-block btn-sm"
+                                          href="{{ url_for('equipments.equipment',  equipment_id=orden_reparacion.equipo.id) }}",
+                                          title="Ir al equipo {{ orden_reparacion.equipo.modelo }}">
+                                          {{ orden_reparacion.estado.descripcion }}
+                        </a>
                     </div>
                 </div>
             </div>

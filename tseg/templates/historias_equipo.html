@@ -15,15 +15,14 @@
                         </a>
                     </div>
                     <div class="col-md-2">
-                        {% if historia.tipologia.tipo == 'Mensaje' %}
-                        <a class="btn btn-dark btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
-                        {% elif historia.tipologia.tipo == 'Reparación' %}
-                            <a class="btn btn-info btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
-                        {% elif historia.tipologia.tipo == 'Modificación' %}
-                            <a class="btn btn-light btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
-                        {% else %}
-                            <a class="btn btn-light btn-block btn-sm">{{ historia.tipologia.tipo }}</a>
-                        {% endif %}                        
+                        <div class="d-grid">
+                            <a class="btn btn-{% if historia.tipologia.tipo == 'Mensaje' %}light
+                                          {% elif historia.tipologia.tipo == 'Reparación' %}warning
+                                          {% elif historia.tipologia.tipo == 'Modificación' %}info
+                                          {% endif %} btn-block btn-sm"
+                                          >{{ historia.tipologia.tipo }}
+                            </a>
+                        </div>
                     </div>
                 </div> 
             </div>

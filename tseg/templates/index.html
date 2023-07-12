@@ -4,18 +4,18 @@
     <div class="tarjeta-nav">
         <div class="row">
             <div class="col-md-6">
-                <a href="{{ url_for('clients.all_clients') }}">CLIENTES</a>                
+                <a href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}">CLIENTES</a>                
             </div>
             <div class="col-md-6">
-                <a href="{{ url_for('equipments.all_equipments') }}">EQUIPOS</a>                
+                <a href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}">EQUIPOS</a>                
             </div>            
         </div>
         <div class="row">
-            <div class="col-md-6">                
-                <a href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion') }}" class="text-center">
+            <div class="col-md-6">
+                <a href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}" class="text-center">
                REPARACIONES</a>  
             </div>
-            <div class="col-md-6">                
+            <div class="col-md-6">
                 <a href="{{ url_for('users.account', user_id=current_user.id) }}">MI CUENTA</a>
             </div>
             

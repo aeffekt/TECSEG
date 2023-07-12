@@ -72,20 +72,20 @@ def modelo(modelo_id):
 
 
 @modelos.route("/add_modelo", methods=['GET','POST'] )
-@role_required("Admin", "Técnico")
+@role_required("Admin", "Comercial")
 def add_modelo():
 	form = ModeloForm()
-	if form.validate_on_submit():
-		if form.picture.data:
-			picture_file = save_picture(form.picture.data, 'models_pics')			
+	if form.validate_on_submit():		
 		homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()
 		marca = Marca.query.filter_by(nombre=form.marca.data).first()
 		modelo = Modelo(nombre=form.nombre.data,
 						anio=form.anio.data,
 						descripcion=form.descripcion.data,
 						homologacion=homologacion,						
-						marca=marca,						
-						image_file=picture_file)
+						marca=marca)
+		if form.picture.data:
+			picture_file = save_picture(form.picture.data, 'models_pics')
+			modelo.image_file = picture_file
 		try:
 			db.session.add(modelo)
 			db.session.commit()
@@ -99,7 +99,7 @@ def add_modelo():
 
 
 @modelos.route("/modelo-<int:modelo_id>-delete", methods=['GET', 'POST'])
-@role_required("Admin", "Técnico")
+@role_required("Admin", "Comercial")
 def delete_modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)
 	db.session.delete(modelo)

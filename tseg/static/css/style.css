@@ -166,7 +166,7 @@ padding: 10px 10px 10px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;  
+  width: 100%; 
   transition: transform 2s linear;  
 }
 
@@ -271,7 +271,10 @@ background-color: var(--container-color);
 color: var(--title-color);
 }
 
-
+.nav-link {
+  color:var(--content-color);
+  border: none;
+}
 
 .content-section, .content-section-list {  
 background: linear-gradient(var(--border-color), var(--container-color));

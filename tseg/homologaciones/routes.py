@@ -49,7 +49,7 @@ def homologacion(homologacion_id):
 
 
 @homologaciones.route("/add_homologacion", methods=['GET','POST'] )
-@role_required("Admin", "Técnico")
+@role_required("Admin", "Comercial")
 def add_homologacion():
 	form = HomologacionForm()
 	if form.validate_on_submit():		
@@ -69,7 +69,7 @@ def add_homologacion():
 
 
 @homologaciones.route("/homologacion-<int:homologacion_id>-delete", methods=['GET', 'POST'])
-@role_required("Admin", "Técnico")
+@role_required("Admin", "Comercial")
 def delete_homologacion(homologacion_id):
 	homologacion = Homologacion.query.get_or_404(homologacion_id)
 	db.session.delete(homologacion)

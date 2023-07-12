@@ -111,8 +111,7 @@ class Modelo(db.Model):
 	anio = db.Column(db.String(4), unique=False, nullable=False)
 	descripcion = db.Column(db.String(250), unique=True, nullable=False)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	anio = db.Column(db.String(4), unique=False, nullable=False)
+	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))	
 	image_file = db.Column(db.String(20), nullable=False, default='default_eq.jpg')
 	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
 	homologacion_id = db.Column(db.Integer, db.ForeignKey('homologacion.id'), nullable=False)
@@ -137,6 +136,7 @@ class Frecuencia(db.Model):
 	canal = db.Column(db.String(50), unique=True, nullable=False)
 	unidad_id = db.Column(db.Integer, db.ForeignKey('unidad.id'), nullable=False)
 	equipos = db.relationship('Equipment', backref='frecuencia_eq', lazy=True)
+
 
 class Unidad(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -194,7 +194,7 @@ class Estado_or(db.Model):
 	estados = db.relationship('Orden_reparacion', backref='estado', lazy=True)
 
 	def __repr__(self):
-		return f'{self.descripcion}'
+		return self.descripcion
 
 
 class Domicilio(db.Model):

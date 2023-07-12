@@ -11,3 +11,4 @@ itsdangerous==2.0.1
 email_validator
 pillow
 requests
+matplotlib

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 10-07-2023 a las 16:09:02
+-- Tiempo de generación: 11-07-2023 a las 16:10:22
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -572,7 +572,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -605,11 +605,12 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (43, 'Cambio ventiladores', '2023-07-07 10:12:24', '2023-07-07 10:12:24', 'Se reemplazaron los ventiladores de 220 por unos de 48V', 2, 90, 10),
 (44, 'IP', '2023-07-07 11:44:41', '2023-07-07 11:44:41', '192.168.1.136', 1, 92, 10),
 (45, 'Codec audio', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'MPEG2- mejor recepción de clientes', 1, 92, 10),
-(46, 'Ficha alimentación', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'falla en la ficha de alimentación del mod, se asistió por teléfono para encontrar la falla', 2, 93, 10),
+(46, 'Ficha alimentación', '2023-07-07 11:44:41', '2023-07-10 16:34:07', 'falla en la ficha de alimentación del mod, se asistió por teléfono para encontrar la falla.', 2, 93, 10),
 (47, 'Señal #2', '2023-07-07 11:44:41', '2023-07-07 11:44:41', 'se agregó la señal 16.2', 3, 93, 10),
 (48, 'charla con cliente', '2023-07-07 13:45:43', '2023-07-07 13:45:43', 'todo OK', 1, 22, 10),
 (49, 'IP', '2023-07-07 13:45:43', '2023-07-07 13:45:43', '192.168.1.100', 3, 22, 10),
-(50, 'Fuente', '2023-07-07 20:51:42', '2023-07-07 20:51:42', 'cambio de la fuente switching 200W', 2, 90, 10);
+(50, 'Fuente', '2023-07-07 20:51:42', '2023-07-07 20:51:42', 'cambio de la fuente switching 200W', 2, 90, 10),
+(53, 'IP', '2023-07-10 18:00:27', '2023-07-10 18:00:27', '192.168.1.100', 1, 72, 5);
 
 -- --------------------------------------------------------
 
@@ -1705,7 +1706,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (8, 1, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL),
 (10, 1, 'FM5000', 'rack CTM', '4883a88e4aa7c4ef-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 7),
 (11, 1, 'TRUD70', 'STM', '0d0fb90ce98ad382-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'20', NULL),
-(13, 1, 'TRUD250', 'CTM', 'a865c54b13d4b420-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:46:01', '\'20', 9),
+(13, 1, 'TRUD250', 'STM', 'a865c54b13d4b420-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-10 16:36:01', '\'20', 9),
 (15, 1, 'TRUD500', 'CTM', 'ac25db2c48c2802b-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:47:31', '\'21', 10),
 (19, 1, 'TRUD1200', 'CTM', 'b551d0cb2c616c88-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:55:33', '\'10', 11),
 (20, 1, 'TRUD1800', 'CTM', 'e7f3f00e4feb84d3-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL),
@@ -1752,7 +1753,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
@@ -1765,10 +1766,11 @@ INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`,
 (12, '2023-06-14 12:28:20', '2023-07-06 16:41:10', '230314', 'Pedido de reparación por falla de temperatura', NULL, 1, 10, 1),
 (13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
 (14, '2023-06-16 12:14:01', '2023-07-07 11:07:21', '230516', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
-(15, '2023-06-16 12:33:40', '2023-06-26 11:18:42', '230315', 'revisar configuracion', 1, 34, 10, 2),
+(15, '2023-06-16 12:33:40', '2023-07-10 18:45:13', '230315', 'revisar configuracion', 1, 34, 10, 2),
 (17, '2023-06-17 16:02:08', '2023-06-17 16:20:02', '193454', 'cambiar de frec a 98,5MHz', 1, 2, 10, 4),
 (18, '2023-06-17 16:02:08', '2023-07-06 16:41:58', '213454', 'problemas entrada 220V', 14, 3, 10, 3),
-(19, '2023-06-17 16:02:08', '2023-07-09 15:05:22', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 1, 33, 10, 2);
+(19, '2023-06-17 16:02:08', '2023-07-09 15:05:22', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 1, 33, 10, 2),
+(20, '2023-07-11 12:22:42', '2023-07-11 12:22:42', '230711', 'revisar alimentación', 6, 92, 10, 2);
 
 -- --------------------------------------------------------
 

@@ -39,11 +39,13 @@ def all_ordenes_reparacion():
 @ordenes_reparacion.route("/orden_reparacion-<int:orden_reparacion_id>")
 def orden_reparacion(orden_reparacion_id):
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
-	return render_template("orden_reparacion.html", orden_reparacion=orden_reparacion)
+	return render_template("orden_reparacion.html", 
+							orden_reparacion=orden_reparacion, 
+							title=f'O.R. {orden_reparacion}',)
 
 
 @ordenes_reparacion.route("/add_orden_reparacion-<string:equipment_id>", methods=['GET','POST'] )
-@role_required("Admin", "Técnico", "ServicioCliente")
+@role_required("Admin", "ServicioCliente")
 def add_orden_reparacion(equipment_id):
 	form = OrdenReparacionForm()
 	if form.validate_on_submit():		
@@ -86,7 +88,7 @@ def add_orden_reparacion(equipment_id):
 def update_orden_reparacion(orden_reparacion_id):
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	if orden_reparacion.author_or != current_user and orden_reparacion.tecnicoAsignado != current_user:
-		flash(f'{orden_reparacion.author_or}, {current_user}, {current_user.role.role_name}','danger')
+		flash(f'Solo el autor {orden_reparacion.author_or} o un usuario "Admin" puede editar esta O.R.','warning')
 		abort(403) #http forbidden
 	form = OrdenReparacionForm(orden_reparacion)
 	if form.validate_on_submit():		
@@ -145,27 +147,3 @@ def update_estado(orden_reparacion_id, estado_descripcion):
 	db.session.commit()
 	flash("La órden de reparación se ha actualizado", 'success')	
 	return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id))
-
-
-@ordenes_reparacion.route("/reporte_tecnico")
-def reporte_tecnico():
-	query = db.session.query(
-			User.username.label('Nombre'),
-			func.count(Orden_reparacion.id).label('Cantidad')).\
-	join(Role, User.role_id == Role.id).\
-	filter(Role.role_name == 'tecnico').\
-	join(Orden_reparacion, Orden_reparacion.tecnico_id == User.id).\
-	group_by(User.username).\
-	order_by(func.count(Orden_reparacion.id).desc())
-
-	# Obtener los resultados
-	result = query.all()
-
-	# Obtener los resultados
-	asignaciones_tecnicos = query.all()
-	orderBy = current_app.config["ORDER_TECNICO"]	
-	return render_template('reporte_zona.html',
-							lista=asignaciones_tecnicos,
-							orderBy = orderBy,
-							nombre_reporte='Reporte de O.R. por técnico',
-							title='Reporte O.R.')

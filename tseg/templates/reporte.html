@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block content %}
+<h6 class="border-bottom border-secondary mb-4">{{ nombre_reporte }}</h6>
+<div class="row">
+    <div class="col-md-4">        
+        <table>
+            <thead>
+                <tr>
+                    {% set header_row = datos_sql[0] if datos_sql else {} %}
+                    {% set keys = header_row._mapping.keys() if header_row else [] %}
+                    {% for key in keys %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in datos_sql %}                    
+                        <tr>
+                            {% for item in row %}
+                            <td>
+                                <article class="media content-section">
+                                    <div class="media-body">
+                                        {{ item }}
+                                    </div>
+                                </article>
+                            </td>
+                            {% endfor %}
+                        </tr>                        
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>    
+    <div class="col-md-8">
+        <article class="media content-section">
+            <div class="media-body" style="background:white;">
+                <canvas id="chart"></canvas>
+            </div>
+        </article>
+        <select id="chartTypeSelect">
+            <option value="pie">Pie</option>
+            <option value="bar">Barras</option>
+          </select>
+    </div>
+</div>
+    <!-- import plugin script -->
+    <script src="static/js/Chart.min.js"></script>
+    
+    <!-- bar chart canvas element -->
+    <script>
+        const labels_json = JSON.parse('{{ labels|safe }}');
+        const data_json = JSON.parse('{{ data|safe }}');
+        const ctx = document.getElementById('chart');
+        const chartTypeSelect = document.getElementById('chartTypeSelect');
+        let chartInstance;
+
+        chartTypeSelect.addEventListener('change', function() {
+            const selectedType = chartTypeSelect.value;
+
+            chartInstance.config.type = selectedType;
+            chartInstance.update();
+          }
+        );
+
+        chartInstance = new Chart(ctx, {
+          type: 'pie',
+
+          data: {
+            labels: labels_json,
+            datasets: [{
+                color:'blue',
+                label: '#',
+                data: data_json,              
+                borderWidth: 1                
+            }]
+          },
+
+          options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+              }
+            }
+          }
+        });
+    </script>
+
+{% endblock content %}

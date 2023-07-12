@@ -12,8 +12,8 @@
 							<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Registrar Usuario</a></li>									
 							<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}">Ver cuentas de usuarios</a></li>
 							<hr>							
-							<li><a class="nav-item nav-link" href="{{ url_for('equipments.reporte_zona', orderBy='cantidad', orderOrder='desc') }}">Reporte equipos por zona</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.reporte_tecnico', user_id=current_user.id) }}">Reporte O.R. por técnico</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_zona') }}">Reporte equipos por zona</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_modelo') }}">Reporte equipos por modelo</a></li>							
 						</ul>
 					</li>
 				{% endif %}
@@ -51,6 +51,10 @@
 						<ul class="menu-vertical">
 							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Crear O.R.</a></li>
 							<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar O.R.</a></li>
+							{% if current_user.role.role_name == "Admin" or current_user.role.role_name == "ServicioCliente"%}
+								<hr>
+								<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}">Reporte O.R. por técnico</a></li>
+							{% endif %}
 						</ul>
 					</li>
 				{% endif %}

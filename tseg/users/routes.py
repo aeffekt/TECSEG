@@ -197,13 +197,13 @@ def user_historias(username):
 		return redirect(url_for('historias.historia', historia_id=historia_id))
 	user = User.query.filter_by(username=username)\
 					.first_or_404()
-	historias = Historia.query.filter_by(author_historia=user)\
-					.order_by(Historia.date_modified.desc())
+	historias = buscarLista(Historia, user)
 	orderBy = current_app.config["ORDER_HISTORIAS"]
 	return render_template('user_historias.html', 
-		orderBy=orderBy, 
-		lista=historias, 
-		user=user)
+							orderBy=orderBy, 
+							lista=historias, 
+							user=user,
+							title=f'Historias de {user.username}')
 
 
 @users.route("/user_ordenes_reparacion-<string:user_id>")
