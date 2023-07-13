@@ -17,7 +17,11 @@ pip install itsdangerous==2.0.1
 pip install email_validator
 pip install pillow (image)
 pip install requests
-pip install matplotlib
+pip install reportlab
+
+Bootstrap
+chosen
+Chart.js
 
 
 PYTHON:
