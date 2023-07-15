@@ -1,75 +1,89 @@
-<div class="navbar">
-	<nav>
-		<ul class="menu-horizontal">
-			<a class="navbar-brand" href="/"><img src="./static/images/LOGO_small.png"></a>
-			<!-- SOLO REGISTRADOS -->
-			{% if current_user.is_authenticated %}
-				<!-- SOLO admin -->
-				{% if current_user.role.role_name == "Admin" %}
-					<li>
-						<a class="menu-horizontal">Admin</a>
-						<ul class="menu-vertical">
-							<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Registrar Usuario</a></li>									
-							<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}">Ver cuentas de usuarios</a></li>
-							<hr>							
-							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_zona') }}">Reporte equipos por zona</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_modelo') }}">Reporte equipos por modelo</a></li>							
-						</ul>
-					</li>
-				{% endif %}
-				<!-- SECTOR TODOS menos INVITADOS -->
-				{% if current_user.role.role_name != "Invitado" %}
-					<li>
-						<a class="menu-horizontal">Comercial</a>
-						<ul class="menu-vertical">							
-							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Registrar Homologación</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones') }}">Buscar Homologaciónes</a></li>
-							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Agregar Modelo Equipo</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelo de equipo</a></li>
-						</ul>
-					</li>
-					<li>
-						<a class="menu-horizontal">Clientes</a>
-						<ul class="menu-vertical">
-							<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}">Registrar Cliente</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}">Buscar cliente</a></li>	
-						</ul>
-					</li>
-				
-					<li>
-						<a class="menu-horizontal">Equipos</a>
-						<ul class="menu-vertical">
-							<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}">Agregar Equipo</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}">Buscar equipo</a></li>							
-							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}">Mis historias</a></li>
-						</ul>
-					</li>						
-					<li>
-						<a class="menu-horizontal" title="Órdenes de reparación">O.R.</a>
-						<ul class="menu-vertical">
-							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Crear O.R.</a></li>
-							<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar O.R.</a></li>
-							{% if current_user.role.role_name == "Admin" or current_user.role.role_name == "ServicioCliente"%}
-								<hr>
-								<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}">Reporte O.R. por técnico</a></li>
-							{% endif %}
-						</ul>
-					</li>
-				{% endif %}
-				<!-- SECTOR PARA TODOS LOS USUARIOS -->
+<div class="navbar-nav ">	
+	<button class="menu-toggle" aria-label="Toggle Menu"></button>
+	<a class="navbar-brand-celu" href="/"><img src="./static/images/LOGO_small.png"></a>
+	<ul class="menu-horizontal">
+		<a class="navbar-brand" href="/"><img src="./static/images/LOGO_small.png"></a>
+
+		<!-- SOLO REGISTRADOS -->
+		{% if current_user.is_authenticated %}
+			<!-- SOLO admin -->
+			{% if current_user.role.role_name == "Admin" %}
 				<li>
-					<a title="Ir a mi cuenta" ><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
+					<a class="menu-horizontal">Admin</a>
 					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('users.account', user_id=current_user.id) }}">Ir a mi cuenta</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Registrar Usuario</a></li>									
+						<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}">Ver cuentas de usuarios</a></li>
+						<hr>							
+						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_zona') }}">Reporte equipos por zona</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_modelo') }}">Reporte equipos por modelo</a></li>							
 					</ul>
-				</li>				
+				</li>
 			{% endif %}
-	      	<li class="text-right">
-		       	<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="theme_icon" title="Cambiar tema">
-		    </li>
-		</ul>
-	</nav>
+			<!-- SECTOR TODOS menos INVITADOS -->
+			{% if current_user.role.role_name != "Invitado" %}
+				<li>
+					<a class="menu-horizontal">Comercial</a>
+					<ul class="menu-vertical">							
+						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Agregar Homologación</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones') }}">Buscar Homologaciónes</a></li>
+						<hr>
+						<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Agregar Modelo Equipo</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelo de equipo</a></li>
+					</ul>
+				</li>
+				<li>
+					<a class="menu-horizontal">Clientes</a>
+					<ul class="menu-vertical">
+						<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}">Registrar Cliente</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}">Buscar cliente</a></li>	
+					</ul>
+				</li>
+			
+				<li>
+					<a class="menu-horizontal">Equipos</a>
+					<ul class="menu-vertical">
+						<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}">Agregar Equipo</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}">Buscar equipo</a></li>							
+						<hr>
+						<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}">Mis historias</a></li>
+					</ul>
+				</li>						
+				<li>
+					<a class="menu-horizontal" title="Órdenes de reparación">O.R.</a>
+					<ul class="menu-vertical">
+						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Crear O.R.</a></li>
+						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar O.R.</a></li>
+						{% if current_user.role.role_name == "Admin" or current_user.role.role_name == "ServicioCliente"%}
+							<hr>
+							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}">Reporte O.R. por técnico</a></li>
+						{% endif %}
+					</ul>
+				</li>
+			{% endif %}
+			<!-- SECTOR PARA TODOS LOS USUARIOS -->
+			<li>
+				<a title="Ir a mi cuenta" ><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
+				<ul class="menu-vertical">
+					<li><a class="nav-item nav-link" href="{{ url_for('users.account', user_id=current_user.id) }}">Ir a mi cuenta</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
+				</ul>
+			</li>				
+		{% endif %}
+		<li class="text-right">
+			<img src="{{ url_for('static', filename='images/theme_dark.png') }}" id="theme_icon" title="Cambiar tema">
+		</li>
+	</ul>
+	
+
+	<script>
+		const menuToggle = document.querySelector('.menu-toggle');
+		const menuHorizontal = document.querySelector('.menu-horizontal');
+		
+		menuToggle.addEventListener('click', () => {
+		  menuHorizontal.classList.toggle('open');
+		});
+	  </script>
+	
+
+
 </div>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		
 		<meta content="initial-scale=1, width=device-width" name="viewport">
 		<meta charset="utf-8">
 
@@ -28,7 +29,7 @@
 		<!-- JS para SELECT CHOSEN downloaded-->
 		<script src="{{ url_for('static', filename='js/chosen.jquery.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/chosen.jquery.min.js') }}"></script>
-		    
+			    
 	    <!-- JS de funciones generales  -->
 		<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 		
@@ -40,11 +41,15 @@
 			<title>TECSEG</title>
 		{% endif %}
 	</head>
-	<body >	
+	<body>
+
 		<!-- NAVBAR -->
 		<header class="site-header">
-			{% include 'navbar.html' %}			
-	  	</header>	  	
+			<div class="navbar-container">
+				{% include 'navbar.html' %}
+			</div>
+	  	</header>
+
 	    <main role="main" class="container">
 	      	<div class="row">
 	        	<div class="col-md-8">
@@ -60,6 +65,7 @@
 		          	{% block content %}
 		          	{% endblock %}
 	        	</div>
+
 	        	<!-- TOOLBAR -->
 		        <div class="col-md-4">
 		        	{% include 'toolbar.html' %}
@@ -67,12 +73,14 @@
 	      	</div>
 	    </main>
 	    <br>
+
 		<footer id="footer" class="footer">
 			<div class="copyright">
 				&copy; TECSEG 2023 | <strong>Agustín Arnaiz</strong>
 			</div>
 		</footer>
 	</body>
+	
 	<!-- JS de funciones de ordenamiento y filtrado  -->
 	<script src="{{ url_for('static', filename='js/filter_order.js') }}"></script>
 

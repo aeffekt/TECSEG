@@ -49,12 +49,11 @@ def create_app(config_class=Config):
 	app.register_blueprint(reportes)
 	app.register_blueprint(errors)
 
-		# consejo de GPT para evitar form not found
+	# consejo de GPT para evitar form not found
 	@app.context_processor
 	def inject_form():
 		# Crea una instancia del formulario que quieras utilizar
 		form = SearchForm()
 		# Devuelve un diccionario con la variable form
 		return dict(form=form)
-	
 	return app

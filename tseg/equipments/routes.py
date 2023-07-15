@@ -169,40 +169,46 @@ def historias_equipo(equipment_id, tipologia_id):
 @login_required
 def print_etiqueta(equipment_id):    
 	try:
-		equipo = Equipment.query.get_or_404(equipment_id)       
-		heading = f'Etiqueta de equipo'
+		# datos del equipo
+		equipo = Equipment.query.get_or_404(equipment_id)		
 		modelo = equipo.modelo.nombre
 		numSerie = equipo.numSerie
 		homologacion = equipo.modelo.homologacion
-		x, y = A4		
-
+		
+		# formateo del texto
+		heading = f'Etiqueta de equipo'
 		numSerie_string = str(equipo.numSerie).replace('/', '_')		
 		name_etiqueta = f"{numSerie_string}.pdf"		
 		path_etiqueta = f'tseg/static/pdfs/{name_etiqueta}'
+		
+		# config CANVAS
+		x, y = A4
 		hoja_A4 = canvas.Canvas(path_etiqueta, pagesize=A4)
-
 		font_size = 9  # Tamaño de fuente en puntos
 		hoja_A4.setFont("Helvetica", font_size)  # Establecer el tamaño de fuente en el lienzo        
-
-		hoja_A4.drawCentredString(100, y-50, heading)
-		hoja_A4.drawCentredString(100, y-65, modelo)
-		hoja_A4.drawCentredString(100, y-80, numSerie)
-
 		hoja_A4.setLineWidth(0.5)
 
+		# texto de la etiqueta
+		hoja_A4.drawCentredString(100, y-50, heading)
+		hoja_A4.drawCentredString(35, y-65, 'Modelo')
+		hoja_A4.drawCentredString(100, y-65, modelo)
+		hoja_A4.drawCentredString(35, y-80, 'numSerie')
+		hoja_A4.drawCentredString(100, y-80, numSerie)
+		if homologacion:
+			hoja_A4.drawCentredString(35, y-95, 'homologacion')
+			hoja_A4.drawCentredString(100, y-95, homologacion.codigo)
+
+		# dibujos de etiqueta		
 		hoja_A4.rect(65, y-55, 70, -44) #  X, Y, DeltaX, DeltaY
 		hoja_A4.line(65, y-70, 135, y-70)
 		hoja_A4.line(65, y-85, 135, y-85)
 
-		if homologacion:
-			hoja_A4.drawCentredString(100, y-95, homologacion.codigo)
-
+		# guardar datos
 		hoja_A4.save()
-
 		equipo.etiqueta_file = name_etiqueta
 		db.session.commit()
 
-		flash(f"Se guardó la etiqueta correctamente. ",'success')
+		flash(f"La etiqueta se generó correctamente. ",'success')
 	except Exception as err:
 		flash(f"Ocurrió un error al generar la etiqueta: {err}",'warning')
 	finally:

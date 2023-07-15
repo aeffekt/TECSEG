@@ -20,7 +20,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.nombre(class="form-control form-control-sm") }}
+								{{ form.nombre(class="form-control form-control-sm", tabindex="1") }}
 							{% endif %}
 						</div>						
 						<div class="form-group">
@@ -33,7 +33,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.email(class="form-control form-control-sm") }}
+								{{ form.email(class="form-control form-control-sm", tabindex="3") }}
 							{% endif %}
 						</div>
 						<div class="form-group">
@@ -48,7 +48,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.comments(class="form-control form-control-sm", rows='2') }}
+								{{ form.comments(class="form-control form-control-sm", rows='2', tabindex="5") }}
 							{% endif %}
 						</div>
 					</div>
@@ -65,7 +65,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.apellido(class="form-control form-control-sm") }}
+								{{ form.apellido(class="form-control form-control-sm", tabindex="2") }}
 							{% endif %}
 						</div>						
 						<div class="form-group">
@@ -78,14 +78,14 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.telefono(class="form-control form-control-sm") }}
+								{{ form.telefono(class="form-control form-control-sm", tabindex="4") }}
 							{% endif %}
 						</div>
 					</div>
 					
 					<div class="row">
 						<div class="btn-group-toggle" data-toggle="buttons">
-							<button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#collapseEmpresa, #collapseDomicilio" aria-expanded="false" aria-controls="collapseEmpresa collapseDomicilio" id="buttonCollapseCliente">Información ampliada:</button>
+							<button class="btn btn-sm" type="button" , tabindex="6", data-toggle="collapse" data-target="#collapseEmpresa, #collapseDomicilio" aria-expanded="false" aria-controls="collapseEmpresa collapseDomicilio" id="buttonCollapseCliente">Información ampliada:</button>
 						</div>				
 						<div class="col-md-6">							
 							<div class="collapse" id="collapseDomicilio">
@@ -103,7 +103,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.codigo_postal(class="form-control form-control-sm", title="Ingresar CP") }}
+											{{ form.codigo_postal(class="form-control form-control-sm", title="Ingresar CP primero", tabindex="7") }}
 										{% endif %}
 									</div>
 									<div class="form-group">
@@ -118,7 +118,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.domicilio(class="form-control form-control-sm") }}
+											{{ form.domicilio(class="form-control form-control-sm", tabindex="8") }}
 										{% endif %}
 									</div>
 									<div class="form-group">
@@ -133,7 +133,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.localidad(class="form-control form-control-sm") }}
+											{{ form.localidad(class="form-control form-control-sm", tabindex="9") }}
 										{% endif %}
 									</div>
 									<div class="form-group">
@@ -148,7 +148,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.provincia(class="form-control form-control-sm") }}
+											{{ form.provincia(class="form-control form-control-sm", tabindex="10") }}
 										{% endif %}
 									</div>
 									<div class="form-group">
@@ -163,7 +163,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.pais(class="form-control form-control-sm") }}
+											{{ form.pais(class="form-control form-control-sm", tabindex="11") }}
 										{% endif %}
 									</div>
 								</div>								
@@ -183,7 +183,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.business_name(class="form-control form-control-sm") }}
+											{{ form.business_name(class="form-control form-control-sm", tabindex="12") }}
 										{% endif %}
 									</div>
 									<div class="form-group">					
@@ -196,7 +196,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.cuit(class="form-control form-control-sm" ) }}
+											{{ form.cuit(class="form-control form-control-sm" , tabindex="13") }}
 										{% endif %}
 									</div>
 									<div class="form-group">					
@@ -209,7 +209,7 @@
 												{% endfor %}
 											</div>
 										{% else %}
-											{{ form.cond_fiscal(class="form-select form-select-sm custom-select" ) }}
+											{{ form.cond_fiscal(class="form-select form-select-sm custom-select", tabindex="14" ) }}
 										{% endif %}
 									</div>
 								</div>
@@ -221,7 +221,7 @@
 			<br>
 			<div class="form-group">
 				<!-- boottrap for the submit button  -->
-				{{ form.submit(class="btn btn-outline-info") }}
+				{{ form.submit(class="btn btn-outline-info", tabindex="15") }}
 			</div>
 		</form>
 	</div>	
