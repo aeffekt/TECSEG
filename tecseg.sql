@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 14-07-2023 a las 20:20:42
+-- Tiempo de generación: 15-07-2023 a las 23:41:42
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -91,6 +91,32 @@ INSERT INTO `cond_fiscal` (`id`, `nombre`) VALUES
 (9, 'Monotributista  Social'),
 (10, 'IVA No Alcanzado'),
 (11, 'Monotributista Trabajador Independiente');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_reparacion`
+--
+
+DROP TABLE IF EXISTS `detalle_reparacion`;
+CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(1000) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `reparacion_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_detalle` (`user_id`),
+  KEY `orden_detalle` (`reparacion_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `detalle_reparacion`
+--
+
+INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modified`, `user_id`, `reparacion_id`) VALUES
+(1, 'Primer comentario', '2023-07-15 19:56:10', '2023-07-15 19:56:10', 10, 12);
 
 -- --------------------------------------------------------
 
@@ -571,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -610,7 +636,8 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (49, 'IP', '2023-07-07 13:45:43', '2023-07-07 13:45:43', '192.168.1.100', 3, 22, 10),
 (50, 'Fuente', '2023-07-07 20:51:42', '2023-07-07 20:51:42', 'cambio de la fuente switching 200W', 2, 90, 10),
 (53, 'IP', '2023-07-10 18:00:27', '2023-07-10 18:00:27', '192.168.1.100', 1, 72, 5),
-(54, '230712', '2023-07-12 09:29:31', '2023-07-12 09:29:31', 'Se constató que había una falla en el conector de salida de RF lo que producía la falla de >>ROE. Al cambiar el conector el equipo quedó funcionando bien.', 2, 20, 14);
+(54, '230712', '2023-07-12 09:29:31', '2023-07-12 09:29:31', 'Se constató que había una falla en el conector de salida de RF lo que producía la falla de >>ROE. Al cambiar el conector el equipo quedó funcionando bien.', 2, 20, 14),
+(56, 'cambio de \"ENT RF\"', '2023-07-15 00:03:03', '2023-07-15 00:04:11', 'se cambió el conector \"F\" por un \"BNC\"', 3, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -2035,6 +2062,13 @@ ALTER TABLE `client`
   ADD CONSTRAINT `client_domicilio` FOREIGN KEY (`domicilio_id`) REFERENCES `domicilio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `client_fiscal` FOREIGN KEY (`cond_fiscal_id`) REFERENCES `cond_fiscal` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `client_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `detalle_reparacion`
+--
+ALTER TABLE `detalle_reparacion`
+  ADD CONSTRAINT `orden_detalle` FOREIGN KEY (`reparacion_id`) REFERENCES `orden_reparacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_detalle` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `domicilio`

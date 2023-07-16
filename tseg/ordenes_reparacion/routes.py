@@ -2,7 +2,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Orden_reparacion, Equipment, User, Estado_or, Role
+from tseg.models import Orden_reparacion, Equipment, User, Estado_or, Detalle_reparacion
 from tseg.ordenes_reparacion.forms import OrdenReparacionForm
 from sqlalchemy import func
 from tseg.users.utils import role_required, dateFormat, buscarLista, identificador_en_corchete
@@ -38,11 +38,23 @@ def all_ordenes_reparacion():
 # ruteo de variables "Orden_reparacion_id"
 @ordenes_reparacion.route("/orden_reparacion-<int:orden_reparacion_id>")
 def orden_reparacion(orden_reparacion_id):
+	select_item = request.args.get('selectItem')
+	if select_item:
+		detalle_reparacion_id = identificador_en_corchete(select_item)		
+		return redirect(url_for('detalle_reparacions.detalle_reparacion', detalle_reparacion_id=detalle_reparacion_id))
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
-	return render_template("orden_reparacion.html", 
-							orden_reparacion=orden_reparacion, 
-							title=f'O.R. {orden_reparacion}',)
-
+	detalles_reparacion =  buscarLista(Detalle_reparacion, orden_reparacion)	
+	orderBy = current_app.config['ORDER_DETALLES']	
+	# texto para toolbar
+	item_type="Detalle de reparación"	
+	return render_template("orden_reparacion.html", title=f'O.R. {orden_reparacion}',
+											orden_reparacion=orden_reparacion,
+											legend="Ver Orden de reparación",
+											orderBy = orderBy,
+											lista=detalles_reparacion,											
+											item_type=item_type,	
+											)
+	
 
 @ordenes_reparacion.route("/add_orden_reparacion-<string:equipment_id>", methods=['GET','POST'] )
 @role_required("Admin", "ServicioCliente")

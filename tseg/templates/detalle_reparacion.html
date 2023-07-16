@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Detalle Reparación</h6>
+    <article class="media content-section">
+        
+        <div class="media-body">
+            <div class="row align-items-center">
+                <div class="col-md-11">
+                    <div class="article-metadata">
+                        <a title="ir a detalles de reparacion del Autor" class="mr-2" href="{{ url_for('users.user_detalles_reparacion', username=detalle_reparacion.author_detalle_reparacion.username) }}">
+                            <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + detalle_reparacion.author_detalle_reparacion.image_file) }}"><p>{{ detalle_reparacion.author_detalle_reparacion.username }}</a>
+                  		<small title="Fecha creación" class="text-muted">{{ detalle_reparacion.date_created.strftime('%Y-%m-%d') }}</small></p>             
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-outline-light bi-arrow-return-left" onclick="goBack()" title="Volver atrás"></button>
+                </div>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>detalle_reparacion:</small> 
+                </div>
+                <div class="col-md-9">
+                    <h5 class="aticle-title">{{ detalle_reparacion.content }}</h5>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Equipo:</small> 
+                </div>
+                <div class="col-md-9">
+                    <a class="article-title" 
+                    href="{{ url_for('equipments.equipment', equipment_id=detalle_reparacion.orden_reparacion.equipo.id) }}">
+                    <b>{{ detalle_reparacion.orden_reparacion.equipo.modelo }}</b></a>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Orden de reparación:</small> 
+                </div>
+                <div class="col-md-9">
+                    <a class="article-title" 
+                    href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=detalle_reparacion.orden_reparacion.id) }}">
+                    <b>{{ detalle_reparacion.orden_reparacion }}</b></a>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Última modificación: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ detalle_reparacion.date_modified }}</b></small>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Creado el: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ detalle_reparacion.date_created.strftime('%d-%m-%Y') }}</b></small>
+                </div>
+            </div>
+        </div>  
+        {% if detalle_reparacion.author_detalle_reparacion == current_user %}
+            <div>
+                <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar detalle de reparacion" href="{{ url_for('detalles_reparacion.update_detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id) }}"></a>
+                <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar detalle_reparacion"></a>
+            </div>
+          {% endif %}        
+    </article>
+     <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea borrarlo?</h5>
+            <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <form action="{{ url_for('detalles_reparacion.delete_detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Borrar">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

@@ -52,6 +52,10 @@ class Config:
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
 					}
+	ORDER_DETALLES = {"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",					
+					"orden_reparacion_id": "Órden de reparación",
+					}
 	ORDER_ZONA = {"cantidad": "Cantidad",
 					"provincia": "Provincia",
 					}

@@ -60,16 +60,38 @@
                 </div>
             </div>
             <hr 80%>
+
+            <a class="bi bi-chat btn btn-outline-light" title="Añadir Detalle" href="{{ url_for('detalles_reparacion.add_detalle_reparacion', orden_reparacion_id = orden_reparacion.id) }}"></a>
             {% if current_user.username == orden_reparacion.tecnicoAsignado.username or current_user.role.role_name =="Admin" %}            
-                <a class="bi bi-x-circle btn btn-outline-light" title="Cancelar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Anulada') }}"></a>
-                <a class="bi bi-check-square btn btn-outline-info" title="Finalizar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Finalizada') }}"></a>
-                
-            {% endif %}
+                <a class="bi bi-x-circle btn btn-outline-dark" title="Cancelar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Anulada') }}"></a>
+                <a class="bi bi-check-square btn btn-outline-info" title="Finalizar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Finalizada') }}"></a>                
+            {% endif %}            
             <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar O.R."  href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}"></a>
             <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar O.R."></a>
+
         </div>
     </article>
     <br>    
+
+    {% for detalle_reparacion in lista %}
+        <article class="media content-section-list">
+            <div class="media-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <a class="article-title" href="{{ url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id) }}">                            
+                            <h6 class="article-title">{{ detalle_reparacion.content }}</h6>
+                            <small class="article-content">Última modificación: <b>{{ detalle_reparacion.date_modified.strftime('%d-%m-%Y') }}</b>
+                            </small>
+                            <small>Fecha de creación: 
+                                <b>{{ detalle_reparacion.date_created.strftime('%d-%m-%Y') }}                                    
+                                </b> por el usuario <a class="article-title" href="{{ url_for('users.user_detalles_reparacion', username=detalle_reparacion.author_detalle_reparacion.username) }}">
+                                    <b>{{ detalle_reparacion.author_detalle_reparacion.username }}</b></a></small>
+                        </a>
+                    </div>                    
+                </div>
+            </div>
+        </article>
+    {% endfor %}
     
      <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
 	clients = db.relationship('Client', backref='author_cl', lazy=True)
 	equipments = db.relationship('Equipment', backref='author_eq', lazy=True)
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='author_or', lazy=True, foreign_keys='Orden_reparacion.user_id')
+	detalles_reparacion = db.relationship('Detalle_reparacion', backref='author_detalle_reparacion', lazy=True, foreign_keys='Detalle_reparacion.user_id')
 	historias = db.relationship('Historia', backref='author_historia', lazy=True)
 	ordenes_asignadas = db.relationship('Orden_reparacion', backref='tecnicoAsignado', lazy=True, foreign_keys='Orden_reparacion.tecnico_id')
 
@@ -67,6 +68,7 @@ class Client(db.Model):
 
 	def __repr__(self):
 		return f"[{self.id}] {self.nombre} {self.apellido}, {self.business_name}"
+
 
 class Cond_fiscal(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -163,6 +165,7 @@ class Historia(db.Model):
 	def __repr__(self):
 		return f"[{self.id}] {self.eq_historia.modelo.nombre} {self.title}"
 
+
 class Tipologia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	tipo = db.Column(db.String(50), unique=True, nullable=False)
@@ -170,6 +173,7 @@ class Tipologia(db.Model):
 
 	def __repr__(self):
 		return f'[{self.id}] {self.tipo}'
+
 
 class Orden_reparacion(db.Model):
 	now = datetime.now()
@@ -182,11 +186,26 @@ class Orden_reparacion(db.Model):
 	tecnico_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
-	estado_id = db.Column(db.Integer, db.ForeignKey('estado_or.id'), nullable=False)	
+	estado_id = db.Column(db.Integer, db.ForeignKey('estado_or.id'), nullable=False)
+	detalles_reparacion = db.relationship('Detalle_reparacion', backref='orden_reparacion', lazy=True)
 	
 
 	def __repr__(self):
 		return f"{self.codigo} '{self.estado}'"
+
+
+class Detalle_reparacion(db.Model):
+	now = datetime.now()
+	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+	id = db.Column(db.Integer, primary_key=True)	
+	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	content = db.Column(db.Text, nullable=False)	
+	reparacion_id = db.Column(db.Integer, db.ForeignKey('orden_reparacion.id', onupdate='CASCADE'), nullable=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+	def __repr__(self):
+		return f"[{self.id}] {self.orden_reparacion.codigo}"
 
 
 class Estado_or(db.Model):

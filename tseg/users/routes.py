@@ -2,7 +2,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
-from tseg.models import User, Historia, Equipment, Client, Role, Marca, Modelo, Orden_reparacion
+from tseg.models import User, Historia, Equipment, Client, Role, Detalle_reparacion, Modelo, Orden_reparacion
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 							RequestResetForm, ResetPasswordForm, SearchForm)
 from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista, identificador_en_corchete
@@ -212,3 +212,19 @@ def user_ordenes_reparacion(user_id):
 	ordenes_reparacion = Orden_reparacion.query.filter_by(author_or=user)\
 					.order_by(Orden_reparacion.date_modified.desc())
 	return render_template('user_ordenes_reparacion.html', title=user.user_name, ordenes_reparacion=ordenes_reparacion, user=user)
+
+
+@users.route("/user-<string:username>-detalles_reparacion")
+def user_detalles_reparacion(username):
+	select_item = request.args.get('selectItem', '')	
+	if select_item:
+		detalle_reparacion_id = identificador_en_corchete(select_item)
+		return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=detalle_reparacion_id))
+	user = User.query.filter_by(username=username).first_or_404()
+	detalles_reparacion = buscarLista(Detalle_reparacion, user)
+	orderBy = current_app.config["ORDER_DETALLES"]
+	return render_template('user_detalles_reparacion.html', 
+							orderBy=orderBy, 
+							lista=detalles_reparacion,
+							user=user,
+							title=f'Detalles de reparacion de {user.username}')
