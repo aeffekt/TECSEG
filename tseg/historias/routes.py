@@ -3,12 +3,12 @@ from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Historia, Equipment, Tipologia
 from tseg.historias.forms import HistoriaForm
-from tseg.users.utils import identificador_en_corchete, dateFormat
+from tseg.users.utils import identificador_en_corchete, dateFormat, role_required
 
 historias = Blueprint('historias', __name__)
 
 @historias.route("/historia-new-<string:equipment_id>", methods=['GET', 'POST'])
-@login_required # impide el acceso sin login
+@role_required("Admin", "Técnico") # impide el acceso sin login
 def add_historia(equipment_id):
 	form = HistoriaForm()
 	equipment = Equipment.query.get_or_404(equipment_id)
@@ -37,13 +37,14 @@ def add_historia(equipment_id):
 
 # ruteo de variables "historia_id"
 @historias.route("/historia-<int:historia_id>")
+@login_required
 def historia(historia_id):
 	historia = Historia.query.get_or_404(historia_id)	
 	return render_template("historia.html", historia=historia)
 
 
 @historias.route("/historia-<int:historia_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Técnico")
 def update_historia(historia_id):
 	historia = Historia.query.get_or_404(historia_id)
 	if historia.author_historia != current_user:
@@ -73,7 +74,7 @@ def update_historia(historia_id):
 												legend="Editar historia")
 
 @historias.route("/historia-<int:historia_id>-delete", methods=['POST'])
-@login_required
+@role_required("Admin", "Técnico")
 def delete_historia(historia_id):
 	historia = Historia.query.get_or_404(historia_id)
 	if historia.author_historia != current_user:

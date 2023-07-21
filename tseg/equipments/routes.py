@@ -4,8 +4,6 @@ from tseg.models import Equipment, Client, Historia, Modelo, Frecuencia, Orden_r
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.utils import role_required, identificador_en_corchete, dateFormat, buscarLista
 from tseg import db
-from datetime import datetime
-from sqlalchemy import func
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 

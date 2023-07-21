@@ -17,6 +17,7 @@ def obtener_datos_geograficos():
 	# Retorna los datos en formato JSON
 	return jsonify(localidad=localidad, provincia=provincia, pais=pais)
 
+
 @clients.route("/all_clients")
 @role_required("ServicioCliente", "Admin", "Técnico")
 def all_clients():
@@ -37,6 +38,7 @@ def all_clients():
 
 # ruteo de variables "client_id"
 @clients.route("/client-<int:client_id>")
+@login_required
 def client(client_id):
 	client = Client.query.get_or_404(client_id)	
 	return render_template("client.html", title=f'{client.nombre} {client.apellido}',
@@ -44,7 +46,7 @@ def client(client_id):
 
 
 @clients.route("/add_client", methods=['GET','POST'] )
-@role_required("ServicioCliente", "Admin", "Técnico")
+@role_required("ServicioCliente", "Admin", "Técnico", "Comercial")
 def add_client():
 	form = ClientForm()
 	if form.validate_on_submit():
@@ -97,20 +99,20 @@ def add_client():
 												legend="Registrar cliente")
 
 @clients.route("/client-<int:client_id>-update", methods=['GET', 'POST'])
-@role_required("ServicioCliente", "Admin", "Técnico")
+@role_required("ServicioCliente", "Admin", "Técnico", "Comercial")
 def update_client(client_id):
 	client = Client.query.get_or_404(client_id)
 	form = ClientForm()
 	if form.validate_on_submit():
+		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
+		domicilio.direccion = form.domicilio.data
 		if form.pais.data != '':			
 			pais = Pais.query.filter_by(nombre=form.pais.data).first()			
 		if form.provincia.data:
 			provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais_id=pais.id).first()
 		if form.localidad.data:
-			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()		
-		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
-		domicilio.direccion = form.domicilio.data
-		domicilio.localidad = localidad
+			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()
+			domicilio.localidad = localidad
 		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
 		client.cond_fiscal_id = cond_fiscal.id
 		client.domicilio_id = domicilio.id
@@ -167,6 +169,7 @@ def delete_client(client_id):
 
 
 @clients.route("/client_equipments-<string:client_id>")
+@login_required
 def client_equipments(client_id):	
 	client = Client.query.filter_by(id=client_id).first_or_404()
 	equipments = Equipment.query.filter_by(owner=client)\

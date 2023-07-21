@@ -9,6 +9,7 @@ from tseg import db
 homologaciones = Blueprint('homologaciones', __name__)
 
 @homologaciones.route("/all_homologaciones")
+@login_required
 def all_homologaciones():
 	select_item = request.args.get('selectItem', '')
 	if select_item:		

@@ -21,16 +21,18 @@
 			{% endif %}
 			<!-- SECTOR TODOS menos INVITADOS -->
 			{% if current_user.role.role_name != "Invitado" %}
-				<li>
-					<a class="menu-horizontal">Comercial</a>
-					<ul class="menu-vertical">							
-						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Agregar Homologación</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones') }}">Buscar Homologaciónes</a></li>
-						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Agregar Modelo Equipo</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelo de equipo</a></li>
-					</ul>
-				</li>
+				{% if current_user.role.role_name == "Comercial" or current_user.role.role_name == "Admin" %}
+					<li>
+						<a class="menu-horizontal">Comercial</a>
+						<ul class="menu-vertical">							
+							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Agregar Homologación</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}">Buscar Homologaciónes</a></li>
+							<hr>
+							<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Agregar Modelo Equipo</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelo de equipo</a></li>
+						</ul>
+					</li>
+				{% endif %}
 				<li>
 					<a class="menu-horizontal">Clientes</a>
 					<ul class="menu-vertical">
@@ -47,18 +49,20 @@
 						<hr>
 						<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}">Mis historias</a></li>
 					</ul>
-				</li>						
-				<li>
-					<a class="menu-horizontal" title="Órdenes de reparación">O.R.</a>
-					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Crear O.R.</a></li>
-						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar O.R.</a></li>
-						{% if current_user.role.role_name == "Admin" or current_user.role.role_name == "ServicioCliente"%}
-							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}">Reporte O.R. por técnico</a></li>
-						{% endif %}
-					</ul>
 				</li>
+				{% if current_user.role.role_name == "ServicioCliente" or current_user.role.role_name == "Admin"  or current_user.role.role_name == "Técnico"%}
+					<li>
+						<a class="menu-horizontal" title="Órdenes de reparación">O.R.</a>
+						<ul class="menu-vertical">
+							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Crear O.R.</a></li>
+							<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar O.R.</a></li>
+							{% if current_user.role.role_name == "Admin" or current_user.role.role_name == "ServicioCliente"%}
+								<hr>
+								<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}">Reporte O.R. por técnico</a></li>
+							{% endif %}
+						</ul>
+					</li>
+				{% endif %}
 			{% endif %}
 			<!-- SECTOR PARA TODOS LOS USUARIOS -->
 			<li>

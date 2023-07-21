@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 15-07-2023 a las 23:41:42
+-- Tiempo de generación: 20-07-2023 a las 16:19:18
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -109,14 +109,14 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `orden_detalle` (`reparacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_reparacion`
 --
 
 INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modified`, `user_id`, `reparacion_id`) VALUES
-(1, 'Primer comentario', '2023-07-15 19:56:10', '2023-07-15 19:56:10', 10, 12);
+(1, 'Se constató que el equipo presenta fallas por sobre temperatura >>T. Queda a la espera de una revisión integral. Posible falla en la placa de medición de flujo de aire', '2023-07-15 19:56:10', '2023-07-15 20:54:18', 10, 12);
 
 -- --------------------------------------------------------
 
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -146,7 +146,9 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (7, 'Mariano Moreno 678', 33),
 (8, 'Calle Dominico 276', 973),
 (9, 'Litoral 432', 766),
-(10, 'calle 54', 184);
+(10, 'calle 54', 184),
+(11, '', 3),
+(12, 'Calle 5', 184);
 
 -- --------------------------------------------------------
 
@@ -597,7 +599,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -637,7 +639,7 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (50, 'Fuente', '2023-07-07 20:51:42', '2023-07-07 20:51:42', 'cambio de la fuente switching 200W', 2, 90, 10),
 (53, 'IP', '2023-07-10 18:00:27', '2023-07-10 18:00:27', '192.168.1.100', 1, 72, 5),
 (54, '230712', '2023-07-12 09:29:31', '2023-07-12 09:29:31', 'Se constató que había una falla en el conector de salida de RF lo que producía la falla de >>ROE. Al cambiar el conector el equipo quedó funcionando bien.', 2, 20, 14),
-(56, 'cambio de \"ENT RF\"', '2023-07-15 00:03:03', '2023-07-15 00:04:11', 'se cambió el conector \"F\" por un \"BNC\"', 3, 1, 10);
+(56, 'cambio de \"ENT RF\"', '2023-07-15 00:03:03', '2023-07-17 12:36:24', 'se cambió el conector \"F\" por un \"BNC\"', 3, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -1756,7 +1758,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (49, 0, 'Switch', '', 'a1c2e38a214e88e7.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
 (50, 0, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
 (51, 1, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8),
-(52, 2, 'FM250', '', '3481b256c88d0518.jpg', '2023-07-14 15:35:14', '2023-07-14 15:35:14', '\'23', 3);
+(52, 2, 'FM250', 'CTM', '58c5972424fa6b34.png', '2023-07-20 10:24:25', '2023-07-20 10:24:25', '\'23', 3);
 
 -- --------------------------------------------------------
 
@@ -1781,7 +1783,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
@@ -2080,7 +2082,7 @@ ALTER TABLE `domicilio`
 -- Filtros para la tabla `equipment`
 --
 ALTER TABLE `equipment`
-  ADD CONSTRAINT `eq_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;

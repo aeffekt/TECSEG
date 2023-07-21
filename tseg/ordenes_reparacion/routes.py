@@ -11,6 +11,7 @@ from tseg.users.utils import role_required, dateFormat, buscarLista, identificad
 ordenes_reparacion = Blueprint('ordenes_reparacion', __name__)
 
 @ordenes_reparacion.route("/all_ordenes_reparacion")
+@login_required
 def all_ordenes_reparacion():
 	try:
 		select_item = request.args.get('selectItem', '')
@@ -37,6 +38,7 @@ def all_ordenes_reparacion():
 
 # ruteo de variables "Orden_reparacion_id"
 @ordenes_reparacion.route("/orden_reparacion-<int:orden_reparacion_id>")
+@login_required
 def orden_reparacion(orden_reparacion_id):
 	select_item = request.args.get('selectItem')
 	if select_item:
@@ -96,7 +98,7 @@ def add_orden_reparacion(equipment_id):
 
 
 @ordenes_reparacion.route("/update_orden_reparacion-<int:orden_reparacion_id>", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "ServicioCliente", "Técnico")
 def update_orden_reparacion(orden_reparacion_id):
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	if orden_reparacion.author_or != current_user and orden_reparacion.tecnicoAsignado != current_user:
@@ -139,7 +141,7 @@ def update_orden_reparacion(orden_reparacion_id):
 
 
 @ordenes_reparacion.route("/orden_reparacion-<int:orden_reparacion_id>-delete", methods=['POST'])
-@role_required("Admin", "Técnico")
+@role_required("Admin", "ServicioCliente")
 def delete_orden_reparacion(orden_reparacion_id):
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	if orden_reparacion.author_or != current_user:
@@ -151,6 +153,7 @@ def delete_orden_reparacion(orden_reparacion_id):
 
 
 @ordenes_reparacion.route("/update_estado-<int:orden_reparacion_id>-<string:estado_descripcion>", methods=['GET'])
+@role_required("Admin", "ServicioCliente", "Técnico")
 def update_estado(orden_reparacion_id, estado_descripcion):
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	estado_or = Estado_or.query.filter_by(descripcion=estado_descripcion).first()	

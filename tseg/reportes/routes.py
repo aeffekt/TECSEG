@@ -37,6 +37,7 @@ def reporte_tecnico():
 	cantidades_json = json.dumps(cantidades)
 
 	return render_template('reporte.html',
+							chart_type='bar',
 							labels=labels_json,
 							data=cantidades_json,
 							datos_sql=asignaciones_tecnicos,
@@ -67,6 +68,7 @@ def reporte_zona():
 	labels_json = json.dumps(provincias)
 	cantidades_json = json.dumps(cantidades)
 	return render_template('reporte.html',
+							chart_type='pie',
 							labels=labels_json,
 							data=cantidades_json,
 							datos_sql=equipos_por_provincia,
@@ -94,6 +96,7 @@ def reporte_modelo():
 	cantidades_json = json.dumps(cantidades)
 
 	return render_template('reporte.html',
+							chart_type='bar',
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_modelo,

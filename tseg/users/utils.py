@@ -7,32 +7,45 @@ from flask_mail import Message
 from tseg import mail
 from functools import wraps
 from datetime import datetime
-from tseg.models import Equipment, Client, User, Historia, Orden_reparacion, Localidad, Provincia, Pais, Tipologia
+from tseg.models import Equipment, User, Historia, Orden_reparacion, Localidad, Provincia, Pais, Detalle_reparacion
 from sqlalchemy import asc, desc
 
 
 # obtener el nombre del atributo para filtrar la búsqueda
 def buscarLista(dBModel, *arg):
 	order_by = dBModel.__table__.columns.keys()[0]
-	select_item = request.args.get('selectItem', '')
+
 	# Obtener los valores de filterBy y filterOrder desde la solicitud
+	select_item = request.args.get('selectItem', '')
 	if not select_item:
 		# sino hay un elemento seleccionado, carga orden por parametro
 		order_by = request.args.get('orderBy', order_by)
-	order_order = request.args.get('orderOrder', 'desc')
+	
 	sort_column = getattr(dBModel, order_by)
 
-	# ORDEN	
+	# ORDEN
+	order_order = request.args.get('orderOrder', 'desc')
 	if order_order == "asc":
 		orden = asc(sort_column)
 	else:
 		orden = desc(sort_column)
 
+		
+	# Si el modelo tiene la columna "date_modified," ordenar por ella en segunda instancia
+	#if hasattr(dBModel, 'date_modified'):
+	#	sort_column = (sort_column, getattr(dBModel, 'date_modified'))
+
 	lista = dBModel.query.order_by(orden)	
+
 	if arg:
+		# filtrado extra de Detalle Reparación
+		if dBModel==Detalle_reparacion:
+			# para un OR determinada
+			if isinstance(arg[0], Orden_reparacion):
+				lista = lista.filter_by(reparacion_id=arg[0].id)
 
 		# filtrado extra de O.R.
-		if dBModel==Orden_reparacion:
+		elif dBModel==Orden_reparacion:
 			# ordenes de reparacion por tecnico
 			if isinstance(arg[0], User):
 				lista = lista.filter_by(tecnico_id=arg[0].id)
@@ -43,13 +56,11 @@ def buscarLista(dBModel, *arg):
 		
 		# filtrado extra Historias 
 		elif dBModel==Historia:
-
 			# para un equipo determinado
 			if isinstance(arg[0], Equipment):
 				lista = lista.filter_by(equipo_id=arg[0].id)
 				if len(arg)==2:
 					lista.filter_by(tipologia_id=arg[1])
-
 			# para un usuario determinado
 			if isinstance(arg[0], User):
 				print(arg)

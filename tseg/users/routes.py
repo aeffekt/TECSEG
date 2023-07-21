@@ -24,7 +24,8 @@ def register():
 	if form.validate_on_submit():
 		# creación de usuario válido y protección de contraseña
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		role = Role.query.filter_by(role_name=form.role.data).first()
+		role = Role.query.get(form.role.data)
+		#role = Role.query.filter_by(role_name=form.role.data).first()
 		user = User(username=form.username.data, 
 			email=form.email.data, 
 			password=hashed_password, 
@@ -74,7 +75,7 @@ def account(user_id):
 				user.image_file = picture_file
 			user.username = form.username.data
 			user.email = form.email.data
-			role = Role.query.filter_by(role_name=form.role.data).first()
+			role = Role.query.get(form.role.data)
 			user.role = role
 			db.session.commit()
 			flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
@@ -84,8 +85,8 @@ def account(user_id):
 			db.session.rollback()
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('users.account', user_id=user.id))
-	elif request.method == 'GET':		
-		form.role.default = user.role
+	elif request.method == 'GET':
+		form.role.default = user.role.id
 		form.process()
 		form.username.data = user.username
 		form.email.data = user.email		
@@ -133,6 +134,7 @@ def reset_token(token):
 
 
 @users.route("/search", methods=['GET', 'POST'])
+@login_required
 def search():
 	form = SearchForm()	
 	if form.validate_on_submit():
@@ -190,6 +192,7 @@ def all_users():
 
 
 @users.route("/user-<string:username>-historias")
+@login_required
 def user_historias(username):
 	select_item = request.args.get('selectItem', '')	
 	if select_item:
@@ -207,6 +210,7 @@ def user_historias(username):
 
 
 @users.route("/user_ordenes_reparacion-<string:user_id>")
+@login_required
 def user_ordenes_reparacion(user_id):
 	user = User.query.filter_by(id=user_id).first_or_404()
 	ordenes_reparacion = Orden_reparacion.query.filter_by(author_or=user)\
@@ -215,6 +219,7 @@ def user_ordenes_reparacion(user_id):
 
 
 @users.route("/user-<string:username>-detalles_reparacion")
+@login_required
 def user_detalles_reparacion(username):
 	select_item = request.args.get('selectItem', '')	
 	if select_item:

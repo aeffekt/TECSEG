@@ -12,6 +12,7 @@ from datetime import datetime
 modelos = Blueprint('modelos', __name__)
 
 @modelos.route("/all_modelos")
+@login_required
 def all_modelos():
 	try:
 		select_item = request.args.get('selectItem', '')

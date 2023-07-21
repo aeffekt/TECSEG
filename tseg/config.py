@@ -26,8 +26,7 @@ class Config:
 	ORDER_EQUIPOS= {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",
 					"anio": "Año de fabricación",
-					"modelo_id": "Modelo",
-					"marca_id": "Marca",
+					"modelo_id": "Modelo",					
 					"frecuencia_id": "Canal / Frecuencia",					
 					"client_id": "Cliente",
 					"numSerie": "Número de serie",
@@ -45,10 +44,10 @@ class Config:
 					"tipologia_id": "Tipología",
 					"equipo_id": "equipo",
 					}
-	ORDER_OR = {"estado_id": "estado",
+	ORDER_OR = {"estado_id": "Estado",
 					"codigo": "Código",					
 					"tecnico_id": "Técnico asignado",
-					"equipo_id": "equipo",					
+					"equipo_id": "Equipo",					
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
 					}

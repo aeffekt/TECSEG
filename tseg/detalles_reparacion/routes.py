@@ -3,12 +3,12 @@ from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Detalle_reparacion, Orden_reparacion
 from tseg.detalles_reparacion.forms import DetalleReparacionForm
-from tseg.users.utils import dateFormat
+from tseg.users.utils import dateFormat, role_required
 
 detalles_reparacion = Blueprint('detalles_reparacion', __name__)
 
 @detalles_reparacion.route("/detalle-new-<string:orden_reparacion_id>", methods=['GET', 'POST'])
-@login_required # impide el acceso sin login
+@role_required("Admin", "Técnico") # impide el acceso sin login
 def add_detalle_reparacion(orden_reparacion_id):
 	form = DetalleReparacionForm()
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
@@ -33,13 +33,14 @@ def add_detalle_reparacion(orden_reparacion_id):
 
 # ruteo de variables "detalle_reparacion_id"
 @detalles_reparacion.route("/detalle-<int:detalle_reparacion_id>")
+@login_required
 def detalle_reparacion(detalle_reparacion_id):
 	detalle_reparacion = Detalle_reparacion.query.get_or_404(detalle_reparacion_id)	
 	return render_template("detalle_reparacion.html", detalle_reparacion=detalle_reparacion)
 
 
 @detalles_reparacion.route("/detalle-<int:detalle_reparacion_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Técnico")
 def update_detalle_reparacion(detalle_reparacion_id):
 	detalle_reparacion = Detalle_reparacion.query.get_or_404(detalle_reparacion_id)
 	if detalle_reparacion.author_detalle_reparacion != current_user:
@@ -62,7 +63,7 @@ def update_detalle_reparacion(detalle_reparacion_id):
 												legend="Editar detalle de reparación")
 
 @detalles_reparacion.route("/detalle-<int:detalle_reparacion_id>-delete", methods=['POST'])
-@login_required
+@role_required("Admin", "Técnico")
 def delete_detalle_reparacion(detalle_reparacion_id):
 	detalle_reparacion = Detalle_reparacion.query.get_or_404(detalle_reparacion_id)
 	# se guarda la or id para que no de error al no encontrar el detalle en redirect
