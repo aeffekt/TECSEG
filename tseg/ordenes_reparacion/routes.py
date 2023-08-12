@@ -63,10 +63,7 @@ def orden_reparacion(orden_reparacion_id):
 def add_orden_reparacion(equipment_id):
 	form = OrdenReparacionForm()
 	if form.validate_on_submit():		
-		numSerie = identificador_en_corchete(form.equipo.data)
-		equipment = Equipment.query.filter_by(numSerie=numSerie).first()
-		username = form.tecnico.data.split()[0]  # Obtener el nombre de usuario del valor __repr__		
-		user = User.query.filter_by(username=username).first()
+		user = User.query.get(form.tecnico.data)
 		if user:
 			estado_id = 2 # si hay tecnico asignado se pone en "asignada"
 		else:
@@ -77,7 +74,7 @@ def add_orden_reparacion(equipment_id):
 							author_or=current_user, 
 							tecnicoAsignado=user,
 							estado_id=estado_id,
-							equipo=equipment)
+							equipo_id=form.equipo.data)
 		try:
 			db.session.add(orden_reparacion)
 			db.session.commit()
@@ -85,16 +82,15 @@ def add_orden_reparacion(equipment_id):
 			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id))
 		except Exception as err:
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
-			return redirect(url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=equipment.id))
-	elif request.method == 'GET':
-		equipment = Equipment.query.filter_by(id=equipment_id).first()
-		if equipment: # CARGA EL VALOR 'DEFAULT' EN SELECT si encuentra un equipo
-			form.equipo.default = equipment
-			form.process() 
+			return redirect(url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=equipment.id))	
+	equipment = Equipment.query.filter_by(id=equipment_id).first()
+	if equipment: # CARGA EL VALOR 'DEFAULT' EN SELECT si encuentra un equipo
+		form.equipo.default = equipment.id
+		form.process() 
 	return render_template('create_orden_reparacion.html', 
-												title='Agregar O.R.', 
+												title='Registrar O.R.', 
 												form=form, 
-												legend="Crear órden de reparación")
+												legend="Registrar órden de reparación")
 
 
 @ordenes_reparacion.route("/update_orden_reparacion-<int:orden_reparacion_id>", methods=['GET', 'POST'])
@@ -105,17 +101,14 @@ def update_orden_reparacion(orden_reparacion_id):
 		flash(f'Solo el autor {orden_reparacion.author_or} o un usuario "Admin" puede editar esta O.R.','warning')
 		abort(403) #http forbidden
 	form = OrdenReparacionForm(orden_reparacion)
-	if form.validate_on_submit():		
-		numSerie = identificador_en_corchete(form.equipo.data)
-		equipment = Equipment.query.filter_by(numSerie=numSerie).first()
-		username = form.tecnico.data.split()[0]  # Obtener el nombre de usuario del valor __repr__		
-		user = User.query.filter_by(username=username).first()
+	if form.validate_on_submit():
+		user = User.query.get(form.tecnico.data)
 		if user:			
 			orden_reparacion.estado_id = 2 # si se asignó un técnico, se cambia el estado
 		else:
 			orden_reparacion.estado_id = 1
 		orden_reparacion.tecnicoAsignado = user
-		orden_reparacion.equipo = equipment
+		orden_reparacion.equipo_id = form.equipo.data
 		orden_reparacion.date_modified = dateFormat()
 		orden_reparacion.codigo = form.codigo.data
 		orden_reparacion.content = form.content.data
@@ -126,11 +119,9 @@ def update_orden_reparacion(orden_reparacion_id):
 		except Exception as err:
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id))
-	elif request.method == 'GET':
-		# si no hay tecnico asignado lo deja vacio
-		if orden_reparacion.tecnicoAsignado:
-			form.tecnico.default = orden_reparacion.tecnicoAsignado
-		form.equipo.default = orden_reparacion.equipo		
+	elif request.method == 'GET':		
+		form.tecnico.default = orden_reparacion.tecnico_id
+		form.equipo.default = orden_reparacion.equipo_id	
 		form.process()
 		form.codigo.data = orden_reparacion.codigo
 		form.content.data = orden_reparacion.content	

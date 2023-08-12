@@ -6,16 +6,16 @@ from tseg.models import Equipment, User, Orden_reparacion
 class OrdenReparacionForm(FlaskForm):
 	def __init__(self, objeto=None):
 		super(OrdenReparacionForm, self).__init__()  # Llamar al constructor de la clase padre
-		self.equipo.choices = [e for e in Equipment.query.all()]
-		self.equipo.choices.insert(0,'') # agrega item "sin datos"
-		self.tecnico.choices = [t for t in User.query.filter_by(role_id=3)]
-		self.tecnico.choices.insert(0,'Asignación pendiente') # agrega item
+		self.equipo.choices = [(e.id, e) for e in Equipment.query.all()]
+		self.equipo.choices.insert(0,(0, '')) # agrega item "sin datos"
+		self.tecnico.choices = [(t.id, t) for t in User.query.filter_by(role_id=3)]
+		self.tecnico.choices.insert(0,(0, 'Asignación pendiente')) # agrega item
 		self.objeto = objeto
 
 	codigo = StringField('Código', validators=[DataRequired()])
 	content = TextAreaField('Descripción', validators=[DataRequired()])
-	equipo = SelectField('Equipo', coerce=str, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
-	tecnico = SelectField('Técnico encargado', coerce=str, validate_choice=False)
+	equipo = SelectField('Equipo', coerce=int, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
+	tecnico = SelectField('Técnico encargado', coerce=int, validate_choice=False)
 	submit = SubmitField('Agregar')
 
 	def validate_codigo(self, codigo):

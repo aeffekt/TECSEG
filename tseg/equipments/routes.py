@@ -62,34 +62,27 @@ def equipment(equipment_id):
 @role_required("Admin", "Técnico")
 def add_equipment(client_id):	
 	form = EquipmentForm()
-	try:		
-		if form.validate_on_submit():		
-			client_id = identificador_en_corchete(form.owner.data)		
-			nombre_mod, anio_mod = form.modelo.data.split()
-			modelo = Modelo.query.filter_by(nombre=nombre_mod, anio=anio_mod).first()
-			frecuencia = Frecuencia.query.filter_by(canal=form.frecuencia.data).first()		
+	if form.validate_on_submit():
+		try:		
 			equipment = Equipment(numSerie=form.numSerie.data,
 							content=form.content.data,
 							anio=form.anio.data,
 							author_eq=current_user,
-							modelo=modelo,
-							frecuencia_eq=frecuencia,
-							client_id=client_id)
-		
+							modelo_id=form.modelo.data,
+							frecuencia_id=form.frecuencia.data,
+							client_id=form.owner.data)		
 			db.session.add(equipment)
 			db.session.commit()
 			flash(f'Equipo {equipment.numSerie} agregado!', 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc'))
-	except Exception as err:
-		flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
-		return redirect(url_for('equipments.add_equipment', client_id=client_id))
-	client = Client.query.filter_by(id=client_id).first()
-	if client:
-		form.owner.default = f'[{client.id}] {client.nombre} {client.apellido}, {client.business_name}'
-		form.process()
-	return render_template('create_equipment.html', title='Agregar equipo', 
+		except Exception as err:
+			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+			return redirect(url_for('equipments.add_equipment', client_id=client_id))	
+	form.owner.default = client_id
+	form.process()
+	return render_template('create_equipment.html', title='Registrar equipo', 
 												form=form, 
-												legend="Agregar equipo")
+												legend="Registrar equipo")
 
 
 @equipments.route("/equipment-<int:equipment_id>-update", methods=['GET', 'POST'])
@@ -98,14 +91,10 @@ def update_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	form = EquipmentForm()
 	if form.validate_on_submit():		
-		client_id = identificador_en_corchete(form.owner.data)		
-		nombre_mod, anio_mod = form.modelo.data.split()
-		modelo = Modelo.query.filter_by(nombre=nombre_mod, anio=anio_mod).first()
-		frecuencia = Frecuencia.query.filter_by(canal=form.frecuencia.data).first()
 		equipment.numSerie = form.numSerie.data
-		equipment.client_id = client_id
-		equipment.modelo = modelo
-		equipment.frecuencia_id = frecuencia.id		
+		equipment.client_id = form.owner.data
+		equipment.modelo_id = form.modelo.data
+		equipment.frecuencia_id = form.frecuencia.data		
 		equipment.content = form.content.data
 		equipment.anio = form.anio.data		
 		equipment.date_modified = dateFormat()
@@ -118,11 +107,11 @@ def update_equipment(equipment_id):
 		except Exception as err:
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('equipments.update_equipment', equipment_id=equipment.id))
-	elif request.method == 'GET':		
-		form.owner.default = f'[{equipment.owner.id}] {equipment.owner.nombre} {equipment.owner.apellido}, {equipment.owner.business_name}'
+	elif request.method == 'GET':
 		form.anio.default = equipment.anio
-		form.modelo.default = equipment.modelo if equipment.modelo else None
-		form.frecuencia.default = equipment.frecuencia_eq.canal if equipment.frecuencia_eq else None		
+		form.owner.default = equipment.owner.id		
+		form.modelo.default = equipment.modelo_id
+		form.frecuencia.default = equipment.frecuencia_eq.canal if equipment.frecuencia_eq else None
 		form.process()		
 		form.numSerie.data = equipment.numSerie
 		form.content.data = equipment.content

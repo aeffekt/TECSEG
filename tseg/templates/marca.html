@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}		
+	<div class="content-section">
+	  	<div class="media">
+	  		<legend class="border-bottom mb-4">Marca de equipo</legend>
+	  		<div class="row">
+		    	<div class="col-md-9">
+				    <div class="media-body">
+					    <h2 class="account-heading">{{ marca  }}</h2>						
+				    </div>
+				</div>
+			</div>			
+	  	</div>
+	  	<hr 90%>
+	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
+		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
+			{{ form.hidden_tag() }} <!-- part of protection -->
+			<fieldset class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						<div id="nombre" class="form-group" autofocus>
+							{{ form.nombre.label(class="form-control-label") }}
+							{% if form.nombre.errors %}
+								{{ form.nombre(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.nombre.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.nombre(class="form-control form-control-sm") }}
+							{% endif %}
+						</div>						
+					</div>
+				</div>
+			</fieldset>
+			<br>			
+			<div id="submit" class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+				<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar"></a>
+			</div>
+		</form>
+	</div>
+	<!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar "{{ marca.nombre }} {{ marca.anio }}"?</h5>
+            <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <form action="{{ url_for('marcas.delete_marca', marca_id=marca.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Borrar">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

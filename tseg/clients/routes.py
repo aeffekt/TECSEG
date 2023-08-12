@@ -75,7 +75,7 @@ def add_client():
 			if not domicilio:			
 				domicilio = Domicilio(direccion=form.domicilio.data, localidad=localidad)
 				db.session.add(domicilio)		
-			cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
+			cond_fiscal = Cond_fiscal.query.get(form.cond_fiscal.data)
 			client = Client(nombre=form.nombre.data,
 							apellido=form.apellido.data,
 							business_name=form.business_name.data,
@@ -113,8 +113,8 @@ def update_client(client_id):
 		if form.localidad.data:
 			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()
 			domicilio.localidad = localidad
-		cond_fiscal = Cond_fiscal.query.filter_by(nombre=form.cond_fiscal.data).first()
-		client.cond_fiscal_id = cond_fiscal.id
+		
+		client.cond_fiscal_id = form.cond_fiscal.data
 		client.domicilio_id = domicilio.id
 		client.nombre = form.nombre.data
 		client.apellido = form.apellido.data
@@ -132,7 +132,7 @@ def update_client(client_id):
 			return redirect(url_for('clients.client', client_id=client.id))
 			
 	elif request.method == 'GET':
-		form.cond_fiscal.default = client.cond_fiscal.nombre		
+		form.cond_fiscal.default = client.cond_fiscal.id		
 		form.process()
 		form.nombre.data = client.nombre
 		form.apellido.data = client.apellido

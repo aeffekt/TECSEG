@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 20-07-2023 a las 16:19:18
+-- Tiempo de generación: 09-08-2023 a las 14:23:08
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -45,15 +45,15 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `domicilio_id` (`domicilio_id`),
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
 --
 
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`) VALUES
-(1, 'Canal 13', 'San Luis', 'Canal 13 televisión', NULL, '42432432', '', 'Director Nasim', 1, 1, 1),
-(2, 'Héctor', 'Bonarrico', 'Jesus Te Ama', NULL, '261 618 8088', '', 'ANYDESK: 255 433 310\r\npass: ?\r\n\r\nEnlace 11G\r\n\r\nTecnico Luis Fernandez (externo) - 261 558 6978\r\nTecnico Juan Silva (interno) - 261 618 8088', 4, 2, 1),
+(1, 'Canal 13', 'San Luis', 'Canal 13 televisión', NULL, '42432432', '', 'Director Nasim', 1, 1, 2),
+(2, 'Héctor', 'Bonarrico', 'Jesus Te Ama', NULL, '261 618 8088', '', 'ANYDESK: 255 433 310. pass: ?\r\nEnlace 11G\r\nTécnico Luis Fernandez (externo) - 261 558 6978\r\nTecnico Juan Silva (interno) - 261 618 8088', 4, 2, 1),
 (3, 'Juan Antonio', 'Acompanies', 'REMAR', 34243243242, '954-424687', 'jaaco@remar.com.ar', 'Exportador a Paraguay', 4, 3, 1),
 (4, 'Pedro', 'Almirón', 'Radio Total FM', 20432432421, '2147483647', 'palmiron@yahoo.com', 'teléfono del técnico\r\nFernandez: 2996-1235432\r\n10-14hs solamente', 4, 4, 3),
 (6, 'Mariangeles', 'Gonzalez', 'MARIAN S.A.', 20432432421, '2147483647', NULL, 'persona ficticia', 1, 5, 1),
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `orden_detalle` (`reparacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_reparacion`
@@ -599,7 +599,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -655,7 +655,7 @@ CREATE TABLE IF NOT EXISTS `homologacion` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_homologacion_codigo` (`codigo`),
   UNIQUE KEY `uq_homologacion_modelo` (`modelo`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `homologacion`
@@ -1681,7 +1681,7 @@ CREATE TABLE IF NOT EXISTS `marca` (
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_marca_nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `marca`
@@ -1718,7 +1718,7 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   UNIQUE KEY `uq_modelo_nombre_anio` (`nombre`,`anio`),
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
@@ -1753,12 +1753,11 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (38, 4, 'LP211', 'CTM', 'a3bd839633bbd039.png', '2023-06-30 10:17:39', '2023-07-04 10:28:56', '\'18', NULL),
 (40, 2, 'FM100', 'enc. posterior', '2e02a8e0c60f655d-removebg-preview.png', '2023-06-30 12:39:07', '2023-07-09 12:18:53', '\'23', 2),
 (46, 1, 'TRV100', 'STM', '73ca8466b7df3f00-removebg-preview.png', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12),
-(47, 2, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-07-04 13:21:30', '\'22', 1),
+(47, 2, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-07-20 13:20:15', '\'07', 1),
 (48, 0, 'Router', '', '7a1a80f2c44bcceb.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL),
 (49, 0, 'Switch', '', 'a1c2e38a214e88e7.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
 (50, 0, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
-(51, 1, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8),
-(52, 2, 'FM250', 'CTM', '58c5972424fa6b34.png', '2023-07-20 10:24:25', '2023-07-20 10:24:25', '\'23', 3);
+(51, 1, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8);
 
 -- --------------------------------------------------------
 
@@ -1783,21 +1782,21 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
 --
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
-(2, '2023-06-13 12:20:25', '2023-07-13 23:18:56', '230327', 'Reparar ventiladores', 14, 10, 10, 2),
-(6, '2023-06-13 12:41:08', '2023-07-13 23:17:04', '210615', 'Revisar el equipo, presenta falla RF.', 14, 3, 10, 2),
+(2, '2023-06-13 12:20:25', '2023-08-07 12:13:42', '230327', 'Reparar ventiladores.', 14, 10, 10, 2),
+(6, '2023-06-13 12:41:08', '2023-07-21 09:43:06', '210615', 'Revisar el equipo, presenta falla >>TEMP.', 14, 3, 10, 2),
 (9, '2023-06-14 11:59:34', '2023-07-13 23:20:05', '220516', 'Se envió el módulo de potencia porque no enciende', 5, 13, 10, 2),
 (12, '2023-06-14 12:28:20', '2023-07-13 23:20:18', '230314', 'Pedido de reparación por falla de temperatura', 14, 1, 10, 2),
 (13, '2023-06-16 11:48:15', '2023-06-16 13:24:56', '230422', 'Cambiar de frecuencia a 107,1MHz', 14, 17, 10, 3),
 (14, '2023-06-16 12:14:01', '2023-07-07 11:07:21', '230516', 'cambiar base de tiempo a GPS integrado', 5, 34, 10, 2),
 (15, '2023-06-16 12:33:40', '2023-07-13 23:17:42', '230315', 'revisar configuracion', 6, 34, 10, 2),
-(17, '2023-06-17 16:02:08', '2023-06-17 16:20:02', '193454', 'cambiar de frec a 98,5MHz', 1, 2, 10, 4),
+(17, '2023-06-17 16:02:08', '2023-08-07 11:52:21', '193454', 'cambiar de frec a 98,5MHz.', 1, 2, 10, 4),
 (18, '2023-06-17 16:02:08', '2023-07-13 23:19:14', '213454', 'problemas entrada 220V', 1, 3, 10, 2),
 (19, '2023-06-17 16:02:08', '2023-07-13 23:18:15', '230504', 'cambiar modulacion: \r\nIG: 1/32\r\nContelacion=64QAM', 5, 33, 10, 2),
 (20, '2023-07-11 12:22:42', '2023-07-11 13:25:39', '230711', 'revisar alimentación', 6, 92, 10, 2),
@@ -2034,7 +2033,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `password` (`password`),
   KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
@@ -2047,7 +2045,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_i
 (4, 'Alejandro', 'toparuiz@mail.com', '51a1e8e115f3c97c.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
 (5, 'Atilio', 'atilioavanzini@mail.com', 'f830c0210df9532a.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
 (6, 'Oscar', 'oscar@mail.com', '78fcd03e420ea343.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
-(10, 'admin', 'admin@tecseg.com', 'ba7f10cd2f0cb49a.jpg', '$2b$12$dIxpjyQ/uTr8Z7owkfrZKuNoQ5oF4moJHeJgBwjO2X65gmCW.YEWO', 1),
+(10, 'admin', 'admin@tecseg.com', 'ba7f10cd2f0cb49a.jpg', '$2b$12$pZWr2TwMf1wZi6kyJ56HNu5/YSVZwz9h19BpBsomrt.TwlRZrp7U.', 1),
 (11, 'Tomas', 'tomas@tecseg.com', 'c1ed20648c2746a0.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
 (12, 'Juan', 'juan@tecseg.com', 'ee259c124c31059d.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
 (14, 'Jorge', 'jorge@tecseg.com', '0cf2ffbae3b4a383.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3),

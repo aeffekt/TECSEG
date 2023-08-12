@@ -1,11 +1,11 @@
-from flask import flash
+from flask_login import current_user
 from flask_wtf import FlaskForm
+from flask import flash
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from flask_login import current_user
 from tseg.models import User, Role
-from tseg import db
+from tseg import bcrypt
 
 class SearchForm(FlaskForm):
 	searched = StringField('Buscar palabra', validators=[DataRequired()])
@@ -16,7 +16,7 @@ class LoginForm(FlaskForm):
 	username = StringField('Nombre de usuario',
 						validators=[DataRequired(), Length(min=2, max=30)], render_kw={'autofocus': True})
 	password = PasswordField('Contraseña',
-						validators=[DataRequired(), Length(min=0, max=128)])
+						validators=[DataRequired(), Length(min=4, max=12)])
 	remember = BooleanField('Recordarme')
 	submit = SubmitField('Iniciar Sesión')
 
@@ -41,8 +41,6 @@ class RegistrationForm(LoginForm):
 		if name_already_exist:
 			raise ValidationError('Ese nombre ya está en uso. Por favor, elija uno diferente')
 		
-
-
 	def validate_email(self, email):
 		mail_already_exist = User.query.filter_by(email=email.data).first()
 		if mail_already_exist:
@@ -61,13 +59,27 @@ class UpdateAccountForm(FlaskForm):
 	role = SelectField('Tipo de usuario', choices=[], 
 										coerce=int, 
 										validate_choice=False) # validate_choice=F si no hay error de validacion
-	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
-	submit = SubmitField('Modificar cuenta')
+	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])	
+	submit = SubmitField('Actualizar datos de cuenta')
 
 	# custom validators = validator_{field_name}
 	def validate_username(self, username):		
 		if ' ' in username.data:
 			raise ValidationError('El nombre de usuario no puede contener espacios')
+
+
+class UpdatePassword(FlaskForm):
+	old_password = PasswordField('Contraseña Actual',
+						validators=[DataRequired(), Length(min=4, max=12)])
+	password = PasswordField('Contraseña Nueva',
+						validators=[DataRequired(), Length(min=4, max=12)])
+	confirm_password = PasswordField('Confirmar Contraseña', 
+						validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])	
+	submit = SubmitField('Actualizar Contraseña')
+
+	def validate_old_password(self, old_password):
+		if not bcrypt.check_password_hash(current_user.password, old_password.data):			
+			raise ValidationError('La contraseña es incorrecta')
 
 
 class RequestResetForm(FlaskForm):

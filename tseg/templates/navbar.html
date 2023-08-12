@@ -25,11 +25,15 @@
 					<li>
 						<a class="menu-horizontal">Comercial</a>
 						<ul class="menu-vertical">							
-							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Agregar Homologación</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}">Buscar Homologaciónes</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Registrar Homologación</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}">Buscar Homologaciones</a></li>
 							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Agregar Modelo Equipo</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelo de equipo</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('marcas.add_marca') }}">Registrar Marca</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('marcas.all_marcas', orderBy='nombre', orderOrder='asc') }}">Buscar marcas</a></li>
+							<hr>
+							<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Registrar Modelo</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelos</a></li>
+							
 						</ul>
 					</li>
 				{% endif %}
@@ -44,7 +48,7 @@
 				<li>
 					<a class="menu-horizontal">Equipos</a>
 					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}">Agregar Equipo</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', client_id=0) }}">Registrar Equipo</a></li>
 						<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}">Buscar equipo</a></li>							
 						<hr>
 						<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}">Mis historias</a></li>
@@ -54,7 +58,7 @@
 					<li>
 						<a class="menu-horizontal" title="Órdenes de reparación">O.R.</a>
 						<ul class="menu-vertical">
-							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Crear O.R.</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Registrar O.R.</a></li>
 							<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar O.R.</a></li>
 							{% if current_user.role.role_name == "Admin" or current_user.role.role_name == "ServicioCliente"%}
 								<hr>
@@ -69,6 +73,8 @@
 				<a title="Ir a mi cuenta" ><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
 				<ul class="menu-vertical">
 					<li><a class="nav-item nav-link" href="{{ url_for('users.account', user_id=current_user.id) }}">Ir a mi cuenta</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('users.update_password', user_id=current_user.id) }}">Modificar Contraseña</a></li>
+					<hr>
 					<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
 				</ul>
 			</li>				

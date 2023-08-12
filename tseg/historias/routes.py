@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Historia, Equipment, Tipologia
 from tseg.historias.forms import HistoriaForm
-from tseg.users.utils import identificador_en_corchete, dateFormat, role_required
+from tseg.users.utils import dateFormat, role_required
 
 historias = Blueprint('historias', __name__)
 
@@ -12,9 +12,8 @@ historias = Blueprint('historias', __name__)
 def add_historia(equipment_id):
 	form = HistoriaForm()
 	equipment = Equipment.query.get_or_404(equipment_id)
-	if form.validate_on_submit():
-		tipologia_id = identificador_en_corchete(form.tipo.data)
-		historia = Historia(tipologia_id=tipologia_id,
+	if form.validate_on_submit():		
+		historia = Historia(tipologia_id=form.tipo.data,
 							title=form.title.data,
 							content=form.content.data,
 							eq_historia=equipment, 
@@ -50,10 +49,8 @@ def update_historia(historia_id):
 	if historia.author_historia != current_user:
 		abort(403) #http forbidden
 	form = HistoriaForm()
-	if form.validate_on_submit():
-		tipologia_id = identificador_en_corchete(form.tipo.data)
-		tipologia = Tipologia.query.get_or_404(tipologia_id)
-		historia.tipologia = tipologia
+	if form.validate_on_submit():		
+		historia.tipologia_id = form.tipo.data
 		historia.title = form.title.data
 		historia.content = form.content.data
 		historia.date_modified = dateFormat()
@@ -65,13 +62,14 @@ def update_historia(historia_id):
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('equipments.update_historia', historia_id=historia.id))
 	elif request.method == 'GET':
-		form.tipo.default = historia.tipologia
+		form.tipo.default = historia.tipologia_id
 		form.process()
 		form.title.data = historia.title
 		form.content.data = historia.content
 	return render_template('create_historia.html',	title='Editar historia', 
 												form=form,
 												legend="Editar historia")
+
 
 @historias.route("/historia-<int:historia_id>-delete", methods=['POST'])
 @role_required("Admin", "Técnico")

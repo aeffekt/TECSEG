@@ -15,4 +15,4 @@ class HomologacionForm(FlaskForm):
 
 	def validate_codigo(self, codigo):
 		if ' ' in codigo.data:
-			raise ValidationError('El código puede contener espacios')
+			raise ValidationError('El código no puede contener espacios')

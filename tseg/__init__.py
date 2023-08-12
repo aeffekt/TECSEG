@@ -28,6 +28,7 @@ def create_app(config_class=Config):
 	from tseg.users.routes import users	
 	from tseg.equipments.routes import equipments
 	from tseg.modelos.routes import modelos
+	from tseg.marcas.routes import marcas
 	from tseg.homologaciones.routes import homologaciones
 	from tseg.historias.routes import historias
 	from tseg.clients.routes import clients
@@ -41,6 +42,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(users)	
 	app.register_blueprint(equipments)
 	app.register_blueprint(modelos)
+	app.register_blueprint(marcas)
 	app.register_blueprint(homologaciones)
 	app.register_blueprint(historias)
 	app.register_blueprint(clients)

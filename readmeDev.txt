@@ -2,7 +2,8 @@
 
 SETUP
 
-CMD: pip install -r requerimientos.txt --yes
+CMD: 
+pip install -r requerimientos.txt --yes
 
 pip install mysql-connector
 pip install mysql-connector-python

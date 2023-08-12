@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Marcas de equipos ({{ lista.count() }})</h6>        
+    {% for marca in lista %}
+       <div class="content-section-list">
+            <a href="{{ url_for('marcas.marca', marca_id=marca.id) }}" >
+                <div class="container"> 
+                    <div class="row">                        
+                        <div class="col-md-9">
+                            <h2 >{{ marca }}</h2>                            
+                        </div>                    
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    
+{% endblock content %}

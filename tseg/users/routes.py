@@ -1,9 +1,9 @@
 #users routes
-from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
+from flask import render_template, url_for, flash, redirect, request, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
 from tseg.models import User, Historia, Equipment, Client, Role, Detalle_reparacion, Modelo, Orden_reparacion
-from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
+from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, UpdatePassword,
 							RequestResetForm, ResetPasswordForm, SearchForm)
 from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista, identificador_en_corchete
 from sqlalchemy import or_
@@ -74,9 +74,8 @@ def account(user_id):
 				picture_file = save_picture(form.picture.data, 'profile_pics')
 				user.image_file = picture_file
 			user.username = form.username.data
-			user.email = form.email.data
-			role = Role.query.get(form.role.data)
-			user.role = role
+			user.email = form.email.data			
+			user.role_id = form.role.data
 			db.session.commit()
 			flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
 			return redirect(url_for('users.account', user_id=user.id))
@@ -85,13 +84,35 @@ def account(user_id):
 			db.session.rollback()
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('users.account', user_id=user.id))
-	elif request.method == 'GET':
+	elif request.method == 'GET':		
 		form.role.default = user.role.id
 		form.process()
 		form.username.data = user.username
 		form.email.data = user.email		
 	image_file = url_for("static", filename='profile_pics/'+user.image_file)
 	return render_template('account.html',
+						title='Datos de cuenta', image_file=image_file, form=form, user=user)
+
+
+@users.route("/update-password-<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def update_password(user_id):
+	user = User.query.get_or_404(user_id)
+	form = UpdatePassword()
+	if form.validate_on_submit():
+		try:
+			hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+			user.password = hashed_password
+			db.session.commit()
+			flash(f"La Contraseña de {user.username} ha sido actualizada.", 'success')
+			return redirect(url_for('users.account', user_id=user.id))
+		# except especial que requiere el rollback para evitar error de ejecucion por integrityError
+		except IntegrityError as err:
+			db.session.rollback()
+			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+			return redirect(url_for('users.account', user_id=user.id))
+	image_file = url_for("static", filename='profile_pics/'+user.image_file)
+	return render_template('update_password.html',
 						title='Datos de cuenta', image_file=image_file, form=form, user=user)
 
 

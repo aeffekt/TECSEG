@@ -54,7 +54,8 @@ def homologacion(homologacion_id):
 def add_homologacion():
 	form = HomologacionForm()
 	if form.validate_on_submit():		
-		homologacion = Homologacion(codigo=form.codigo.data,
+		homologacion = Homologacion(
+						codigo=form.codigo.data,
 						modelo=form.modelo.data)
 		try:
 			db.session.add(homologacion)

@@ -44,8 +44,7 @@ def modelo(modelo_id):
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data, 'models_pics')
 			modelo.image_file = picture_file		
-		marca = Marca.query.filter_by(nombre=form.marca.data).first()
-		modelo.marca = marca
+		modelo.marca_id = form.marca.data
 		modelo.nombre = form.nombre.data
 		modelo.anio = form.anio.data
 		modelo.descripcion = form.descripcion.data
@@ -58,13 +57,12 @@ def modelo(modelo_id):
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
 		except Exception as err:
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
-			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
-	elif request.method == 'GET':
-		form.marca.data = modelo.marca.nombre if modelo.marca else None	
-		form.nombre.data = modelo.nombre
-		form.anio.data = modelo.anio
-		form.descripcion.data = modelo.descripcion	
-		image_file = url_for("static", filename='models_pics/'+modelo.image_file)
+			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	
+	form.marca.data = modelo.marca.id	
+	form.nombre.data = modelo.nombre
+	form.anio.data = modelo.anio
+	form.descripcion.data = modelo.descripcion	
+	image_file = url_for("static", filename='models_pics/'+modelo.image_file)
 	return render_template('modelo.html',
 						title='Modelo de equipo', 
 						image_file=image_file,
@@ -76,17 +74,16 @@ def modelo(modelo_id):
 @role_required("Admin", "Comercial")
 def add_modelo():
 	form = ModeloForm()
-	if form.validate_on_submit():		
+	if form.validate_on_submit():	
 		homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()
-		marca = Marca.query.filter_by(nombre=form.marca.data).first()
 		modelo = Modelo(nombre=form.nombre.data,
 						anio=form.anio.data,
 						descripcion=form.descripcion.data,
-						homologacion=homologacion,						
-						marca=marca)
+						homologacion=homologacion,
+						marca_id=form.marca.data)
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data, 'models_pics')
-			modelo.image_file = picture_file
+			modelo.image_file = picture_file			
 		try:
 			db.session.add(modelo)
 			db.session.commit()

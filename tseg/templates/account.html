@@ -13,7 +13,7 @@
 					    <p  class="article-title">{{ user.email }} </p>
 					    <b class="article-title">{{ user.role }}</b>
 				    </div>
-				</div>
+				</div>	
 			</div>			
 	  	</div>
 	  	<hr 90%>
@@ -36,7 +36,7 @@
 								{{ form.username(class="form-control form-control-sm") }}
 							{% endif %}
 						</div>
-						<div class="form-group">					
+						<div id="role" class="form-group">					
 							{{ form.role.label(class="form-control-label") }}
 							{% if form.role.errors %}
 								{{ form.role(class="form-control form-control-sm is-invalid") }}
@@ -52,7 +52,7 @@
 						            {{ form.role(class="form-select form-select-sm custom-select") }}									
 						        {% endif %}
 						    {% endif %}	
-						</div>		
+						</div>						
 					</div>
 					<div class="col-md-6">
 						<div id="email" class="form-group">					
@@ -67,8 +67,7 @@
 							{% else %}
 								{{ form.email(class="form-control form-control-sm") }}
 							{% endif %}
-						</div>	
-
+						</div>
 						<div id="picture" class="form-group">
 							{{ form.picture.label() }}
 							{% if form.picture.errors %}
@@ -81,7 +80,7 @@
 							{% else %}
 								{{ form.picture(class="form-control form-control-sm", type="file") }}
 							{% endif %}					
-						</div>
+						</div>						
 					</div>
 				</div>
 			</fieldset>

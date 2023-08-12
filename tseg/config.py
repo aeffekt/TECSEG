@@ -35,6 +35,8 @@ class Config:
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",					
 					}
+	ORDER_MARCAS= {"nombre": "Nombre"					
+					}
 	ORDER_HOMOLOGACION= {"codigo": "Código",
 					"modelo": "Modelo",					
 					}

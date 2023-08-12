@@ -115,7 +115,7 @@ class Modelo(db.Model):
 	descripcion = db.Column(db.String(250), unique=True, nullable=False)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))	
-	image_file = db.Column(db.String(50), nullable=False, default='default_eq.jpg')
+	image_file = db.Column(db.String(50), nullable=False, default='default_eq.png')
 	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
 	homologacion_id = db.Column(db.Integer, db.ForeignKey('homologacion.id'), nullable=False)
 	equipos = db.relationship('Equipment', backref='modelo', lazy=True)
