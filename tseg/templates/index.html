@@ -12,8 +12,13 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <a href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">
-               REPARACIONES</a>  
+                {% if current_user.role.role_name == 'Comercial' %}
+                    <a href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">
+               MODELOS</a>
+                {% else %}
+                    <a href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">
+                REPARACIONES</a>
+                {% endif  %}
             </div>
             <div class="col-md-6">
                 <a href="{{ url_for('users.account', user_id=current_user.id) }}">MI CUENTA</a>

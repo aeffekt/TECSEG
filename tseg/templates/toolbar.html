@@ -12,28 +12,35 @@
 		</form>
 	</article>
 	{% endif %}
-	{% if lista %}		
-		<article class="media content-section">
-			<h5 class="border-bottom border-secondary mb-4">Buscar {{ item_type }}</h5>
-			<select class="chosen form-select form-select-sm" aria-label="Filter by column" id="selectItem" data-placeholder="Seleccione un item">
-				<option></option>
-				{% for item in lista %}
-					<option>{{ item }}</option>
-				{% endfor %}
-			</select>
-			<br>
-		    <br>
-			<h5 class="border-bottom border-secondary mb-4">Ordenar lista {{ title }}</h5>
-			<select class="form-select custom-select form-select-sm" aria-label="Filter by column" id="orderBy">
-		        {% for key, value in orderBy.items() %}
-		            <option value="{{ key }}" {% if request.args.get('orderBy') == key %}selected{% endif %}>{{ value }}</option>
-		        {% endfor %}
-		    </select>
-		    <select class="form-select custom-select form-select-sm" aria-label="order order" id="orderOrder">
-		        <option value="asc" {% if request.args.get('orderOrder') == 'asc' %}selected{% endif %}>Ascendente</option>
-				<option value="desc" {% if request.args.get('orderOrder') == 'desc' %}selected{% endif %}>Descendente</option>
-		    </select>
-		    <button class="btn btn-primary" id="filterButton">Aplicar</button>
-		</article>
+	{% if lista %}	
+		{% if lista.count() != 0 %}	
+			<article class="media content-section">
+				<h5 class="border-bottom border-secondary mb-4">Buscar {{ item_type }}</h5>
+				<select class="chosen form-select form-select-sm" aria-label="Filter by column" id="selectItem" data-placeholder="Seleccione un item">
+					<option></option>
+					{% for item in lista %}
+						<option value="{{ item.id }}">{{ item }}</option>
+					{% endfor %}
+				</select>
+				<br>
+				<br>
+				<h5 class="border-bottom border-secondary mb-4">Ordenar lista {{ title }}</h5>
+				<select class="form-select custom-select form-select-sm" aria-label="Filter by column" id="orderBy">
+					{% for key, value in orderBy.items() %}
+						<option value="{{ key }}" {% if request.args.get('orderBy') == key %}selected{% endif %}>{{ value }}</option>
+					{% endfor %}
+				</select>			
+				<select class="form-select custom-select form-select-sm" aria-label="order order" id="orderOrder">				
+					<option value="asc" {% if request.args.get('orderOrder') == 'asc' %}selected{% endif %}>Ascendente</option>
+					<option value="desc" {% if request.args.get('orderOrder') == 'desc' %}selected{% endif %}>Descendente</option>
+				</select>
+				<!--deshabilitado, ver en utils.py y filter_order.js
+				{% if 'Fecha modificado' in orderBy.values() %}
+					<input class="form-control-sm" type="date" id="datepicker1" placeholder="desde" value="">			
+					<input class="form-control-sm" type="date" id="datepicker2" placeholder="hasta" value="">
+				{% endif %} -->
+				<button class="btn btn-primary" id="filterButton">Aplicar</button>
+			</article>
+		{% endif %}
 	{% endif %}
 </div>

@@ -32,7 +32,7 @@ def add_detalle_reparacion(orden_reparacion_id):
 
 
 # ruteo de variables "detalle_reparacion_id"
-@detalles_reparacion.route("/detalle-<int:detalle_reparacion_id>")
+@detalles_reparacion.route("/detalle-reparacion-<int:detalle_reparacion_id>")
 @login_required
 def detalle_reparacion(detalle_reparacion_id):
 	detalle_reparacion = Detalle_reparacion.query.get_or_404(detalle_reparacion_id)	

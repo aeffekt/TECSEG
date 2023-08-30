@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio, Cond_fiscal
 from tseg.clients.forms import ClientForm
 from tseg import db
-from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista,identificador_en_corchete
+from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista
 
 
 clients = Blueprint('clients', __name__)
@@ -22,9 +22,8 @@ def obtener_datos_geograficos():
 @role_required("ServicioCliente", "Admin", "Técnico")
 def all_clients():
 	select_item = request.args.get('selectItem', '')
-	if select_item:
-		client_id = identificador_en_corchete(select_item)
-		return redirect(url_for('clients.client', client_id=client_id))
+	if select_item:		
+		return redirect(url_for('clients.client', client_id=select_item))
 		
 	all_clients = buscarLista(Client)
 	orderBy = current_app.config["ORDER_CLIENTES"]
@@ -98,6 +97,7 @@ def add_client():
 												form=form,
 												legend="Registrar cliente")
 
+
 @clients.route("/client-<int:client_id>-update", methods=['GET', 'POST'])
 @role_required("ServicioCliente", "Admin", "Técnico", "Comercial")
 def update_client(client_id):
@@ -157,6 +157,7 @@ def update_client(client_id):
 												form=form,
 												legend="Editar cliente")
 
+
 @clients.route("/client-<int:client_id>-delete", methods=['POST'])
 @role_required("ServicioCliente", "Admin")
 def delete_client(client_id):
@@ -170,7 +171,10 @@ def delete_client(client_id):
 
 @clients.route("/client_equipments-<string:client_id>")
 @login_required
-def client_equipments(client_id):	
+def client_equipments(client_id):
+	select_item = request.args.get('selectItem', '')	
+	if select_item:		
+		return redirect(url_for('equipments.equipment', equipment_id=select_item))	
 	client = Client.query.filter_by(id=client_id).first_or_404()
 	equipments = Equipment.query.filter_by(owner=client)\
 					.order_by(Equipment.date_modified.desc())	

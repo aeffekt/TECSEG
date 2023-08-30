@@ -13,8 +13,7 @@ homologaciones = Blueprint('homologaciones', __name__)
 def all_homologaciones():
 	select_item = request.args.get('selectItem', '')
 	if select_item:		
-		homologacion = Homologacion.query.filter_by(codigo=select_item).first()
-		return redirect(url_for('homologaciones.homologacion', homologacion_id=homologacion.id))
+		return redirect(url_for('homologaciones.homologacion', homologacion_id=select_item))
 	all_homologaciones = buscarLista(Homologacion)	
 	orderBy = current_app.config['ORDER_HOMOLOGACION']
 	item_type = 'Homologación'

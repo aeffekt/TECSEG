@@ -40,7 +40,12 @@
                     <small>Estado O.R.:</small> 
                 </div>
                 <div class="col-md-9">
-                    <h5 class="article-content">{{ orden_reparacion.estado.descripcion }}</h5>
+                    <h5 class="article-content" style="background-color: 
+                    {% if orden_reparacion.estado.descripcion == 'Creada' %}orange
+                    {% elif orden_reparacion.estado.descripcion == 'Asignada' %}lightgreen
+                    {% elif orden_reparacion.estado.descripcion == 'Anulada' %}grey
+                    {% elif orden_reparacion.estado.descripcion == 'Finalizada' %}darkgrey
+                    {% endif %}">{{ orden_reparacion.estado.descripcion }}</h5>
                 </div>
             </div>
                 <div class="row align-items-center">

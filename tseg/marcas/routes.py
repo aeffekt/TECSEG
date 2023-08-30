@@ -16,11 +16,8 @@ marcas = Blueprint('marcas', __name__)
 def all_marcas():
 	try:
 		select_item = request.args.get('selectItem', '')
-		if select_item:
-			nombre_marca, anio = select_item.split()
-			# divide el __repr__ y obtiene el código en pos 2		
-			marca = Marca.query.filter_by(nombre=nombre_marca, anio=anio).first()
-			return redirect(url_for('marcas.marca', marca_id=marca.id))
+		if select_item:			
+			return redirect(url_for('marcas.marca', marca_id=select_item))
 	except Exception as err:
 		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
 		return redirect(url_for('marcas.all_marcas'))

@@ -163,7 +163,7 @@ class Historia(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
-		return f"[{self.id}] {self.eq_historia.modelo.nombre} {self.title}"
+		return f"{self.eq_historia.modelo.nombre} {self.title}"
 
 
 class Tipologia(db.Model):
@@ -205,7 +205,7 @@ class Detalle_reparacion(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
-		return f"[{self.id}] {self.orden_reparacion.codigo}"
+		return f"{self.orden_reparacion.codigo} {self.content[0:35]}"
 
 
 class Estado_or(db.Model):

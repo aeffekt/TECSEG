@@ -16,11 +16,8 @@ modelos = Blueprint('modelos', __name__)
 def all_modelos():
 	try:
 		select_item = request.args.get('selectItem', '')
-		if select_item:
-			nombre_modelo, anio = select_item.split()
-			# divide el __repr__ y obtiene el código en pos 2		
-			modelo = Modelo.query.filter_by(nombre=nombre_modelo, anio=anio).first()
-			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
+		if select_item:			
+			return redirect(url_for('modelos.modelo', modelo_id=select_item))
 	except Exception as err:
 		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
 		return redirect(url_for('modelos.all_modelos'))

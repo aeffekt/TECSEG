@@ -5,7 +5,7 @@ from tseg import db
 from tseg.models import Orden_reparacion, Equipment, User, Estado_or, Detalle_reparacion
 from tseg.ordenes_reparacion.forms import OrdenReparacionForm
 from sqlalchemy import func
-from tseg.users.utils import role_required, dateFormat, buscarLista, identificador_en_corchete
+from tseg.users.utils import role_required, dateFormat, buscarLista
 
 
 ordenes_reparacion = Blueprint('ordenes_reparacion', __name__)
@@ -15,11 +15,8 @@ ordenes_reparacion = Blueprint('ordenes_reparacion', __name__)
 def all_ordenes_reparacion():
 	try:
 		select_item = request.args.get('selectItem', '')
-		if select_item:
-			codigo_str = select_item.split()[0]
-			# divide el __repr__ y obtiene el código en pos 2		
-			orden = Orden_reparacion.query.filter_by(codigo=codigo_str).first()
-			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden.id))
+		if select_item:			
+			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=select_item))
 	except Exception as err:
 		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
 		return redirect(url_for('ordenes_reparacion.all_ordenes_reparacion'))
@@ -41,9 +38,8 @@ def all_ordenes_reparacion():
 @login_required
 def orden_reparacion(orden_reparacion_id):
 	select_item = request.args.get('selectItem')
-	if select_item:
-		detalle_reparacion_id = identificador_en_corchete(select_item)		
-		return redirect(url_for('detalle_reparacions.detalle_reparacion', detalle_reparacion_id=detalle_reparacion_id))
+	if select_item:		
+		return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=select_item))
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	detalles_reparacion =  buscarLista(Detalle_reparacion, orden_reparacion)	
 	orderBy = current_app.config['ORDER_DETALLES']	

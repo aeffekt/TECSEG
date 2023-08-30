@@ -1,7 +1,7 @@
 import os, re
 import secrets
 from PIL import Image
-from flask import url_for,current_app, abort, request
+from flask import url_for,current_app, abort, request, flash
 from flask_login import current_user
 from flask_mail import Message
 from tseg import mail
@@ -30,7 +30,10 @@ def buscarLista(dBModel, *arg):
 	else:
 		orden = desc(sort_column)
 
-		
+	# FECHAS (deshabilitado, ver en toolbar.html y filter_order.js)
+	#date1 = request.args.get('datepicker1', '')
+	#date2 = request.args.get('datepicker2', '')
+			
 	# Si el modelo tiene la columna "date_modified," ordenar por ella en segunda instancia
 	#if hasattr(dBModel, 'date_modified'):
 	#	sort_column = (sort_column, getattr(dBModel, 'date_modified'))
@@ -62,9 +65,7 @@ def buscarLista(dBModel, *arg):
 				if len(arg)==2:
 					lista.filter_by(tipologia_id=arg[1])
 			# para un usuario determinado
-			if isinstance(arg[0], User):
-				print(arg)
-				print(arg[0])
+			if isinstance(arg[0], User):				
 				lista = lista.filter_by(author_historia=arg[0])
 	return lista
 	
@@ -85,18 +86,11 @@ def obtener_informacion_geografica(codigo_postal):
 	return localidad_nombre, provincia_nombre, pais_nombre;
 
 
+# dar formato a la fecha actual NOW
 def dateFormat():
 	now = datetime.now()
 	now = now.strftime("%Y-%m-%dT%H:%M:%S")
 	return datetime.fromisoformat(now)
-
-# extrae datos dentro de corchetes
-def identificador_en_corchete(cadena):
-	patron = r"\[([^]]+)\]"
-	cadena_en_patron = re.findall(patron, cadena)  # busca el id dentro de corchetes	
-	if cadena_en_patron:
-		return cadena_en_patron[0]
-	return None
 
 
 def save_picture(form_picture, folder):

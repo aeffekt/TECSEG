@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 09-08-2023 a las 14:23:08
+-- Tiempo de generación: 16-08-2023 a las 14:14:06
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -109,14 +109,16 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `orden_detalle` (`reparacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_reparacion`
 --
 
 INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modified`, `user_id`, `reparacion_id`) VALUES
-(1, 'Se constató que el equipo presenta fallas por sobre temperatura >>T. Queda a la espera de una revisión integral. Posible falla en la placa de medición de flujo de aire', '2023-07-15 19:56:10', '2023-07-15 20:54:18', 10, 12);
+(1, 'Se constató que el equipo presenta fallas por sobre temperatura >>T. \r\nQueda a la espera de una revisión integral. \r\nPosible falla en la placa de medición de flujo de aire.', '2023-07-15 19:56:10', '2023-08-15 13:26:36', 10, 12),
+(4, 'se cambió la frecuencia del modulador a 98,5MHz.\r\ntodo OK', '2023-08-15 13:28:28', '2023-08-15 13:28:28', 10, 17),
+(5, 'se revisó el equipo, y se contató que la falla provenia del conector de salida de RF\r\nSe cambió en el taller el conector BNC y quedó funcionando OK\r\nPD = 500W\r\nPR=3W', '2023-08-15 13:28:28', '2023-08-15 13:28:28', 10, 21);
 
 -- --------------------------------------------------------
 
@@ -175,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `user_id` (`user_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
@@ -599,7 +601,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipologia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -639,7 +641,8 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (50, 'Fuente', '2023-07-07 20:51:42', '2023-07-07 20:51:42', 'cambio de la fuente switching 200W', 2, 90, 10),
 (53, 'IP', '2023-07-10 18:00:27', '2023-07-10 18:00:27', '192.168.1.100', 1, 72, 5),
 (54, '230712', '2023-07-12 09:29:31', '2023-07-12 09:29:31', 'Se constató que había una falla en el conector de salida de RF lo que producía la falla de >>ROE. Al cambiar el conector el equipo quedó funcionando bien.', 2, 20, 14),
-(56, 'cambio de \"ENT RF\"', '2023-07-15 00:03:03', '2023-07-17 12:36:24', 'se cambió el conector \"F\" por un \"BNC\"', 3, 1, 10);
+(56, 'cambio de \"ENT RF\"', '2023-07-15 00:03:03', '2023-07-17 12:36:24', 'se cambió el conector \"F\" por un \"BNC\"', 3, 1, 10),
+(57, 'VOLT SAL RF', '2023-08-15 11:08:00', '2023-08-15 11:08:00', 'indica 997 en voltímetro', 1, 10, 10);
 
 -- --------------------------------------------------------
 
@@ -655,7 +658,7 @@ CREATE TABLE IF NOT EXISTS `homologacion` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_homologacion_codigo` (`codigo`),
   UNIQUE KEY `uq_homologacion_modelo` (`modelo`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `homologacion`
@@ -1681,7 +1684,7 @@ CREATE TABLE IF NOT EXISTS `marca` (
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_marca_nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `marca`
@@ -1690,12 +1693,12 @@ CREATE TABLE IF NOT EXISTS `marca` (
 INSERT INTO `marca` (`id`, `nombre`) VALUES
 (4, 'Dexin'),
 (6, 'Hewlett Packard'),
-(2, 'IA Electrónica'),
-(1, 'Liecom'),
-(0, 'N/D'),
+(3, 'IA Electrónica'),
+(2, 'Liecom'),
+(1, 'N/D'),
 (7, 'TeamCast'),
 (5, 'Ubiquiti'),
-(3, 'VideoSwitch');
+(8, 'VideoSwitch');
 
 -- --------------------------------------------------------
 
@@ -1725,39 +1728,39 @@ CREATE TABLE IF NOT EXISTS `modelo` (
 --
 
 INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `homologacion_id`) VALUES
-(0, 0, 'N/D', 'Modelo no específico', 'default_eq.png', '2023-07-06 10:45:57', '2023-07-06 10:45:57', 'N/D', NULL),
-(1, 2, 'FM100', 'STM', '9b0a1133e8efc0ad-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-09 12:55:38', '\'17', 2),
-(2, 2, 'FM250', 'STM', '00a0d44c7702e1a5-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3),
-(3, 1, 'FM500', 'STM', 'd54af0ea5584e2ef-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4),
-(4, 1, 'FM1000', 'CTM', '4d36499baa010264-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-07 10:54:26', '\'23', 5),
-(5, 1, 'FM2000', 'STM', 'b67f8b1f6f96a97e-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 6),
-(6, 1, 'FM3000', 'CTM', 'b3de7d3f5614eda7-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', NULL),
-(8, 1, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL),
-(10, 1, 'FM5000', 'rack CTM', '4883a88e4aa7c4ef-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 7),
-(11, 1, 'TRUD70', 'STM', '0d0fb90ce98ad382-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'20', NULL),
-(13, 1, 'TRUD250', 'STM', 'a865c54b13d4b420-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-10 16:36:01', '\'20', 9),
-(15, 1, 'TRUD500', 'CTM', 'ac25db2c48c2802b-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:47:31', '\'21', 10),
-(19, 1, 'TRUD1200', 'CTM', 'b551d0cb2c616c88-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:55:33', '\'10', 11),
-(20, 1, 'TRUD1800', 'CTM', 'e7f3f00e4feb84d3-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL),
-(22, 1, 'TRV5000', 'CTM', 'ac43080af69e7ac5.JPG', '2023-06-30 10:17:39', '2023-07-04 11:22:04', '\'10', NULL),
-(23, 1, 'TRU250', 'CTM', 'b826b5271375f5bb.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL),
-(25, 1, 'TRU400', 'CTM', '2b82d39020339dce-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 11:11:20', '\'08', NULL),
-(26, 1, 'TRU500', 'CTM', 'a42b1c7599f290cf-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 11:12:53', '\'19', NULL),
-(30, 1, 'TRM2650', 'CTM', '7c7c38654f7e1563.jpg', '2023-06-30 10:17:39', '2023-07-04 10:23:40', '\'23', NULL),
-(31, 1, 'TRM26100', 'CTM', '6a75e05653aa3660-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:22:48', '\'16', NULL),
+(0, 1, 'N/D', 'Modelo no específico', 'default_eq.png', '2023-07-06 10:45:57', '2023-07-06 10:45:57', 'N/D', NULL),
+(1, 3, 'FM100', 'STM', '9b0a1133e8efc0ad-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-09 12:55:38', '\'17', 2),
+(2, 3, 'FM250', 'STM', '00a0d44c7702e1a5-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3),
+(3, 2, 'FM500', 'STM', 'd54af0ea5584e2ef-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4),
+(4, 2, 'FM1000', 'CTM', '4d36499baa010264-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-07 10:54:26', '\'23', 5),
+(5, 2, 'FM2000', 'STM', 'b67f8b1f6f96a97e-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 6),
+(6, 2, 'FM3000', 'CTM', 'b3de7d3f5614eda7-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', NULL),
+(8, 2, 'FM7000', 'refrigeración Agua', 'a40c30b94d9b1ee9-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL),
+(10, 2, 'FM5000', 'rack CTM', '4883a88e4aa7c4ef-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 7),
+(11, 2, 'TRUD70', 'STM', '0d0fb90ce98ad382-removebg-preview.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'20', NULL),
+(13, 2, 'TRUD250', 'STM', 'a865c54b13d4b420-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-10 16:36:01', '\'20', 9),
+(15, 2, 'TRUD500', 'CTM', 'ac25db2c48c2802b-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:47:31', '\'21', 10),
+(19, 2, 'TRUD1200', 'CTM', 'b551d0cb2c616c88-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:55:33', '\'10', 11),
+(20, 2, 'TRUD1800', 'CTM', 'e7f3f00e4feb84d3-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL),
+(22, 2, 'TRV5000', 'CTM', 'ac43080af69e7ac5.JPG', '2023-06-30 10:17:39', '2023-07-04 11:22:04', '\'10', NULL),
+(23, 2, 'TRU250', 'CTM', 'b826b5271375f5bb.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL),
+(25, 2, 'TRU400', 'CTM', '2b82d39020339dce-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 11:11:20', '\'08', NULL),
+(26, 2, 'TRU500', 'CTM', 'a42b1c7599f290cf-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 11:12:53', '\'19', NULL),
+(30, 2, 'TRM2650', 'CTM', '7c7c38654f7e1563.jpg', '2023-06-30 10:17:39', '2023-07-04 10:23:40', '\'23', NULL),
+(31, 2, 'TRM26100', 'CTM', '6a75e05653aa3660-removebg-preview.png', '2023-06-30 10:17:39', '2023-07-04 10:22:48', '\'16', NULL),
 (32, 4, 'NDS3542', 'HDMI', 'b7da03f8bccd689d.png', '2023-06-30 10:17:39', '2023-07-04 10:38:38', '\'16', NULL),
 (33, 4, 'NDS3542A', 'SDI', '47c3e06c73d0fbd7.png', '2023-06-30 10:17:39', '2023-07-04 10:38:13', '\'17', NULL),
-(34, 3, 'DMOD-1000', '', '983d6e0b7a8cf0e9.png', '2023-06-30 10:17:39', '2023-07-12 12:14:28', '\'20', NULL),
-(36, 3, 'DMUX-500i', '', '64261f290660c662.png', '2023-06-30 10:17:39', '2023-07-09 12:18:29', '\'19', NULL),
-(37, 3, 'DMUX-3100', '', 'c62ba952cffab5c6.png', '2023-06-30 10:17:39', '2023-07-09 12:18:18', '\'20', NULL),
+(34, 8, 'DMOD-1000', '', '983d6e0b7a8cf0e9.png', '2023-06-30 10:17:39', '2023-07-12 12:14:28', '\'20', NULL),
+(36, 8, 'DMUX-500i', '', '64261f290660c662.png', '2023-06-30 10:17:39', '2023-07-09 12:18:29', '\'19', NULL),
+(37, 8, 'DMUX-3100', '', 'c62ba952cffab5c6.png', '2023-06-30 10:17:39', '2023-07-09 12:18:18', '\'20', NULL),
 (38, 4, 'LP211', 'CTM', 'a3bd839633bbd039.png', '2023-06-30 10:17:39', '2023-07-04 10:28:56', '\'18', NULL),
-(40, 2, 'FM100', 'enc. posterior', '2e02a8e0c60f655d-removebg-preview.png', '2023-06-30 12:39:07', '2023-07-09 12:18:53', '\'23', 2),
-(46, 1, 'TRV100', 'STM', '73ca8466b7df3f00-removebg-preview.png', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12),
-(47, 2, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-07-20 13:20:15', '\'07', 1),
-(48, 0, 'Router', '', '7a1a80f2c44bcceb.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL),
-(49, 0, 'Switch', '', 'a1c2e38a214e88e7.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
-(50, 0, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
-(51, 1, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8);
+(40, 3, 'FM100', 'enc. posterior', '2e02a8e0c60f655d-removebg-preview.png', '2023-06-30 12:39:07', '2023-07-09 12:18:53', '\'23', 2),
+(46, 2, 'TRV100', 'STM', '73ca8466b7df3f00-removebg-preview.png', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12),
+(47, 3, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-07-20 13:20:15', '\'07', 1),
+(48, 1, 'Router', '', '7a1a80f2c44bcceb.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL),
+(49, 1, 'Switch', '', 'a1c2e38a214e88e7.png', '2023-07-07 12:16:19', '2023-08-10 13:34:52', 'N/D', NULL),
+(50, 1, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
+(51, 2, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8);
 
 -- --------------------------------------------------------
 
@@ -1782,14 +1785,14 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
 --
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
-(2, '2023-06-13 12:20:25', '2023-08-07 12:13:42', '230327', 'Reparar ventiladores.', 14, 10, 10, 2),
+(2, '2023-06-13 12:20:25', '2023-08-15 11:50:37', '230327', 'Reparar ventiladores.', 14, 10, 10, 2),
 (6, '2023-06-13 12:41:08', '2023-07-21 09:43:06', '210615', 'Revisar el equipo, presenta falla >>TEMP.', 14, 3, 10, 2),
 (9, '2023-06-14 11:59:34', '2023-07-13 23:20:05', '220516', 'Se envió el módulo de potencia porque no enciende', 5, 13, 10, 2),
 (12, '2023-06-14 12:28:20', '2023-07-13 23:20:18', '230314', 'Pedido de reparación por falla de temperatura', 14, 1, 10, 2),

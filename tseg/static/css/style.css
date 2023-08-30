@@ -20,7 +20,12 @@
   }
   
   a {
-  text-decoration: none;
+    text-decoration: none;
+  }
+
+  .content-section a{
+    text-decoration: underline;
+    
   }
   
   body {

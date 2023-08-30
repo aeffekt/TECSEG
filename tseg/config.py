@@ -30,6 +30,7 @@ class Config:
 					"frecuencia_id": "Canal / Frecuencia",					
 					"client_id": "Cliente",
 					"numSerie": "Número de serie",
+					"Marca.nombre": "Marca"
 					}
 	ORDER_MODELOS= {"nombre": "Nombre",
 					"date_created": "Fecha creado",
@@ -55,7 +56,6 @@ class Config:
 					}
 	ORDER_DETALLES = {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",					
-					"orden_reparacion_id": "Órden de reparación",
 					}
 	ORDER_ZONA = {"cantidad": "Cantidad",
 					"provincia": "Provincia",

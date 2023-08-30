@@ -23,7 +23,6 @@ def create_app(config_class=Config):
 	login_manager.init_app(app)
 	mail.init_app(app)
 
-
 	# routes se importan acá ya que routes usa "db"
 	from tseg.users.routes import users	
 	from tseg.equipments.routes import equipments

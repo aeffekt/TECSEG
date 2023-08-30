@@ -6,8 +6,15 @@
             <a href="{{ url_for('modelos.modelo', modelo_id=modelo.id) }}" >
                 <div class="container"> 
                     <div class="row"> 
-                        <div class="col-md-3"> 
-                            <img class="rounded-3 account-img" src="{{ image_path+modelo.image_file }}">
+                        <div class="col-md-3">
+                            <div class="img-container">
+                                <a href="#" onclick="abrirImagen('{{ image_path+modelo.image_file }}'); return false;">
+                                    <img class="rounded-3 account-img" src="{{ image_path+modelo.image_file }}" alt="Imagen" />
+                                    <div class="overlay">
+                                        <div class="overlay-content">Abrir Imagen</div>
+                                    </div>
+                                </a>
+                            </div>                            
                         </div>
                         <div class="col-md-9">
                             <h2 >{{ modelo }}</h2>

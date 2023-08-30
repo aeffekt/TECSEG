@@ -2,7 +2,7 @@ from flask import render_template, request, Blueprint, flash, redirect, url_for,
 from flask_login import current_user, login_required
 from tseg.models import Equipment, Client, Historia, Modelo, Frecuencia, Orden_reparacion
 from tseg.equipments.forms import EquipmentForm
-from tseg.users.utils import role_required, identificador_en_corchete, dateFormat, buscarLista
+from tseg.users.utils import role_required, dateFormat, buscarLista
 from tseg import db
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -16,9 +16,7 @@ def all_equipments():
 	image_path = url_for("static", filename='models_pics/')
 	select_item = request.args.get('selectItem', '')
 	if select_item:
-		numSerie = identificador_en_corchete(select_item)
-		equipment = Equipment.query.filter_by(numSerie=numSerie).first()		
-		return redirect(url_for('equipments.equipment', equipment_id=equipment.id, 
+		return redirect(url_for('equipments.equipment', equipment_id=select_item, 
 														filterBy='date_modified',
 														filterSort='desc'))		
 	all_equips = buscarLista(Equipment)
@@ -36,9 +34,8 @@ def all_equipments():
 @equipments.route("/equipment-<int:equipment_id>")
 def equipment(equipment_id):	
 	select_item = request.args.get('selectItem')
-	if select_item:
-		historia_id = identificador_en_corchete(select_item)		
-		return redirect(url_for('historias.historia', historia_id=historia_id))
+	if select_item:		
+		return redirect(url_for('historias.historia', historia_id=select_item))
 	equipment = Equipment.query.get_or_404(equipment_id)
 	historias =  buscarLista(Historia, equipment)
 	reparaciones = buscarLista(Orden_reparacion, equipment)
@@ -57,6 +54,7 @@ def equipment(equipment_id):
 											item_type=item_type,
 											path_etiqueta=path_etiqueta
 											)
+
 
 @equipments.route("/add_equipment-<string:client_id>", methods=['GET','POST'] )
 @role_required("Admin", "Técnico")
@@ -119,6 +117,7 @@ def update_equipment(equipment_id):
 												form=form,
 												legend="Editar equipo")
 
+
 @equipments.route("/equipment-<int:equipment_id>-delete", methods=['POST'])
 @role_required("Admin", "Técnico")
 def delete_equipment(equipment_id):
@@ -137,9 +136,8 @@ def delete_equipment(equipment_id):
 @equipments.route("/historias_equipo-<int:equipment_id>-<int:tipologia_id>")
 def historias_equipo(equipment_id, tipologia_id):
 	select_item = request.args.get('selectItem', '')	
-	if select_item:
-		historia_id = identificador_en_corchete(select_item)
-		return redirect(url_for('historias.historia', historia_id=historia_id))
+	if select_item:		
+		return redirect(url_for('historias.historia', historia_id=select_item))
 	equipo = Equipment.query.filter_by(id=equipment_id).first_or_404()
 	historias = buscarLista(Historia, equipo)
 	if tipologia_id:

@@ -5,7 +5,7 @@ from tseg import db, bcrypt
 from tseg.models import User, Historia, Equipment, Client, Role, Detalle_reparacion, Modelo, Orden_reparacion
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, UpdatePassword,
 							RequestResetForm, ResetPasswordForm, SearchForm)
-from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista, identificador_en_corchete
+from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 
@@ -195,11 +195,8 @@ def search():
 @role_required("Admin")
 def all_users():
 	select_item = request.args.get('selectItem', '')
-	if select_item:
-		repr_split_list = select_item.split()
-		# divide el __repr__ y obtiene el código en pos 2		
-		user = User.query.filter_by(username=repr_split_list[0]).first()
-		return redirect(url_for('users.account', user_id=user.id))
+	if select_item:		
+		return redirect(url_for('users.account', user_id=select_item))
 	all_users = buscarLista(User)
 	image_path = url_for("static", filename='profile_pics/')
 	orderBy = current_app.config["ORDER_USUARIOS"]
@@ -216,9 +213,8 @@ def all_users():
 @login_required
 def user_historias(username):
 	select_item = request.args.get('selectItem', '')	
-	if select_item:
-		historia_id = identificador_en_corchete(select_item)
-		return redirect(url_for('historias.historia', historia_id=historia_id))
+	if select_item:		
+		return redirect(url_for('historias.historia', historia_id=select_item))
 	user = User.query.filter_by(username=username)\
 					.first_or_404()
 	historias = buscarLista(Historia, user)
@@ -243,9 +239,8 @@ def user_ordenes_reparacion(user_id):
 @login_required
 def user_detalles_reparacion(username):
 	select_item = request.args.get('selectItem', '')	
-	if select_item:
-		detalle_reparacion_id = identificador_en_corchete(select_item)
-		return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=detalle_reparacion_id))
+	if select_item:		
+		return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=select_item))
 	user = User.query.filter_by(username=username).first_or_404()
 	detalles_reparacion = buscarLista(Detalle_reparacion, user)
 	orderBy = current_app.config["ORDER_DETALLES"]
