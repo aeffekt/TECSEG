@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
-from tseg.models import Equipment, Client, Historia, Modelo, Frecuencia, Orden_reparacion
+from tseg.models import Equipment, Historia, Orden_reparacion
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.utils import role_required, dateFormat, buscarLista
 from tseg import db

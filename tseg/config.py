@@ -47,6 +47,12 @@ class Config:
 					"tipologia_id": "Tipología",
 					"equipo_id": "equipo",
 					}
+	ORDER_PROCEDIMIENTOS = {"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",
+					"title": "Título", 
+					"user_id": "Author",
+					"user_edit_id": "Último editor",
+					}
 	ORDER_OR = {"estado_id": "Estado",
 					"codigo": "Código",					
 					"tecnico_id": "Técnico asignado",

@@ -2,7 +2,8 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
-from tseg.models import User, Historia, Equipment, Client, Role, Detalle_reparacion, Modelo, Orden_reparacion
+from tseg.models import (User, Historia, Equipment, Client, Role, Detalle_reparacion, 
+						 Modelo, Orden_reparacion, Marca)
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, UpdatePassword,
 							RequestResetForm, ResetPasswordForm, SearchForm)
 from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista
@@ -163,13 +164,15 @@ def search():
 		equipments = Equipment.query.filter(or_(
 												Equipment.content.like('%'+searched+'%'),
 												Equipment.anio.like('%'+searched+'%'),												
-												Equipment.modelo.has(
-													Modelo.nombre.like('%'+searched+'%'),													
-													),
+												Equipment.modelo.has(Modelo.nombre.like('%'+searched+'%')),
+												Equipment.modelo.has(Modelo.descripcion.like('%'+searched+'%')),
+												Equipment.modelo.has(Modelo.marca.has(Marca.nombre.like('%'+searched+'%')),)
+												
 												)												
 											)
 		
-		clients = Client.query.filter(or_(Client.nombre.like('%'+searched+'%'), \
+		clients = Client.query.filter(or_(
+									Client.nombre.like('%'+searched+'%'), \
 									Client.apellido.like('%'+searched+'%'),
 									Client.business_name.like('%'+searched+'%'),
 									Client.comments.like('%'+searched+'%'),
@@ -178,11 +181,13 @@ def search():
 												))
 		historias = Historia.query.filter(or_(Historia.title.like('%'+searched+'%'),
 								Historia.content.like('%'+searched+'%')))
+
 		return render_template('search.html', title="Busqueda",
 									searched = searched,							
 									equipments=equipments,
 									clients=clients,
-									historias=historias)
+									historias=historias
+									)
 	if request.method == 'GET':
 		return render_template('search.html')
 	else:

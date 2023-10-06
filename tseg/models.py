@@ -22,7 +22,7 @@ class User(db.Model, UserMixin):
 	equipments = db.relationship('Equipment', backref='author_eq', lazy=True)
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='author_or', lazy=True, foreign_keys='Orden_reparacion.user_id')
 	detalles_reparacion = db.relationship('Detalle_reparacion', backref='author_detalle_reparacion', lazy=True, foreign_keys='Detalle_reparacion.user_id')
-	historias = db.relationship('Historia', backref='author_historia', lazy=True)
+	historias = db.relationship('Historia', backref='author_historia', lazy=True)	
 	ordenes_asignadas = db.relationship('Orden_reparacion', backref='tecnicoAsignado', lazy=True, foreign_keys='Orden_reparacion.tecnico_id')
 
 	
@@ -215,6 +215,25 @@ class Estado_or(db.Model):
 
 	def __repr__(self):
 		return self.descripcion
+
+
+class Procedimiento(db.Model):
+	now = datetime.now()
+	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+	id = db.Column(db.Integer, primary_key=True)
+	title = db.Column(db.String(150), unique=False, nullable=False)	
+	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	content = db.Column(db.Text, nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	user_edit_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+	user = db.relationship('User', foreign_keys=[user_id], backref='author_procedimiento')
+	user_edit = db.relationship('User', foreign_keys=[user_edit_id], backref='ultimo_editor')
+
+
+	def __repr__(self):
+		return self.title
 
 
 class Domicilio(db.Model):

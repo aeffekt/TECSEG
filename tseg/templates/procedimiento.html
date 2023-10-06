@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Procedimiento</h6>
+    <article class="media content-section">
+        
+        <div class="media-body">           
+            
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Título:</small> 
+                </div>
+                <div class="col-md-9">
+                    <h3 class="aticle-title">{{ procedimiento.title }}</h3>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Procedimiento:</small> 
+                </div>
+                <div class="col-md-9">
+                    <h5 class="aticle-title">{{ procedimiento.content }}</h5>
+                </div>
+            </div>
+                        
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Autor: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ procedimiento.user }}</b></small>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Creado el: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ procedimiento.date_created.strftime('%d-%m-%Y') }}</b></small>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Última modificación: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ procedimiento.date_modified.strftime('%d-%m-%Y %H:%M:%S') }} por: {{ procedimiento.ultimo_editor }}</b></small>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Modificado por: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ procedimiento.user_edit }}</b></small>
+                </div>
+            </div>
+
+        </div>  
+        <div>
+            <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar procedimiento" href="{{ url_for('procedimientos.update_procedimiento', procedimiento_id=procedimiento.id) }}"></a>
+            <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar procedimiento"></a>
+        </div>        
+    </article>
+     <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">¿Seguro desea borrarlo?</h5>
+            <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <form action="{{ url_for('procedimientos.delete_procedimiento', procedimiento_id=procedimiento.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Borrar">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

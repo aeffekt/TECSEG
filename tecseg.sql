@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 16-08-2023 a las 14:14:06
+-- Tiempo de generación: 26-09-2023 a las 15:17:22
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -1721,7 +1721,7 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   UNIQUE KEY `uq_modelo_nombre_anio` (`nombre`,`anio`),
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
@@ -1760,7 +1760,8 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (48, 1, 'Router', '', '7a1a80f2c44bcceb.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL),
 (49, 1, 'Switch', '', 'a1c2e38a214e88e7.png', '2023-07-07 12:16:19', '2023-08-10 13:34:52', 'N/D', NULL),
 (50, 1, 'Enlace', 'banda 5GHz', '5410c5fdf8749071.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL),
-(51, 2, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8);
+(51, 2, 'FM10.000', '', '612c081fc0fc7d85.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8),
+(52, 4, 'NDS3224V', '4 HDMI, salida IP.Sin display.Funciona con señal en la entrada #4 fija, sino se corta', '5bb1ad5c7371e20e.png', '2023-09-20 09:06:55', '2023-09-20 09:06:55', '\'21', NULL);
 
 -- --------------------------------------------------------
 
@@ -1844,6 +1845,35 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 (19, 'Uruguay'),
 (20, 'Venezuela'),
 (21, 'Otro');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `procedimiento`
+--
+
+DROP TABLE IF EXISTS `procedimiento`;
+CREATE TABLE IF NOT EXISTS `procedimiento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(250) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `content` mediumtext,
+  `user_id` int(11) NOT NULL,
+  `user_edit_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `ultimo_editor` (`user_edit_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `procedimiento`
+--
+
+INSERT INTO `procedimiento` (`id`, `title`, `date_created`, `date_modified`, `content`, `user_id`, `user_edit_id`) VALUES
+(58, 'Grabar PIC 24HJ256GP610', '2023-09-26 11:24:57', '2023-09-26 11:51:10', 'para grabar el PIC 24HJ256GP610 de la placa P0568 (voltímetro)\r\nSe debe hacer con la placa ya armada con el PIC, usar el PICKIT 3 ycargar el archivo HEX correspondiente', 10, 10),
+(59, 'Grabar PIC16F887', '2023-09-26 11:24:57', '2023-09-26 11:50:34', 'Grabar usando el programa MPLAB y el hardware PICSTART PLUS, con una computadora con puerto SERIE. Cargar el HEX correspondiente y grabar. Una vez terminado, marcar el pic con corrector blanco para indicar su estado.', 10, 10),
+(60, '432', '2023-09-26 12:15:34', '2023-09-26 12:16:33', 'editado', 10, 1);
 
 -- --------------------------------------------------------
 
@@ -2123,6 +2153,13 @@ ALTER TABLE `orden_reparacion`
   ADD CONSTRAINT `or_estado` FOREIGN KEY (`estado_id`) REFERENCES `estado_or` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `or_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `or_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `procedimiento`
+--
+ALTER TABLE `procedimiento`
+  ADD CONSTRAINT `autor_procedimiento` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `ultimo_editor` FOREIGN KEY (`user_edit_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `provincia`

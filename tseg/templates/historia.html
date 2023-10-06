@@ -50,18 +50,18 @@
             </div>            
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
-                    <small>Última modificación: </small>
-                </div>
-                <div class="col-md-9">
-                    <small class="article-title"><b>{{ historia.date_modified }}</b></small>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-3 text-end">
                     <small>Creado el: </small>
                 </div>
                 <div class="col-md-9">
                     <small class="article-title"><b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b></small>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Última modificación: </small>
+                </div>
+                <div class="col-md-9">                    
+                    <small class="article-title"><b>{{ historia.date_modified.strftime('%d-%m-%Y %H:%M:%S') }}</b></small>
                 </div>
             </div>
         </div>  

@@ -33,6 +33,7 @@ def create_app(config_class=Config):
 	from tseg.clients.routes import clients
 	from tseg.ordenes_reparacion.routes import ordenes_reparacion
 	from tseg.detalles_reparacion.routes import detalles_reparacion
+	from tseg.procedimientos.routes import procedimientos
 	from tseg.reportes.routes import reportes
 	from tseg.errors.handlers import errors	
 
@@ -47,6 +48,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(clients)
 	app.register_blueprint(ordenes_reparacion)
 	app.register_blueprint(detalles_reparacion)
+	app.register_blueprint(procedimientos)
 	app.register_blueprint(reportes)
 	app.register_blueprint(errors)
 

@@ -1,12 +1,9 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import login_required
-from tseg.models import Marca, Homologacion
+from tseg.models import Marca, Modelo
 from tseg.marcas.forms import MarcaForm
-from tseg.users.utils import role_required, buscarLista, save_picture
+from tseg.users.utils import role_required, buscarLista
 from tseg import db
-import re
-
-from datetime import datetime
 
 
 marcas = Blueprint('marcas', __name__)
@@ -73,6 +70,11 @@ def add_marca():
 @marcas.route("/marca-<int:marca_id>-delete", methods=['GET', 'POST'])
 @role_required("Admin", "Comercial")
 def delete_marca(marca_id):
+	marca = Marca.query.get_or_404(marca_id)
+	modelo = Modelo.query.filter_by(marca_id=marca.id).first()
+	if modelo:
+		flash(f'No se puede eliminar! Existen modelos asignados a la marca {marca}', 'warning')
+		return redirect(url_for('marcas.all_marcas'))
 	marca = Marca.query.get_or_404(marca_id)
 	db.session.delete(marca)
 	db.session.commit()

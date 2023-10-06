@@ -54,8 +54,9 @@ def modelo(modelo_id):
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
 		except Exception as err:
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
-			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	
-	form.marca.data = modelo.marca.id	
+			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
+	if modelo.marca:
+		form.marca.data = modelo.marca.id	
 	form.nombre.data = modelo.nombre
 	form.anio.data = modelo.anio
 	form.descripcion.data = modelo.descripcion	
