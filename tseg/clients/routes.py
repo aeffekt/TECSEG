@@ -162,11 +162,17 @@ def update_client(client_id):
 @role_required("ServicioCliente", "Admin")
 def delete_client(client_id):
 	client = Client.query.get_or_404(client_id)
-	db.session.delete(client.domicilio)
-	db.session.delete(client)
-	db.session.commit()
-	flash("El cliente ha sido eliminado!", 'success')
-	return redirect(url_for('clients.all_clients'))
+	try:	
+		db.session.delete(client.domicilio)
+		db.session.delete(client)
+		db.session.commit()
+		flash("El cliente ha sido eliminado!", 'success')
+		return redirect(url_for('clients.all_clients'))
+	except Exception as e:
+		db.session.rollback() 
+		flash("Ocurrió un error al intentar eliminar: Es probable que existan equipos asignados al cliente.", 'warning')
+		flash(f"Detalles del error: {e}", 'danger')
+		return redirect(url_for('clients.client', client_id=client.id))	
 
 
 @clients.route("/client_equipments-<string:client_id>")

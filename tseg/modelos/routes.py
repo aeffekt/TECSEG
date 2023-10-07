@@ -4,7 +4,7 @@ from tseg.models import Modelo, Client, Historia, Homologacion, Marca
 from tseg.modelos.forms import ModeloForm
 from tseg.users.utils import role_required, buscarLista, save_picture
 from tseg import db
-import re
+import os
 
 from datetime import datetime
 
@@ -31,6 +31,7 @@ def all_modelos():
 							title='Modelos de equipo',
 							image_path=image_path,
 							item_type=item_type)
+
 
 @modelos.route("/modelo-<int:modelo_id>-update", methods=['GET', 'POST'])
 @login_required
@@ -98,7 +99,16 @@ def add_modelo():
 @role_required("Admin", "Comercial")
 def delete_modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)
-	db.session.delete(modelo)
-	db.session.commit()
-	flash("El modelo ha sido eliminado!", 'success')
-	return redirect(url_for('modelos.all_modelos'))
+	try:		
+		db.session.delete(modelo)
+		db.session.commit()
+		picture_path = os.path.join(current_app.root_path, f'static\\models_pics', modelo.image_file)	
+		if os.path.exists(picture_path):
+			os.remove(picture_path)
+		flash("El modelo ha sido eliminado!", 'success')
+		return redirect(url_for('modelos.all_modelos'))
+	except Exception as e:
+		db.session.rollback() 
+		flash("Ocurrió un error al intentar eliminar: Es probable que el modelo se encuentre asignado a un equipo.", 'warning')
+		flash(f"Detalles del error: {e}", 'danger')
+		return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	
