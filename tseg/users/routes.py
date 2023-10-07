@@ -3,7 +3,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
 from tseg.models import (User, Historia, Equipment, Client, Role, Detalle_reparacion, 
-						 Modelo, Orden_reparacion, Marca)
+						 Modelo, Orden_reparacion, Marca, Procedimiento)
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, UpdatePassword,
 							RequestResetForm, ResetPasswordForm, SearchForm)
 from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista
@@ -181,12 +181,15 @@ def search():
 												))
 		historias = Historia.query.filter(or_(Historia.title.like('%'+searched+'%'),
 								Historia.content.like('%'+searched+'%')))
+		procedimientos = Procedimiento.query.filter(or_(Procedimiento.title.like('%'+searched+'%'),
+								Procedimiento.content.like('%'+searched+'%')))
 
 		return render_template('search.html', title="Busqueda",
 									searched = searched,							
 									equipments=equipments,
 									clients=clients,
-									historias=historias
+									historias=historias,
+									procedimientos=procedimientos
 									)
 	if request.method == 'GET':
 		return render_template('search.html')

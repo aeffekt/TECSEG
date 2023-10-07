@@ -5,8 +5,8 @@
     <p>
         <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Añadir equipo</a>
     </p>    
-    {% for equipment in lista %}
-        <article class="media content-section">
+    {% for equipment in lista %}        
+        <article class="media content-section-list">
             <div class="media-body">
                 <div class="row">
                     <div class="col-md-3"> 
@@ -14,13 +14,13 @@
                         </div>
                     <div class="col-md-8">
                         <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-                        <h2>{{ equipment.modelo.nombre }}</h2>
-                        <h6 class="article-title" href="">Canal / Frecuencia: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></h6>
-                        <small>
-                            Año modelo: <b>{{ equipment.anio }}</b>
-                            <p>Modificado: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b>
-                            Creado: <b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b></p>
-                        </small>
+                            <h2>{{ equipment.modelo.nombre }}</h2>
+                            <h6 class="article-title" href="">Canal / Frecuencia: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></h6>
+                            <small>
+                                Año modelo: <b>{{ equipment.anio }}</b>
+                                <p>Modificado: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b>
+                                Creado: <b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b></p>
+                            </small>
                         </a>
                     </div>
                     <div class="col-md-1">
