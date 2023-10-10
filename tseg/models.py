@@ -64,6 +64,7 @@ class Client(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	domicilio_id = db.Column(db.Integer, db.ForeignKey('domicilio.id'), nullable=True)
 	cond_fiscal_id = db.Column(db.Integer, db.ForeignKey('cond_fiscal.id'), nullable=True)
+	iibb_id = db.Column(db.Integer, db.ForeignKey('iibb.jurisdiccion'), nullable=True)
 	equipments = db.relationship('Equipment', backref='owner', lazy=True)
 
 	def __repr__(self):
@@ -139,6 +140,9 @@ class Frecuencia(db.Model):
 	canal = db.Column(db.String(50), unique=True, nullable=False)
 	unidad_id = db.Column(db.Integer, db.ForeignKey('unidad.id'), nullable=False)
 	equipos = db.relationship('Equipment', backref='frecuencia_eq', lazy=True)
+
+	def __repr__(self):
+		return f'{self.canal} {self.rango}'
 
 
 class Unidad(db.Model):
@@ -261,7 +265,7 @@ class Provincia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)	
 	nombre = db.Column(db.String(50), nullable=False)	
 	pais_id = db.Column(db.Integer, db.ForeignKey('pais.id'), nullable=True)
-	localidades = db.relationship('Localidad', backref='provincia', lazy=True)
+	localidades = db.relationship('Localidad', backref='provincia', lazy=True)	
 
 	def __repr__(self):
 		return f'{self.nombre}'
@@ -274,3 +278,13 @@ class Pais(db.Model):
 
 	def __repr__(self):
 		return f'{self.nombre}'
+
+
+class Iibb(db.Model):
+	jurisdiccion = db.Column(db.Integer, primary_key=True)
+	provincia_id = db.Column(db.Integer, db.ForeignKey('provincia.id'), nullable=True)
+	provincia = db.relationship('Provincia', foreign_keys=[provincia_id], backref='provincia')
+	clientes = db.relationship('Client', backref='iibb', lazy=True)
+
+	def __repr__(self):
+		return f'{self.jurisdiccion} - {self.provincia}'

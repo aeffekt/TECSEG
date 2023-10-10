@@ -2,18 +2,20 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField,IntegerField
 from wtforms.validators import DataRequired, ValidationError, Optional, Email
 from tseg import db
-from tseg.models import Cond_fiscal
+from tseg.models import Cond_fiscal, Iibb
 
 class ClientForm(FlaskForm):
 	def __init__(self):
 		super(ClientForm, self).__init__()  # Llamar al constructor de la clase padre		
 		self.cond_fiscal.choices = [(cond_fiscal.id, cond_fiscal.nombre) for cond_fiscal in Cond_fiscal.query.all()]
+		self.iibb.choices = [(iibb.jurisdiccion, iibb) for iibb in Iibb.query.order_by(Iibb.jurisdiccion.asc()).all()]		
 
 	nombre = StringField('Nombre', validators=[DataRequired()], render_kw={'autofocus': True})
 	apellido = StringField('Apellido', validators=[DataRequired()])
 	business_name = StringField('Razón social')
 	cuit = IntegerField('CUIT', validators=[Optional()])
 	cond_fiscal = SelectField('Condición fiscal', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
+	iibb = SelectField('Ingresos brutos', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 	telefono = StringField('Teléfono')
 	email = StringField('Email', validators=[Optional(), Email()])
 	comments = TextAreaField('Comentarios')

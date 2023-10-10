@@ -199,6 +199,19 @@
 										{% endif %}
 									</div>
 									<div class="form-group">					
+										{{ form.iibb.label(class="form-control-label") }}					
+										{% if form.iibb.errors %}
+											{{ form.iibb(class="form-control form-control-sm is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form.iibb.errors %}
+													<span>{{ error }}</span>
+												{% endfor %}
+											</div>
+										{% else %}
+											{{ form.iibb(class="form-select form-select-sm custom-select", tabindex="14" ) }}
+										{% endif %}
+									</div>
+									<div class="form-group">					
 										{{ form.cond_fiscal.label(class="form-control-label") }}					
 										{% if form.cond_fiscal.errors %}
 											{{ form.cond_fiscal(class="form-control form-control-sm is-invalid") }}

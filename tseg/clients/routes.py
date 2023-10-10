@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app, jsonify
 from flask_login import current_user, login_required
-from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio, Cond_fiscal
+from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio, Cond_fiscal, Iibb
 from tseg.clients.forms import ClientForm
 from tseg import db
 from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista
@@ -75,10 +75,12 @@ def add_client():
 				domicilio = Domicilio(direccion=form.domicilio.data, localidad=localidad)
 				db.session.add(domicilio)		
 			cond_fiscal = Cond_fiscal.query.get(form.cond_fiscal.data)
+			iibb = Iibb.query.get(form.iibb.data)
 			client = Client(nombre=form.nombre.data,
 							apellido=form.apellido.data,
 							business_name=form.business_name.data,
 							cond_fiscal=cond_fiscal,
+							iibb=iibb,
 							cuit=form.cuit.data,
 							telefono=form.telefono.data,
 							email=form.email.data,
@@ -115,6 +117,7 @@ def update_client(client_id):
 			domicilio.localidad = localidad
 		
 		client.cond_fiscal_id = form.cond_fiscal.data
+		client.iibb_id = form.iibb.data
 		client.domicilio_id = domicilio.id
 		client.nombre = form.nombre.data
 		client.apellido = form.apellido.data
@@ -132,7 +135,9 @@ def update_client(client_id):
 			return redirect(url_for('clients.client', client_id=client.id))
 			
 	elif request.method == 'GET':
-		form.cond_fiscal.default = client.cond_fiscal.id		
+		form.cond_fiscal.default = client.cond_fiscal.id
+		if client.iibb:
+			form.iibb.default = client.iibb.jurisdiccion
 		form.process()
 		form.nombre.data = client.nombre
 		form.apellido.data = client.apellido
