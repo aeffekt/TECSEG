@@ -13,8 +13,8 @@
         <div class="row">
             <div class="col-md-6">
                 {% if current_user.role.role_name == 'Comercial' %}
-                    <a href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">
-               MODELOS</a>
+                    <a href="{{ url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc') }}">
+               Órdenes Trabajo</a>
                 {% else %}
                     <a href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">
                 REPARACIONES</a>

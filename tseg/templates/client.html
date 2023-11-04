@@ -2,154 +2,179 @@
 {% block content %}
     <article class="media content-section">
       	<div class="media-body">
-          <legend class="border-bottom mb-4">Cliente</legend>
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-                <small>Número ID:</small>
-            </div>
+          	<legend class="border-bottom mb-4">Cliente</legend>
+          	<div class="row align-items-center">
+            	<div class="col-md-3 text-end">
+                	<small>Número ID:</small>
+            	</div>
             <div class="col-md-9">
                 <h5 class="aticle-title">{{ client.id }}</h1></h5>
             </div>
-          </div>
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-                <small>Nombre / Apellido:</small>
-            </div>
-            <div class="col-md-9">
-                <h1 class="aticle-title">{{ client.nombre }} {{ client.apellido }}</h1></p>
-            </div>
-          </div>
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-                <small>Razón social:</small> 
-            </div>
-            <div class="col-md-9">
-                <h5 class="article-title">{{ client.business_name }}</h5>
-            </div>
-          </div>
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-                <small >Teléfono: </small>
-            </div>
-            <div class="col-md-9">
-              <small class="article-title">{{ client.telefono }}</small>
-            </div>
-          </div>
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-              <small >Email: </small>
-            </div>
-            <div class="col-md-9">
-              <small class="article-title">{{ client.email }}</small>
-            </div>
-          </div>
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-              <small>Comentarios:</small> 
-            </div>
-            <div class="col-md-9">
-              <h5 class="article-content">{{ client.comments }}</h5>
-            </div>
-          </div>
-          
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-              <small>CUIT:</small> 
-            </div>
-            <div class="col-md-9">
-              {% if client.cuit is not none %}                
-                {% set cuit_str = client.cuit|string %}
-                {% set cuit_formatted = cuit_str[:2] + '-' + cuit_str[2:10] + '-' + cuit_str[10:] %}
-                <h5 class="article-title">{{ cuit_formatted }}</h5>
-              {% endif %}              
-            </div>
-          </div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+					<small>Nombre / Apellido:</small>
+				</div>
+				<div class="col-md-9">
+					<h1 class="aticle-title">{{ client.nombre }} {{ client.apellido }}</h1></p>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+					<small>Razón social:</small> 
+				</div>
+				<div class="col-md-9">
+					<h5 class="article-title">{{ client.business_name }}</h5>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+					<small >Teléfono: </small>
+				</div>
+				<div class="col-md-9">
+				<small class="article-title">{{ client.telefono }}</small>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+				<small >Email: </small>
+				</div>
+				<div class="col-md-9">
+				<small class="article-title">{{ client.email }}</small>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+				<small>Comentarios:</small> 
+				</div>
+				<div class="col-md-9">
+				<h5 class="article-content">{{ client.comments }}</h5>
+				</div>
+			</div>
+			
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+				<small>CUIT:</small> 
+				</div>
+				<div class="col-md-9">
+				{% if client.cuit is not none %}                
+					{% set cuit_str = client.cuit|string %}
+					{% set cuit_formatted = cuit_str[:2] + '-' + cuit_str[2:10] + '-' + cuit_str[10:] %}
+					<h5 class="article-title">{{ cuit_formatted }}</h5>
+				{% endif %}              
+				</div>
+			</div>
 
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-              <small>Condición fiscal:</small> 
-            </div>
-            <div class="col-md-9">
-              <h5 class="article-title">{{ client.cond_fiscal.nombre }}</h5>
-            </div>
-          </div>
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+				<small>Condición fiscal:</small> 
+				</div>
+				<div class="col-md-9">
+				<h5 class="article-title">{{ client.cond_fiscal.nombre }}</h5>
+				</div>
+			</div>
 
-          <div class="row align-items-center">
-            <div class="col-md-3 text-end">
-              <small>Ingresos Brutos:</small> 
-            </div>
-            <div class="col-md-9">
-              {% if client.iibb is not none %}
-                {% if client.iibb.provincia is not none %}
-                  <small class="article-title">{{ client.iibb }}</small>
-                {% endif %}
-              {% endif %}
-            </div>
-          </div>
-          
-          {% if client.domicilio.direccion %}
-            <div class="row align-items-center">
-              <div class="col-md-3 text-end">
-                <small>Domicilio:</small> 
-              </div>
-              <div class="col-md-9">
-                <small class="article-title">{{ client.domicilio.direccion }}</small>
-              </div>
-            </div>
-          {% endif %}
-          {% if client.domicilio.localidad %}
-            <div class="row align-items-center">
-              <div class="col-md-3 text-end">
-                <small>Localidad:</small> 
-              </div>
-              <div class="col-md-9">
-                <small class="article-title">{{ client.domicilio.localidad.nombre }}</small>
-              </div>
-            </div>
-          {% endif %}
-          {% if client.domicilio.localidad %}
-            <div class="row align-items-center">
-              <div class="col-md-3 text-end">
-                <small>cp:</small> 
-              </div>
-              <div class="col-md-9">
-                <small class="article-title">{{ client.domicilio.localidad.cp }}</small>
-              </div>
-            </div>
-            {% if client.domicilio.localidad.provincia %}
-              <div class="row align-items-center">
-                <div class="col-md-3 text-end">
-                  <small>Provincia:</small> 
-                </div>
-                <div class="col-md-9">
-                  <small class="article-title">{{ client.domicilio.localidad.provincia.nombre }}</small>
-                </div>
-              </div>
-            
-              {% if client.domicilio.localidad.provincia.pais %}
-                <div class="row align-items-center">
-                  <div class="col-md-3 text-end">
-                    <small>Pais:</small> 
-                  </div>
-                  <div class="col-md-9">
-                    <small class="article-title">{{ client.domicilio.localidad.provincia.pais.nombre }}</small>
-                  </div>
-                </div>
-              {% endif %}
-            {% endif %}
-          {% endif %}
-          <hr 80%>
-          
-          <a  class="bi bi-search btn btn-outline-light" title="Ir a equipos del cliente" href="{{ url_for('clients.client_equipments', client_id=client.id) }}"></a>
+			<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+				<small>Ingresos Brutos:</small> 
+				</div>
+				<div class="col-md-9">
+				{% if client.iibb is not none %}
+					{% if client.iibb.provincia is not none %}
+					<small class="article-title">{{ client.iibb }}</small>
+					{% endif %}
+				{% endif %}
+				</div>
+			</div>
+			
+			{% if client.domicilio.direccion %}
+				<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+					<small>Dirección:</small> 
+				</div>
+				<div class="col-md-9">
+					<small class="article-title">{{ client.domicilio.direccion }}</small>
+				</div>
+				</div>
+			{% endif %}
 
-          <a class="bi bi-plus-square btn btn-outline-info" title="Agregar equipo al cliente" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}"></a>
-          
-          <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar cliente" href="{{ url_for('clients.update_client', client_id=client.id) }}"></a>
-          
-          <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar cliente"></a>
-      </div>
+			{% if client.domicilio.localidad %}
+				<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+					<small>Localidad:</small> 
+				</div>
+				<div class="col-md-9">
+					<small class="article-title">{{ client.domicilio.localidad.nombre }}</small>
+				</div>
+				</div>
+			{% endif %}
+
+			{% if client.domicilio.localidad %}
+				<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+					<small>cp:</small> 
+				</div>
+				<div class="col-md-9">
+					<small class="article-title">{{ client.domicilio.localidad.cp }}</small>
+				</div>
+				</div>
+				{% if client.domicilio.localidad.provincia %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+					<small>Provincia:</small> 
+					</div>
+					<div class="col-md-9">
+					<small class="article-title">{{ client.domicilio.localidad.provincia.nombre }}</small>
+					</div>
+				</div>
+				
+				{% if client.domicilio.localidad.provincia.pais %}
+					<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+						<small>Pais:</small> 
+					</div>
+					<div class="col-md-9">
+						<small class="article-title">{{ client.domicilio.localidad.provincia.pais.nombre }}</small>
+					</div>
+					</div>
+				{% endif %}
+				{% endif %}
+			{% endif %}
+
+			<hr 80%>
+			
+			<a  class="bi bi-search btn btn-outline-light" title="Ir a equipos del cliente" href="{{ url_for('clients.client_equipments', client_id=client.id) }}"></a>
+			<a class="bi bi-plus-square btn btn-outline-info" title="Agregar Orden de Trabajo" href="{{ url_for('ordenes_trabajo.add_orden_trabajo', client_id = client.id) }}"></a>          
+			<a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar cliente" href="{{ url_for('clients.update_client', client_id=client.id) }}"></a>          
+			<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar cliente"></a>
+      	</div>
     </article>
-    <!-- AGREGAR LISTADO DE LOS EQUIPOS-->
+    <br>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+		<li class="nav-item" role="presentation">
+		  <button class="nav-link active" id="Órdenes de trabajo-tab" data-bs-toggle="tab" data-bs-target="#Órdenes de trabajo" type="button" role="tab" aria-controls="Órdenes de trabajo" aria-selected="true">Órdenes de trabajo ({{ lista.count() }})</button>
+		</li>    
+	</ul>
+    <div class="tab-content" id="myTabContent">
+		<div class="tab-pane fade show active" id="Órdenes de trabajo" role="tabpanel" aria-labelledby="Órdenes de trabajo-tab">
+			<br>
+			{% for orden_trabajo in lista %}
+				<article class="media content-section-list">
+					<div class="media-body">
+						<div class="row">
+							<div class="col-md-10">
+								<a class="article-title" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id) }}">
+									<h6 class="article-title"><b>{{ orden_trabajo.codigo }}</b> - {{ orden_trabajo.content }}. <b>{{ orden_trabajo.detalles_trabajo|length }}</b> Detalles</h6>
+									<small>Última modificación: <b>{{ orden_trabajo.date_modified.strftime('%d-%m-%Y') }}</b></small>
+									<small>Fecha de creación: <b>{{ orden_trabajo.date_created.strftime('%d-%m-%Y') }}</b></small>
+								</a>
+							</div>                    
+						</div>
+					</div>
+				</article>
+			{% endfor %}
+		</div>
+	</div>
 
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

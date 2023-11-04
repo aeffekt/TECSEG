@@ -1,49 +1,101 @@
 {% extends "layout.html" %}
 {% block content %}
-<h6 class="border-bottom border-secondary mb-4">{{ nombre_reporte }}</h6>
-<div class="row">
-    <div class="col-md-4">        
-        <table>
-            <thead>
-                <tr>
-                    {% set header_row = datos_sql[0] if datos_sql else {} %}
-                    {% set keys = header_row._mapping.keys() if header_row else [] %}
-                    {% for key in keys %}
-                        <th>{{ key }}</th>
+<h6 class="border-bottom border-secondary mb-4">{{ nombre_reporte }} ({{ datos_sql|length }})</h6>
+{% if  datos_sql|length != 0 %}
+    <div class="row">
+        <div class="col-md-4">        
+            <table>
+                <thead>
+                    <tr>
+                        {% set header_row = datos_sql[0] if datos_sql else {} %}
+                        {% set keys = header_row._mapping.keys() if header_row else [] %}
+                        {% for key in keys %}
+                            <th>{{ key }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in datos_sql %}                    
+                            <tr>
+                                {% for item in row %}
+                                <td>
+                                    <article class="media content-section">
+                                        <div class="media-body">
+                                            {{ item }}
+                                        </div>
+                                    </article>
+                                </td>
+                                {% endfor %}
+                            </tr>                        
                     {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in datos_sql %}                    
-                        <tr>
-                            {% for item in row %}
-                            <td>
-                                <article class="media content-section">
-                                    <div class="media-body">
-                                        {{ item }}
-                                    </div>
-                                </article>
-                            </td>
-                            {% endfor %}
-                        </tr>                        
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>    
-    <div class="col-md-8">
-        <article class="media content-section">
-            <div class="media-body" style="background: rgba(255,255,255,0.7)">
-                <canvas id="chart"></canvas>
+                </tbody>
+            </table>
+        </div>    
+        <div class="col-md-8">
+            <article class="media content-section">
+                <div class="media-body" style="background: rgba(255,255,255,0.7)">
+                    <canvas id="chart"></canvas>
+                </div>
+            </article>
+            <div class="row">
+                <div class="col-md-6">  
+                    <div>Tipo de gráfico</div>
+                </div>                  
+                <div class="col-md-4">
+                    <div>Rango de fechas</div>
+                </div>
             </div>
-        </article>
-        <select id="chartTypeSelect">
-            <option value="pie">Gráfico tipo Torta</option>
-            <option value="bar">Gráfico de Barras</option>
-        </select>
+                
+            <div class="row">
+                <div class="col-md-6">
+                    <select class="form-select form-select-sm"  style="width: 100px;", id="chartTypeSelect" >
+                        <option value="pie">Torta</option>
+                        <option value="bar">Barras</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-2">
+                    <select  class="form-select form-select-sm" style="width: 90px;", id="anio1" name="anio1" title="Elija un año de fabricación">
+                        {% set current_year = 2023 %}
+                        {% set selected_year1 = request.args.get('anio1') %}
+                        {% for year in range(2000, current_year + 1) %}
+                            <option value="{{ year }}" {% if year|string == selected_year1 %}selected{% endif %}>{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select form-select-sm" style="width: 90px;" id="anio2" name="anio2" title="Elija otro año para crear un rango">
+                        {% set selected_year2 = request.args.get('anio2') %}  
+                        {% set current_year = 2023 %}
+                        {% if selected_year2 %}
+                            {% for year in range(2000, current_year + 1) %}
+                                <option value="{{ year }}" {% if year|string == selected_year2 %}selected{% endif %}>{{ year }}</option>
+                            {% endfor %}
+                            {% else %}
+                                <option value="{{ current_year }}" selected>{{ current_year }}</option>
+                                {% for year in range(2000, current_year) %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                {% endfor %}
+                        {% endif %}               
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" id="filterAnioButton">Aplicar</button>
+                </div>            
+            </div>
+        </div>
     </div>
-</div>
+{% else %}
+    <h2>No hay registros</h2>
+    {% if request.args.get('anio1') or request.args.get('anio2') %}
+        <button class="btn btn-primary" id="borrarFilterAnioButton">Borrar filtro de resultados</button>
+    {% endif %} 
+{% endif %}
     <!-- import plugin script -->
     <script src="static/js/Chart.min.js"></script>
+
+    <!-- import filtro de años de reporte -->
+    <script src="static/js/filter_reporte.js"></script>
     
     <!-- bar chart canvas element -->
     <script>
@@ -67,8 +119,8 @@
           data: {
             labels: labels_json,
             datasets: [{
-                color:'blue',
-                label: '#',
+                color:'Grey',
+                label: 'Cantidad',
                 data: data_json,              
                 borderWidth: 1                
             }]
@@ -83,6 +135,16 @@
           }
         });
     </script>
+
+    <script>
+        document.getElementById("borrarFilterAnioButton").addEventListener("click", function() {
+          // Borra las variables anio1 y anio2 de la barra de navegación
+          history.replaceState({}, document.title, location.pathname);
+          
+          // Recarga la página
+          location.reload();
+        });
+        </script>
     
 {% endblock content %}
 

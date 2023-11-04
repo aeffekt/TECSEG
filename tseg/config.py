@@ -15,6 +15,13 @@ class Config:
 	MAIL_MAX_EMAILS = 15
 	MAIL_ASCII_ATTACHMENTS = False
 	TEXTAREA_ROWS = 2
+	
+	# filtro de los reportes
+	ANIO1 = 1990	
+	ANIO2 = 2099
+
+	TEXTAREA_ROWS = 2
+	
 	ORDER_USUARIOS = {"username": "Nombre",
 					"role_id": "Tipo usuario"					
 					}
@@ -28,9 +35,7 @@ class Config:
 					"anio": "Año de fabricación",
 					"modelo_id": "Modelo",					
 					"frecuencia_id": "Canal / Frecuencia",					
-					"client_id": "Cliente",
-					"numSerie": "Número de serie",
-					"Marca.nombre": "Marca"
+					"detalle_trabajo_id": "Orden de trabajo",					
 					}
 	ORDER_MODELOS= {"nombre": "Nombre",
 					"date_created": "Fecha creado",
@@ -44,7 +49,7 @@ class Config:
 	ORDER_HISTORIAS = {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",
 					"title": "Título", 
-					"tipologia_id": "Tipología",
+					"tipo_historia_id": "Tipología",
 					"equipo_id": "equipo",
 					}
 	ORDER_PROCEDIMIENTOS = {"date_modified": "Fecha modificado",
@@ -60,7 +65,16 @@ class Config:
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
 					}
-	ORDER_DETALLES = {"date_modified": "Fecha modificado",
+	ORDER_DETALLES_OR = {"date_modified": "Fecha modificado",
+					"date_created": "Fecha creado",					
+					}
+	ORDER_OT = {"estado_id": "Estado",
+					"codigo": "Código",					
+					"client_id": "Cliente",					
+					"date_created": "Fecha creado",
+					"date_modified": "Fecha modificado",
+					}
+	ORDER_DETALLES_OT = {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",					
 					}
 	ORDER_ZONA = {"cantidad": "Cantidad",

@@ -4,23 +4,23 @@
     <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('historias.add_historia', equipment_id = equipo.id) }}">Agregar historia</a></p>
     
     {% for historia in lista %}
-        <article class="media content-section">
+        <article class="media content-section-list">
             <div class="media-body">
                 <div class="row">
                     <div class="col-md-10">
                         <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}">
-                        <h2>{{ historia.title }}</h2>
-                        <h6 class="article-title" href="">{{ historia.content }}</h6>
-                        <small>Última modificación: {{ historia.date_modified.strftime('%d-%m-%Y') }}</small>
+                            <h2>{{ historia.title }}</h2>
+                            <h6 class="article-title" href="">{{ historia.content }}</h6>
+                            <small>Última modificación: {{ historia.date_modified.strftime('%d-%m-%Y') }}</small>
                         </a>
                     </div>
                     <div class="col-md-2">
                         <div class="d-grid">
-                            <a class="btn btn-{% if historia.tipologia.tipo == 'Mensaje' %}light
-                                          {% elif historia.tipologia.tipo == 'Reparación' %}warning
-                                          {% elif historia.tipologia.tipo == 'Modificación' %}info
+                            <a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
+                                          {% elif historia.tipo_historia.tipo == 'Reparación' %}warning
+                                          {% elif historia.tipo_historia.tipo == 'Modificación' %}info
                                           {% endif %} btn-block btn-sm"
-                                          >{{ historia.tipologia.tipo }}
+                                          >{{ historia.tipo_historia.tipo }}
                             </a>
                         </div>
                     </div>

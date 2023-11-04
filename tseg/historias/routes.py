@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Historia, Equipment, Tipologia
+from tseg.models import Historia, Equipment, TipoHistoria
 from tseg.historias.forms import HistoriaForm
 from tseg.users.utils import dateFormat, role_required
 
@@ -13,7 +13,7 @@ def add_historia(equipment_id):
 	form = HistoriaForm()
 	equipment = Equipment.query.get_or_404(equipment_id)
 	if form.validate_on_submit():		
-		historia = Historia(tipologia_id=form.tipo.data,
+		historia = Historia(tipo_historia_id=form.tipo.data,
 							title=form.title.data,
 							content=form.content.data,
 							eq_historia=equipment, 
@@ -31,7 +31,7 @@ def add_historia(equipment_id):
 												equipment=equipment,
 												legend=f'Nueva Historia: \
 												{equipment.modelo} de \
-												{equipment.owner.nombre} {equipment.owner.apellido}')
+												{equipment.detalle_trabajo.orden_trabajo.client.nombre} {equipment.detalle_trabajo.orden_trabajo.client.apellido}')
 
 
 # ruteo de variables "historia_id"
@@ -50,7 +50,7 @@ def update_historia(historia_id):
 		abort(403) #http forbidden
 	form = HistoriaForm()
 	if form.validate_on_submit():		
-		historia.tipologia_id = form.tipo.data
+		historia.tipo_historia_id = form.tipo.data
 		historia.title = form.title.data
 		historia.content = form.content.data
 		historia.date_modified = dateFormat()
@@ -62,7 +62,7 @@ def update_historia(historia_id):
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
 			return redirect(url_for('equipments.update_historia', historia_id=historia.id))
 	elif request.method == 'GET':
-		form.tipo.default = historia.tipologia_id
+		form.tipo.default = historia.tipo_historia_id
 		form.process()
 		form.title.data = historia.title
 		form.content.data = historia.content

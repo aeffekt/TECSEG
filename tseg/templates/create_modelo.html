@@ -7,7 +7,22 @@
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">Registrar nuevo modelo de equipo</legend>
 				<div class="row">
-					<div class="col-md-6">										
+					<div class="col-md-6">
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.marca.label(class="form-control-label") }}<span class="red"> *</span>
+							<!-- errores de entrada  -->
+							{% if form.marca.errors %}
+								{{ form.marca(class="form-select form-select-sm custom-select is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.marca.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.marca(class="form-select form-select-sm custom-select") }}
+							{% endif %}
+						</div>
 						<div class="form-group">
 							<!-- boottrap  -->
 							{{ form.nombre.label(class="form-control-label") }}<span class="red"> *</span>
@@ -23,38 +38,7 @@
 								{{ form.nombre(class="form-control form-control") }}
 							{% endif %}
 						</div>
-						<div class="form-group">
-							<!-- boottrap  -->
-							{{ form.marca.label(class="form-control-label") }}<span class="red"> *</span>
-							<!-- errores de entrada  -->
-							{% if form.marca.errors %}
-								{{ form.marca(class="form-control form-control is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.marca.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
-								</div>
-							{% else %}
-								{{ form.marca(class="form-select form-select-sm custom-select") }}
-							{% endif %}
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<!-- boottrap  -->
-							{{ form.anio.label(class="form-control-label") }}<span class="red"> *</span>
-							<!-- errores de entrada  -->
-							{% if form.anio.errors %}
-								{{ form.anio(class="form-control form-control is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.anio.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
-								</div>
-							{% else %}
-								{{ form.anio(class="form-control form-control") }}
-							{% endif %}
-						</div>
+						
 						<div id="picture" class="form-group">
 							{{ form.picture.label() }}
 							{% if form.picture.errors %}
@@ -68,6 +52,40 @@
 								{{ form.picture(class="form-control form-control-sm", type="file") }}
 							{% endif %}					
 						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.tipo_modelo.label(class="form-control-label") }}<span class="red"> *</span>
+							<!-- errores de entrada  -->
+							{% if form.tipo_modelo.errors %}
+								{{ form.tipo_modelo(class="form-select form-select-sm custom-select is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.tipo_modelo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.tipo_modelo(class="form-select form-select-sm custom-select") }}
+							{% endif %}
+						</div>
+											
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.anio.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.anio.errors %}
+								{{ form.anio(class="form-control form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.anio.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.anio(class="form-control form-control") }}
+							{% endif %}
+						</div>
+						
 					</div>
 					<div class="form-group">
 						{{ form.descripcion.label(class="form-control-label") }}

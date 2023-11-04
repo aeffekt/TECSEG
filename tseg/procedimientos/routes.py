@@ -18,7 +18,7 @@ def all_procedimientos():
 														filterBy='date_modified',
 														filterSort='desc'))		
 	all_procedimientos = buscarLista(Procedimiento)
-	orderBy = current_app.config["ORDER_EQUIPOS"]
+	orderBy = current_app.config["ORDER_PROCEDIMIENTOS"]
 	item_type = 'Equipo'
 	return render_template('all_procedimientos.html',
 							lista=all_procedimientos,

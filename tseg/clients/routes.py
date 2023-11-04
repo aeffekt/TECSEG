@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app, jsonify
 from flask_login import current_user, login_required
-from tseg.models import Client, Equipment, Pais, Provincia, Localidad, Domicilio, Cond_fiscal, Iibb
+from tseg.models import (Client, Equipment, Pais, Provincia, Localidad, 
+						 Domicilio, Cond_fiscal, Iibb, Orden_trabajo, Detalle_trabajo)
 from tseg.clients.forms import ClientForm
 from tseg import db
 from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista
@@ -12,7 +13,7 @@ clients = Blueprint('clients', __name__)
 @clients.route('/obtener-datos-geograficos')
 def obtener_datos_geograficos():
 	codigo_postal = request.args.get('codigo_postal')
-	# Utiliza la función "obtener_informacion_geografica" que definimos anteriormente
+	# Utiliza la función "obtener_informacion_geografica"
 	localidad, provincia, pais = obtener_informacion_geografica(codigo_postal)
 	# Retorna los datos en formato JSON
 	return jsonify(localidad=localidad, provincia=provincia, pais=pais)
@@ -40,40 +41,47 @@ def all_clients():
 @login_required
 def client(client_id):
 	client = Client.query.get_or_404(client_id)	
+	ordenes_trabajo =  buscarLista(Orden_trabajo, client)	
+	orderBy = current_app.config['ORDER_OT']	
+	# texto para toolbar
+	item_type="Órdenes de Trabajo"	
 	return render_template("client.html", title=f'{client.nombre} {client.apellido}',
-											client=client)
+											client=client,											
+											legend="Ver Orden de Trabajo",
+											orderBy = orderBy,
+											lista=ordenes_trabajo,
+											item_type=item_type,	)
 
 
 @clients.route("/add_client", methods=['GET','POST'] )
-@role_required("ServicioCliente", "Admin", "Técnico", "Comercial")
+@role_required("ServicioCliente", "Admin", "Comercial")
 def add_client():
 	form = ClientForm()
-	if form.validate_on_submit():
+	if form.validate_on_submit():		
 		try:
 			# busca el ID del pais y comienza a concatenar el domicilio		
 			if form.pais.data != '':			
 				pais = Pais.query.filter_by(nombre=form.pais.data).first()
 				if not pais:
 					pais=Pais(nombre=form.pais.data)
-					db.session.add(pais)				
-			if form.provincia.data:
+					db.session.add(pais)			
 				provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais=pais).first()
 				if not provincia:
 					provincia=Provincia(nombre=form.provincia.data, pais=pais)
-					db.session.add(provincia)				
-			if form.localidad.data:
+					db.session.add(provincia)			
 				localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
 				if not localidad:
 					localidad=Localidad(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia)
 					db.session.add(localidad)
 			else:
 				localidad = None
-			domicilio = Domicilio.query.filter_by(direccion=form.domicilio.data)\
+			# busca para no repetir identico domicilio
+			domicilio = Domicilio.query.filter_by(direccion=form.direccion.data)\
 										.join(Domicilio.localidad)\
 										.filter(Localidad.nombre == form.localidad.data).first()
 			if not domicilio:			
-				domicilio = Domicilio(direccion=form.domicilio.data, localidad=localidad)
-				db.session.add(domicilio)		
+				domicilio = Domicilio(direccion=form.direccion.data, localidad=localidad)
+				db.session.add(domicilio)	
 			cond_fiscal = Cond_fiscal.query.get(form.cond_fiscal.data)
 			iibb = Iibb.query.get(form.iibb.data)
 			client = Client(nombre=form.nombre.data,
@@ -107,15 +115,27 @@ def update_client(client_id):
 	form = ClientForm()
 	if form.validate_on_submit():
 		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
-		domicilio.direccion = form.domicilio.data
+		domicilio.direccion = form.direccion.data
 		if form.pais.data != '':			
-			pais = Pais.query.filter_by(nombre=form.pais.data).first()			
-		if form.provincia.data:
-			provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais_id=pais.id).first()
-		if form.localidad.data:
-			localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia_id=provincia.id).first()
-			domicilio.localidad = localidad
-		
+				pais = Pais.query.filter_by(nombre=form.pais.data).first()
+				if not pais:
+					pais=Pais(nombre=form.pais.data)
+					db.session.add(pais)			
+				provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais=pais).first()
+				if not provincia:
+					provincia=Provincia(nombre=form.provincia.data, pais=pais)
+					db.session.add(provincia)
+				localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
+				if not localidad:
+					localidad=Localidad(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia)
+					db.session.add(localidad)
+				domicilio.localidad = localidad
+		else:
+			client.pais=None
+			client.provincia=None
+			client.localidad=None
+			client.domicilio.direccion=''
+			client.domicilio.localidad=None
 		client.cond_fiscal_id = form.cond_fiscal.data
 		client.iibb_id = form.iibb.data
 		client.domicilio_id = domicilio.id
@@ -149,14 +169,12 @@ def update_client(client_id):
 
 		# carga datos de domicilio si existen
 		if client.domicilio:
-			form.domicilio.data = client.domicilio.direccion
+			form.direccion.data = client.domicilio.direccion
 			if client.domicilio.localidad:
 				form.localidad.data = client.domicilio.localidad.nombre
 				form.codigo_postal.data = client.domicilio.localidad.cp
-				if client.domicilio.localidad.provincia:				
-					form.provincia.data = client.domicilio.localidad.provincia.nombre
-					if client.domicilio.localidad.provincia.pais:
-						form.pais.data = client.domicilio.localidad.provincia.pais.nombre
+				form.provincia.data = client.domicilio.localidad.provincia.nombre
+				form.pais.data = client.domicilio.localidad.provincia.pais.nombre
 		
 	return render_template('create_client.html',title='Editar cliente', 
 												form=form,
@@ -172,7 +190,7 @@ def delete_client(client_id):
 		db.session.delete(client)
 		db.session.commit()
 		flash("El cliente ha sido eliminado!", 'success')
-		return redirect(url_for('clients.all_clients'))
+		return redirect(url_for('clients.all_clients', orderBy='id', orderOrder='asc'))
 	except Exception as e:
 		db.session.rollback() 
 		flash("Ocurrió un error al intentar eliminar: Es probable que existan equipos asignados al cliente.", 'warning')
@@ -187,13 +205,16 @@ def client_equipments(client_id):
 	if select_item:		
 		return redirect(url_for('equipments.equipment', equipment_id=select_item))	
 	client = Client.query.filter_by(id=client_id).first_or_404()
-	equipments = Equipment.query.filter_by(owner=client)\
-					.order_by(Equipment.date_modified.desc())	
+	equipos_del_cliente  = Equipment.query.join(Detalle_trabajo)\
+								.join(Orden_trabajo)\
+									.filter(Orden_trabajo.client_id == client_id)\
+										.order_by(Equipment.date_modified.desc())
+	
 	orderBy = current_app.config["ORDER_EQUIPOS"]
 	image_path = url_for("static", filename='models_pics/')
 	return render_template('client_equipments.html',
 								title=f'{client.nombre} {client.apellido}',
 								orderBy=orderBy,
-								lista=equipments,
+								lista=equipos_del_cliente,
 								image_path=image_path,
 								client=client)

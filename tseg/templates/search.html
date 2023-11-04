@@ -52,7 +52,7 @@
 						<small class="article-title">{{ equipment.modelo.marca }}</small>
 					{% endif %}
 					<small class="article-title">Canal/Frec: {{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</small>
-					<small><p class="article-title">Pertenece a: {{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</p></small>
+					<small><p class="article-title">Pertenece a: {{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</p></small>
 				{% endfor%}
 			</div>
 		</div>

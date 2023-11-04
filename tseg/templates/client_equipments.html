@@ -1,9 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <h6 class="border-bottom border-secondary mb-4">Equipos de 
-        <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.nombre }} {{ client.apellido }}</a> ({{ lista.count() }})</h6>
-    <p>
-        <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('equipments.add_equipment', client_id = client.id) }}">Añadir equipo</a>
+        <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.nombre }} {{ client.apellido }}</a> ({{ lista.count() }})</h6>    
     </p>    
     {% for equipment in lista %}        
         <article class="media content-section-list">

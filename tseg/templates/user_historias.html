@@ -9,17 +9,17 @@
                     <a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}"><h2>{{ historia.title }}</h2>
                 	<h5 class="article-content">{{ historia.content }}</h5>
                     </a>
-                    <small class="article-title">Equipo: <b>{{ historia.eq_historia.modelo }}</b> de <b>{{ historia.eq_historia.owner.business_name }}</b></small>
+                    <small class="article-title">Equipo: <b>{{ historia.eq_historia.modelo }}</b> de <b>{{ historia.eq_historia.detalle_trabajo.orden_trabajo.client }}</b></small>
                 </div>
                 <div class="col-md-2 text-end" title="tipo de historia">
                     <div class="d-grid">
-                        <a class="btn btn-{% if historia.tipologia.tipo == 'Mensaje' %}light
-                                          {% elif historia.tipologia.tipo == 'Reparación' %}warning
-                                          {% elif historia.tipologia.tipo == 'Modificación' %}info
+                        <a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
+                                          {% elif historia.tipo_historia.tipo == 'Reparación' %}warning
+                                          {% elif historia.tipo_historia.tipo == 'Modificación' %}info
                                           {% endif %} btn-block btn-sm"
-                                          href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipologia_id=historia.tipologia.id) }}"
+                                          href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipo_historia_id=historia.tipo_historia.id) }}"
                                           title="Ir a equipo '{{ historia.eq_historia.modelo }}'">
-                                          {{ historia.tipologia.tipo }}
+                                          {{ historia.tipo_historia.tipo }}
                         </a>
                     </div>
                 </div>

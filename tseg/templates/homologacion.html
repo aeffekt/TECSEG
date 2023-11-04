@@ -3,7 +3,7 @@
 	<div class="content-section">
 	  	<div class="media">
 	  		<legend class="border-bottom mb-4">Código homologación</legend>
-	  		<div class="row">	  			
+	  		<div class="row">
 		    	<div class="col-md-5">
 				    <div class="media-body">
 					    <h2 class="account-heading">{{ homologacion.codigo }}</h2>
@@ -16,33 +16,38 @@
 	  	<!-- 'multipart/form-data' permite no errores al importar imagen -->
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
 			{{ form.hidden_tag() }} <!-- part of protection -->
-			<fieldset class="form-group">				
-				<div id="nombre" class="form-group" autofocus>
-					{{ form.codigo.label(class="form-control-label") }}
-					{% if form.codigo.errors %}
-						{{ form.codigo(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.codigo.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+			<fieldset class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						<div id="nombre" class="form-group" autofocus>
+							{{ form.codigo.label(class="form-control-label") }}<span class="red"> *</span>
+							{% if form.codigo.errors %}
+								{{ form.codigo(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.codigo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.codigo(class="form-control form-control-sm") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.codigo(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>				
-				<div id="descripcion" class="form-group">					
-					{{ form.modelo.label(class="form-control-label") }}					
-					{% if form.modelo.errors %}
-						{{ form.modelo(class="form-control form-control-sm is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.modelo.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
+					</div>
+					<div class="col-md-6">
+						<div id="descripcion" class="form-group">					
+							{{ form.modelo.label(class="form-control-label") }}	<span class="red"> *</span>				
+							{% if form.modelo.errors %}
+								{{ form.modelo(class="form-select form-select-sm custom-select is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.modelo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.modelo(class="form-select form-select-sm custom-select") }}
+							{% endif %}
 						</div>
-					{% else %}
-						{{ form.modelo(class="form-control form-control-sm") }}
-					{% endif %}
-				</div>				
+					</div>	
 			</fieldset>
 			<br>			
 			<div id="submit" class="form-group">

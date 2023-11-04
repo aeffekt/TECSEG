@@ -251,7 +251,7 @@ def user_detalles_reparacion(username):
 		return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=select_item))
 	user = User.query.filter_by(username=username).first_or_404()
 	detalles_reparacion = buscarLista(Detalle_reparacion, user)
-	orderBy = current_app.config["ORDER_DETALLES"]
+	orderBy = current_app.config["ORDER_DETALLES_OT"]
 	return render_template('user_detalles_reparacion.html', 
 							orderBy=orderBy, 
 							lista=detalles_reparacion,

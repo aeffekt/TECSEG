@@ -19,9 +19,9 @@
                     <div class="col-md-8">
                     <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
                         <h2>{{ equipment.modelo }}</h2>
-                        <h6 class="article-title" href=""><b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }} </b>- Nº serie: <b>{{ equipment.numSerie }}</b></h6>
+                        <h6 class="article-title" href=""><b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }} </b>- Nº serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b></h6>
                         <small>
-                            Cliente: <b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b> - Año fabricación: <b>{{ equipment.anio }}</b>
+                            Cliente: <b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b> - Año fabricación: <b>{{ equipment.anio }}</b>
                             <h6 class="article-title">Última modificación: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></h6>
                         </small>
                         </a>

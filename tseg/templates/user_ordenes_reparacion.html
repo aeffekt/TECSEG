@@ -13,7 +13,7 @@
             	</div>
             	<h2><a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">{{ equipment.modelo.nombre }}</a></h2>
             	<p class="article-content">{{ equipment.content }}</p>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id, client_id=equipment.owner) }}">Editar equipo</a>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id, client_id=equipment.detalle_trabajo.orden_trabajo.client) }}">Editar equipo</a>
           </div>
         </article>
     {% endfor %}

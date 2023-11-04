@@ -30,7 +30,9 @@
                     <small>Nº Serie: </small>
                 </div>
                 <div class="col-md-9">
-                    <small><b class="article-title" >{{ equipment.numSerie }}</b></small>
+                    <a href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id) }}">
+						<small><b class="article-title" title="Ir a la Orden de trabajo">{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b></small>
+					</a>
                 </div>
                 <div class="col-md-3 text-end">
                   <small>Canal / Frecuencia: </small>
@@ -42,7 +44,7 @@
                     <small>Cliente:</small>
                 </div>
                 <div class="col-md-9">
-                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.owner.id) }}"><b>{{ equipment.owner.nombre }} {{ equipment.owner.apellido }}</b></a>
+                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.detalle_trabajo.orden_trabajo.client.id) }}"><b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b></a>
                 </div>
                 <div class="col-md-3 text-end">
                     <small>Descripción:</small>
@@ -73,17 +75,19 @@
             </div>
             
 			<div class="col-md-3">
-				<a class="bi bi-printer btn btn-outline-light" title="Generar etiqueta PDF" href="{{ url_for('equipments.print_etiqueta', equipment_id=equipment.id) }}"></a>
-				{% if equipment.etiqueta_file %}
-					<a class="bi bi-filetype-pdf btn btn-outline-light" title="Abrir archivo de etiqueta" href="{{ path_etiqueta }}{{ equipment.etiqueta_file }}" target="_blank"></a>
+				{% if equipment.numSerie %}
+					<a class="bi bi-printer btn btn-outline-light" title="Generar Carátula y Etiqueta Número de Serie (PDF)" href="{{ url_for('equipments.print_pdfs', equipment_id=equipment.id) }}"></a>
+					{% if equipment.etiqueta_file %}
+						<a class="bi bi-filetype-pdf btn btn-outline-light" title="Abrir archivo de Carátula del manual" href="{{ path }}{{ equipment.caratula_file }}" target="_blank"></a>
+						<a class="bi bi-upc-scan btn btn-outline-light" title="Abrir archivo de etiqueta de número de serie" href="{{ path }}{{ equipment.etiqueta_file }}" target="_blank"></a>
+					{% endif %}
 				{% endif %}
 			</div>
             
         </div>
         <hr 80%>
         <div class="row">
-            <div class="col-md6">
-                
+            <div class="col-md6">                
                 <a class="bi bi-chat btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
                 <a class="bi bi-wrench btn btn-outline-info" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}" title="Añadir O.R."></a>
                 <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar equipo" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}"></a>
@@ -120,13 +124,13 @@
 							</div>
 							<div class="col-md-2 text-end" title="tipo de historia">
 							<div class="d-grid">
-								<a class="btn btn-{% if historia.tipologia.tipo == 'Mensaje' %}light
-										{% elif historia.tipologia.tipo == 'Reparación' %}warning
-										{% elif historia.tipologia.tipo == 'Modificación' %}info
+								<a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
+										{% elif historia.tipo_historia.tipo == 'Reparación' %}warning
+										{% elif historia.tipo_historia.tipo == 'Modificación' %}info
 										{% endif %} btn-block btn-sm"
-									href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipologia_id=historia.tipologia.id) }}"
-									title="Ver todas las historias del tipo '{{ historia.tipologia.tipo }}'">
-									{{ historia.tipologia.tipo }}
+									href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipo_historia_id=historia.tipo_historia.id) }}"
+									title="Ver todas las historias del tipo '{{ historia.tipo_historia.tipo }}'">
+									{{ historia.tipo_historia.tipo }}
 								</a>
 							</div>
 							</div>
@@ -157,7 +161,7 @@
 								<a class="btn btn-{% if orden_reparacion.estado.descripcion == 'Creada' %}warning
 												{% elif orden_reparacion.estado.descripcion == 'Asignada' %}success
 												{% elif orden_reparacion.estado.descripcion == 'Anulada' %}dark
-												{% elif orden_reparacion.estado.descripcion == 'Finalizada' %}secondary
+												{% elif orden_reparacion.estado.descripcion == 'Resuelta' %}secondary
 												{% endif %} btn-block btn-sm"
 									href="{{ url_for('equipments.equipment',  equipment_id=orden_reparacion.equipo.id) }}",
 									title="Ir al equipo {{ orden_reparacion.equipo.modelo }}">

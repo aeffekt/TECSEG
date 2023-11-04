@@ -9,15 +9,20 @@
   .theme-light {
   --title-color: white;
   --content-color: black;
-  --container-color: #5e5e5e;
+  --container-color: #757474;
   --background-color: #ebebeb;
   --border-color: #979797;
   }
   
   hr {
       color: var(--content-color);
-      border-width: 2px;
+      border-width: 2px;      
   }
+
+  .menu-vertical hr {
+    margin-top: -1px;
+    margin-bottom: -1px;
+}
   
   a {
     text-decoration: none;
@@ -62,6 +67,11 @@
     background-color: #f3baba; /* Color rojo de fondo */
   }  
   
+  .input-orange {
+    background-color: #e9c184; /* Color naranja de fondo */
+  }  
+
+
   .navbar-nav {
     background: linear-gradient(rgb(8, 4, 60), rgba(20, 36, 95, 0.99));
     font-size: 16px;
@@ -324,8 +334,8 @@
   }
   
   .tarjeta-nav div a:hover {  
-    background-color: linear-gradient(rgba(0,0,0,1), rgba(100,200,300,1));
-    transform: scale(1.2);
+    
+    transform: scale(1.15);
     color: var(--content-color);
     border: 5px solid var(--content-color);
   }

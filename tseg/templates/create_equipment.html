@@ -7,8 +7,23 @@
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
 				<div class="row">
 					<div class="col-md-6">						
+
 						<div class="form-group">
-							{{ form.modelo.label(class="form-control-label") }}					
+							{{ form.detalle_trabajo.label(class="form-control-label") }}<span class="red"> *</span>
+							{% if form.detalle_trabajo.errors %}
+								{{ form.detalle_trabajo(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.detalle_trabajo.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.detalle_trabajo(class="chosen form-select form-select-sm custom-select") }}
+							{% endif %}
+						</div>
+
+						<div class="form-group">
+							{{ form.modelo.label(class="form-control-label") }}<span class="red"> *</span>			
 							{% if form.modelo.errors %}
 								{{ form.modelo(class="form-control form-control-sm is-invalid") }}
 								<div class="invalid-feedback">
@@ -17,24 +32,12 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.modelo(class="chosen form-select form-select-sm custom-select") }}
+								{{ form.modelo(id="modelo_input",class="chosen form-select form-select-sm custom-select") }}
 							{% endif %}
-						</div>										
+						</div>						
+
 						<div class="form-group">
-							{{ form.frecuencia.label(class="form-control-label") }}					
-							{% if form.frecuencia.errors %}
-								{{ form.frecuencia(class="form-control form-control-sm is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.frecuencia.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
-								</div>
-							{% else %}
-								{{ form.frecuencia(class="chosen form-select form-select-sm custom-select") }}
-							{% endif %}
-						</div>
-						<div class="form-group">
-							{{ form.numSerie.label(class="form-control-label") }}<span class="red"> *</span>
+							{{ form.numSerie.label(class="form-control-label") }}
 							{% if form.numSerie.errors %}
 								{{ form.numSerie(class="form-control form-control-sm is-invalid") }}
 								<div class="invalid-feedback">
@@ -43,7 +46,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.numSerie(class="form-control form-control-sm") }}
+								{{ form.numSerie(class="form-control form-control-sm", placeholder="1/1234", title="Solo completar para equipos LIE/IA", id="numSerie") }}
 							{% endif %}
 						</div>										
 					</div>
@@ -60,20 +63,22 @@
 							{% else %}
 								{{ form.anio(class="chosen form-select form-select-sm custom-select") }}
 							{% endif %}
-						</div>														
+						</div>
+
 						<div class="form-group">
-							{{ form.owner.label(class="form-control-label") }}<span class="red"> *</span>
-							{% if form.owner.errors %}
-								{{ form.owner(class="form-control form-control-sm is-invalid") }}
+							{{ form.frecuencia.label(class="form-control-label") }}					
+							{% if form.frecuencia.errors %}
+								{{ form.frecuencia(class="form-control form-control-sm is-invalid") }}
 								<div class="invalid-feedback">
-									{% for error in form.owner.errors %}
+									{% for error in form.frecuencia.errors %}
 										<span>{{ error }}</span>
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.owner(class="chosen form-select form-select-sm custom-select") }}
+								{{ form.frecuencia(class="chosen form-select form-select-sm custom-select") }}
 							{% endif %}
 						</div>
+						
 					</div>
 					<div class="form-group">
 							<!-- boottrap  -->
@@ -87,7 +92,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.content(class="form-control form-control-sm", rows='2') }}
+								{{ form.content(class="form-control form-control-sm", rows='5') }}
 							{% endif %}
 					</div>
 				</div>
@@ -97,5 +102,6 @@
 				{{ form.submit(class="btn btn-outline-info") }}
 			</div>
 		</form>
-	</div>	
+	</div>
+
 {% endblock content %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Órdenes de trabajo ({{ lista.count() }})</h6>
+    {% for orden_trabajo in lista %}
+        <article class="media content-section-list">
+            <div class="row">
+                <div class="col-md-10">
+                  	<div class="media-body">
+                    	<a class="article-title" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id) }}">
+                            <h2>{{ orden_trabajo.codigo }}</h2>
+                    	    <h6 class="article-title">{{ orden_trabajo.content }}</h6>
+                            <small>Cliente: <b>{{ orden_trabajo.client }}. {{ orden_trabajo.detalles_trabajo|length }}</b> Detalles.</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 text-end">
+                    <div class="d-grid">
+                        <a class="btn btn-{% if orden_trabajo.estado.descripcion == 'Producción' %}warning
+                                          {% elif orden_trabajo.estado.descripcion == 'Terminada' %}info
+                                          {% elif orden_trabajo.estado.descripcion == 'Entregada' %}success
+                                          {% elif orden_trabajo.estado.descripcion == 'Cancelada' %}secondary
+                                          {% endif %} btn-block btn-sm"> {{ orden_trabajo.estado.descripcion }}
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+    
+{% endblock content %}

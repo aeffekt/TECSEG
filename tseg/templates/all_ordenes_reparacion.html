@@ -21,7 +21,7 @@
                         <a class="btn btn-{% if orden_reparacion.estado.descripcion == 'Creada' %}warning
                                           {% elif orden_reparacion.estado.descripcion == 'Asignada' %}success
                                           {% elif orden_reparacion.estado.descripcion == 'Anulada' %}dark
-                                          {% elif orden_reparacion.estado.descripcion == 'Finalizada' %}secondary
+                                          {% elif orden_reparacion.estado.descripcion == 'Resuelta' %}secondary
                                           {% endif %} btn-block btn-sm"
                                           href="{{ url_for('equipments.equipment',  equipment_id=orden_reparacion.equipo.id) }}",
                                           title="Ir al equipo {{ orden_reparacion.equipo.modelo }}">

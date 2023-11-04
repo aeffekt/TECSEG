@@ -21,7 +21,7 @@
             </div>
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
-                    <small>O.R. del equipo:</small> 
+                    <small>Equipo:</small> 
                 </div>
                 <div class="col-md-9">
                     <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=orden_reparacion.equipo_id) }}">{{ orden_reparacion.equipo }}</a>
@@ -44,7 +44,7 @@
                     {% if orden_reparacion.estado.descripcion == 'Creada' %}orange
                     {% elif orden_reparacion.estado.descripcion == 'Asignada' %}lightgreen
                     {% elif orden_reparacion.estado.descripcion == 'Anulada' %}grey
-                    {% elif orden_reparacion.estado.descripcion == 'Finalizada' %}darkgrey
+                    {% elif orden_reparacion.estado.descripcion == 'Resuelta' %}darkgrey
                     {% endif %}">{{ orden_reparacion.estado.descripcion }}</h5>
                 </div>
             </div>
@@ -69,7 +69,7 @@
             <a class="bi bi-chat btn btn-outline-light" title="Añadir Detalle" href="{{ url_for('detalles_reparacion.add_detalle_reparacion', orden_reparacion_id = orden_reparacion.id) }}"></a>
             {% if current_user.username == orden_reparacion.tecnicoAsignado.username or current_user.role.role_name =="Admin" %}            
                 <a class="bi bi-x-circle btn btn-outline-dark" title="Cancelar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Anulada') }}"></a>
-                <a class="bi bi-check-square btn btn-outline-info" title="Finalizar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Finalizada') }}"></a>                
+                <a class="bi bi-check-square btn btn-outline-info" title="Resolver O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Resuelta') }}"></a>                
             {% endif %}            
             <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar O.R."  href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}"></a>
             <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar O.R."></a>

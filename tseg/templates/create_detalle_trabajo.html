@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class='content-section'>
+		<form method='POST' action=""> <!-- action= when we post go back to same route-->
+			{{ form.hidden_tag() }} <!-- part of protection -->
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-3">{{ legend }}</legend>
+				<div class="row">
+					<div class="col-md-10">
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.content.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.content.errors %}
+								{{ form.content(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.content.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.content(class="form-control form-control-sm", rows="1") }}
+							{% endif %}
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<!-- boottrap  -->
+							{{ form.cantidad.label(class="form-control-label") }}
+							<!-- errores de entrada  -->
+							{% if form.cantidad.errors %}
+								{{ form.cantidad(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.cantidad.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.cantidad(class="form-control form-control-sm", rows="10") }}
+							{% endif %}
+						</div>
+					</div>
+				</div>				
+			</fieldset>
+			<br>
+			<div class="form-group">
+				<!-- boottrap for the submit button  -->
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>	
+{% endblock content %}

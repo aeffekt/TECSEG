@@ -42,7 +42,7 @@ def orden_reparacion(orden_reparacion_id):
 		return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=select_item))
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	detalles_reparacion =  buscarLista(Detalle_reparacion, orden_reparacion)	
-	orderBy = current_app.config['ORDER_DETALLES']	
+	orderBy = current_app.config['ORDER_DETALLES_OT']	
 	# texto para toolbar
 	item_type="Detalle de reparación"	
 	return render_template("orden_reparacion.html", title=f'O.R. {orden_reparacion}',
@@ -55,7 +55,7 @@ def orden_reparacion(orden_reparacion_id):
 	
 
 @ordenes_reparacion.route("/add_orden_reparacion-<string:equipment_id>", methods=['GET','POST'] )
-@role_required("Admin", "ServicioCliente")
+@role_required("Admin", "ServicioCliente", "Técnico")
 def add_orden_reparacion(equipment_id):
 	form = OrdenReparacionForm()
 	if form.validate_on_submit():		

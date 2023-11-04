@@ -45,6 +45,7 @@ def modelo(modelo_id):
 		modelo.marca_id = form.marca.data
 		modelo.nombre = form.nombre.data
 		modelo.anio = form.anio.data
+		modelo.tipo_modelo_id = form.tipo_modelo.data
 		modelo.descripcion = form.descripcion.data
 		now = datetime.now()
 		now = now.strftime("%Y-%m-%dT%H:%M:%S")
@@ -55,12 +56,13 @@ def modelo(modelo_id):
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
 		except Exception as err:
 			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
-			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
-	if modelo.marca:
-		form.marca.data = modelo.marca.id	
-	form.nombre.data = modelo.nombre
-	form.anio.data = modelo.anio
-	form.descripcion.data = modelo.descripcion	
+			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	
+	form.anio.default = modelo.anio
+	form.tipo_modelo.default=modelo.tipo_modelo.id
+	form.process()
+	form.marca.data = modelo.marca.id	
+	form.nombre.data = modelo.nombre	
+	form.descripcion.data = modelo.descripcion
 	image_file = url_for("static", filename='models_pics/'+modelo.image_file)
 	return render_template('modelo.html',
 						title='Modelo de equipo', 
@@ -78,6 +80,7 @@ def add_modelo():
 		modelo = Modelo(nombre=form.nombre.data,
 						anio=form.anio.data,
 						descripcion=form.descripcion.data,
+						tipo_modelo_id=form.tipo_modelo.data,
 						homologacion=homologacion,
 						marca_id=form.marca.data)
 		if form.picture.data:
@@ -102,9 +105,9 @@ def delete_modelo(modelo_id):
 	try:		
 		db.session.delete(modelo)
 		db.session.commit()
-		picture_path = os.path.join(current_app.root_path, f'static\\models_pics', modelo.image_file)	
-		if os.path.exists(picture_path):
-			os.remove(picture_path)
+		picture_path = os.path.join(current_app.root_path, f'static\\models_pics', modelo.image_file)		
+		if os.path.exists(picture_path) and modelo.image_file != "default_eq.png":
+			os.remove(picture_path)			
 		flash("El modelo ha sido eliminado!", 'success')
 		return redirect(url_for('modelos.all_modelos'))
 	except Exception as e:
