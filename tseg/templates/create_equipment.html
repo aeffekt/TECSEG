@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 	<div class='content-section'>
-		<form method='POST' action=""> <!-- action= when we post go back to same route-->
+		<form method='POST' action="" enctype='multipart/form-data'> <!-- action= when we post go back to same route-->
 			{{ form.hidden_tag() }} <!-- part of protection -->
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
@@ -76,6 +76,20 @@
 								</div>
 							{% else %}
 								{{ form.frecuencia(class="chosen form-select form-select-sm custom-select") }}
+							{% endif %}
+						</div>
+
+						<div class="form-group">
+							{{ form.upload_files.label(class="form-control-label") }}					
+							{% if form.upload_files.errors %}
+								{{ form.upload_files(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.upload_files.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.upload_files(class="form-control form-control-sm", type="file", multiple="true") }}
 							{% endif %}
 						</div>
 						

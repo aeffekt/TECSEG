@@ -495,8 +495,10 @@
   }
   
   .account-img {
-  height: 125px;
-  width: 125px;
+    max-width: 125px;
+    max-height: 125px;
+    width: auto; /* Permite ajustar el ancho automáticamente */
+    height: auto; /* Permite ajustar la altura automáticamente */
   }
   
   .account-heading {

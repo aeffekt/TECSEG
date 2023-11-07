@@ -72,10 +72,10 @@
 				<div class="col-md-9">
 					<small class="article-title"><b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
 				</div>
-            </div>
-            
+            </div>            
 			<div class="col-md-3">
 				{% if equipment.numSerie %}
+					<br>
 					<a class="bi bi-printer btn btn-outline-light" title="Generar Carátula y Etiqueta Número de Serie (PDF)" href="{{ url_for('equipments.print_pdfs', equipment_id=equipment.id) }}"></a>
 					{% if equipment.etiqueta_file %}
 						<a class="bi bi-filetype-pdf btn btn-outline-light" title="Abrir archivo de Carátula del manual" href="{{ path }}{{ equipment.caratula_file }}" target="_blank"></a>
@@ -100,11 +100,16 @@
 		<li class="nav-item" role="presentation">
 		  <button class="nav-link active" id="historial-tab" data-bs-toggle="tab" data-bs-target="#historial" type="button" role="tab" aria-controls="historial" aria-selected="true">Historial ({{ lista.count() }})</button>
 		</li>
-    {% if reparaciones.count() != 0 %}
-      	<li class="nav-item" role="presentation">
-        	<button class="nav-link" id="reparaciones-tab" data-bs-toggle="tab" data-bs-target="#reparaciones" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Órdenes de reparación ({{ reparaciones.count() }})</button>
-      	</li>
-    {% endif %}
+		{% if reparaciones.count() != 0 %}
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="reparaciones-tab" data-bs-toggle="tab" data-bs-target="#reparaciones" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Órdenes de reparación ({{ reparaciones.count() }})</button>
+			</li>
+		{% endif %}
+		{% if archivos_en_carpeta|length() != 0 %}
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="archivos_en_carpeta-tab" data-bs-toggle="tab" data-bs-target="#archivos_en_carpeta" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Archivos ({{ archivos_en_carpeta|length() }})</button>
+			</li>
+		{% endif %}
 	</ul>
 
 	<div class="tab-content" id="myTabContent">
@@ -169,6 +174,42 @@
 								</a>
 							</div>
 						</div>
+					</div>
+				</article>
+			{% endfor %}
+		</div>
+		<div class="tab-pane fade" id="archivos_en_carpeta" role="tabpanel" aria-labelledby="archivos_en_carpeta-tab">
+			<br>
+			{% for archivo in archivos_en_carpeta %}
+				<article class="media content-section-list">
+					<div class="row">
+						<div class="col-md-2">
+							{% if archivo and archivo.endswith(('jpg', 'png', 'bmp', 'gif')) %} 
+								<div class="img-container">
+									<a href="#" onclick="abrirImagen('{{ folder_path+archivo }}'); return false;">
+										<img class="rounded-3 account-img" src="{{ folder_path+archivo }}" alt="Imagen" />
+										<div class="overlay">
+											<div class="overlay-content">Abrir Imagen</div>
+										</div>
+									</a>
+								</div>
+							{% endif %}	
+						</div>
+						
+						<div class="col-md-8">
+							<div class="media-body">
+								<small class="article-title">Nombre: <b>{{ archivo }}</b></small>
+							</div>
+						</div>
+
+						<div class="col-md-1 text-end">							
+							<a class="bi bi-file-earmark-arrow-down btn btn-outline-light" href="{{ url_for('equipments.download_file', filename=archivo) }}" download="{{ archivo }}" title="Descargar archivo"></a>							
+						</div>
+						<div class="col-md-1 text-end">							
+							<a class="bi bi-trash-fill btn btn-outline-danger" href="{{ url_for('equipments.delete_file', filename=archivo) }}" title="Eliminar archivo"></a>							
+						</div>
+						
+						
 					</div>
 				</article>
 			{% endfor %}

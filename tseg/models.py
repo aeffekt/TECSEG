@@ -96,7 +96,7 @@ class Equipment(db.Model):
 	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)	
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
 	historias = db.relationship('Historia', backref='eq_historia', lazy=True)
-	detalles_trabajo = db.relationship('Detalle_trabajo', backref='equipment', lazy=True, viewonly=True)
+	detalles_trabajo = db.relationship('Detalle_trabajo', backref='equipment', lazy=True, viewonly=True)	
 
 	def __repr__(self):
 		return f'[{self.detalle_trabajo.orden_trabajo.codigo}-{self.numSerie}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
@@ -127,7 +127,10 @@ class Modelo(db.Model):
 	equipos = db.relationship('Equipment', backref='modelo', lazy=True)
 
 	def __repr__(self):
-		return f'{self.nombre} {self.anio}'
+		if self.anio != "N/D":
+			return f'{self.nombre} {self.anio}'
+		else:
+			return f'{self.nombre}'
 
 
 class TipoModelo(db.Model):

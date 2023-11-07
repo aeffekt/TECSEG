@@ -40,7 +40,7 @@ def modelo(modelo_id):
 	form = ModeloForm()
 	if form.validate_on_submit():
 		if form.picture.data:
-			picture_file = save_picture(form.picture.data, 'models_pics')
+			picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
 			modelo.image_file = picture_file		
 		modelo.marca_id = form.marca.data
 		modelo.nombre = form.nombre.data
@@ -63,10 +63,10 @@ def modelo(modelo_id):
 	form.marca.data = modelo.marca.id	
 	form.nombre.data = modelo.nombre	
 	form.descripcion.data = modelo.descripcion
-	image_file = url_for("static", filename='models_pics/'+modelo.image_file)
+	image_path = url_for("static", filename='models_pics/')	
 	return render_template('modelo.html',
-						title='Modelo de equipo', 
-						image_file=image_file,
+						title='Modelo de equipo',						
+						image_path=image_path,
 						form=form,
 						modelo=modelo)
 
@@ -84,7 +84,7 @@ def add_modelo():
 						homologacion=homologacion,
 						marca_id=form.marca.data)
 		if form.picture.data:
-			picture_file = save_picture(form.picture.data, 'models_pics')
+			picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
 			modelo.image_file = picture_file			
 		try:
 			db.session.add(modelo)

@@ -72,7 +72,7 @@ def account(user_id):
 	if form.validate_on_submit():		
 		try:
 			if form.picture.data:
-				picture_file = save_picture(form.picture.data, 'profile_pics')
+				picture_file = save_picture(form.picture.data, 'profile_pics', user.username)
 				user.image_file = picture_file
 			user.username = form.username.data
 			user.email = form.email.data			

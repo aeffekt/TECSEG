@@ -47,7 +47,7 @@ endobj
 /ColorSpace <<
 /CS0 21 0 R
 >>
-/ProcSet [ /Text /ImageI /PDF /ImageB /ImageC ]
+/ProcSet [ /ImageB /Text /PDF /ImageC /ImageI ]
 >>
 /Rotate 0
 /Type /Page
@@ -798,7 +798,7 @@ T*
 ET
 BT
 1 0 0 1 180 151.8898 Tm
-(04\05711\05723) Tj
+(05\05711\05723) Tj
 T*
 ET
 Q

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileField
 from wtforms.validators import DataRequired
 from tseg.models import Modelo, Frecuencia, Detalle_trabajo
 from tseg import db
@@ -22,5 +22,6 @@ class EquipmentForm(FlaskForm):
 	anio = SelectField('Año de fabricación',coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item'})
 	content = TextAreaField('Descripción')
 	detalle_trabajo = SelectField('Detalle orden de trabajo',coerce=int, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item'})
+	upload_files = FileField("Subir archivos")
 	submit = SubmitField('Crear / Actualizar')
 	

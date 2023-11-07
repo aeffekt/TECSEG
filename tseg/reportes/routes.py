@@ -100,7 +100,7 @@ def reporte_zona():
 							labels=labels_json,
 							data=cantidades_json,
 							datos_sql=equipos_por_provincia,							
-							nombre_reporte='Reporte equipos por Provincia',
+							nombre_reporte='Reporte de equipos instalados por Provincia',
 							title='Reporte por zona',)
 
 
@@ -130,7 +130,7 @@ def reporte_modelo():
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_modelo,							
-							nombre_reporte='Reporte equipos por Modelo',
+							nombre_reporte='Reporte de equipos vendidos por Modelo',
 							title='Reporte por modelo')
 
 
@@ -158,6 +158,6 @@ def reporte_anio():
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_anio,							
-							nombre_reporte='Reporte de ventas por año',
+							nombre_reporte='Reporte de ventas de equipos por año',
 							title='Reporte de ventas')
 

@@ -116,34 +116,45 @@ def dateFormat():
 	return datetime.fromisoformat(now)
 
 
+# subir archivos a equipo
+def upload_files(files, equipment):	
+	for file in files:	
+		numero_serie = f'{equipment.detalles_trabajo.orden_trabajo.codigo}-{equipment.numSerie}'			
+		folder_name = numero_serie.replace('/','-')
+		folder_path = os.path.join(current_app.root_path, f'static\\upload_files\\', folder_name)
+		if not os.path.exists(folder_path):
+			os.makedirs(folder_path)
+		file.save(f'{folder_path}//{file.filename}') # Then save the file
+
+
 #guardar imagen en carpeta
-def save_picture(form_picture, folder):
-	img = Image.open(form_picture)
-	
-	random_hex = secrets.token_hex(8) #crea nombre random para la imagen elegida
+def save_picture(form_picture, folder,img_filename):	
 	_, f_ext = os.path.splitext(form_picture.filename)
-	picture_fn = random_hex + f_ext #conserva la extension original del archivo
+	img_filename = img_filename.replace("'", "-")
+	picture_fn = img_filename + f_ext #conserva la extension original del archivo
 	picture_path = os.path.join(current_app.root_path, f'static\\{folder}', picture_fn)
-
-	# se toma el ancho y alto de la imagen
-	width, height = img.size
-	top = 0
-	bottom = height
-	left = 0
-	right = width
-
-	if width > height:		
-		diff = (width - height)/2
-		left = diff
-		right = width - diff
-	elif height > width:
-		diff = (height - width)/2
-		top = diff
-		bottom = height - diff
-	output_size = (right-left,bottom-top)
-	img_cropped = img.crop((left, top, right, bottom))
-	
-	img_rgb = img_cropped.convert('RGB') # si es png o tiene trnassparencia se la quito asi evita errores
+	img = Image.open(form_picture)
+	img_rgb = img.convert('RGB') # si es png o tiene trnasparencia se la quito asi evita errores
+	# Calcula las dimensiones del thumbnail respetando la relación de aspecto
+	if folder=="profile_pics":		
+		# se toma el ancho y alto de la imagen para hacer recorte cuadrado centrado
+		width, height = img.size
+		top = 0
+		bottom = height
+		left = 0
+		right = width
+		if width > height:		
+			diff = (width - height)/2
+			left = diff
+			right = width - diff
+		elif height > width:
+			diff = (height - width)/2
+			top = diff
+			bottom = height - diff		
+		img_rgb = img_rgb.crop((left, top, right, bottom))
+		output_size = (125,125)
+	else:
+		output_size = (1024, 1024)  # Define el tamaño máximo del thumbnail
 	img_rgb.thumbnail(output_size)
 	img_rgb.save(picture_path)
 

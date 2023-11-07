@@ -59,7 +59,7 @@ class UpdateAccountForm(FlaskForm):
 	role = SelectField('Tipo de usuario', choices=[], 
 										coerce=int, 
 										validate_choice=False) # validate_choice=F si no hay error de validacion
-	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])	
+	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Actualizar datos de cuenta')
 
 	# custom validators = validator_{field_name}
