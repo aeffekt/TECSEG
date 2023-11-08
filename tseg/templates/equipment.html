@@ -105,9 +105,9 @@
 				<button class="nav-link" id="reparaciones-tab" data-bs-toggle="tab" data-bs-target="#reparaciones" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Órdenes de reparación ({{ reparaciones.count() }})</button>
 			</li>
 		{% endif %}
-		{% if archivos_en_carpeta|length() != 0 %}
+		{% if archivos_info|length() != 0 %}
 			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="archivos_en_carpeta-tab" data-bs-toggle="tab" data-bs-target="#archivos_en_carpeta" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Archivos ({{ archivos_en_carpeta|length() }})</button>
+				<button class="nav-link" id="archivos_info-tab" data-bs-toggle="tab" data-bs-target="#archivos_info" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Archivos ({{ archivos_info|length() }})</button>
 			</li>
 		{% endif %}
 	</ul>
@@ -178,62 +178,77 @@
 				</article>
 			{% endfor %}
 		</div>
-		<div class="tab-pane fade" id="archivos_en_carpeta" role="tabpanel" aria-labelledby="archivos_en_carpeta-tab">
-			<br>
-			{% for archivo in archivos_en_carpeta %}
+		<div class="tab-pane fade" id="archivos_info" role="tabpanel" aria-labelledby="archivos_info-tab">
+			<br>			
+			{% for archivo in archivos_info %}
 				<article class="media content-section-list">
 					<div class="row">
-						<div class="col-md-2">
-							{% if archivo and archivo.endswith(('jpg', 'png', 'bmp', 'gif')) %} 
+						<div class="col-md-8">
+							<div class="media-body">
+								<p class="article-title">Nombre: <b>{{ archivo.nombre }}</b></p>
+								<small class="article-title">Subido el: <b>{{ archivo.fecha_creacion }}</b></small>
+								<p class="article-title">Tamaño:<b> {{ (archivo.tamaño / 1024)| round(1) }}</b> Kbytes</p>
+							</div>
+						</div>
+						<div class="col-md-3">
+							{% if archivo.nombre.endswith(('jpg', 'jpeg', 'png', 'bmp', 'gif')) %}
 								<div class="img-container">
-									<a href="#" onclick="abrirImagen('{{ folder_path+archivo }}'); return false;">
-										<img class="rounded-3 account-img" src="{{ folder_path+archivo }}" alt="Imagen" />
+									<a href="#" onclick="abrirImagen('{{ folder_path+archivo.nombre }}'); return false;">
+										<img class="rounded-3 account-img" src="{{ folder_path+archivo.nombre }}" alt="Imagen" />
 										<div class="overlay">
 											<div class="overlay-content">Abrir Imagen</div>
 										</div>
 									</a>
 								</div>
-							{% endif %}	
+							{% endif %}
 						</div>
-						
-						<div class="col-md-8">
-							<div class="media-body">
-								<small class="article-title">Nombre: <b>{{ archivo }}</b></small>
-							</div>
+						<div class="col-md-1 text-end">
+							<a class="bi bi-file-earmark-arrow-down btn btn-outline-light" href="{{ folder_path+archivo.nombre }}" download="{{ archivo.nombre }}" title="Descargar archivo"></a>
+							<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal{{ loop.index }}" title="Eliminar archivo {{ archivo.nombre }}"></a>
 						</div>
-
-						<div class="col-md-1 text-end">							
-							<a class="bi bi-file-earmark-arrow-down btn btn-outline-light" href="{{ url_for('equipments.download_file', filename=archivo) }}" download="{{ archivo }}" title="Descargar archivo"></a>							
-						</div>
-						<div class="col-md-1 text-end">							
-							<a class="bi bi-trash-fill btn btn-outline-danger" href="{{ url_for('equipments.delete_file', filename=archivo) }}" title="Eliminar archivo"></a>							
-						</div>
-						
-						
 					</div>
 				</article>
+				<!-- Modal ARCHIVOS -->
+				<div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal{{ loop.index }}Label" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="deleteModal{{ loop.index }}Label">¿Seguro desea eliminar el archivo "{{ archivo.nombre }}"?</h5>
+								<button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+								<form action="{{ url_for('equipments.delete_file', file_path=folder_path, file_name=archivo.nombre, equipment_id=equipment.id) }}" method="POST">
+									<input class="btn btn-danger" type="submit" value="Borrar">
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 			{% endfor %}
 		</div>
 	</div>
 
-
-    <!-- Modal -->
+    <!-- Modal EQUIPO -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.modelo.nombre }}"?</h5>
-				<button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
-				<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-				<form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
-				<input class="btn btn-danger" type="submit" value="Borrar">
-				</form>
-			</div>
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.modelo.nombre }}"?</h5>
+					<button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					<form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
+						<input class="btn btn-danger" type="submit" value="Borrar">
+					</form>
+				</div>
 			</div>
 		</div>
-    </div>
+    </div>	
+
 {% endblock content %}

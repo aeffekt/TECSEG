@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
+from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app, jsonify
 from flask_login import current_user, login_required
 from tseg.models import Equipment, Historia, Orden_reparacion
 from tseg.equipments.forms import EquipmentForm
@@ -44,12 +44,23 @@ def equipment(equipment_id):
 	numero_serie = f'{equipment.detalles_trabajo.orden_trabajo.codigo}-{equipment.numSerie}'
 	folder_name = numero_serie.replace('/', '-')
 	folder_path = os.path.join(current_app.root_path, 'static', 'upload_files', folder_name)
+	archivos_info = []
 	# Verificar si la carpeta existe
 	if os.path.exists(folder_path):
 		# Obtener una lista de archivos en la carpeta		
 		archivos_en_carpeta = os.listdir(folder_path)		
-	else:
-		archivos_en_carpeta = []
+		for archivo in archivos_en_carpeta:
+			archivo_path = os.path.join(folder_path, archivo)			
+			if os.path.isfile(archivo_path):
+				# Obtener el tamaño del archivo en bytes
+				size = os.path.getsize(archivo_path)
+				# Obtener la fecha de creación del archivo (en segundos desde la época)				
+				creation_time = dateFormat()
+				archivos_info.append({
+					'nombre': archivo,
+					'tamaño': size,
+					'fecha_creacion': creation_time
+				})			
 	# se reconstruye el folder_path para que lo interprete bien el template
 	folder_path = url_for("static", filename=f'upload_files/{folder_name}/')
 	# texto para toolbar
@@ -60,11 +71,11 @@ def equipment(equipment_id):
 											legend="Ver Equipo",
 											orderBy = orderBy,
 											lista=historias,
-											reparaciones=reparaciones,
-											archivos_en_carpeta=archivos_en_carpeta,
+											reparaciones=reparaciones,											
 											image_path=image_path,
 											item_type=item_type,
 											folder_path=folder_path,
+											archivos_info=archivos_info,
 											path=path
 											)
 
@@ -188,11 +199,16 @@ def print_pdfs(equipment_id):
 	return redirect(url_for('equipments.equipment', equipment_id=equipo.id, filterBy='date_modified',filterOrder='desc'))
 
 
-@equipments.route("/delete_file-<string:filename>", methods=['GET'])
-def delete_file(filename):
-	pass
-
-
-@equipments.route("/download_file-<string:filename>", methods=['GET'])
-def download_file(filename):
-	pass
+# Eliminar archivo del equipo del servidor 
+@equipments.route('/delete-file/<path:file_path>/<string:file_name>/<int:equipment_id>', methods=['POST'])
+def delete_file(file_path, file_name, equipment_id):	
+	path = os.path.join(current_app.root_path, file_path+"/"+file_name)	
+	if os.path.exists(path):		
+		try:
+			os.remove(path)
+			flash("El archivo se eliminó correctamente", 'success')
+		except:
+			flash("No se pudo eliminar el archivo", 'warning')
+	else:
+		flash(f"No se encontró el archivo en: {path}", "warning")
+	return redirect(url_for('equipments.equipment', equipment_id=equipment_id, filterBy='date_modified',filterOrder='desc'))
