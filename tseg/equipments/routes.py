@@ -1,8 +1,10 @@
-from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app, jsonify
+from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
 from tseg.models import Equipment, Historia, Orden_reparacion
 from tseg.equipments.forms import EquipmentForm
-from tseg.users.utils import role_required, dateFormat, buscarLista, print_caratula_pdf, print_etiqueta_pdf, upload_files
+from tseg.users.utils import role_required, dateFormat, buscarLista
+from tseg.equipments.utils import print_caratula_pdf, print_etiqueta_pdf, upload_files
+from tseg.equipments. utils import get_full_folder_path, get_files_info, get_folder_path
 from tseg import db
 import os
 
@@ -41,31 +43,13 @@ def equipment(equipment_id):
 	orderBy = current_app.config['ORDER_HISTORIAS']	
 	image_path = url_for("static", filename='models_pics/')
 
-	numero_serie = f'{equipment.detalles_trabajo.orden_trabajo.codigo}-{equipment.numSerie}'
-	folder_name = numero_serie.replace('/', '-')
-	folder_path = os.path.join(current_app.root_path, 'static', 'upload_files', folder_name)
-	archivos_info = []
-	# Verificar si la carpeta existe
-	if os.path.exists(folder_path):
-		# Obtener una lista de archivos en la carpeta		
-		archivos_en_carpeta = os.listdir(folder_path)		
-		for archivo in archivos_en_carpeta:
-			archivo_path = os.path.join(folder_path, archivo)			
-			if os.path.isfile(archivo_path):
-				# Obtener el tamaño del archivo en bytes
-				size = os.path.getsize(archivo_path)
-				# Obtener la fecha de creación del archivo (en segundos desde la época)				
-				creation_time = dateFormat()
-				archivos_info.append({
-					'nombre': archivo,
-					'tamaño': size,
-					'fecha_creacion': creation_time
-				})			
-	# se reconstruye el folder_path para que lo interprete bien el template
-	folder_path = url_for("static", filename=f'upload_files/{folder_name}/')
+	full_folder_path = get_full_folder_path(equipment)
+	archivos_info = get_files_info(full_folder_path)
+	folder_path = get_folder_path(equipment)
+
 	# texto para toolbar
 	item_type="Historia"
-	path = url_for("static", filename='pdfs/')	
+	path_pdfs = url_for("static", filename='pdfs/')	
 	return render_template("equipment.html", title=equipment.modelo,
 											equipment=equipment,
 											legend="Ver Equipo",
@@ -76,7 +60,7 @@ def equipment(equipment_id):
 											item_type=item_type,
 											folder_path=folder_path,
 											archivos_info=archivos_info,
-											path=path
+											path=path_pdfs
 											)
 
 
@@ -97,7 +81,8 @@ def add_equipment(detalle_trabajo_id):
 			db.session.commit()
 			if form.upload_files.data:
 				archivos_seleccionados = request.files.getlist('upload_files')
-				upload_files(archivos_seleccionados, equipment)
+				if archivos_seleccionados:
+					upload_files(archivos_seleccionados, equipment)
 			flash(f'Equipo {equipment.numSerie} agregado!', 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc'))
 		except Exception as err:
@@ -125,10 +110,10 @@ def update_equipment(equipment_id):
 		equipment.frecuencia_id = form.frecuencia.data		
 		equipment.content = form.content.data
 		equipment.anio = form.anio.data		
-		equipment.date_modified = dateFormat()		
-		if request.method == 'POST':
-			archivos_seleccionados = request.files.getlist('upload_files')
-			upload_files(archivos_seleccionados, equipment)			
+		equipment.date_modified = dateFormat()	
+		archivos_seleccionados = request.files.getlist('upload_files')
+		if archivos_seleccionados[0].filename!='':
+			upload_files(archivos_seleccionados, equipment)
 		try:			
 			db.session.commit()
 			flash(f"Se guardaron los cambios", 'success')
@@ -156,19 +141,24 @@ def update_equipment(equipment_id):
 @role_required("Admin", "Técnico")
 def delete_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
-	try:
-		for historia in equipment.historias:
-			db.session.delete(historia)
-		for orden in equipment.ordenes_reparacion:
-			db.session.delete(orden)
-		db.session.delete(equipment)
-		db.session.commit()
-		flash(f"El equipo ha sido eliminado!", 'success')
-		return redirect(url_for('equipments.all_equipments', filterBy='anio', filterOrder='desc'))
-	except Exception as e:
-		db.session.rollback() 
-		flash("Ocurrió un error al intentar eliminar.", 'warning')		
-		return redirect(url_for('equipments.equipment', equipment_id=equipment.id))	
+	ot_id = equipment.detalle_trabajo.orden_trabajo.id
+	folder_path = get_full_folder_path(equipment)
+	archivos_info = get_files_info(folder_path)
+	for archivo in archivos_info:
+		delete_file(folder_path, archivo["nombre"], equipment_id)
+
+	# elimina las historias del equipo
+	for historia in equipment.historias:
+		db.session.delete(historia)
+	# elimina las O.R. del equipo
+	for orden in equipment.ordenes_reparacion:
+		db.session.delete(orden)
+	db.session.delete(equipment)
+	db.session.commit()
+	# elimina los archivos del equipo
+	
+	flash(f"El equipo ha sido eliminado!", 'success')
+	return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot_id))
 
 
 @login_required
@@ -192,7 +182,7 @@ def historias_equipo(equipment_id, tipo_historia_id):
 @equipments.route("/print_pdfs-<int:equipment_id>")
 @login_required
 def print_pdfs(equipment_id):	
-	path = f'tseg/static/pdfs/'
+	path = os.path.join(current_app.root_path, 'static/pdfs/')
 	equipo = Equipment.query.get_or_404(equipment_id)	
 	print_etiqueta_pdf(path, equipo)
 	print_caratula_pdf(path, equipo)
@@ -201,7 +191,7 @@ def print_pdfs(equipment_id):
 
 # Eliminar archivo del equipo del servidor 
 @equipments.route('/delete-file/<path:file_path>/<string:file_name>/<int:equipment_id>', methods=['POST'])
-def delete_file(file_path, file_name, equipment_id):	
+def delete_file(file_path, file_name, equipment_id):
 	path = os.path.join(current_app.root_path, file_path+"/"+file_name)	
 	if os.path.exists(path):		
 		try:

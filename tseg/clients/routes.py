@@ -20,7 +20,7 @@ def obtener_datos_geograficos():
 
 
 @clients.route("/all_clients")
-@role_required("ServicioCliente", "Admin", "Técnico")
+@login_required
 def all_clients():
 	select_item = request.args.get('selectItem', '')
 	if select_item:		

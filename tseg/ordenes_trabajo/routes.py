@@ -42,7 +42,7 @@ def orden_trabajo(orden_trabajo_id):
 	orderBy = current_app.config['ORDER_DETALLES_OT']	
 	# texto para toolbar
 	item_type="Detalle de orden de Trabajo"	
-	return render_template("orden_trabajo.html", title=f'O.R. {orden_trabajo}',
+	return render_template("orden_trabajo.html", title=f'O.T. {orden_trabajo}',
 											orden_trabajo=orden_trabajo,
 											legend="Ver Orden de Trabajo",
 											orderBy = orderBy,
@@ -107,7 +107,7 @@ def copy_orden_trabajo(orden_trabajo_id):
 
 
 @ordenes_trabajo.route("/update_orden_trabajo-<int:orden_trabajo_id>", methods=['GET', 'POST'])
-@role_required("Admin", "ServicioCliente", "Comercial")
+@login_required
 def update_orden_trabajo(orden_trabajo_id):
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)	
 	form = OrdenTrabajoForm(orden_trabajo)
@@ -157,7 +157,7 @@ def delete_orden_trabajo(orden_trabajo_id):
 
 
 @ordenes_trabajo.route("/update_estado-<int:orden_trabajo_id>-<string:estado_descripcion>", methods=['GET'])
-@role_required("Admin", "ServicioCliente", "Técnico")
+@login_required
 def update_estado(orden_trabajo_id, estado_descripcion):
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)
 	estado_or = Estado_or.query.filter_by(descripcion=estado_descripcion).first()	

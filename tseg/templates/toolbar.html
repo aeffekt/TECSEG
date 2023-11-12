@@ -1,19 +1,18 @@
 <div class="sticky-top">
-{% if current_user.is_authenticated %}
-	<article class="media content-section">
-		<form class="d-flex ms-auto" method="POST" action="{{ url_for('users.search') }}">
-			{{ form.hidden_tag() }}
-			<div class="input-group mb-3">
-				<input class="form-control" type="search" aria-label="Search" placeholder="Buscar..." name="searched">
-				<div class="input-group-append">
-					<button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+	{% if current_user.is_authenticated %}
+		<article class="media content-section">
+			<form class="d-flex ms-auto" method="POST" action="{{ url_for('users.search') }}">
+				{{ form.hidden_tag() }}
+				<div class="input-group mb-3">
+					<input class="form-control" type="search" aria-label="Search" placeholder="Buscar..." name="searched">
+					<div class="input-group-append">
+						<button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+					</div>
 				</div>
-			</div>
-		</form>
-	</article>
-	{% endif %}
-	{% if lista %}	
-		{% if lista.count() != 0 %}	
+			</form>
+		</article>
+
+		{% if lista and lista.count() != 0 %}		
 			<article class="media content-section">
 				<h5 class="border-bottom border-secondary mb-4">Buscar {{ item_type }}</h5>
 				<select class="chosen form-select form-select-sm" aria-label="Filter by column" id="selectItem" data-placeholder="Seleccione un item">
@@ -33,16 +32,33 @@
 				<select class="form-select custom-select form-select-sm" aria-label="order order" id="orderOrder">				
 					<option value="asc" {% if request.args.get('orderOrder') == 'asc' %}selected{% endif %}>Ascendente</option>
 					<option value="desc" {% if request.args.get('orderOrder') == 'desc' %}selected{% endif %}>Descendente</option>
-				</select>
-				<!--deshabilitado, ver en utils.py y filter_order.js
-				{% if 'Fecha modificado' in orderBy.values() %}
-					<input class="form-control-sm" type="date" id="datepicker1" placeholder="desde" value="">			
-					<input class="form-control-sm" type="date" id="datepicker2" placeholder="hasta" value="">
-				{% endif %} -->
+				</select>				
 				<button class="btn btn-primary" id="filterButton">Aplicar</button>
-			</article>
+			</article>		
+		<!-- Muestra O.T. y O.R. vigentes segun rol de usuario  -->
+		{% elif (ordenes_trabajo_vigentes|length() !=0 or ordenes_reparacion_vigentes|length() !=0) %}
+			<article class="media content-section">				
+				{% if ordenes_trabajo_vigentes|length() !=0 %}
+					<h5 class="border-bottom border-secondary mb-4">Órdenes de trabajo Activas</h5>
+					{% for ot in ordenes_trabajo_vigentes %}				
+						<a href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot.id) }}" class="article-title"> {{ ot }}</a>
+						<br>
+					{% endfor %}
+					<hr 80%>
+				{% endif %}
+				{% if ordenes_reparacion_vigentes|length() !=0 %}
+					<h5 class="border-bottom border-secondary mb-4">Órdenes de reparación Activas</h5>
+					{% for orv in ordenes_reparacion_vigentes %}					
+						<a href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orv.id) }}" class="article-title"> {{ orv }}
+							{% if orv.tecnicoAsignado %}
+								-{{ orv.tecnicoAsignado }}</a>
+							{% endif %}
+						<br>
+					{% endfor %}
+				{% endif %}
+			</article>			
 		{% endif %}
-	{% endif %}
+	{% endif %}	
 	<!-- JS de funciones de ordenamiento y filtrado  -->
 	<script src="{{ url_for('static', filename='js/filter_order.js') }}"></script>
 </div>

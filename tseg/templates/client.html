@@ -19,125 +19,134 @@
 					<h1 class="aticle-title">{{ client.nombre }} {{ client.apellido }}</h1></p>
 				</div>
 			</div>
-			<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-					<small>Razón social:</small> 
+			{% if client.business_name %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+						<small>Razón social:</small> 
+					</div>
+					<div class="col-md-9">
+						<h5 class="article-title">{{ client.business_name }}</h5>
+					</div>
 				</div>
-				<div class="col-md-9">
-					<h5 class="article-title">{{ client.business_name }}</h5>
+			{% endif %}
+			{% if client.telefono %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+						<small >Teléfono: </small>
+					</div>
+					<div class="col-md-9">
+					<small class="article-title">{{ client.telefono }}</small>
+					</div>
 				</div>
-			</div>
-			<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-					<small >Teléfono: </small>
+			{% endif %}
+			{% if client.email %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+					<small >Email: </small>
+					</div>
+					<div class="col-md-9">
+					<small class="article-title">{{ client.email }}</small>
+					</div>
 				</div>
-				<div class="col-md-9">
-				<small class="article-title">{{ client.telefono }}</small>
+			{% endif %}
+			{% if client.comments %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+					<small>Comentarios:</small> 
+					</div>
+					<div class="col-md-9">
+					<h5 class="article-content">{{ client.comments }}</h5>
+					</div>
 				</div>
-			</div>
-			<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-				<small >Email: </small>
+			{% endif %}
+			{% if client.cuit is not none %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+					<small>CUIT:</small> 
+					</div>
+					<div class="col-md-9">
+					
+						{% set cuit_str = client.cuit|string %}
+						{% set cuit_formatted = cuit_str[:2] + '-' + cuit_str[2:10] + '-' + cuit_str[10:] %}
+						<h5 class="article-title">{{ cuit_formatted }}</h5>
+					
+					</div>
 				</div>
-				<div class="col-md-9">
-				<small class="article-title">{{ client.email }}</small>
+			{% endif %}
+			{% if client.cond_fiscal.nombre != 'Sin especificar'%}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+					<small>Condición fiscal:</small> 
+					</div>
+					<div class="col-md-9">
+					<h5 class="article-title">{{ client.cond_fiscal.nombre }}</h5>
+					</div>
 				</div>
-			</div>
-			<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-				<small>Comentarios:</small> 
-				</div>
-				<div class="col-md-9">
-				<h5 class="article-content">{{ client.comments }}</h5>
-				</div>
-			</div>
-			
-			<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-				<small>CUIT:</small> 
-				</div>
-				<div class="col-md-9">
-				{% if client.cuit is not none %}                
-					{% set cuit_str = client.cuit|string %}
-					{% set cuit_formatted = cuit_str[:2] + '-' + cuit_str[2:10] + '-' + cuit_str[10:] %}
-					<h5 class="article-title">{{ cuit_formatted }}</h5>
-				{% endif %}              
-				</div>
-			</div>
-
-			<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-				<small>Condición fiscal:</small> 
-				</div>
-				<div class="col-md-9">
-				<h5 class="article-title">{{ client.cond_fiscal.nombre }}</h5>
-				</div>
-			</div>
-
-			<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-				<small>Ingresos Brutos:</small> 
-				</div>
-				<div class="col-md-9">
-				{% if client.iibb is not none %}
-					{% if client.iibb.provincia is not none %}
-					<small class="article-title">{{ client.iibb }}</small>
+			{% endif %}
+			{% if client.iibb.jurisdiccion != 0 %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+					<small>Ingresos Brutos:</small> 
+					</div>
+					<div class="col-md-9">
+					{% if client.iibb is not none %}
+						{% if client.iibb.provincia is not none %}
+						<small class="article-title">{{ client.iibb }}</small>
+						{% endif %}
 					{% endif %}
-				{% endif %}
+					</div>
 				</div>
-			</div>
-			
+			{% endif %}
 			{% if client.domicilio.direccion %}
 				<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-					<small>Dirección:</small> 
-				</div>
-				<div class="col-md-9">
-					<small class="article-title">{{ client.domicilio.direccion }}</small>
-				</div>
-				</div>
-			{% endif %}
-
-			{% if client.domicilio.localidad %}
-				<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-					<small>Localidad:</small> 
-				</div>
-				<div class="col-md-9">
-					<small class="article-title">{{ client.domicilio.localidad.nombre }}</small>
-				</div>
-				</div>
-			{% endif %}
-
-			{% if client.domicilio.localidad %}
-				<div class="row align-items-center">
-				<div class="col-md-3 text-end">
-					<small>cp:</small> 
-				</div>
-				<div class="col-md-9">
-					<small class="article-title">{{ client.domicilio.localidad.cp }}</small>
-				</div>
-				</div>
-				{% if client.domicilio.localidad.provincia %}
-				<div class="row align-items-center">
 					<div class="col-md-3 text-end">
-					<small>Provincia:</small> 
+						<small>Dirección:</small> 
 					</div>
 					<div class="col-md-9">
-					<small class="article-title">{{ client.domicilio.localidad.provincia.nombre }}</small>
+						<small class="article-title">{{ client.domicilio.direccion }}</small>
 					</div>
-				</div>
-				
-				{% if client.domicilio.localidad.provincia.pais %}
+				</div>			
+
+				{% if client.domicilio.localidad %}
 					<div class="row align-items-center">
-					<div class="col-md-3 text-end">
-						<small>Pais:</small> 
+						<div class="col-md-3 text-end">
+							<small>cp:</small> 
+						</div>
+						<div class="col-md-9">
+							<small class="article-title">{{ client.domicilio.localidad.cp }}</small>
+						</div>
 					</div>
-					<div class="col-md-9">
-						<small class="article-title">{{ client.domicilio.localidad.provincia.pais.nombre }}</small>
+
+					<div class="row align-items-center">
+						<div class="col-md-3 text-end">
+							<small>Localidad:</small> 
+						</div>
+						<div class="col-md-9">
+							<small class="article-title">{{ client.domicilio.localidad.nombre }}</small>
+						</div>
 					</div>
-					</div>
-				{% endif %}
+
+					{% if client.domicilio.localidad.provincia %}
+						<div class="row align-items-center">
+							<div class="col-md-3 text-end">
+								<small>Provincia:</small> 
+							</div>
+							<div class="col-md-9">
+								<small class="article-title">{{ client.domicilio.localidad.provincia.nombre }}</small>
+							</div>
+						</div>
+					
+						{% if client.domicilio.localidad.provincia.pais %}
+							<div class="row align-items-center">
+							<div class="col-md-3 text-end">
+								<small>Pais:</small> 
+							</div>
+							<div class="col-md-9">
+								<small class="article-title">{{ client.domicilio.localidad.provincia.pais.nombre }}</small>
+							</div>
+							</div>
+						{% endif %}
+					{% endif %}
 				{% endif %}
 			{% endif %}
 

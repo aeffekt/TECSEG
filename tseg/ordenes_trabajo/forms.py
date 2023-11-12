@@ -18,7 +18,11 @@ class OrdenTrabajoForm(FlaskForm):
 	estado = SelectField('Estado', coerce=int)
 	submit = SubmitField('Agregar')
 
-	def validate_codigo(self, codigo):		
+	def validate_codigo(self, codigo):
+		codigo_str = str(codigo.data)
+		if len(codigo_str)!=6:
+			print(codigo_str, len(codigo_str))
+			raise ValidationError('El código debe ser de 6 dígitos.')
 		# self.objeto se pasa en UPDATE, no en CREATE, se controla el codigo en objetos de otro ID		
 		if self.objeto:
 			codigo_already_exist = Orden_trabajo.query.filter(

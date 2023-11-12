@@ -2,7 +2,7 @@
 {% block content %}
     <article class="media content-section">
         <div class="media-body">
-            <legend class="border-bottom mb-4">Órden de trabajo</legend>
+            <legend class="border-bottom mb-4">Orden de trabajo</legend>
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
                     <small>Código:</small> 
@@ -98,8 +98,12 @@
                             </div>  
                             <div class="col-md-1">                        
                                 {% for equipo_asignado in detalle_trabajo.equipments %}
-                                    <a  class="bi bi-{{ loop.index }}-square  btn btn-outline-light" title="Ver equipo {{ equipo_asignado }}" href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id) }}"></a>
-                                {% endfor %}                        
+                                    <a  class="bi bi-{{ loop.index }}-square  btn btn-outline-light" title="Ver equipo {{ equipo_asignado }}" href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id) }}"></a>                                    
+                                {% endfor %}
+                                <!-- agrega sumar equipo hasta cantidad -->
+                                {% if detalle_trabajo.cantidad > detalle_trabajo.equipments|length %}
+                                    <a class="bi bi-plus-square btn btn-outline-info" title="Añadir Equipo" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo.id) }}"></a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -110,7 +114,7 @@
 
     
     
-     <!-- Modal -->
+     <!-- Modal OT -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

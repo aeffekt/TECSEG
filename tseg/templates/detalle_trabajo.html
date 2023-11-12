@@ -1,14 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h6 class="border-bottom border-secondary mb-4">Detalle Orden de Trabajo</h6>
-    <article class="media content-section">
-        
+    <article class="media content-section">        
         <div class="media-body">
+            
             <div class="row align-items-center">
                 <div class="col-md-11">
-                    <div class="article-metadata">                        
-                  		<small title="Fecha creación" class="text-muted">{{ detalle_trabajo.date_created.strftime('%Y-%m-%d') }}</small></p>             
-                    </div>
+                    <legend class="border-bottom mb-4">Detalle de Orden de trabajo</legend>        
                 </div>
                 <div class="col-md-1">
                     <button class="btn btn-outline-light bi-arrow-return-left" onclick="goBack()" title="Volver atrás"></button>
@@ -17,7 +14,7 @@
             
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
-                    <small>Detalle O.T.:</small> 
+                    <small>Descripción:</small> 
                 </div>
                 <div class="col-md-9">
                     <h5 class="aticle-title">{{ detalle_trabajo.content }}</h5>
@@ -31,16 +28,7 @@
                 <div class="col-md-9">
                     <small class="article-title"><b>{{ detalle_trabajo.cantidad }}</b></small>
                 </div>
-            </div>
-
-            <div class="row align-items-center">
-                <div class="col-md-3 text-end">
-                    <small>Usuario:</small> 
-                </div>
-                <div class="col-md-9">
-                    <small class="article-title"><b>{{ detalle_trabajo.author_detalle_trabajo }}</b></small>
-                </div>
-            </div>
+            </div>            
             
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
@@ -60,15 +48,30 @@
 
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
+                    <small>Usuario:</small> 
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ detalle_trabajo.author_detalle_trabajo }}</b></small>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
                     <small>Última modificación: </small>
                 </div>
                 <div class="col-md-9">
                     <small class="article-title"><b>{{ detalle_trabajo.date_modified }}</b></small>
                 </div>
             </div>
-            
-            
-
+            <div class="row align-items-center">
+                <div class="col-md-3 text-end">
+                    <small>Fecha creación: </small>
+                </div>
+                <div class="col-md-9">
+                    <small class="article-title"><b>{{ detalle_trabajo.date_created.strftime('%Y-%m-%d') }}</b></small>                    
+                </div>
+            </div>
+            <hr 80%>
         </div>  
         
             <div>
@@ -78,7 +81,6 @@
             </div>
         
     </article>
-
         
     {% for equipment in lista %}
         <article class="media content-section-list">

@@ -2,7 +2,7 @@
 {% block content %}
     <article class="media content-section">
         <div class="media-body">
-            <legend class="border-bottom mb-4">Órden de reparación</legend>
+            <legend class="border-bottom mb-4">Orden de reparación</legend>
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
                     <small>Código:</small> 
@@ -40,7 +40,7 @@
                     <small>Estado O.R.:</small> 
                 </div>
                 <div class="col-md-9">
-                    <h5 class="article-content" style="background-color: 
+                    <h5 class="article-content"style="background-color: 
                     {% if orden_reparacion.estado.descripcion == 'Creada' %}orange
                     {% elif orden_reparacion.estado.descripcion == 'Asignada' %}lightgreen
                     {% elif orden_reparacion.estado.descripcion == 'Anulada' %}grey
@@ -65,12 +65,13 @@
                 </div>
             </div>
             <hr 80%>
-
-            <a class="bi bi-chat btn btn-outline-light" title="Añadir Detalle" href="{{ url_for('detalles_reparacion.add_detalle_reparacion', orden_reparacion_id = orden_reparacion.id) }}"></a>
-            {% if current_user.username == orden_reparacion.tecnicoAsignado.username or current_user.role.role_name =="Admin" %}            
-                <a class="bi bi-x-circle btn btn-outline-dark" title="Cancelar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Anulada') }}"></a>
-                <a class="bi bi-check-square btn btn-outline-info" title="Resolver O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Resuelta') }}"></a>                
-            {% endif %}            
+            {% if not orden_reparacion.estado.descripcion == "Resuelta" and not orden_reparacion.estado.descripcion =="Anulada"%}
+                <a class="bi bi-chat btn btn-outline-light" title="Añadir Detalle" href="{{ url_for('detalles_reparacion.add_detalle_reparacion', orden_reparacion_id = orden_reparacion.id) }}"></a>
+                {% if current_user.username == orden_reparacion.tecnicoAsignado.username or current_user.role.role_name =="Admin" %}
+                    <a class="bi bi-x-circle btn btn-outline-dark" title="Cancelar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Anulada') }}"></a>
+                    <a class="bi bi-check-square btn btn-outline-info" title="Resolver O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Resuelta') }}"></a>                
+                {% endif %}
+            {% endif %}
             <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar O.R."  href="{{ url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}"></a>
             <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar O.R."></a>
 
@@ -98,7 +99,7 @@
         </article>
     {% endfor %}
     
-     <!-- Modal -->
+     <!-- Modal OR -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

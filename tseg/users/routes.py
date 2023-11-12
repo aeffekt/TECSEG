@@ -3,19 +3,22 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flask_login import login_user, current_user, logout_user, login_required
 from tseg import db, bcrypt
 from tseg.models import (User, Historia, Equipment, Client, Role, Detalle_reparacion, 
-						 Modelo, Orden_reparacion, Marca, Procedimiento)
+						 Modelo, Orden_reparacion, Marca, Procedimiento, Orden_trabajo)
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, UpdatePassword,
 							RequestResetForm, ResetPasswordForm, SearchForm)
 from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 
-
 users = Blueprint('users', __name__)
 
 @users.route("/")
-def index():
-	return render_template('index.html', title="TECSEG")
+def index():	
+	ordenes_trabajo_vigentes = Orden_trabajo.query.filter(Orden_trabajo.estado_id.in_([1, 2])).limit(5).all()
+	ordenes_reparacion_vigentes = Orden_reparacion.query.filter(Orden_reparacion.estado_id.in_([1, 2])).limit(5).all()
+	return render_template('index.html', title="TECSEG", 
+						ordenes_trabajo_vigentes = ordenes_trabajo_vigentes, 
+						ordenes_reparacion_vigentes = ordenes_reparacion_vigentes)
 
 
 @users.route("/register", methods=['GET', 'POST'])
@@ -169,8 +172,7 @@ def search():
 												Equipment.modelo.has(Modelo.marca.has(Marca.nombre.like('%'+searched+'%')),)
 												
 												)												
-											)
-		
+											)		
 		clients = Client.query.filter(or_(
 									Client.nombre.like('%'+searched+'%'), \
 									Client.apellido.like('%'+searched+'%'),
@@ -183,12 +185,15 @@ def search():
 								Historia.content.like('%'+searched+'%')))
 		procedimientos = Procedimiento.query.filter(or_(Procedimiento.title.like('%'+searched+'%'),
 								Procedimiento.content.like('%'+searched+'%')))
+		ordenes_trabajo = Orden_trabajo.query.filter(or_(Orden_trabajo.codigo.like('%'+searched+'%'),
+								Orden_trabajo.content.like('%'+searched+'%')))
 
 		return render_template('search.html', title="Busqueda",
 									searched = searched,							
 									equipments=equipments,
 									clients=clients,
 									historias=historias,
+									ordenes_trabajo=ordenes_trabajo,
 									procedimientos=procedimientos
 									)
 	if request.method == 'GET':

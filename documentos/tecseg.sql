@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-11-2023 a las 16:48:17
+-- Tiempo de generación: 11-11-2023 a las 20:47:34
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `client` (
 --
 
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`, `iibb_id`) VALUES
-(1, 'Sergio', 'Viola', 'Canal 6 ERTV', NULL, '3434560058', 'sergiodarioviola@gmail.com', '', 4, 25, 1, 908),
+(1, 'Sergio', 'Viola', 'Sistema Confiar S.R.L.', 30644088398, '3434560058', 'sergiodarioviola@gmail.com', '', 4, 25, 1, 908),
 (2, 'Nestor', 'busso', '', NULL, '2920484213', 'nestorbusso@gmail.com', 'Técnico Joshué: 2920650099', 4, 26, 0, 916),
 (3, 'Fabio', 'Brandan', '', NULL, '1155637121', 'faviobrandan@hotmail.com', '', 4, 27, 0, 902),
 (4, 'Guillermo Claudio', 'Gelvez', '', NULL, '2646614200', 'ingelves@gmail.com', '', 4, 28, 0, 0),
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `orden_detalle` (`reparacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_reparacion`
@@ -120,7 +120,8 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
 
 INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modified`, `user_id`, `reparacion_id`) VALUES
 (1, 'hubo corte de energía. presenta falla mux y muleto\r\nmux no detecta bitrate del encoder.\r\ndesconecto y reinicio todo, salió andando bien!!!!!\r\n', '2023-08-19 11:39:42', '2023-08-19 11:39:42', 1, 1),
-(2, 'se pidió asistencia a remota a VIDEOSWITCH, se aguarda informe', '2023-10-26 12:23:43', '2023-10-26 12:23:43', 10, 5);
+(2, 'se pidió asistencia a remota a VIDEOSWITCH, se aguarda informe', '2023-10-26 12:23:43', '2023-11-11 17:33:50', 1, 5),
+(3, 'El señor Néstor  Busso nos comentó que el problema había desaparecido después de que la gente de videoswitch revisara el sistema, mas haya de que no reportaron ningún cambio o mala configuración, se da por concretada la orden de reparación', '2023-11-11 15:23:29', '2023-11-11 17:33:54', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -140,46 +141,52 @@ CREATE TABLE IF NOT EXISTS `detalle_trabajo` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `detalle_OT` (`trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_trabajo`
 --
 
 INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `date_modified`, `user_id`, `trabajo_id`) VALUES
-(8, 'Encoder 4 SDI', 1, '2023-10-20 19:08:32', '2023-10-20 19:08:32', 10, 12),
-(9, 'REMUX salida IP', 1, '2023-10-20 19:08:32', '2023-10-20 19:08:32', 10, 12),
-(10, 'Descompresor ISDB-TB', 2, '2023-10-20 19:08:32', '2023-10-20 19:08:32', 10, 12),
-(11, 'Modulador ISDB-T MIST-15', 1, '2023-10-20 19:08:32', '2023-10-20 19:08:32', 10, 12),
-(12, 'Tx TRUD1800', 2, '2023-10-20 19:08:32', '2023-10-23 10:21:28', 10, 12),
-(13, 'Modulador ISDB VS', 1, '2023-10-20 19:08:32', '2023-10-20 19:08:32', 10, 12),
-(14, 'Tx FM5000', 1, '2023-10-20 19:08:32', '2023-10-20 19:08:32', 10, 12),
-(16, 'Tx TRUD250', 1, '2023-10-22 11:33:10', '2023-10-22 11:33:10', 10, 14),
-(17, 'Encodulator Dexin 3542', 1, '2023-10-22 11:33:10', '2023-10-22 11:33:10', 10, 14),
-(18, 'Encoder LP211', 1, '2023-10-22 14:53:13', '2023-10-22 14:53:13', 10, 15),
-(19, 'Encoder NDS3228S IP', 1, '2023-10-22 14:53:13', '2023-10-22 14:53:13', 10, 15),
-(20, 'Switch', 2, '2023-10-22 14:53:13', '2023-10-22 14:53:13', 10, 15),
-(21, 'Enlace Ubiquiti 24G', 2, '2023-10-22 14:53:13', '2023-10-22 14:53:13', 10, 15),
-(22, 'MUX DMUX500i', 1, '2023-10-22 14:53:13', '2023-10-22 14:53:13', 10, 15),
-(23, 'Modulador NDS2405G', 1, '2023-10-22 14:53:13', '2023-10-22 14:53:13', 10, 15),
-(24, 'Tx TRUD1000 CTM', 1, '2023-10-22 14:53:13', '2023-10-22 14:53:13', 10, 15),
-(25, 'Tx TRUD250', 1, '2023-10-23 11:39:42', '2023-10-23 11:39:42', 10, 16),
-(26, 'Encoder LP211', 1, '2023-10-23 11:39:42', '2023-10-23 11:39:42', 10, 16),
-(27, 'Encodulator 3542', 1, '2023-10-23 11:39:42', '2023-10-23 11:57:53', 10, 16),
-(28, 'MUX VS', 1, '2023-10-23 11:39:42', '2023-10-23 11:39:42', 10, 16),
-(29, 'Modulador MIST13', 1, '2023-10-23 11:39:42', '2023-10-23 11:39:42', 10, 16),
-(32, 'Encodulator Dexin 3542', 1, '2023-10-25 12:53:33', '2023-10-25 12:53:33', 10, 30),
-(33, 'Tx TRUD500', 1, '2023-10-25 12:53:33', '2023-10-25 12:56:05', 10, 30),
-(34, 'Encodulator Dexin 3542', 1, '2023-10-25 13:05:56', '2023-10-25 13:05:56', 10, 31),
-(35, 'Tx TRUD250', 1, '2023-10-25 13:05:56', '2023-10-25 13:05:56', 10, 31),
-(37, 'Encoder VS ECD-3000 HDMI', 2, '2023-10-26 14:14:40', '2023-10-26 15:23:09', 10, 32),
-(38, 'MUX  VS MCMP-3100', 1, '2023-10-26 14:14:40', '2023-10-26 14:14:40', 10, 32),
-(39, 'switch aruba', 2, '2023-10-26 14:14:40', '2023-10-26 14:14:40', 10, 32),
-(40, 'DESCOMPR VS DCMP500', 2, '2023-10-26 14:14:40', '2023-10-26 14:57:52', 10, 32),
-(41, 'Modulador VS DMOD-1000i', 1, '2023-10-26 14:14:40', '2023-10-26 14:14:40', 10, 32),
-(42, 'Tx TRUD2400', 1, '2023-10-26 14:14:40', '2023-10-26 14:14:40', 10, 32),
-(43, 'Tx TRUD250 CH20', 1, '2023-11-03 10:17:34', '2023-11-03 10:17:34', 10, 33),
-(44, 'Encodulator NDS3542', 2, '2023-11-03 10:17:34', '2023-11-03 10:17:34', 10, 33);
+(8, 'Encoder 4 SDI', 1, '2023-10-20 19:08:32', '2023-11-11 17:43:54', 4, 12),
+(9, 'REMUX salida IP', 1, '2023-10-20 19:08:32', '2023-11-11 17:43:54', 4, 12),
+(10, 'Descompresor ISDB-TB', 2, '2023-10-20 19:08:32', '2023-11-11 17:43:54', 4, 12),
+(11, 'Modulador ISDB-T MIST-15', 1, '2023-10-20 19:08:32', '2023-11-11 17:43:54', 4, 12),
+(12, 'Tx TRUD1800', 2, '2023-10-20 19:08:32', '2023-11-11 17:43:54', 4, 12),
+(13, 'Modulador ISDB VS', 1, '2023-10-20 19:08:32', '2023-11-11 17:43:54', 4, 12),
+(14, 'Tx FM5000', 1, '2023-10-20 19:08:32', '2023-11-11 17:43:54', 4, 12),
+(16, 'Tx TRUD250', 1, '2023-10-22 11:33:10', '2023-11-11 17:43:54', 4, 14),
+(17, 'Encodulator Dexin 3542', 1, '2023-10-22 11:33:10', '2023-11-11 17:43:54', 4, 14),
+(18, 'Encoder LP211', 1, '2023-10-22 14:53:13', '2023-11-11 17:43:54', 4, 15),
+(19, 'Encoder NDS3228S IP', 1, '2023-10-22 14:53:13', '2023-11-11 17:43:54', 4, 15),
+(20, 'Switch', 2, '2023-10-22 14:53:13', '2023-11-11 17:43:54', 4, 15),
+(21, 'Enlace Ubiquiti 24G', 2, '2023-10-22 14:53:13', '2023-11-11 17:43:54', 4, 15),
+(22, 'MUX DMUX500i', 1, '2023-10-22 14:53:13', '2023-11-11 17:43:54', 4, 15),
+(23, 'Modulador NDS2405G', 1, '2023-10-22 14:53:13', '2023-11-11 17:43:54', 4, 15),
+(24, 'Tx TRUD1000 CTM', 1, '2023-10-22 14:53:13', '2023-11-11 17:43:54', 4, 15),
+(25, 'Tx TRUD250', 1, '2023-10-23 11:39:42', '2023-11-11 17:43:54', 4, 16),
+(26, 'Encoder LP211', 1, '2023-10-23 11:39:42', '2023-11-11 17:43:54', 4, 16),
+(27, 'Encodulator 3542', 1, '2023-10-23 11:39:42', '2023-11-11 17:43:54', 4, 16),
+(28, 'MUX VS', 1, '2023-10-23 11:39:42', '2023-11-11 17:43:54', 4, 16),
+(29, 'Modulador MIST13', 1, '2023-10-23 11:39:42', '2023-11-11 17:43:54', 4, 16),
+(32, 'Encodulator Dexin 3542', 1, '2023-10-25 12:53:33', '2023-11-11 17:43:54', 4, 30),
+(33, 'Tx TRUD500', 1, '2023-10-25 12:53:33', '2023-11-11 17:43:54', 4, 30),
+(34, 'Encodulator Dexin 3542', 1, '2023-10-25 13:05:56', '2023-11-11 17:43:54', 4, 31),
+(35, 'Tx TRUD250', 1, '2023-10-25 13:05:56', '2023-11-11 17:43:54', 4, 31),
+(37, 'Encoder VS ECD-3000 HDMI', 2, '2023-10-26 14:14:40', '2023-11-11 17:43:54', 4, 32),
+(38, 'MUX  VS MCMP-3100', 1, '2023-10-26 14:14:40', '2023-11-11 17:43:54', 4, 32),
+(39, 'switch aruba', 2, '2023-10-26 14:14:40', '2023-11-11 17:43:54', 4, 32),
+(40, 'DESCOMPR VS DCMP500', 2, '2023-10-26 14:14:40', '2023-11-11 17:43:54', 4, 32),
+(41, 'Modulador VS DMOD-1000i', 1, '2023-10-26 14:14:40', '2023-11-11 17:43:54', 4, 32),
+(42, 'Tx TRUD2400', 1, '2023-10-26 14:14:40', '2023-11-11 17:43:54', 4, 32),
+(43, 'Tx TRUD250 CH20', 1, '2023-11-03 10:17:34', '2023-11-11 17:43:54', 4, 33),
+(44, 'Encodulator NDS3542', 2, '2023-11-03 10:17:34', '2023-11-11 17:43:54', 4, 33),
+(47, 'Tx TRUD500 CTM', 1, '2023-11-09 11:34:53', '2023-11-11 17:43:54', 4, 35),
+(48, 'Encoder 2 entrdas HD y SD', 1, '2023-11-09 11:34:53', '2023-11-11 17:43:54', 4, 35),
+(49, 'Mux videoswitch dmux3000', 1, '2023-11-09 11:34:53', '2023-11-11 17:43:54', 4, 35),
+(50, 'mod digital mist-13', 1, '2023-11-09 11:34:53', '2023-11-11 17:43:54', 4, 35),
+(57, 'Tx TRUD500', 1, '2023-11-10 15:55:01', '2023-11-11 17:43:54', 4, 40),
+(58, 'Encodulator Dexin 3542', 1, '2023-11-10 15:55:01', '2023-11-11 17:43:54', 4, 40);
 
 -- --------------------------------------------------------
 
@@ -201,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
 --
 
 INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
-(25, 'calle 123', 1525),
+(25, 'San Martin 1284', 1525),
 (26, 'calle 123', 1925),
 (27, 'calle 123', 536),
 (28, 'calle 123', 1986),
@@ -236,54 +243,60 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`),
   KEY `eq_detalle` (`detalle_trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
 --
 
 INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `caratula_file`, `etiqueta_file`, `user_id`, `modelo_id`, `frecuencia_id`, `detalle_trabajo_id`) VALUES
-(95, '1/1122', '2023', '2023-10-20 19:08:32', '2023-11-04 12:40:14', 'IP: 10.0.0.85 ', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 10, 10, 148, 14),
-(96, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:35:01', 'IP: 10.0.0.96', NULL, NULL, 10, 34, 18, 13),
-(97, '2/1122', '2022', '2023-10-20 22:51:31', '2023-10-23 10:28:55', 'IP:  10.0.0.92\r\ninstalado en Paraná', NULL, NULL, 10, 20, 18, 12),
-(99, NULL, '2022', '2023-10-20 22:51:31', '2023-10-26 15:16:33', 'IP: 10.0.0.95', NULL, NULL, 10, 69, 0, 10),
-(100, NULL, 'N/D', '2023-10-20 22:51:31', '2023-10-26 15:16:11', 'IP: 10.0.0.94', NULL, NULL, 10, 69, 0, 10),
-(101, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:36:00', 'IP: 10.0.0.90\r\nsalida IP\r\nMultiplex vs entrada IP: 224.2.2.2 port 2234. IP : 10.0.0.88', NULL, NULL, 10, 37, 18, 9),
-(102, NULL, '2020', '2023-10-20 22:51:31', '2023-10-22 11:42:20', '(solo #1 a 9Mb + 2 FM 1M5 c/u) \r\nIP: 10.0.0.89', NULL, NULL, 10, 58, 0, 8),
-(106, '8/1122', '2022', '2023-10-21 00:19:20', '2023-10-23 10:35:30', 'IP: 192.168.1.90(?) or 192.168.1.210', NULL, NULL, 10, 56, 18, 11),
-(108, '1/1221', '2021', '2023-10-22 11:33:10', '2023-10-23 10:39:19', 'Potencia de salida RMS 150W', NULL, NULL, 10, 13, 29, 16),
-(109, NULL, '2020', '2023-10-22 11:33:10', '2023-10-23 10:39:43', 'tiene 2 señales 7,5Mb.. quiere agregar 3er señal\r\nla señal viaja via fibra SDI 4 pelos convierte a HDMI', NULL, NULL, 10, 58, 29, 17),
-(110, '3/1221', '2021', '2023-10-22 14:53:12', '2023-10-26 11:58:07', 'TRUD1000 CTM instalada\r\nIP: 10.6.0.205', NULL, NULL, 10, 19, 21, 24),
-(111, NULL, '2020', '2023-10-22 14:53:12', '2023-10-26 11:58:26', '10.6.0.201	NIT= 21.1 	BTS-MFN', NULL, NULL, 10, 61, 21, 23),
-(112, NULL, '2022', '2023-10-22 14:53:12', '2023-10-26 11:58:47', 'IP: 10.6.0.202	\r\ncapa A 13 seg\r\n64QAM \r\n5/6 \r\n1/16\r\ningresa IP multicast 224.2.2.2 puerto 12000', NULL, NULL, 10, 36, 21, 22),
-(113, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 11:54:42', 'MASTER 	\r\n192.168.0.20 \r\nuser:ubnt \r\npass:ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 10, 59, 0, 21),
-(114, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 12:04:30', 'SLAVE	\r\n192.168.0.21 \r\nuser: ubnt \r\npass: ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 10, 59, 0, 21),
-(115, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:31', 'ARUBA 1930\r\nIP 192.168.1.1', NULL, NULL, 10, 49, 0, 20),
-(116, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:06', 'ARUBA 1930', NULL, NULL, 10, 49, 0, 20),
-(117, NULL, 'N/D', '2023-10-22 14:53:12', '2023-10-22 14:53:12', 'IP: 172.20.3.130\r\n8 entradas HDMI\r\n#1 8MBps \"JTA TV\" high profile 1920x1080\r\n#3 8MBps \"JTA DEPORTES\" high profile 1920x1080\r\nSalida IP 224.2.2.2 12000 hasta 12008', NULL, NULL, 10, 60, 0, 19),
-(118, NULL, 'N/D', '2023-10-22 15:40:14', '2023-10-22 15:40:14', '192.168.0.30 	nombre=\"JTA TV\" \r\nbitrate= 8M ENtrada HDMI \r\nIP OUT 224.2.2.2 puerto 12000', NULL, NULL, 10, 38, 0, 18),
-(119, '1/1122', '2020', '2023-10-23 10:21:21', '2023-10-23 10:33:51', '10.0.0.86\r\ninstalado en Crespo. En primer lugar fue a préstamos un TRUD500', NULL, NULL, 1, 20, 18, 12),
-(121, '2/1218', '2018', '2023-10-23 11:39:42', '2023-10-26 15:32:17', '', NULL, NULL, 10, 55, 31, 29),
-(122, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', '192.168.0.40', NULL, NULL, 10, 37, 31, 28),
-(123, NULL, '2018', '2023-10-23 11:39:42', '2023-10-26 12:00:27', ' 192.168.0.136\r\nusa conversor hdmi, no funciona SDI\r\nLo usa de BACKUP', NULL, NULL, 10, 58, 31, 27),
-(124, '1/1218', '2018', '2023-10-23 11:39:42', '2023-10-26 15:32:01', '', NULL, NULL, 10, 13, 31, 25),
-(125, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', 'HDMI sin webbrower usar SNMP 192.168.0.30', NULL, NULL, 10, 38, 0, 26),
-(126, '1/1023', '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'sin pre corrección', NULL, NULL, 10, 15, 19, 33),
-(127, NULL, '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'IP 192.168.1.136\r\nchannel #1 GUANACO PLAY 9M\r\nchannel #3 CHINGUI CHINGUI 4M5\r\nchannel #4 DYNAMIS TV 4M5\r\n\r\nRF OUT -5dBm 64qam 1/32 7/8', NULL, NULL, 10, 58, 19, 32),
-(128, '1/0322', '2022', '2023-10-25 13:05:56', '2023-10-25 13:16:08', '', NULL, NULL, 10, 13, 16, 35),
-(129, NULL, '2022', '2023-10-25 13:05:56', '2023-10-26 09:09:09', 'IP: 192.168.1.136\r\n16QAM modo3 conv 5/6 IG: 1/16\r\n#1 señal 9 MBps \"FIVE TV\"\r\n#2 señal 3,5 MBps \"TV Channel\"\r\nMPEG2 audio, para mejor recepción a pedido del cliente', NULL, NULL, 10, 58, 16, 34),
-(130, '1/1223', '2023', '2023-10-26 14:14:40', '2023-10-26 15:09:05', '192.168.1.100', NULL, NULL, 10, 67, 0, 42),
-(131, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.101  S/N:01-0102-5522', NULL, NULL, 10, 34, 0, 41),
-(132, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.102 S/N:01-0102-6184', NULL, NULL, 10, 69, 0, 40),
-(133, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.106 S/N:01-0102-6183', NULL, NULL, 10, 69, 0, 40),
-(134, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 10, 49, 0, 39),
-(135, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 10, 49, 0, 39),
-(136, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.103 S/N:01-0102-6182', NULL, NULL, 10, 54, 0, 38),
-(137, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.104 one-seg y HD 9Mb S/N:01-0102-6142\r\n', NULL, NULL, 10, 70, 0, 37),
-(138, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.105 (idem repuesto) S/N:01-0102-6181\r\n', NULL, NULL, 10, 70, 0, 37),
-(139, '1/0218', '2018', '2023-11-03 10:17:34', '2023-11-07 13:41:36', 'ex TRU400 linealizado.', '180102-1_0218_caratula.pdf', '180102-1_0218.pdf', 10, 13, 20, 43),
-(140, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#1 \r\nNDS3542\r\n172.30.9.8 \r\n20.1 	7 Mbps Municipalidad de Concordia 1\r\n20.2	        3 Mbps Municipalidad de Concordia 2\r\n64QAM 1/16 3/4 RF -14,5dBm', NULL, NULL, 10, 58, 20, 44),
-(141, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3	   3 Mbps Direccion Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Direccion Electrotécnica y comunicaciones 2', NULL, NULL, 10, 58, 20, 44);
+(95, '1/1122', '2023', '2023-10-20 19:08:32', '2023-11-04 12:40:14', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, 148, 14),
+(96, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:35:01', 'IP: 10.0.0.96', NULL, NULL, 1, 34, 18, 13),
+(99, NULL, '2022', '2023-10-20 22:51:31', '2023-10-26 15:16:33', 'IP: 10.0.0.95', NULL, NULL, 1, 69, 0, 10),
+(100, NULL, 'N/D', '2023-10-20 22:51:31', '2023-10-26 15:16:11', 'IP: 10.0.0.94', NULL, NULL, 1, 69, 0, 10),
+(101, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:36:00', 'IP: 10.0.0.90\r\nsalida IP\r\nMultiplex vs entrada IP: 224.2.2.2 port 2234. IP : 10.0.0.88', NULL, NULL, 1, 37, 18, 9),
+(102, NULL, '2020', '2023-10-20 22:51:31', '2023-10-22 11:42:20', '(solo #1 a 9Mb + 2 FM 1M5 c/u) \r\nIP: 10.0.0.89', NULL, NULL, 1, 58, 0, 8),
+(106, '8/1122', '2022', '2023-10-21 00:19:20', '2023-10-23 10:35:30', 'IP: 192.168.1.90(?) or 192.168.1.210', NULL, NULL, 1, 56, 18, 11),
+(108, '1/1221', '2021', '2023-10-22 11:33:10', '2023-10-23 10:39:19', 'Potencia de salida RMS 150W', NULL, NULL, 1, 13, 29, 16),
+(109, NULL, '2020', '2023-10-22 11:33:10', '2023-10-23 10:39:43', 'tiene 2 señales 7,5Mb.. quiere agregar 3er señal\r\nla señal viaja via fibra SDI 4 pelos convierte a HDMI', NULL, NULL, 1, 58, 29, 17),
+(110, '3/1221', '2021', '2023-10-22 14:53:12', '2023-10-26 11:58:07', 'TRUD1000 CTM instalada\r\nIP: 10.6.0.205', NULL, NULL, 1, 19, 21, 24),
+(111, NULL, '2020', '2023-10-22 14:53:12', '2023-10-26 11:58:26', '10.6.0.201	NIT= 21.1 	BTS-MFN', NULL, NULL, 1, 61, 21, 23),
+(112, NULL, '2022', '2023-10-22 14:53:12', '2023-10-26 11:58:47', 'IP: 10.6.0.202	\r\ncapa A 13 seg\r\n64QAM \r\n5/6 \r\n1/16\r\ningresa IP multicast 224.2.2.2 puerto 12000', NULL, NULL, 1, 36, 21, 22),
+(113, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 11:54:42', 'MASTER 	\r\n192.168.0.20 \r\nuser:ubnt \r\npass:ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, 0, 21),
+(114, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 12:04:30', 'SLAVE	\r\n192.168.0.21 \r\nuser: ubnt \r\npass: ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, 0, 21),
+(115, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:31', 'ARUBA 1930\r\nIP 192.168.1.1', NULL, NULL, 1, 49, 0, 20),
+(116, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:06', 'ARUBA 1930', NULL, NULL, 1, 49, 0, 20),
+(117, NULL, 'N/D', '2023-10-22 14:53:12', '2023-10-22 14:53:12', 'IP: 172.20.3.130\r\n8 entradas HDMI\r\n#1 8MBps \"JTA TV\" high profile 1920x1080\r\n#3 8MBps \"JTA DEPORTES\" high profile 1920x1080\r\nSalida IP 224.2.2.2 12000 hasta 12008', NULL, NULL, 1, 60, 0, 19),
+(118, NULL, 'N/D', '2023-10-22 15:40:14', '2023-11-11 15:21:07', '192.168.0.30 	nombre=\"JTA TV\" \r\nbitrate= 8M ENtrada HDMI \r\nIP OUT 224.2.2.2 puerto 12000', NULL, NULL, 1, 38, 0, 18),
+(119, '2/1122', '2020', '2023-10-23 10:21:21', '2023-11-09 11:11:22', '10.0.0.86\r\ninstalado en CRESPO. \r\nEn primer lugar fue a préstamo un TRUD500', '220516-2_1122_caratula.pdf', '220516-2_1122.pdf', 1, 20, 18, 12),
+(121, '2/1218', '2018', '2023-10-23 11:39:42', '2023-11-11 15:37:34', '', NULL, NULL, 1, 55, 31, 29),
+(122, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', '192.168.0.40', NULL, NULL, 1, 37, 31, 28),
+(123, NULL, '2018', '2023-10-23 11:39:42', '2023-10-26 12:00:27', ' 192.168.0.136\r\nusa conversor hdmi, no funciona SDI\r\nLo usa de BACKUP', NULL, NULL, 1, 58, 31, 27),
+(124, '1/1218', '2018', '2023-10-23 11:39:42', '2023-10-26 15:32:01', '', NULL, NULL, 1, 13, 31, 25),
+(125, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', 'HDMI sin webbrower usar SNMP 192.168.0.30', NULL, NULL, 1, 38, 0, 26),
+(126, '1/1023', '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'sin pre corrección', NULL, NULL, 1, 15, 19, 33),
+(127, NULL, '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'IP 192.168.1.136\r\nchannel #1 GUANACO PLAY 9M\r\nchannel #3 CHINGUI CHINGUI 4M5\r\nchannel #4 DYNAMIS TV 4M5\r\n\r\nRF OUT -5dBm 64qam 1/32 7/8', NULL, NULL, 1, 58, 19, 32),
+(128, '1/0322', '2022', '2023-10-25 13:05:56', '2023-10-25 13:16:08', '', NULL, NULL, 1, 13, 16, 35),
+(129, NULL, '2022', '2023-10-25 13:05:56', '2023-10-26 09:09:09', 'IP: 192.168.1.136\r\n16QAM modo3 conv 5/6 IG: 1/16\r\n#1 señal 9 MBps \"FIVE TV\"\r\n#2 señal 3,5 MBps \"TV Channel\"\r\nMPEG2 audio, para mejor recepción a pedido del cliente', NULL, NULL, 1, 58, 16, 34),
+(130, '1/1223', '2023', '2023-10-26 14:14:40', '2023-10-26 15:09:05', '192.168.1.100', NULL, NULL, 1, 67, 0, 42),
+(131, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.101  S/N:01-0102-5522', NULL, NULL, 1, 34, 0, 41),
+(132, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.102 S/N:01-0102-6184', NULL, NULL, 1, 69, 0, 40),
+(133, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.106 S/N:01-0102-6183', NULL, NULL, 1, 69, 0, 40),
+(134, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, 0, 39),
+(135, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, 0, 39),
+(136, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.103 S/N:01-0102-6182', NULL, NULL, 1, 54, 0, 38),
+(137, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.104 one-seg y HD 9Mb S/N:01-0102-6142\r\n', NULL, NULL, 1, 70, 0, 37),
+(138, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.105 (idem repuesto) S/N:01-0102-6181\r\n', NULL, NULL, 1, 70, 0, 37),
+(140, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#1 \r\nNDS3542\r\n172.30.9.8 \r\n20.1 	7 Mbps Municipalidad de Concordia 1\r\n20.2	        3 Mbps Municipalidad de Concordia 2\r\n64QAM 1/16 3/4 RF -14,5dBm', NULL, NULL, 1, 58, 20, 44),
+(141, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3	   3 Mbps Direccion Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Direccion Electrotécnica y comunicaciones 2', NULL, NULL, 1, 58, 20, 44),
+(142, '1/0218', '2018', '2023-11-08 13:27:23', '2023-11-08 16:36:59', 'ex TRU400 linealizado', NULL, NULL, 1, 13, 20, 43),
+(143, '2/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.90', NULL, NULL, 1, 55, 16, 50),
+(144, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.40', NULL, NULL, 1, 37, 16, 49),
+(145, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.30', NULL, NULL, 1, 58, 0, 48),
+(146, '1/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.100', NULL, NULL, 1, 15, 16, 47),
+(152, '', '2023', '2023-11-10 15:55:00', '2023-11-10 15:55:00', '', NULL, NULL, 1, 58, 16, 58),
+(153, '1/1223', '2023', '2023-11-10 15:55:00', '2023-11-10 15:55:00', '', NULL, NULL, 1, 15, 16, 57),
+(154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-11 13:20:13', '10.0.0.85 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 18, 12);
 
 -- --------------------------------------------------------
 
@@ -694,24 +707,24 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipo_historia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
 --
 
 INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content`, `tipo_historia_id`, `equipo_id`, `user_id`) VALUES
-(60, 'Falla FM5K', '2022-10-06 11:33:10', '2022-10-06 11:33:10', 'Falla Tx', 2, 95, 10),
-(61, 'Calidad de señal', '2021-10-22 11:33:10', '2023-10-22 11:33:10', 'recibe la señal en 720 bien, pero no en 1080... problema de conversor parece (no nuestro).', 1, 109, 10),
-(62, '4 señales', '2021-10-22 11:33:10', '2023-10-22 11:33:10', 'se agregaron las 4 señales\r\n#1: 6M  - #2#3#4: 3M', 3, 109, 10),
-(63, 'Falla PD', '2021-03-02 11:39:42', '2021-03-02 11:39:42', 'el TX presenta falla de ROE.. 30W de PR sobre 170 de PD (queda a revisar por parte de busso)', 2, 124, 10),
-(64, 'Equipo backup', '2021-06-24 11:39:42', '2021-06-21 11:39:42', 'se instalo Dexin 3542 (backup) \r\ncon salida a -22,4 dbm para una Pot de 187W RMS TRUD250 iSAL=14,7A max', 3, 123, 10),
-(65, 'Falla audio', '2023-10-23 13:02:45', '2023-10-23 13:02:45', 'Con el sistema del modulador MIST-13, recibe bien señal de video, pero no de audio', 1, 124, 10),
-(66, 'Nueva señal', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'se agregó señal #3, chingui chingui d 4M5', 3, 127, 10),
-(67, 'Ficha alimentación', '2023-03-07 13:05:56', '2023-03-07 13:05:56', 'falla en la ficha de alimentación del mod, se asistió por teléfono para encontrar la falla y fue resuelta', 2, 129, 10),
-(68, 'Nueva señal', '2023-04-19 13:05:56', '2023-04-19 13:05:56', 'se agrega señal 16.2', 3, 129, 10),
-(69, 'Salida RF', '2021-11-03 10:17:34', '2023-11-04 14:58:43', 'Se reparó RF, no se tienen mas datos de la reparación', 2, 139, 10),
-(70, 'Módulo', '2023-11-03 10:17:34', '2023-11-03 10:17:34', 'se reparó un módulo', 2, 140, 10);
+(60, 'Falla FM5K', '2022-10-06 11:33:10', '2022-10-06 11:33:10', 'Falla Tx', 2, 95, 1),
+(61, 'Calidad de señal', '2021-10-22 11:33:10', '2023-10-22 11:33:10', 'recibe la señal en 720 bien, pero no en 1080... problema de conversor parece (no nuestro).', 1, 109, 1),
+(62, '4 señales', '2021-10-22 11:33:10', '2023-10-22 11:33:10', 'se agregaron las 4 señales\r\n#1: 6M  - #2#3#4: 3M', 3, 109, 1),
+(63, 'Falla PD', '2021-03-02 11:39:42', '2021-03-02 11:39:42', 'el TX presenta falla de ROE.. 30W de PR sobre 170 de PD (queda a revisar por parte de busso)', 2, 124, 1),
+(64, 'Equipo backup', '2021-06-24 11:39:42', '2021-06-21 11:39:42', 'se instalo Dexin 3542 (backup) \r\ncon salida a -22,4 dbm para una Pot de 187W RMS TRUD250 iSAL=14,7A max', 3, 123, 1),
+(65, 'Falla audio', '2023-10-23 13:02:45', '2023-10-23 13:02:45', 'Con el sistema del modulador MIST-13, recibe bien señal de video, pero no de audio', 1, 124, 1),
+(66, 'Nueva señal', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'se agregó señal #3, chingui chingui d 4M5', 3, 127, 1),
+(67, 'Ficha alimentación', '2023-03-07 13:05:56', '2023-03-07 13:05:56', 'falla en la ficha de alimentación del mod, se asistió por teléfono para encontrar la falla y fue resuelta', 2, 129, 1),
+(68, 'Nueva señal', '2023-04-19 13:05:56', '2023-04-19 13:05:56', 'se agrega señal 16.2', 3, 129, 1),
+(70, 'Módulo', '2023-11-03 10:17:34', '2023-11-03 10:17:34', 'se reparó un módulo', 2, 140, 1),
+(71, 'Reparación RF', '2023-11-08 13:27:23', '2023-11-08 13:27:23', 'se reparó la RF (no hay mayor info al respecto)', 2, 142, 1);
 
 -- --------------------------------------------------------
 
@@ -3333,7 +3346,7 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`),
   KEY `modelo_tipo` (`tipo_modelo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
@@ -3363,7 +3376,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (34, 8, 'DMOD-1000i', 'Modulador ISDB-T', 'DMOD-1000i -20.png', '2023-06-30 10:17:39', '2023-10-26 15:03:42', '\'20', NULL, 9),
 (36, 8, 'DMUX-500i', 'Multiplexor ISDB Sin Display', 'DMUX-500i -19.png', '2023-06-30 10:17:39', '2023-10-26 15:04:33', '\'19', NULL, 9),
 (37, 8, 'DMUX-3100', 'Multiplexor ISDB', 'DMUX-3100 -20.png', '2023-06-30 10:17:39', '2023-10-26 15:04:03', '\'20', NULL, 9),
-(38, 4, 'LP211', 'Encoder HD HDMI-SDI', 'LP211 -18.png', '2023-06-30 10:17:39', '2023-11-06 11:39:18', '\'18', NULL, 9),
+(38, 4, 'LP211', 'Encoder HD HDMI-SDI NDS3211P', 'LP211 -18.png', '2023-06-30 10:17:39', '2023-11-11 17:38:38', '\'18', NULL, 9),
 (40, 3, 'FM100', 'enc. posterior', 'FM100 -23.png', '2023-06-30 12:39:07', '2023-07-09 12:18:53', '\'23', 2, 3),
 (46, 2, 'TRV100', 'STM', 'TRV100 -08.png', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12, 1),
 (47, 3, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-11-06 17:02:44', '\'07', 1, 3),
@@ -3376,7 +3389,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (55, 2, 'MIST-13', 'Modulador Digital ISDB-T (módulo Teamcast MHX)', 'MIST-13 -12.JPG', '2023-10-20 19:08:32', '2023-11-06 11:50:23', '\'12', NULL, 6),
 (56, 2, 'MIST-15', 'Modulador ISDB-T Con WebBrowser (Módulo TeamCast)', 'MIST-15 -15.JPG', '2023-10-20 19:08:32', '2023-10-23 13:49:31', '\'15', NULL, 6),
 (57, 4, 'NDS3224', 'Encoder digital 4 entradas SDI salida IP\r\nrenombrado L224', 'NDS3224 -20.png', '2023-10-20 19:08:32', '2023-10-20 19:08:32', '\'20', NULL, 9),
-(58, 4, 'NDS3542A', 'Encoder 4 x SDI c/ display', 'NDS3542A -20.png', '2023-10-20 19:08:32', '2023-11-04 12:08:50', '\'20', NULL, 9),
+(58, 4, 'NDS3542A', 'Encoder-Modulador HDMI-SDI c/ display', 'NDS3542A -20.png', '2023-10-20 19:08:32', '2023-11-11 15:18:12', '\'20', NULL, 9),
 (59, 5, 'AirFiber24G', 'Enlace 24 GHz', 'AirFiber24G.jpg', '2023-10-22 14:53:12', '2023-11-04 11:41:11', 'N/D', NULL, 8),
 (60, 4, 'NDS3228S', 'Encoder 8 entradas salida IP', 'NDS3228S -20.png', '2023-10-22 14:53:12', '2023-10-22 14:53:12', '\'20', NULL, 9),
 (61, 4, 'NDS2405G', 'Modulador digital ISDB-T', 'NDS2405G -20.jpg', '2023-10-22 14:53:12', '2023-10-22 14:53:12', '\'20', NULL, 9),
@@ -3384,7 +3397,8 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (67, 2, 'TRUD2400', '', 'TRUD2400 -23.JPG', '2023-10-26 12:23:43', '2023-10-26 12:23:43', '\'23', NULL, 2),
 (68, 8, 'DMM-3100', 'Multiplexor y modulador ISDB', 'DMM-3100 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:27:25', '\'23', NULL, 9),
 (69, 8, 'DCMP-500', 'Descompresor ISDB', 'DCMP-500 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:28:29', '\'23', NULL, 9),
-(70, 8, 'ECD-3000', 'Encoder H.264', 'ECD-3000 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:29:10', '\'23', NULL, 9);
+(70, 8, 'ECD-3000', 'Encoder H.264', 'ECD-3000 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:29:10', '\'23', NULL, 9),
+(71, 2, 'Filtro_Notch_FM', 'Filtro Notch', 'Filtro_Notch_FM -18.jpg', '2023-11-09 12:24:30', '2023-11-09 12:38:36', '\'18', NULL, 11);
 
 -- --------------------------------------------------------
 
@@ -3416,8 +3430,8 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
 --
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
-(1, '2023-08-18 11:39:42', '2023-08-18 12:04:28', '230818', 'Falla general del Tx', 1, 124, 10, 4),
-(5, '2023-10-25 16:16:46', '2023-10-25 16:16:46', '231025', 'Recibe bien video , pero no el audio, con el equipo muleto no tiene problemas', 1, 122, 10, 2);
+(1, '2023-08-18 11:39:42', '2023-08-18 12:04:28', '230818', 'Falla general del Tx', 1, 124, 12, 4),
+(5, '2023-10-25 16:16:46', '2023-11-11 17:33:27', '231025', 'Recibe bien video , pero no el audio, con el equipo muleto no tiene problemas', 1, 122, 12, 4);
 
 -- --------------------------------------------------------
 
@@ -3440,7 +3454,7 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   KEY `user_id` (`user_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_client` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_trabajo`
@@ -3453,8 +3467,10 @@ INSERT INTO `orden_trabajo` (`id`, `date_created`, `date_modified`, `codigo`, `c
 (16, '2018-01-23 11:39:42', '2023-10-26 12:00:08', 180101, 'Tv digital TRDU250', 2, 4, 3),
 (30, '2023-08-10 12:53:33', '2023-10-26 11:52:48', 230810, 'TV digital all in one TRUD500', 4, 4, 3),
 (31, '2023-10-25 13:05:56', '2023-10-26 11:50:01', 220505, 'Tv Digital ALL IN ONE CH16', 3, 4, 3),
-(32, '2023-10-26 13:58:22', '2023-10-26 13:58:22', 221219, 'TRUD2400', 6, 4, 1),
-(33, '2023-11-03 10:17:34', '2023-11-03 10:17:34', 180102, 'Tx TRUD250 digital', 7, 10, 3);
+(32, '2023-10-26 13:58:22', '2023-11-10 13:15:57', 221219, 'TRUD2400', 6, 4, 1),
+(33, '2023-11-03 10:17:34', '2023-11-03 10:17:34', 180102, 'Tx TRUD250 digital', 7, 11, 3),
+(35, '2023-11-09 11:34:53', '2023-11-09 11:48:57', 190101, 'TRUD500 con enc dos entradas mux y mod', 9, 11, 3),
+(40, '2023-11-10 15:55:01', '2023-11-10 16:18:13', 231110, 'TV digital all in one TRUD500', 9, 11, 2);
 
 -- --------------------------------------------------------
 
@@ -3521,9 +3537,9 @@ CREATE TABLE IF NOT EXISTS `procedimiento` (
 --
 
 INSERT INTO `procedimiento` (`id`, `title`, `date_created`, `date_modified`, `content`, `user_id`, `user_edit_id`) VALUES
-(58, 'Grabar PIC 24HJ256GP610', '2023-09-26 11:24:57', '2023-10-10 09:41:56', 'para grabar el PIC 24HJ256GP610 de la placa P0568 (voltímetro)\r\nSe debe hacer con la placa ya armada con el PIC, usar el PICKIT 3 y cargar el archivo HEX correspondiente.', 10, 10),
-(59, 'Grabar PIC16F74', '2023-10-10 09:27:10', '2023-10-25 12:22:14', 'para grabar el PIC16F887 de la placa P0492 (voltímetro) Se debe hacer con el software MPLAB y una PC de escritorio con puerto serie, al cual conectamos el programador PIC STARTPLUS. Se carga el archivo HEX correspondiente y se programa.', 10, 10),
-(60, 'Grabar PIC16F887', '2023-10-25 12:08:57', '2023-10-25 12:08:57', 'Este PIC se graba directamente en la placa P0736-A- utilizando el PICkit 3\r\nCargar el HEX correspondiente', 10, 10);
+(58, 'Grabar PIC 24HJ256GP610', '2023-09-26 11:24:57', '2023-10-10 09:41:56', 'para grabar el PIC 24HJ256GP610 de la placa P0568 (voltímetro)\r\nSe debe hacer con la placa ya armada con el PIC, usar el PICKIT 3 y cargar el archivo HEX correspondiente.', 1, 1),
+(59, 'Grabar PIC16F74', '2023-10-10 09:27:10', '2023-10-25 12:22:14', 'para grabar el PIC16F887 de la placa P0492 (voltímetro) Se debe hacer con el software MPLAB y una PC de escritorio con puerto serie, al cual conectamos el programador PIC STARTPLUS. Se carga el archivo HEX correspondiente y se programa.', 1, 1),
+(60, 'Grabar PIC16F887', '2023-10-25 12:08:57', '2023-10-25 12:08:57', 'Este PIC se graba directamente en la placa P0736-A- utilizando el PICkit 3\r\nCargar el HEX correspondiente', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -3769,6 +3785,15 @@ INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_i
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `client`
+--
+ALTER TABLE `client`
+  ADD CONSTRAINT `client_cf` FOREIGN KEY (`cond_fiscal_id`) REFERENCES `cond_fiscal` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `client_domicilio` FOREIGN KEY (`domicilio_id`) REFERENCES `domicilio` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `client_iibb` FOREIGN KEY (`iibb_id`) REFERENCES `iibb` (`jurisdiccion`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `client_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `detalle_reparacion`

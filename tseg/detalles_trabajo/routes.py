@@ -8,7 +8,7 @@ from tseg.users.utils import dateFormat, role_required, buscarLista
 detalles_trabajo = Blueprint('detalles_trabajo', __name__)
 
 @detalles_trabajo.route("/detalle-ot-nuevo-<string:orden_trabajo_id>", methods=['GET', 'POST'])
-@role_required("Admin", "Comercial") # impide el acceso sin login
+@login_required
 def add_detalle_trabajo(orden_trabajo_id):
 	form = DetalleTrabajoForm()
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)
@@ -53,7 +53,7 @@ def detalle_trabajo(detalle_trabajo_id):
 
 
 @detalles_trabajo.route("/detalle-trabajo-<int:detalle_trabajo_id>-update", methods=['GET', 'POST'])
-@role_required("Admin", "Comercial", "ServicioClientes")
+@login_required
 def update_detalle_trabajo(detalle_trabajo_id):
 	detalle_trabajo = Detalle_trabajo.query.get_or_404(detalle_trabajo_id)	
 	form = DetalleTrabajoForm()
@@ -77,7 +77,7 @@ def update_detalle_trabajo(detalle_trabajo_id):
 
 
 @detalles_trabajo.route("/detalle-trabajo-<int:detalle_trabajo_id>-delete", methods=['POST'])
-@role_required("Admin", "Técnico", "Comercial")
+@login_required
 def delete_detalle_trabajo(detalle_trabajo_id):	
 	detalle_trabajo = Detalle_trabajo.query.get_or_404(detalle_trabajo_id)
 	# se guarda la ot id para que no de error al no encontrar el detalle en redirect

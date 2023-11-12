@@ -14,12 +14,12 @@ cuit_input.oninput = function() {
         cuit_input.classList.remove('input-orange');
         cuit_input.classList.add('input-red');
     } 
-    else if (inputValue.length < 11)
+    else if (inputValue.length < 11 & inputValue.length > 0)
     {
         cuit_input.classList.remove('input-green');
         cuit_input.classList.remove('input-red');
         cuit_input.classList.add('input-orange');
     } 
     else 
-        cuit_input.classList.remove('input-green', 'input-red');
+        cuit_input.classList.remove('input-green', 'input-red','input-orange');
 };

@@ -34,16 +34,16 @@
   }
   
   body {
+    font-family: Montserrat, sans-serif;
     background: var(--background-color);
     color: var(--content-color);
-    font-family: Montserrat, sans-serif;
   }
   
   main {
   margin-top: 90px;
   }
   
-  h1, h3, h4, h5 {
+  h1, h3, h4, h5 {    
   color: var(--title-color);
   }
   
@@ -111,7 +111,8 @@
   }
   
   .menu-horizontal{
-  
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS';
+  font-size: large;
   list-style: none;
   display: flex;
   justify-content: left;
@@ -335,7 +336,7 @@
 
   
   .tarjeta-nav div a:hover {  
-    
+    background-color: var(--border-color);
     transform: scale(1.15);
     color: var(--content-color);
     border: 5px solid var(--content-color);

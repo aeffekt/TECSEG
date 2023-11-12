@@ -37,7 +37,7 @@
 				<h5>Equipos:</h5>
 				{% for equipment in equipments %}
 					<a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-						<h6><li> {{ equipment.modelo.nombre }}</h6></li>
+						<h6><li> <b>{{ equipment.modelo.nombre }}</b></h6></li>
 					</a>
 					{% if searched|lower in equipment.anio|lower %}
 						<small class="article-title">Año modelo: {{ equipment.anio }}</small>
@@ -51,8 +51,9 @@
 					{% if searched|lower in equipment.modelo.marca|lower %}
 						<small class="article-title">{{ equipment.modelo.marca }}</small>
 					{% endif %}
-					<small class="article-title">Canal/Frec: {{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</small>
-					<small><p class="article-title">Pertenece a: {{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</p></small>
+					<small class="article-title">Número de serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b></small>
+					<small class="article-title">Canal/Frec: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></small>
+					<small><p class="article-title">Pertenece a: <b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b></p></small>
 				{% endfor%}
 			</div>
 		</div>
@@ -73,6 +74,7 @@
 			</div>
 		</div>
 	{% endif %}
+
 	{% if procedimientos.count() > 0 %}
 		<div class="container">
 			<div class="content-section">
@@ -83,6 +85,21 @@
 					{% if searched|lower in procedimiento.content|lower %}
 						<small class="article-title">{{ procedimiento.content }}</small>
 					{% endif %}					
+				{% endfor%}
+			</div>
+		</div>
+	{% endif %}
+
+	{% if ordenes_trabajo.count() > 0 %}
+		<div class="container">
+			<div class="content-section">
+				<h5>Órdenes de trabajo:</h5>
+				{% for ot in ordenes_trabajo %}
+					<a class="article-title" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot.id) }}"><h6><li>{{ ot.codigo }}</h6></li>
+					</a>
+					{% if searched|lower in ot.content|lower %}
+						<small class="article-title">{{ ot.content }}</small>
+					{% endif %}			
 				{% endfor%}
 			</div>
 		</div>

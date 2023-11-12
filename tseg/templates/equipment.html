@@ -19,7 +19,9 @@
 						<a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo.id) }}"><h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo }}</h2></a>
 						<h6 class="article-title">Marca: <b>{{ equipment.modelo.marca }}</b></h6>
 						<h6 class="article-title">Descripción: <b>{{ equipment.modelo.descripcion }}</b></h6>
-						<h6 class="article-title">Homologación: <b>{{ equipment.modelo.homologacion }}</b></h6>
+						{% if equipment.modelo.homologacion %}
+							<h6 class="article-title">Homologación: <b>{{ equipment.modelo.homologacion }}</b></h6>
+						{% endif %}
 						<small class="article-title">Modificado: <b>{{ equipment.modelo.date_modified }}</b></small>
 					</div>
                 </div>
@@ -27,38 +29,51 @@
             <hr 90%>
             <div class="row">
                 <div class="col-md-3 text-end">
-                    <small>Nº Serie: </small>
+					{% if equipment.numSerie %}
+                    	<small>Nº Serie: </small>
+					{% else %}
+						<small>O.T.: </small>
+					{% endif %}
                 </div>
                 <div class="col-md-9">
                     <a href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id) }}">
-						<small><b class="article-title" title="Ir a la Orden de trabajo">{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b></small>
+						<small><b class="article-title" title="Ir a la Orden de trabajo">{{ equipment.detalle_trabajo.orden_trabajo.codigo }}
+							{% if equipment.numSerie %}
+								-{{ equipment.numSerie }}
+							{% endif %}
+						</b></small>
 					</a>
                 </div>
-                <div class="col-md-3 text-end">
-                  <small>Canal / Frecuencia: </small>
-                </div>
-                <div class="col-md-9">
-                    <small><b class="article-title" >{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></small>
-                </div>
+				{% if equipment.frecuencia_id !=0 %}
+					<div class="col-md-3 text-end">
+					<small>Canal / Frecuencia: </small>
+					</div>
+					<div class="col-md-9">
+						<small><b class="article-title" >{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></small>
+					</div>
+				{% endif %}
                 <div class="col-md-3 text-end">
                     <small>Cliente:</small>
                 </div>
                 <div class="col-md-9">
                     <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.detalle_trabajo.orden_trabajo.client.id) }}"><b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b></a>
                 </div>
-                <div class="col-md-3 text-end">
-                    <small>Descripción:</small>
-                </div>
-                <div class="col-md-9">
-                    <h6 class="article-title">{{ equipment.content }}</h6>
-                </div>
-				<div class="col-md-3 text-end">
-					<small>Año fabricación: </small>
-				</div>
-				<div class="col-md-9">
-					<small><b class="article-title" >{{ equipment.anio }}</b></small>
-				</div>
-
+				{% if equipment.content %}
+					<div class="col-md-3 text-end">
+						<small>Descripción:</small>
+					</div>
+					<div class="col-md-9">
+						<h6 class="article-title">{{ equipment.content }}</h6>
+					</div>
+				{% endif %}
+				{% if equipment.frecuencia_id !=0 %}
+					<div class="col-md-3 text-end">
+						<small>Año fabricación: </small>
+					</div>
+					<div class="col-md-9">
+						<small><b class="article-title" >{{ equipment.anio }}</b></small>
+					</div>
+				{% endif %}
 				<div class="col-md-3 text-end">
 					<small>Última modificación: </small>
 				</div>
@@ -191,7 +206,7 @@
 							</div>
 						</div>
 						<div class="col-md-3">
-							{% if archivo.nombre.endswith(('jpg', 'jpeg', 'png', 'bmp', 'gif')) %}
+							{% if archivo.nombre.lower().endswith(('jpg', 'jpeg', 'png', 'bmp', 'gif')) %}
 								<div class="img-container">
 									<a href="#" onclick="abrirImagen('{{ folder_path+archivo.nombre }}'); return false;">
 										<img class="rounded-3 account-img" src="{{ folder_path+archivo.nombre }}" alt="Imagen" />
