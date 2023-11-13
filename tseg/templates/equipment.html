@@ -235,7 +235,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-								<form action="{{ url_for('equipments.delete_file', file_path=folder_path, file_name=archivo.nombre, equipment_id=equipment.id) }}" method="POST">
+								<form action="{{ url_for('equipments.delete_file_route', file_path=folder_path, file_name=archivo.nombre, equipment_id=equipment.id) }}" method="POST">
 									<input class="btn btn-danger" type="submit" value="Borrar">
 								</form>
 							</div>

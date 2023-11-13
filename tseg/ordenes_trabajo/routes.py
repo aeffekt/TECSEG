@@ -10,6 +10,7 @@ from tseg.users.utils import role_required, dateFormat, buscarLista
 
 ordenes_trabajo = Blueprint('ordenes_trabajo', __name__)
 
+
 @ordenes_trabajo.route("/all_ordenes_trabajo")
 @login_required
 def all_ordenes_trabajo():
@@ -19,7 +20,7 @@ def all_ordenes_trabajo():
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=select_item))
 	except Exception as err:
 		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
-		return redirect(url_for('ordenes_trabajo.all_ordenes_trabajo'))
+		return redirect(url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc'))
 	all_ot = buscarLista(Orden_trabajo)
 	orderBy = current_app.config["ORDER_OT"]
 	item_type = 'Órden de Reparación'
@@ -148,7 +149,7 @@ def delete_orden_trabajo(orden_trabajo_id):
 		db.session.delete(orden_trabajo)
 		db.session.commit()
 		flash(f"La órden de trabajo {orden_trabajo.codigo} ha sido eliminada!", 'success')
-		return redirect(url_for('ordenes_trabajo.all_ordenes_trabajo', filterBy='estado_id', filterOrder='asc' ))
+		return redirect(url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc'))
 	except Exception as e:
 		db.session.rollback() 
 		flash("Ocurrió un error al intentar eliminar.", 'warning')		

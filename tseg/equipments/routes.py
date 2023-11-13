@@ -3,8 +3,8 @@ from flask_login import current_user, login_required
 from tseg.models import Equipment, Historia, Orden_reparacion
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.utils import role_required, dateFormat, buscarLista
-from tseg.equipments.utils import print_caratula_pdf, print_etiqueta_pdf, upload_files
-from tseg.equipments. utils import get_full_folder_path, get_files_info, get_folder_path
+from tseg.equipments.utils import (print_caratula_pdf, print_etiqueta_pdf, upload_files, get_full_folder_path, 
+								   get_files_info, get_folder_path, delete_file,get_folder_name)
 from tseg import db
 import os
 
@@ -101,10 +101,21 @@ def update_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	form = EquipmentForm()
 	if form.validate_on_submit():		
-		if form.numSerie.data == '':
+		if form.numSerie.data == '':			
 			equipment.numSerie = None
 		else:
-			equipment.numSerie = form.numSerie.data
+			# si se cambia el serie, se cambia la carpeta con archivos			
+			if form.numSerie.data != equipment.numSerie:
+				path = get_full_folder_path(equipment)
+				equipment.numSerie = form.numSerie.data
+				if os.path.exists(path):					
+					new_folder_name = get_folder_name(equipment)
+					new_path = os.path.join(os.path.dirname(path), new_folder_name)				
+					try:
+						os.rename(path, new_path)
+						flash(f'Directorio de equipo renombrado a {new_folder_name}', 'success')
+					except OSError as e:
+						flash(f'Ocurrió un error al querer renombrar el directorio del equipo: {e}', 'warning')				
 		equipment.detalle_trabajo_id = form.detalle_trabajo.data
 		equipment.modelo_id = form.modelo.data
 		equipment.frecuencia_id = form.frecuencia.data		
@@ -145,7 +156,7 @@ def delete_equipment(equipment_id):
 	folder_path = get_full_folder_path(equipment)
 	archivos_info = get_files_info(folder_path)
 	for archivo in archivos_info:
-		delete_file(folder_path, archivo["nombre"], equipment_id)
+		delete_file(folder_path, archivo["nombre"])
 
 	# elimina las historias del equipo
 	for historia in equipment.historias:
@@ -191,14 +202,6 @@ def print_pdfs(equipment_id):
 
 # Eliminar archivo del equipo del servidor 
 @equipments.route('/delete-file/<path:file_path>/<string:file_name>/<int:equipment_id>', methods=['POST'])
-def delete_file(file_path, file_name, equipment_id):
-	path = os.path.join(current_app.root_path, file_path+"/"+file_name)	
-	if os.path.exists(path):		
-		try:
-			os.remove(path)
-			flash("El archivo se eliminó correctamente", 'success')
-		except:
-			flash("No se pudo eliminar el archivo", 'warning')
-	else:
-		flash(f"No se encontró el archivo en: {path}", "warning")
+def delete_file_route(file_path, file_name, equipment_id):
+	delete_file(file_path, file_name)
 	return redirect(url_for('equipments.equipment', equipment_id=equipment_id, filterBy='date_modified',filterOrder='desc'))

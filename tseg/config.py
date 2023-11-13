@@ -13,8 +13,7 @@ class Config:
 	MAIL_DEBUG = True
 	MAIL_DEFALUT_SENDER = None
 	MAIL_MAX_EMAILS = 15
-	MAIL_ASCII_ATTACHMENTS = False
-	TEXTAREA_ROWS = 2
+	MAIL_ASCII_ATTACHMENTS = False	
 	
 	# filtro de los reportes
 	ANIO1 = 1990	
@@ -66,7 +65,8 @@ class Config:
 					"date_modified": "Fecha modificado",
 					}
 	ORDER_DETALLES_OR = {"date_modified": "Fecha modificado",
-					"date_created": "Fecha creado",					
+					"date_created": "Fecha creado",
+					"content": "Descripcion",
 					}
 	ORDER_OT = {"estado_id": "Estado",
 					"codigo": "Código",					
@@ -75,7 +75,9 @@ class Config:
 					"date_modified": "Fecha modificado",
 					}
 	ORDER_DETALLES_OT = {"date_modified": "Fecha modificado",
-					"date_created": "Fecha creado",					
+					"date_created": "Fecha creado",
+					"cantidad": "Cantidad",
+					"content": "Descripcion",
 					}
 	ORDER_ZONA = {"cantidad": "Cantidad",
 					"provincia": "Provincia",

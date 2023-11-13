@@ -124,7 +124,7 @@ def upload_files(files, equipment):
 
 # devuelve el nombre de la carpeta de archivos de un equipo
 def get_folder_name(equipment):
-    numero_serie = f'{equipment.detalles_trabajo.orden_trabajo.codigo}-{equipment.numSerie}'			
+    numero_serie = f'{equipment.detalles_trabajo.orden_trabajo.codigo}-{equipment.numSerie}'
     folder_name = numero_serie.replace('/','-')
     return folder_name
 
@@ -164,3 +164,15 @@ def get_files_info(folder_path):
 					'fecha_creacion': creation_time
 				})			
 	return archivos_info
+
+
+# borrar archivo de equipo en el servidor
+def delete_file(file_path, file_name):
+	path = os.path.join(current_app.root_path, file_path+"/"+file_name)	
+	if os.path.exists(path):
+		try:
+			os.remove(path)
+			flash("El archivo se eliminó correctamente", 'success')
+		except:
+			flash(f"Ocurrió un error al intentar eliminar el archivo {file_name}", 'warning')
+	

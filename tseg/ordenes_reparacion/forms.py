@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField
+from wtforms import IntegerField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, ValidationError
 from tseg.models import Equipment, User, Orden_reparacion
 
@@ -12,16 +12,18 @@ class OrdenReparacionForm(FlaskForm):
 		self.tecnico.choices.insert(0,(0, 'Asignación pendiente')) # agrega item
 		self.objeto = objeto
 
-	codigo = StringField('Código', validators=[DataRequired()])
+	codigo = IntegerField('Código', validators=[DataRequired()])
 	content = TextAreaField('Descripción', validators=[DataRequired()])
 	equipo = SelectField('Equipo', coerce=int, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
 	tecnico = SelectField('Técnico encargado', coerce=int, validate_choice=False)
 	submit = SubmitField('Agregar')
 
 	def validate_codigo(self, codigo):
-		if ' ' in codigo.data:
-			raise ValidationError('El código no puede contener espacios')
-		# self.objeto se pasa en UPDATE, no en CREATE, se controla el codigo en objetos de otro ID
+		codigo_str = str(codigo.data)
+		if len(codigo_str)!=6:
+			print(codigo_str, len(codigo_str))
+			raise ValidationError('El código debe ser de 6 dígitos.')
+		# self.objeto se pasa en UPDATE, no en CREATE, se controla el codigo en objetos de otro ID		
 		if self.objeto:
 			codigo_already_exist = Orden_reparacion.query.filter(
 					        Orden_reparacion.codigo == codigo.data,
