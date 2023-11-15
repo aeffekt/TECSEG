@@ -92,5 +92,5 @@ def delete_detalle_trabajo(detalle_trabajo_id):
 	except Exception as e:
 		db.session.rollback() 
 		flash("Ocurrió un error al intentar eliminar.", 'warning')		
-		flash(f"{e}", 'warning')
+		flash(f"Hay equipos asociados a la O.T. Debe borrarlos primero", 'warning')
 		return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id))	

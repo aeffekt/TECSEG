@@ -72,10 +72,12 @@
                 </div>
             </div>
             <hr 80%>
-        </div>  
+        </div> 
         
             <div>
-                <a class="bi bi-plus-square btn btn-outline-info" title="Añadir Equipo" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo.id) }}"></a>
+                {% if detalle_trabajo.cantidad > detalle_trabajo.equipments|length %}
+                    <a class="bi bi-plus-square btn btn-outline-info" title="Añadir Equipo" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo.id) }}"></a>
+                {% endif %}                
                 <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar detalle de trabajo" href="{{ url_for('detalles_trabajo.update_detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id) }}"></a>
                 <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar detalle_trabajo"></a>
             </div>
@@ -108,7 +110,7 @@
                         </a>
                     </div>
                     <div class="col-md-1">
-                        <a class="bi bi-chat btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
+                        <a class="bi bi-chat btn btn-outline-light" title="Añadir Historia al equipo" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
                     </div>
                 </div> 
             </div>

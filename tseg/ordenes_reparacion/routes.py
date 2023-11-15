@@ -133,6 +133,9 @@ def delete_orden_reparacion(orden_reparacion_id):
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	if orden_reparacion.author_or != current_user:
 		abort(403)
+	# elimina los detalles de la O.R.
+	for detalle in orden_reparacion.detalles_reparacion:
+		db.session.delete(detalle)
 	db.session.delete(orden_reparacion)
 	db.session.commit()
 	flash(f"La órden de reparacion {orden_reparacion.codigo} ha sido eliminada!", 'success')

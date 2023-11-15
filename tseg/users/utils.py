@@ -103,8 +103,6 @@ def dateFormat():
 	return datetime.fromisoformat(now)
 
 
-
-
 #guardar imagen en carpeta
 def save_picture(form_picture, folder,img_filename):	
 	_, f_ext = os.path.splitext(form_picture.filename)
@@ -143,7 +141,8 @@ def save_picture(form_picture, folder,img_filename):
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('TECSEG - Reset de contraseña requerido',
-                  sender='no-reply@tecseg.local',
+                  #sender='no-reply@tecseg.local',
+				  sender='arnaiz_agustin@hotmail.com',
                   recipients=[user.email])
     msg.body = f'''Usuario: {user.username} \n Para resetear su contraseña use el siguiente link:
 {url_for('users.reset_token', token=token, _external=True)}

@@ -31,7 +31,7 @@ def all_marcas():
 @login_required
 def marca(marca_id):
 	marca = Marca.query.get_or_404(marca_id)	
-	form = MarcaForm()
+	form = MarcaForm(marca)
 	if form.validate_on_submit():		
 		marca.nombre = form.nombre.data		
 		try:			

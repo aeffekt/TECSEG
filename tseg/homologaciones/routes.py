@@ -28,7 +28,7 @@ def all_homologaciones():
 @login_required
 def homologacion(homologacion_id):
 	homologacion = Homologacion.query.get_or_404(homologacion_id)
-	form = HomologacionForm()
+	form = HomologacionForm(homologacion)
 	if form.validate_on_submit():		
 		homologacion.codigo = form.codigo.data
 		homologacion.modelo = form.modelo.data

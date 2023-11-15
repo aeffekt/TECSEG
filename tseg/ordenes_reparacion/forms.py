@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, SubmitField, TextAreaField, SelectField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, ValidationError, NumberRange
 from tseg.models import Equipment, User, Orden_reparacion
 
 class OrdenReparacionForm(FlaskForm):
@@ -12,24 +12,20 @@ class OrdenReparacionForm(FlaskForm):
 		self.tecnico.choices.insert(0,(0, 'Asignación pendiente')) # agrega item
 		self.objeto = objeto
 
-	codigo = IntegerField('Código', validators=[DataRequired()])
+	codigo = IntegerField('Código', validators=[DataRequired(), NumberRange(min=200101, max=991231)])
 	content = TextAreaField('Descripción', validators=[DataRequired()])
-	equipo = SelectField('Equipo', coerce=int, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
-	tecnico = SelectField('Técnico encargado', coerce=int, validate_choice=False)
+	equipo = SelectField('Equipo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
+	tecnico = SelectField('Técnico encargado', coerce=int)
 	submit = SubmitField('Agregar')
 
-	def validate_codigo(self, codigo):
-		codigo_str = str(codigo.data)
-		if len(codigo_str)!=6:
-			print(codigo_str, len(codigo_str))
-			raise ValidationError('El código debe ser de 6 dígitos.')
+	def validate_codigo(self, codigo):		
 		# self.objeto se pasa en UPDATE, no en CREATE, se controla el codigo en objetos de otro ID		
 		if self.objeto:
 			codigo_already_exist = Orden_reparacion.query.filter(
 					        Orden_reparacion.codigo == codigo.data,
-					        Orden_reparacion.id != self.objeto.id).first()
+					        Orden_reparacion.id != self.objeto.id).first() # al cambiar el ID significa que es un nuevo ITEM
 		else:
 			codigo_already_exist = Orden_reparacion.query.filter(
-					        Orden_reparacion.codigo == codigo.data).first()
+					        Orden_reparacion.codigo == codigo.data).first() # aqui se presenta la edicion del Codigo de un ITEM registrado
 		if codigo_already_exist:
 			raise ValidationError('Ese código ya existe. Por favor, ingrese uno diferente')

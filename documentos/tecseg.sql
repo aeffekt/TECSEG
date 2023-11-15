@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 13-11-2023 a las 21:45:54
+-- Tiempo de generación: 14-11-2023 a las 18:17:48
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `apellido` varchar(50) NOT NULL,
   `business_name` varchar(150) DEFAULT NULL,
   `cuit` bigint(11) DEFAULT NULL,
-  `telefono` varchar(20) DEFAULT NULL,
+  `telefono` varchar(50) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `comments` varchar(1000) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`),
   KEY `client_iibb` (`iibb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -55,11 +55,11 @@ CREATE TABLE IF NOT EXISTS `client` (
 
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`, `iibb_id`) VALUES
 (1, 'Sergio', 'Viola', 'Sistema Confiar S.R.L.', 30644088398, '3434560058', 'sergiodarioviola@gmail.com', '', 4, 25, 1, 908),
-(2, 'Nestor', 'busso', '', NULL, '2920484213', 'nestorbusso@gmail.com', 'Técnico Joshué: 2920650099', 4, 26, 0, 916),
+(2, 'Nestor', 'busso', '', NULL, '2920484213', 'nestorbusso@gmail.com', 'Técnico Joshué: 2920650099..', 4, 26, 0, 916),
 (3, 'Fabio', 'Brandan', '', NULL, '1155637121', 'faviobrandan@hotmail.com', '', 4, 27, 0, 902),
-(4, 'Guillermo Claudio', 'Gelvez', '', NULL, '2646614200', 'ingelves@gmail.com', '', 4, 28, 0, 0),
+(4, 'Guillermo Claudio', 'Gelves', '', 20136080750, '2646614200', 'ingelves@gmail.com', '', 4, 28, 1, 918),
 (5, 'Pastor', 'Aquino', 'JTA', NULL, '', '', '', 10, 29, 0, 913),
-(6, 'Lapacho', 'TV', 'LAPACHO TV', NULL, '', '', '', 10, 30, 0, 909),
+(6, 'Lapacho', 'TV', 'LAPACHO - L.T. 88 TV CANAL 11', 30707032126, '(54) 0370 - 4436404 / 4430723', 'info@lapachotv.com.ar', 'www.lapachotv.com.ar', 10, 30, 1, 909),
 (7, 'Municipalidad', 'Concordia', 'Municipalidad De Concordia', 30999011728, '0345 - 4291300', '', '', 10, 31, 2, 908),
 (8, 'Federal', 'Comunicaciones', 'Federal Comunicaciones S.A.', 30690497960, '+54 343 4312196', '', '', 10, 32, 1, 908),
 (9, 'Luis', 'Mazurier', 'COOP. DE TRAB. OBR PRENSA ESCRITA Y TV LTDA', NULL, '', '', 'Director TELE 5', 10, 33, 1, 908);
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `detalle_trabajo` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `detalle_OT` (`trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_trabajo`
@@ -184,7 +184,7 @@ INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `dat
 (47, 'Tx TRUD500 CTM', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
 (48, 'Encoder 2 entrdas HD y SD', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
 (49, 'Mux videoswitch dmux3000', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
-(50, 'mod digital mist-13', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35);
+(50, 'mod digital mist-13', 1, '2023-11-09 11:34:53', '2023-11-14 15:14:54', 11, 35);
 
 -- --------------------------------------------------------
 
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -207,11 +207,11 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
 
 INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (25, 'San Martin 1284', 1525),
-(26, 'calle 123', 1925),
-(27, 'calle 123', 536),
-(28, 'calle 123', 1986),
-(29, 'calle 123', 1758),
-(30, 'calle 123', 1599),
+(26, 'Güemes 133', 1925),
+(27, 'Luis Vernet 6654', 536),
+(28, 'Revisar direccion', 1986),
+(29, 'Revisar direccion', 1758),
+(30, 'Eva Peron 56', 1598),
 (31, 'Mitre 76', 1565),
 (32, 'avda Ramirez 1518', 1515),
 (33, 'Concejal Veiga 777', 1565);
@@ -241,14 +241,14 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`),
   KEY `eq_detalle` (`detalle_trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
 --
 
 INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `caratula_file`, `etiqueta_file`, `user_id`, `modelo_id`, `frecuencia_id`, `detalle_trabajo_id`) VALUES
-(95, '1/1122', '2023', '2023-10-20 19:08:32', '2023-11-04 12:40:14', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, 148, 14),
+(95, '3/1122', '2023', '2023-10-20 19:08:32', '2023-11-14 09:59:22', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, 0, 14),
 (96, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:35:01', 'IP: 10.0.0.96', NULL, NULL, 1, 34, 18, 13),
 (99, NULL, '2022', '2023-10-20 22:51:31', '2023-10-26 15:16:33', 'IP: 10.0.0.95', NULL, NULL, 1, 69, 0, 10),
 (100, NULL, 'N/D', '2023-10-20 22:51:31', '2023-10-26 15:16:11', 'IP: 10.0.0.94', NULL, NULL, 1, 69, 0, 10),
@@ -292,7 +292,7 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (144, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.40', NULL, NULL, 1, 37, 16, 49),
 (145, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.30', NULL, NULL, 1, 58, 0, 48),
 (146, '1/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.100', NULL, NULL, 1, 15, 16, 47),
-(154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-11 13:20:13', '10.0.0.85 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 18, 12);
+(154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-14 09:47:32', '10.0.0.85 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 18, 12);
 
 -- --------------------------------------------------------
 
@@ -3381,7 +3381,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (50, 1, 'Enlace', 'banda 5GHz', 'Enlace.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL, 8),
 (51, 2, 'FM10.000', '', 'FM10.000 -18.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8, 3),
 (52, 4, 'NDS3224V', 'Encoder 4 HDMI, salida IP.Sin display. Funciona con señal en la entrada #4 fija, sino se corta', 'NDS3224V -21.png', '2023-09-20 09:06:55', '2023-09-20 09:06:55', '\'21', NULL, 9),
-(54, 8, 'MCMP3100', 'Mux compresor', 'MCMP3100 -22.png', '2023-10-20 19:08:32', '2023-10-26 15:13:33', '\'22', NULL, 9),
+(54, 8, 'MCMP-3100', 'Mux compresor', 'MCMP3100 -22.png', '2023-10-20 19:08:32', '2023-11-14 08:57:10', '\'22', NULL, 9),
 (55, 2, 'MIST-13', 'Modulador Digital ISDB-T (módulo Teamcast MHX)', 'MIST-13 -12.JPG', '2023-10-20 19:08:32', '2023-11-06 11:50:23', '\'12', NULL, 6),
 (56, 2, 'MIST-15', 'Modulador ISDB-T Con WebBrowser (Módulo TeamCast)', 'MIST-15 -15.JPG', '2023-10-20 19:08:32', '2023-10-23 13:49:31', '\'15', NULL, 6),
 (57, 4, 'NDS3224', 'Encoder digital 4 entradas SDI salida IP\r\nrenombrado L224', 'NDS3224 -20.png', '2023-10-20 19:08:32', '2023-10-20 19:08:32', '\'20', NULL, 9),
@@ -3394,7 +3394,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (68, 8, 'DMM-3100', 'Multiplexor y modulador ISDB', 'DMM-3100 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:27:25', '\'23', NULL, 9),
 (69, 8, 'DCMP-500', 'Descompresor ISDB', 'DCMP-500 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:28:29', '\'23', NULL, 9),
 (70, 8, 'ECD-3000', 'Encoder H.264', 'ECD-3000 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:29:10', '\'23', NULL, 9),
-(71, 2, 'Filtro_Notch_FM', 'Filtro Notch', 'Filtro_Notch_FM -18.jpg', '2023-11-09 12:24:30', '2023-11-09 12:38:36', '\'18', NULL, 11);
+(71, 2, 'Filtro Notch FM', 'Filtro Notch', 'Filtro_Notch_FM -18.jpg', '2023-11-09 12:24:30', '2023-11-14 08:56:17', '\'18', NULL, 11);
 
 -- --------------------------------------------------------
 
@@ -3442,7 +3442,7 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `codigo` int(6) NOT NULL,
   `content` varchar(1000) NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
+  `client_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `estado_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -3450,7 +3450,7 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   KEY `user_id` (`user_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_client` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_trabajo`
@@ -3533,7 +3533,7 @@ CREATE TABLE IF NOT EXISTS `procedimiento` (
 
 INSERT INTO `procedimiento` (`id`, `title`, `date_created`, `date_modified`, `content`, `user_id`, `user_edit_id`) VALUES
 (58, 'Grabar PIC 24HJ256GP610', '2023-09-26 11:24:57', '2023-10-10 09:41:56', 'para grabar el PIC 24HJ256GP610 de la placa P0568 (voltímetro)\r\nSe debe hacer con la placa ya armada con el PIC, usar el PICKIT 3 y cargar el archivo HEX correspondiente.', 1, 1),
-(59, 'Grabar PIC16F74', '2023-10-10 09:27:10', '2023-10-25 12:22:14', 'para grabar el PIC16F887 de la placa P0492 (voltímetro) Se debe hacer con el software MPLAB y una PC de escritorio con puerto serie, al cual conectamos el programador PIC STARTPLUS. Se carga el archivo HEX correspondiente y se programa.', 1, 1),
+(59, 'Grabar PIC16F74', '2023-10-10 09:27:10', '2023-11-14 00:16:36', 'para grabar el PIC16F887 de la placa P0492 (voltímetro) Se debe hacer con el software MPLAB y una PC de escritorio con puerto serie, al cual conectamos el programador PIC STARTPLUS. Se carga el archivo HEX correspondiente y se programa.', 1, 10),
 (60, 'Grabar PIC16F887', '2023-10-25 12:08:57', '2023-10-25 12:08:57', 'Este PIC se graba directamente en la placa P0736-A- utilizando el PICkit 3\r\nCargar el HEX correspondiente', 1, 1);
 
 -- --------------------------------------------------------
@@ -3814,7 +3814,7 @@ ALTER TABLE `domicilio`
 -- Filtros para la tabla `equipment`
 --
 ALTER TABLE `equipment`
-  ADD CONSTRAINT `eq_detalle` FOREIGN KEY (`detalle_trabajo_id`) REFERENCES `detalle_trabajo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_detalle` FOREIGN KEY (`detalle_trabajo_id`) REFERENCES `detalle_trabajo` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
@@ -3866,7 +3866,7 @@ ALTER TABLE `orden_reparacion`
 -- Filtros para la tabla `orden_trabajo`
 --
 ALTER TABLE `orden_trabajo`
-  ADD CONSTRAINT `ot_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `ot_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ot_estado` FOREIGN KEY (`estado_id`) REFERENCES `estado_ot` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ot_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 

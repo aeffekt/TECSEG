@@ -2,16 +2,14 @@
 
 {% block content %}
 	<div class='content-section'>
-		<form method='POST' action="" enctype="multipart/form-data"> <!-- action= when we post go back to same route-->
-			{{ form.hidden_tag() }} <!-- part of protection -->
+		<form method='POST' action=""> <!-- action= when we post go back to same route-->
+			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">Registrar nueva marca de equipo</legend>
 				<div class="row">
 					<div class="col-md-6">										
-						<div class="form-group">
-							<!-- boottrap  -->
-							{{ form.nombre.label(class="form-control-label") }}<span class="red"> *</span>
-							<!-- errores de entrada  -->
+						<div class="form-group">							
+							{{ form.nombre.label(class="form-control-label") }}<span class="red"> *</span>							
 							{% if form.nombre.errors %}
 								{{ form.nombre(class="form-control form-control is-invalid") }}
 								<div class="invalid-feedback">

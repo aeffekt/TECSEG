@@ -1,7 +1,7 @@
 import re
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, SubmitField, TextAreaField, SelectField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, ValidationError, NumberRange
 from tseg.models import Client, Orden_trabajo, Estado_ot
 
 class OrdenTrabajoForm(FlaskForm):
@@ -12,19 +12,15 @@ class OrdenTrabajoForm(FlaskForm):
 		self.estado.choices = [(e.id, e) for e in Estado_ot.query.filter_by()]		
 		self.objeto = objeto
 
-	codigo = IntegerField('Código', validators=[DataRequired()])
+	codigo = IntegerField('Código', validators=[DataRequired(), NumberRange(min=200101, max=991231)])
 	content = TextAreaField('Descripción')	
 	client = SelectField('Cliente', coerce=int, validators=[DataRequired(message='Debe seleccionar un cliente')], render_kw={'data-placeholder': 'Seleccione un item...'})
 	estado = SelectField('Estado', coerce=int)
 	submit = SubmitField('Agregar')
 
-	def validate_codigo(self, codigo):
-		codigo_str = str(codigo.data)
-		if len(codigo_str)!=6:
-			print(codigo_str, len(codigo_str))
-			raise ValidationError('El código debe ser de 6 dígitos.')
-		# self.objeto se pasa en UPDATE, no en CREATE, se controla el codigo en objetos de otro ID		
+	def validate_codigo(self, codigo):		
 		if self.objeto:
+			# self.objeto se pasa en UPDATE se controla el codigo en objetos de otro ID		
 			codigo_already_exist = Orden_trabajo.query.filter(
 					        Orden_trabajo.codigo == codigo.data,
 					        Orden_trabajo.id != self.objeto.id).first()

@@ -2,16 +2,16 @@ from flask_wtf import FlaskForm
 from flask import flash
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, IntegerField
 from wtforms.validators import DataRequired, ValidationError, Optional, Email, NumberRange
-from tseg import db
-from tseg.models import Cond_fiscal, Iibb, Pais
+from tseg.models import Cond_fiscal, Iibb, Pais, Client
 
 class ClientForm(FlaskForm):
-	def __init__(self):
+	def __init__(self, objeto=None):
 		super(ClientForm, self).__init__()  # Llamar al constructor de la clase padre		
 		self.cond_fiscal.choices = [(cond_fiscal.id, cond_fiscal.nombre) for cond_fiscal in Cond_fiscal.query.all()]
 		self.iibb.choices = [(iibb.jurisdiccion, iibb) for iibb in Iibb.query.order_by(Iibb.jurisdiccion.asc()).all()]
 		self.pais.choices = [p for p in Pais.query.all()]
 		self.pais.choices.insert(0,'') # agrega item "sin datos"
+		self.objeto = objeto
 
 	nombre = StringField('Nombre', validators=[DataRequired()], render_kw={'autofocus': True})
 	apellido = StringField('Apellido', validators=[DataRequired()])
@@ -26,19 +26,39 @@ class ClientForm(FlaskForm):
 	provincia = StringField('Provincia')	
 	pais = SelectField('Pais', coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 
-	cuit = IntegerField('CUIT', validators=[Optional(), NumberRange(min=1, max=99999999999)])
+	cuit = IntegerField('CUIT', validators=[Optional(), NumberRange(min= 20000000000, max=33999999999)])
 	cond_fiscal = SelectField('Condición fiscal', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 	iibb = SelectField('Ingresos brutos', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 		
 	submit = SubmitField('Agregar/Actualizar')
 
-	# validacion del CUIT
-	def validate_cuit(self, cuit):
-		cuit_str = str(cuit.data)
-		cant_digitos = len(cuit_str)
-		if cant_digitos != 11:
-			flash("Advertencia: Debe ingresar un número de CUIT válido, o dejar vacío.", 'warning')
-			raise ValidationError(f'Ingresar cuit de 11 dígitos o dejar vacío.')
+	# validacion del nombre+apellido
+	def validate_nombre(self, field):		
+		if self.objeto:
+			client_already_exist = Client.query.filter(
+					        Client.nombre == self.nombre.data,
+							Client.apellido == self.apellido.data,
+					        Client.id != self.objeto.id).first()
+		else:
+			client_already_exist = Client.query.filter(
+					        Client.nombre == self.nombre.data,
+							Client.apellido == self.apellido.data).first()
+		if client_already_exist:
+			raise ValidationError('Ya existe un cliente con el mismo nombre y apellido')
+		
+	
+	# validacion del nombre+apellido
+	def validate_business_name(self, business_name):		
+		if business_name.data != '' and business_name.data !=None:
+			if self.objeto:
+				business_already_exist = Client.query.filter(
+								Client.business_name == business_name.data,
+								Client.id != self.objeto.id).first()
+			else:			
+				business_already_exist = Client.query.filter(					        
+								Client.business_name == business_name.data).first()
+			if business_already_exist:
+				raise ValidationError('Ya existe un cliente con el mismo nombre de negocio')
 		
 	# Validación de domicilio, código postal, país, provincia y localidad
 	def validate_direccion(self, field):		

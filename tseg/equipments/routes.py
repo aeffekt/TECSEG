@@ -99,7 +99,7 @@ def add_equipment(detalle_trabajo_id):
 @role_required("Admin", "Técnico")
 def update_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
-	form = EquipmentForm()
+	form = EquipmentForm(equipment)
 	if form.validate_on_submit():		
 		if form.numSerie.data == '':			
 			equipment.numSerie = None

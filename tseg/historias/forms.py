@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired
 from tseg.models import TipoHistoria
-from tseg import db
 
 class HistoriaForm(FlaskForm):
 	def __init__(self):

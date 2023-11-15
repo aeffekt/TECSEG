@@ -153,7 +153,7 @@ def delete_orden_trabajo(orden_trabajo_id):
 	except Exception as e:
 		db.session.rollback() 
 		flash("Ocurrió un error al intentar eliminar.", 'warning')		
-		flash(f"{e}", 'warning')
+		flash(f"Hay equipos asociados a la O.T. Debe borrarlos primero", 'warning')
 		return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))	
 
 

@@ -37,7 +37,7 @@ def all_modelos():
 @login_required
 def modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)	
-	form = ModeloForm()
+	form = ModeloForm(modelo)
 	if form.validate_on_submit():
 		if form.picture.data:
 			picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))

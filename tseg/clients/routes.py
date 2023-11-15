@@ -57,7 +57,7 @@ def client(client_id):
 @role_required("ServicioCliente", "Admin", "Comercial")
 def add_client():
 	form = ClientForm()
-	if form.validate_on_submit():		
+	if form.validate_on_submit():
 		try:
 			# busca el ID del pais y comienza a concatenar el domicilio		
 			if form.pais.data != '':			
@@ -112,7 +112,7 @@ def add_client():
 @role_required("ServicioCliente", "Admin", "Técnico", "Comercial")
 def update_client(client_id):
 	client = Client.query.get_or_404(client_id)
-	form = ClientForm()
+	form = ClientForm(client)
 	if form.validate_on_submit():
 		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
 		domicilio.direccion = form.direccion.data
@@ -193,8 +193,8 @@ def delete_client(client_id):
 		return redirect(url_for('clients.all_clients', orderBy='id', orderOrder='asc'))
 	except Exception as e:
 		db.session.rollback() 
-		flash("Ocurrió un error al intentar eliminar: Es probable que existan equipos asignados al cliente.", 'warning')
-		flash(f"Detalles del error: {e}", 'danger')
+		flash("Ocurrió un error al intentar eliminar.", 'danger')		
+		flash(f" Es probable que existan equipos u O.T. asignados al cliente.", 'danger')		
 		return redirect(url_for('clients.client', client_id=client.id))	
 
 

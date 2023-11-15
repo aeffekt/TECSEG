@@ -62,9 +62,8 @@ def procedimiento(procedimiento_id):
 @procedimientos.route("/procedimiento-<int:procedimiento_id>-update", methods=['GET', 'POST'])
 @role_required("Admin", "Técnico")
 def update_procedimiento(procedimiento_id):
-	procedimiento = Procedimiento.query.get_or_404(procedimiento_id)
-	
-	form = ProcedimientoForm()
+	procedimiento = Procedimiento.query.get_or_404(procedimiento_id)	
+	form = ProcedimientoForm(procedimiento)
 	if form.validate_on_submit():	
 		procedimiento.title = form.title.data
 		procedimiento.content = form.content.data
