@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 14-11-2023 a las 18:17:48
+-- Tiempo de generación: 19-11-2023 a las 02:42:45
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`),
   KEY `client_iibb` (`iibb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -55,14 +55,45 @@ CREATE TABLE IF NOT EXISTS `client` (
 
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`, `iibb_id`) VALUES
 (1, 'Sergio', 'Viola', 'Sistema Confiar S.R.L.', 30644088398, '3434560058', 'sergiodarioviola@gmail.com', '', 4, 25, 1, 908),
-(2, 'Nestor', 'busso', '', NULL, '2920484213', 'nestorbusso@gmail.com', 'Técnico Joshué: 2920650099..', 4, 26, 0, 916),
-(3, 'Fabio', 'Brandan', '', NULL, '1155637121', 'faviobrandan@hotmail.com', '', 4, 27, 0, 902),
+(2, 'Nestor', 'busso', '', NULL, '2920484213', 'nestorbusso@gmail.com', 'Técnico Joshué: 2920650099..', 4, 26, NULL, 916),
+(3, 'Fabio', 'Brandan', '', NULL, '1155637121', 'faviobrandan@hotmail.com', '', 4, 27, NULL, 902),
 (4, 'Guillermo Claudio', 'Gelves', '', 20136080750, '2646614200', 'ingelves@gmail.com', '', 4, 28, 1, 918),
-(5, 'Pastor', 'Aquino', 'JTA', NULL, '', '', '', 10, 29, 0, 913),
+(5, 'Pastor', 'Aquino', 'JTA', NULL, '', '', '', 10, 29, NULL, 913),
 (6, 'Lapacho', 'TV', 'LAPACHO - L.T. 88 TV CANAL 11', 30707032126, '(54) 0370 - 4436404 / 4430723', 'info@lapachotv.com.ar', 'www.lapachotv.com.ar', 10, 30, 1, 909),
 (7, 'Municipalidad', 'Concordia', 'Municipalidad De Concordia', 30999011728, '0345 - 4291300', '', '', 10, 31, 2, 908),
 (8, 'Federal', 'Comunicaciones', 'Federal Comunicaciones S.A.', 30690497960, '+54 343 4312196', '', '', 10, 32, 1, 908),
-(9, 'Luis', 'Mazurier', 'COOP. DE TRAB. OBR PRENSA ESCRITA Y TV LTDA', NULL, '', '', 'Director TELE 5', 10, 33, 1, 908);
+(9, 'Luis', 'Mazurier', 'COOP. DE TRAB. OBR PRENSA ESCRITA Y TV LTDA', NULL, '', '', 'Director TELE 5', 10, 33, 1, 908),
+(10, 'Javier', 'Matus', '', NULL, '', '', '', 10, 34, NULL, 917);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `color`
+--
+
+DROP TABLE IF EXISTS `color`;
+CREATE TABLE IF NOT EXISTS `color` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hex` varchar(7) NOT NULL,
+  `nombre` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `color`
+--
+
+INSERT INTO `color` (`id`, `hex`, `nombre`) VALUES
+(1, '#ffcd33', 'Naranja'),
+(2, '#ffff66', 'Amarillo'),
+(3, '#98e695', 'Verde Claro'),
+(4, '#ce7e00', 'Marrón'),
+(5, '#44bbff', 'Azul'),
+(6, '#5faa4c', 'Verde Oscuro'),
+(7, '#81acae', 'Verde Pardo'),
+(8, '#e81e27', 'Rojo'),
+(9, '#ff00bf', 'Rosa'),
+(10, '#090a14', 'Negro');
 
 -- --------------------------------------------------------
 
@@ -82,7 +113,6 @@ CREATE TABLE IF NOT EXISTS `cond_fiscal` (
 --
 
 INSERT INTO `cond_fiscal` (`id`, `nombre`) VALUES
-(0, 'Sin especificar'),
 (1, 'IVA Responsable Inscripto'),
 (2, 'IVA Sujeto Exento'),
 (3, 'Consumidor final'),
@@ -141,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `detalle_trabajo` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `detalle_OT` (`trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_trabajo`
@@ -184,7 +214,16 @@ INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `dat
 (47, 'Tx TRUD500 CTM', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
 (48, 'Encoder 2 entrdas HD y SD', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
 (49, 'Mux videoswitch dmux3000', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
-(50, 'mod digital mist-13', 1, '2023-11-09 11:34:53', '2023-11-14 15:14:54', 11, 35);
+(50, 'mod digital mist-13', 1, '2023-11-09 11:34:53', '2023-11-14 15:14:54', 11, 35),
+(51, 'Encoder IP LA214', 2, '2023-11-17 10:42:48', '2023-11-17 13:13:15', 10, 36),
+(52, 'Switch HP', 3, '2023-11-17 10:42:48', '2023-11-17 13:12:35', 10, 36),
+(53, 'Mux DMUX-1000', 2, '2023-11-17 10:42:48', '2023-11-17 13:15:23', 10, 36),
+(54, 'Mux VS DMUX-500 backup', 1, '2023-11-17 10:42:48', '2023-11-17 10:42:48', 10, 36),
+(55, 'Modulador ISDB MIST-13', 2, '2023-11-17 10:42:48', '2023-11-17 13:13:31', 10, 36),
+(56, 'Tx TRUD500', 1, '2023-11-17 10:42:48', '2023-11-17 10:42:48', 10, 36),
+(57, 'Filtro de mascara UHF', 2, '2023-11-17 10:42:48', '2023-11-17 13:12:54', 10, 36),
+(58, 'Tx TRUD250/70', 1, '2023-11-17 12:26:27', '2023-11-17 12:26:27', 10, 36),
+(59, ' colors', 12, '2023-11-18 02:11:59', '2023-11-18 11:47:01', 10, 36);
 
 -- --------------------------------------------------------
 
@@ -199,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -214,7 +253,8 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (30, 'Eva Peron 56', 1598),
 (31, 'Mitre 76', 1565),
 (32, 'avda Ramirez 1518', 1515),
-(33, 'Concejal Veiga 777', 1565);
+(33, 'Concejal Veiga 777', 1565),
+(34, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -236,63 +276,89 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `modelo_id` int(11) NOT NULL,
   `frecuencia_id` int(11) DEFAULT NULL,
   `detalle_trabajo_id` int(11) NOT NULL,
+  `color_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `equipment_canal_frecuencia` (`frecuencia_id`),
-  KEY `eq_detalle` (`detalle_trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
+  KEY `eq_detalle` (`detalle_trabajo_id`),
+  KEY `eq_color` (`color_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
 --
 
-INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `caratula_file`, `etiqueta_file`, `user_id`, `modelo_id`, `frecuencia_id`, `detalle_trabajo_id`) VALUES
-(95, '3/1122', '2023', '2023-10-20 19:08:32', '2023-11-14 09:59:22', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, 0, 14),
-(96, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:35:01', 'IP: 10.0.0.96', NULL, NULL, 1, 34, 18, 13),
-(99, NULL, '2022', '2023-10-20 22:51:31', '2023-10-26 15:16:33', 'IP: 10.0.0.95', NULL, NULL, 1, 69, 0, 10),
-(100, NULL, 'N/D', '2023-10-20 22:51:31', '2023-10-26 15:16:11', 'IP: 10.0.0.94', NULL, NULL, 1, 69, 0, 10),
-(101, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:36:00', 'IP: 10.0.0.90\r\nsalida IP\r\nMultiplex vs entrada IP: 224.2.2.2 port 2234. IP : 10.0.0.88', NULL, NULL, 1, 37, 18, 9),
-(102, NULL, '2020', '2023-10-20 22:51:31', '2023-10-22 11:42:20', '(solo #1 a 9Mb + 2 FM 1M5 c/u) \r\nIP: 10.0.0.89', NULL, NULL, 1, 58, 0, 8),
-(106, '8/1122', '2022', '2023-10-21 00:19:20', '2023-10-23 10:35:30', 'IP: 192.168.1.90(?) or 192.168.1.210', NULL, NULL, 1, 56, 18, 11),
-(108, '1/1221', '2021', '2023-10-22 11:33:10', '2023-10-23 10:39:19', 'Potencia de salida RMS 150W', NULL, NULL, 1, 13, 29, 16),
-(109, NULL, '2020', '2023-10-22 11:33:10', '2023-10-23 10:39:43', 'tiene 2 señales 7,5Mb.. quiere agregar 3er señal\r\nla señal viaja via fibra SDI 4 pelos convierte a HDMI', NULL, NULL, 1, 58, 29, 17),
-(110, '3/1221', '2021', '2023-10-22 14:53:12', '2023-10-26 11:58:07', 'TRUD1000 CTM instalada\r\nIP: 10.6.0.205', NULL, NULL, 1, 19, 21, 24),
-(111, NULL, '2020', '2023-10-22 14:53:12', '2023-10-26 11:58:26', '10.6.0.201	NIT= 21.1 	BTS-MFN', NULL, NULL, 1, 61, 21, 23),
-(112, NULL, '2022', '2023-10-22 14:53:12', '2023-10-26 11:58:47', 'IP: 10.6.0.202	\r\ncapa A 13 seg\r\n64QAM \r\n5/6 \r\n1/16\r\ningresa IP multicast 224.2.2.2 puerto 12000', NULL, NULL, 1, 36, 21, 22),
-(113, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 11:54:42', 'MASTER 	\r\n192.168.0.20 \r\nuser:ubnt \r\npass:ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, 0, 21),
-(114, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 12:04:30', 'SLAVE	\r\n192.168.0.21 \r\nuser: ubnt \r\npass: ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, 0, 21),
-(115, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:31', 'ARUBA 1930\r\nIP 192.168.1.1', NULL, NULL, 1, 49, 0, 20),
-(116, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:06', 'ARUBA 1930', NULL, NULL, 1, 49, 0, 20),
-(117, NULL, 'N/D', '2023-10-22 14:53:12', '2023-10-22 14:53:12', 'IP: 172.20.3.130\r\n8 entradas HDMI\r\n#1 8MBps \"JTA TV\" high profile 1920x1080\r\n#3 8MBps \"JTA DEPORTES\" high profile 1920x1080\r\nSalida IP 224.2.2.2 12000 hasta 12008', NULL, NULL, 1, 60, 0, 19),
-(118, NULL, 'N/D', '2023-10-22 15:40:14', '2023-11-11 15:21:07', '192.168.0.30 	nombre=\"JTA TV\" \r\nbitrate= 8M ENtrada HDMI \r\nIP OUT 224.2.2.2 puerto 12000', NULL, NULL, 1, 38, 0, 18),
-(119, '2/1122', '2020', '2023-10-23 10:21:21', '2023-11-09 11:11:22', '10.0.0.86\r\ninstalado en CRESPO. \r\nEn primer lugar fue a préstamo un TRUD500', '220516-2_1122_caratula.pdf', '220516-2_1122.pdf', 1, 20, 18, 12),
-(121, '2/1218', '2018', '2023-10-23 11:39:42', '2023-11-13 18:05:35', '', NULL, NULL, 1, 55, 31, 29),
-(122, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', '192.168.0.40', NULL, NULL, 1, 37, 31, 28),
-(123, NULL, '2018', '2023-10-23 11:39:42', '2023-10-26 12:00:27', ' 192.168.0.136\r\nusa conversor hdmi, no funciona SDI\r\nLo usa de BACKUP', NULL, NULL, 1, 58, 31, 27),
-(124, '1/1218', '2018', '2023-10-23 11:39:42', '2023-10-26 15:32:01', '', NULL, NULL, 1, 13, 31, 25),
-(125, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', 'HDMI sin webbrower usar SNMP 192.168.0.30', NULL, NULL, 1, 38, 0, 26),
-(126, '1/1023', '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'sin pre corrección', NULL, NULL, 1, 15, 19, 33),
-(127, NULL, '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'IP 192.168.1.136\r\nchannel #1 GUANACO PLAY 9M\r\nchannel #3 CHINGUI CHINGUI 4M5\r\nchannel #4 DYNAMIS TV 4M5\r\n\r\nRF OUT -5dBm 64qam 1/32 7/8', NULL, NULL, 1, 58, 19, 32),
-(128, '1/0322', '2022', '2023-10-25 13:05:56', '2023-10-25 13:16:08', '', NULL, NULL, 1, 13, 16, 35),
-(129, NULL, '2022', '2023-10-25 13:05:56', '2023-10-26 09:09:09', 'IP: 192.168.1.136\r\n16QAM modo3 conv 5/6 IG: 1/16\r\n#1 señal 9 MBps \"FIVE TV\"\r\n#2 señal 3,5 MBps \"TV Channel\"\r\nMPEG2 audio, para mejor recepción a pedido del cliente', NULL, NULL, 1, 58, 16, 34),
-(130, '1/1223', '2023', '2023-10-26 14:14:40', '2023-10-26 15:09:05', '192.168.1.100', NULL, NULL, 1, 67, 0, 42),
-(131, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.101  S/N:01-0102-5522', NULL, NULL, 1, 34, 0, 41),
-(132, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.102 S/N:01-0102-6184', NULL, NULL, 1, 69, 0, 40),
-(133, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.106 S/N:01-0102-6183', NULL, NULL, 1, 69, 0, 40),
-(134, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, 0, 39),
-(135, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, 0, 39),
-(136, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.103 S/N:01-0102-6182', NULL, NULL, 1, 54, 0, 38),
-(137, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.104 one-seg y HD 9Mb S/N:01-0102-6142\r\n', NULL, NULL, 1, 70, 0, 37),
-(138, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.105 (idem repuesto) S/N:01-0102-6181\r\n', NULL, NULL, 1, 70, 0, 37),
-(140, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#1 \r\nNDS3542\r\n172.30.9.8 \r\n20.1 	7 Mbps Municipalidad de Concordia 1\r\n20.2	        3 Mbps Municipalidad de Concordia 2\r\n64QAM 1/16 3/4 RF -14,5dBm', NULL, NULL, 1, 58, 20, 44),
-(141, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3	   3 Mbps Direccion Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Direccion Electrotécnica y comunicaciones 2', NULL, NULL, 1, 58, 20, 44),
-(142, '1/0218', '2018', '2023-11-08 13:27:23', '2023-11-08 16:36:59', 'ex TRU400 linealizado', NULL, NULL, 1, 13, 20, 43),
-(143, '2/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.90', NULL, NULL, 1, 55, 16, 50),
-(144, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.40', NULL, NULL, 1, 37, 16, 49),
-(145, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.30', NULL, NULL, 1, 58, 0, 48),
-(146, '1/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.100', NULL, NULL, 1, 15, 16, 47),
-(154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-14 09:47:32', '10.0.0.85 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 18, 12);
+INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `caratula_file`, `etiqueta_file`, `user_id`, `modelo_id`, `frecuencia_id`, `detalle_trabajo_id`, `color_id`) VALUES
+(95, '3/1122', '2023', '2023-10-20 19:08:32', '2023-11-18 23:39:16', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, NULL, 14, 7),
+(96, NULL, '2022', '2023-10-20 22:51:31', '2023-11-18 23:40:17', 'IP: 10.0.0.96', NULL, NULL, 1, 34, 18, 13, 2),
+(99, NULL, '2022', '2023-10-20 22:51:31', '2023-11-18 23:40:59', 'IP: 10.0.0.95', NULL, NULL, 1, 69, NULL, 10, 2),
+(100, NULL, 'N/D', '2023-10-20 22:51:31', '2023-10-26 15:16:11', 'IP: 10.0.0.94', NULL, NULL, 1, 69, NULL, 10, NULL),
+(101, NULL, '2022', '2023-10-20 22:51:31', '2023-10-23 10:36:00', 'IP: 10.0.0.90\r\nsalida IP\r\nMultiplex vs entrada IP: 224.2.2.2 port 2234. IP : 10.0.0.88', NULL, NULL, 1, 37, 18, 9, NULL),
+(102, NULL, '2020', '2023-10-20 22:51:31', '2023-10-22 11:42:20', '(solo #1 a 9Mb + 2 FM 1M5 c/u) \r\nIP: 10.0.0.89', NULL, NULL, 1, 58, NULL, 8, NULL),
+(106, '4/1122', '2022', '2023-10-21 00:19:20', '2023-11-18 23:41:36', 'IP: 192.168.1.90(?) or 192.168.1.210', NULL, NULL, 1, 56, 18, 11, NULL),
+(108, '1/1221', '2021', '2023-10-22 11:33:10', '2023-10-23 10:39:19', 'Potencia de salida RMS 150W', NULL, NULL, 1, 13, 29, 16, NULL),
+(109, NULL, '2020', '2023-10-22 11:33:10', '2023-10-23 10:39:43', 'tiene 2 señales 7,5Mb.. quiere agregar 3er señal\r\nla señal viaja via fibra SDI 4 pelos convierte a HDMI', NULL, NULL, 1, 58, 29, 17, NULL),
+(110, '3/1221', '2021', '2023-10-22 14:53:12', '2023-10-26 11:58:07', 'TRUD1000 CTM instalada\r\nIP: 10.6.0.205', NULL, NULL, 1, 19, 21, 24, NULL),
+(111, NULL, '2020', '2023-10-22 14:53:12', '2023-10-26 11:58:26', '10.6.0.201	NIT= 21.1 	BTS-MFN', NULL, NULL, 1, 61, 21, 23, NULL),
+(112, NULL, '2022', '2023-10-22 14:53:12', '2023-10-26 11:58:47', 'IP: 10.6.0.202	\r\ncapa A 13 seg\r\n64QAM \r\n5/6 \r\n1/16\r\ningresa IP multicast 224.2.2.2 puerto 12000', NULL, NULL, 1, 36, 21, 22, NULL),
+(113, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 11:54:42', 'MASTER 	\r\n192.168.0.20 \r\nuser:ubnt \r\npass:ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, NULL, 21, NULL),
+(114, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 12:04:30', 'SLAVE	\r\n192.168.0.21 \r\nuser: ubnt \r\npass: ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, NULL, 21, NULL),
+(115, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:31', 'ARUBA 1930\r\nIP 192.168.1.1', NULL, NULL, 1, 49, NULL, 20, NULL),
+(116, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:06', 'ARUBA 1930', NULL, NULL, 1, 49, NULL, 20, NULL),
+(117, NULL, 'N/D', '2023-10-22 14:53:12', '2023-10-22 14:53:12', 'IP: 172.20.3.130\r\n8 entradas HDMI\r\n#1 8MBps \"JTA TV\" high profile 1920x1080\r\n#3 8MBps \"JTA DEPORTES\" high profile 1920x1080\r\nSalida IP 224.2.2.2 12000 hasta 12008', NULL, NULL, 1, 60, NULL, 19, NULL),
+(118, NULL, 'N/D', '2023-10-22 15:40:14', '2023-11-11 15:21:07', '192.168.0.30 	nombre=\"JTA TV\" \r\nbitrate= 8M ENtrada HDMI \r\nIP OUT 224.2.2.2 puerto 12000', NULL, NULL, 1, 38, NULL, 18, NULL),
+(119, '2/1122', '2020', '2023-10-23 10:21:21', '2023-11-09 11:11:22', '10.0.0.86\r\ninstalado en CRESPO. \r\nEn primer lugar fue a préstamo un TRUD500', '220516-2_1122_caratula.pdf', '220516-2_1122.pdf', 1, 20, 18, 12, NULL),
+(121, '2/1218', '2018', '2023-10-23 11:39:42', '2023-11-13 18:05:35', '', NULL, NULL, 1, 55, 31, 29, NULL),
+(122, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', '192.168.0.40', NULL, NULL, 1, 37, 31, 28, NULL),
+(123, NULL, '2018', '2023-10-23 11:39:42', '2023-10-26 12:00:27', ' 192.168.0.136\r\nusa conversor hdmi, no funciona SDI\r\nLo usa de BACKUP', NULL, NULL, 1, 58, 31, 27, NULL),
+(124, '1/1218', '2018', '2023-10-23 11:39:42', '2023-10-26 15:32:01', '', NULL, NULL, 1, 13, 31, 25, NULL),
+(125, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', 'HDMI sin webbrower usar SNMP 192.168.0.30', NULL, NULL, 1, 38, NULL, 26, NULL),
+(126, '1/1023', '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'sin pre corrección', NULL, NULL, 1, 15, 19, 33, NULL),
+(127, NULL, '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'IP 192.168.1.136\r\nchannel #1 GUANACO PLAY 9M\r\nchannel #3 CHINGUI CHINGUI 4M5\r\nchannel #4 DYNAMIS TV 4M5\r\n\r\nRF OUT -5dBm 64qam 1/32 7/8', NULL, NULL, 1, 58, 19, 32, NULL),
+(128, '1/0322', '2022', '2023-10-25 13:05:56', '2023-10-25 13:16:08', '', NULL, NULL, 1, 13, 16, 35, NULL),
+(129, NULL, '2022', '2023-10-25 13:05:56', '2023-10-26 09:09:09', 'IP: 192.168.1.136\r\n16QAM modo3 conv 5/6 IG: 1/16\r\n#1 señal 9 MBps \"FIVE TV\"\r\n#2 señal 3,5 MBps \"TV Channel\"\r\nMPEG2 audio, para mejor recepción a pedido del cliente', NULL, NULL, 1, 58, 16, 34, NULL),
+(130, '1/1223', '2023', '2023-10-26 14:14:40', '2023-10-26 15:09:05', '192.168.1.100', NULL, NULL, 1, 67, NULL, 42, NULL),
+(131, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.101  S/N:01-0102-5522', NULL, NULL, 1, 34, NULL, 41, NULL),
+(132, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.102 S/N:01-0102-6184', NULL, NULL, 1, 69, NULL, 40, NULL),
+(133, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.106 S/N:01-0102-6183', NULL, NULL, 1, 69, NULL, 40, NULL),
+(134, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, NULL, 39, NULL),
+(135, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, NULL, 39, NULL),
+(136, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.103 S/N:01-0102-6182', NULL, NULL, 1, 54, NULL, 38, NULL),
+(137, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.104 one-seg y HD 9Mb S/N:01-0102-6142\r\n', NULL, NULL, 1, 70, NULL, 37, NULL),
+(138, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.105 (idem repuesto) S/N:01-0102-6181\r\n', NULL, NULL, 1, 70, NULL, 37, NULL),
+(140, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#1 \r\nNDS3542\r\n172.30.9.8 \r\n20.1 	7 Mbps Municipalidad de Concordia 1\r\n20.2	        3 Mbps Municipalidad de Concordia 2\r\n64QAM 1/16 3/4 RF -14,5dBm', NULL, NULL, 1, 58, 20, 44, NULL),
+(141, '', '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3	   3 Mbps Direccion Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Direccion Electrotécnica y comunicaciones 2', NULL, NULL, 1, 58, 20, 44, NULL),
+(142, '1/0218', '2018', '2023-11-08 13:27:23', '2023-11-08 16:36:59', 'ex TRU400 linealizado', '180102-1_0218_caratula.pdf', '180102-1_0218.pdf', 1, 13, 20, 43, NULL),
+(143, '2/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.90', NULL, NULL, 1, 55, 16, 50, NULL),
+(144, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.40', NULL, NULL, 1, 37, 16, 49, NULL),
+(145, '', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.30', NULL, NULL, 1, 58, NULL, 48, NULL),
+(146, '1/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.100', NULL, NULL, 1, 15, 16, 47, NULL),
+(154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-18 23:39:59', '10.0.0.85 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 18, 12, 2),
+(155, NULL, '2017', '2023-11-17 10:42:48', '2023-11-17 12:23:25', '4-1 SNMP	\r\n192.168.1.30\r\nsalidas IP 224.2.2.2 12001/3\r\n1 - MULTIVISIÓN HD 8M\r\n2 - SIN NOMBRE SD 3M\r\n3 - SIN NOMBRE/SIN SEÑAL SD 3M', NULL, NULL, 10, 72, NULL, 51, NULL),
+(156, '', '2017', '2023-11-17 10:42:48', '2023-11-17 10:42:48', 'HP.192.168.1.2  admin :: blank\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (NMS Encoder)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (PC Control)\r\n! Port 5: VLAN 5 (DATA Encoder, video MPTS)\r\n! Port 6: VLAN 5 ()\r\n! Port 7: VLAN 1\r\n! Port 8: VLAN 1 (Notebook Control)', NULL, NULL, 10, 49, NULL, 52, NULL),
+(157, '', '2017', '2023-11-17 10:42:48', '2023-11-17 10:42:48', 'Switch Planta Transmisora (IP 192.168.1.1):\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (Control Mux)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (Control Modulador)\r\n! Port 5: VLAN 5 (GbE1 Mux)\r\n! Port 6: VLAN 1 (Control TRUD500)\r\n! Port 7: VLAN 1 (Control equipo analógico)\r\n! Port 8: VLAN 1', NULL, NULL, 10, 49, NULL, 52, NULL),
+(158, '1/0117', '2017', '2023-11-17 11:58:28', '2023-11-17 13:21:21', '192.168.1.100', NULL, NULL, 10, 15, 35, 56, NULL),
+(159, NULL, '2017', '2023-11-17 11:59:56', '2023-11-17 12:09:38', '192.168.1.40\r\nSe usa la salida \"BTS MONITOR\" la salida ASI parece no andar\r\nModo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM', NULL, NULL, 10, 74, 35, 53, NULL),
+(160, '', '2017', '2023-11-17 12:09:29', '2023-11-17 12:09:29', '', NULL, NULL, 10, 73, 35, 57, NULL),
+(161, '2/0117', '2017', '2023-11-17 12:19:28', '2023-11-17 12:20:07', '64QAM 1/16\r\n192.168.1.90\r\n', NULL, NULL, 10, 55, 35, 55, NULL),
+(162, '', '2017', '2023-11-17 12:20:46', '2023-11-17 12:20:46', 'Modo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM\r\n192.168.1.40', NULL, NULL, 10, 36, 35, 54, NULL),
+(163, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 12:10:52', '192.168.0.30\r\nSDI HD\r\nSDI SD\r\nSDI SD\r\nSDI SD', NULL, NULL, 10, 72, NULL, 51, 1),
+(164, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 12:10:39', '', NULL, NULL, 10, 49, NULL, 52, 1),
+(165, '3/0117', '2017', '2023-11-17 12:26:27', '2023-11-18 12:06:19', '192.168.0.100', NULL, NULL, 10, 13, 35, 58, 1),
+(166, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:37', '', NULL, NULL, 10, 73, 35, 57, 1),
+(167, '4/0117', '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:45', 'IP: 192.168.0.90', NULL, NULL, 10, 55, 35, 55, 1),
+(168, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:53', 'Modo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM\r\n192.168.0.40', NULL, NULL, 10, 74, 35, 53, 1),
+(171, NULL, '2021', '2023-11-18 02:11:59', '2023-11-18 23:26:47', '', NULL, NULL, 10, 34, NULL, 59, 1),
+(172, NULL, '2022', '2023-11-18 02:11:59', '2023-11-18 17:37:53', '', NULL, NULL, 10, 69, NULL, 59, 5),
+(173, NULL, '2022', '2023-11-18 02:11:59', '2023-11-18 12:12:26', '', NULL, NULL, 10, 68, NULL, 59, 3),
+(174, NULL, '2021', '2023-11-18 02:11:59', '2023-11-18 12:12:23', '', NULL, NULL, 10, 34, NULL, 59, 4),
+(175, NULL, '2022', '2023-11-18 02:11:59', '2023-11-18 12:12:19', '', NULL, NULL, 10, 34, NULL, 59, 5),
+(176, NULL, '2022', '2023-11-18 02:11:59', '2023-11-18 12:12:14', '', NULL, NULL, 10, 34, NULL, 59, 6),
+(177, NULL, '2020', '2023-11-18 02:11:59', '2023-11-18 12:12:10', '', NULL, NULL, 10, 74, NULL, 59, 7),
+(178, NULL, '2021', '2023-11-18 02:11:59', '2023-11-18 12:12:06', '', NULL, NULL, 10, 68, NULL, 59, 8),
+(179, NULL, '2020', '2023-11-18 02:11:59', '2023-11-18 12:12:01', '', NULL, NULL, 10, 68, NULL, 59, 9),
+(183, NULL, '2023', '2023-11-18 11:38:23', '2023-11-18 12:11:55', '', NULL, NULL, 10, 34, NULL, 59, 10);
 
 -- --------------------------------------------------------
 
@@ -360,7 +426,6 @@ CREATE TABLE IF NOT EXISTS `frecuencia` (
 --
 
 INSERT INTO `frecuencia` (`id`, `canal`, `unidad_id`) VALUES
-(0, 'N/D', 6),
 (1, '1', 4),
 (2, '2', 4),
 (3, '3', 4),
@@ -703,7 +768,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipo_historia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -799,8 +864,7 @@ INSERT INTO `iibb` (`jurisdiccion`, `provincia_id`) VALUES
 (911, 21),
 (916, 22),
 (920, 23),
-(923, 24),
-(0, 666);
+(923, 24);
 
 -- --------------------------------------------------------
 
@@ -3303,13 +3367,14 @@ CREATE TABLE IF NOT EXISTS `marca` (
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_marca_nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `marca`
 --
 
 INSERT INTO `marca` (`id`, `nombre`) VALUES
+(9, 'Consulfem'),
 (4, 'Dexin'),
 (6, 'Hewlett Packard'),
 (3, 'IA Electrónica'),
@@ -3342,14 +3407,14 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`),
   KEY `modelo_tipo` (`tipo_modelo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
 --
 
 INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `homologacion_id`, `tipo_modelo_id`) VALUES
-(0, 1, 'N/D', 'Modelo no específico', 'default_eq.png', '2023-07-06 10:45:57', '2023-07-06 10:45:57', 'N/D', NULL, 11),
+(0, 1, 'N/D', 'Modelo no específico', 'default_eq.png', '2023-07-06 10:45:57', '2023-07-06 10:45:57', NULL, NULL, 11),
 (1, 3, 'FM100', 'STM', 'FM100 -17.png', '2023-06-30 10:17:39', '2023-07-09 12:55:38', '\'17', 2, 3),
 (2, 3, 'FM250', 'STM', 'FM250 -16.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3, 3),
 (3, 2, 'FM500', 'STM', 'FM500 -19.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4, 3),
@@ -3376,9 +3441,9 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (40, 3, 'FM100', 'enc. posterior', 'FM100 -23.png', '2023-06-30 12:39:07', '2023-07-09 12:18:53', '\'23', 2, 3),
 (46, 2, 'TRV100', 'STM', 'TRV100 -08.png', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12, 1),
 (47, 3, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-11-06 17:02:44', '\'07', 1, 3),
-(48, 1, 'Router', '', 'Router.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', 'N/D', NULL, 10),
-(49, 1, 'Switch', '', 'Switch.png', '2023-07-07 12:16:19', '2023-08-10 13:34:52', 'N/D', NULL, 10),
-(50, 1, 'Enlace', 'banda 5GHz', 'Enlace.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', 'N/D', NULL, 8),
+(48, 1, 'Router', '', 'Router.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', NULL, NULL, 10),
+(49, 1, 'Switch', '', 'Switch.png', '2023-07-07 12:16:19', '2023-08-10 13:34:52', NULL, NULL, 10),
+(50, 1, 'Enlace', 'banda 5GHz', 'Enlace.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', NULL, NULL, 8),
 (51, 2, 'FM10.000', '', 'FM10.000 -18.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8, 3),
 (52, 4, 'NDS3224V', 'Encoder 4 HDMI, salida IP.Sin display. Funciona con señal en la entrada #4 fija, sino se corta', 'NDS3224V -21.png', '2023-09-20 09:06:55', '2023-09-20 09:06:55', '\'21', NULL, 9),
 (54, 8, 'MCMP-3100', 'Mux compresor', 'MCMP3100 -22.png', '2023-10-20 19:08:32', '2023-11-14 08:57:10', '\'22', NULL, 9),
@@ -3386,7 +3451,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (56, 2, 'MIST-15', 'Modulador ISDB-T Con WebBrowser (Módulo TeamCast)', 'MIST-15 -15.JPG', '2023-10-20 19:08:32', '2023-10-23 13:49:31', '\'15', NULL, 6),
 (57, 4, 'NDS3224', 'Encoder digital 4 entradas SDI salida IP\r\nrenombrado L224', 'NDS3224 -20.png', '2023-10-20 19:08:32', '2023-10-20 19:08:32', '\'20', NULL, 9),
 (58, 4, 'NDS3542A', 'Encoder-Modulador HDMI-SDI c/ display', 'NDS3542A -20.png', '2023-10-20 19:08:32', '2023-11-11 15:18:12', '\'20', NULL, 9),
-(59, 5, 'AirFiber24G', 'Enlace 24 GHz', 'AirFiber24G.jpg', '2023-10-22 14:53:12', '2023-11-04 11:41:11', 'N/D', NULL, 8),
+(59, 5, 'AirFiber24G', 'Enlace 24 GHz', 'AirFiber24G.jpg', '2023-10-22 14:53:12', '2023-11-04 11:41:11', NULL, NULL, 8),
 (60, 4, 'NDS3228S', 'Encoder 8 entradas salida IP', 'NDS3228S -20.png', '2023-10-22 14:53:12', '2023-10-22 14:53:12', '\'20', NULL, 9),
 (61, 4, 'NDS2405G', 'Modulador digital ISDB-T', 'NDS2405G -20.jpg', '2023-10-22 14:53:12', '2023-10-22 14:53:12', '\'20', NULL, 9),
 (66, 2, 'MIST-13s', 'Modulador digital MHX c/GPS', 'MIST-13s -14.JPG', '2023-10-23 13:02:45', '2023-11-06 11:55:15', '\'14', NULL, 6),
@@ -3394,7 +3459,10 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (68, 8, 'DMM-3100', 'Multiplexor y modulador ISDB', 'DMM-3100 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:27:25', '\'23', NULL, 9),
 (69, 8, 'DCMP-500', 'Descompresor ISDB', 'DCMP-500 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:28:29', '\'23', NULL, 9),
 (70, 8, 'ECD-3000', 'Encoder H.264', 'ECD-3000 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:29:10', '\'23', NULL, 9),
-(71, 2, 'Filtro Notch FM', 'Filtro Notch', 'Filtro_Notch_FM -18.jpg', '2023-11-09 12:24:30', '2023-11-14 08:56:17', '\'18', NULL, 11);
+(71, 2, 'Filtro Notch FM', 'Filtro Notch', 'Filtro_Notch_FM -18.jpg', '2023-11-09 12:24:30', '2023-11-14 08:56:17', '\'18', NULL, 11),
+(72, 4, 'LA214', 'Multi Encoder Salida IP - SNMP\r\nCódigo Dexin DX3214B.', 'LA214.png', '2023-11-17 10:42:48', '2023-11-17 11:11:13', NULL, NULL, 9),
+(73, 1, 'Filtro de máscara', 'Filtro de máscara UHF', 'Filtro de máscara.png', '2023-11-17 10:42:48', '2023-11-17 10:42:48', NULL, NULL, 11),
+(74, 8, 'DMUX-1000i', 'multiplexor ISDB-T', 'DMUX-1000i -17.png', '2023-11-17 11:42:02', '2023-11-17 11:48:59', NULL, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -3407,7 +3475,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `codigo` int(6) NOT NULL,
+  `codigo` varchar(6) NOT NULL,
   `content` varchar(250) NOT NULL,
   `tecnico_id` int(11) DEFAULT NULL,
   `equipo_id` int(11) NOT NULL,
@@ -3419,15 +3487,15 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
 --
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
-(1, '2023-08-18 11:39:42', '2023-08-18 12:04:28', 230818, 'Falla general del Tx', 1, 124, 12, 4),
-(5, '2023-10-25 16:16:46', '2023-11-12 13:48:00', 231025, 'Recibe bien video , pero no el audio, con el equipo muleto no tiene problemas', 1, 122, 12, 4);
+(1, '2023-08-18 11:39:42', '2023-08-18 12:04:28', '230818', 'Falla general del Tx', 1, 124, 12, 4),
+(5, '2023-10-25 16:16:46', '2023-11-12 13:48:00', '231025', 'Recibe bien video , pero no el audio, con el equipo muleto no tiene problemas', 1, 122, 12, 4);
 
 -- --------------------------------------------------------
 
@@ -3450,7 +3518,7 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   KEY `user_id` (`user_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_client` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_trabajo`
@@ -3464,8 +3532,9 @@ INSERT INTO `orden_trabajo` (`id`, `date_created`, `date_modified`, `codigo`, `c
 (30, '2023-08-10 12:53:33', '2023-10-26 11:52:48', 230810, 'TV digital all in one TRUD500', 4, 4, 3),
 (31, '2023-10-25 13:05:56', '2023-11-12 13:35:06', 220505, 'Tv Digital TRUD250 ALL IN ONE CH16', 3, 4, 3),
 (32, '2023-10-26 13:58:22', '2023-11-12 13:48:41', 221219, 'TRUD2400 digital\r\nSeñal ISDB comprimida, con equipos VS y switchs\r\n', 6, 4, 1),
-(33, '2023-11-03 10:17:34', '2023-11-12 13:33:36', 180102, 'Tx TRUD250 digital  con 2 NDS3542', 7, 11, 3),
-(35, '2023-11-09 11:34:53', '2023-11-12 13:33:05', 190101, 'TRUD500 con enc 2 entradas + mux + mod', 9, 11, 3);
+(33, '2023-11-03 10:17:34', '2023-11-15 23:03:06', 180102, 'Tx TRUD250 digital  con 2 NDS3542', 7, 11, 3),
+(35, '2023-11-09 11:34:53', '2023-11-15 17:00:44', 190101, 'TRUD500 con enc 2 entradas + mux + mod', 9, 11, 3),
+(36, '2023-11-17 10:42:48', '2023-11-17 11:18:01', 170101, 'TRUD500 c/Filtro de máscara. Mist-13, Mux VS -1000-500, fibra, Switch HP x2, encoder LA214', 10, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -3525,7 +3594,7 @@ CREATE TABLE IF NOT EXISTS `procedimiento` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `ultimo_editor` (`user_edit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `procedimiento`
@@ -3549,7 +3618,7 @@ CREATE TABLE IF NOT EXISTS `provincia` (
   `pais_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `prov_pais` (`pais_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=669 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=667 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `provincia`
@@ -3635,8 +3704,7 @@ INSERT INTO `provincia` (`id`, `nombre`, `pais_id`) VALUES
 (77, 'São Paulo', 3),
 (78, 'Sergipe', 3),
 (79, 'Tocantins', 3),
-(666, 'Sin especificar', 1),
-(668, 'dsadsa', NULL);
+(666, 'Sin especificar', 21);
 
 -- --------------------------------------------------------
 
@@ -3728,14 +3796,13 @@ CREATE TABLE IF NOT EXISTS `unidad` (
   `nombre` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `unidad`
 --
 
 INSERT INTO `unidad` (`id`, `nombre`) VALUES
-(6, ' '),
 (3, 'GHz'),
 (1, 'KHz'),
 (2, 'MHz'),
@@ -3767,11 +3834,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_id`) VALUES
-(1, 'Turko', 'arnaizagustin@gmail.com', 'turko.jpg', '$2b$12$wHwqzPFLysN0GXJPu3kuJOW10mPaGGeeQ3Gx91TWY6PEf7/xRzxOO', 3),
+(1, 'Turko', 'arnaizagustin@gmail.com', 'turko.jpg', '$2b$12$kA//4qKktlTfMDbwXLt2iOATL/imj7eAAACh0bUiddV6W/T5tsyFa', 3),
 (4, 'Alejandro', 'toparuiz@mail.com', 'Alejandro.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
 (5, 'Atilio', 'atilioavanzini@mail.com', 'atilio.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
 (6, 'Oscar', 'oscar@mail.com', 'Oscar.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
-(10, 'admin', 'admin@tecseg.com', 'admin.jpg', '$2b$12$pZWr2TwMf1wZi6kyJ56HNu5/YSVZwz9h19BpBsomrt.TwlRZrp7U.', 1),
+(10, 'admin', 'arnaiz_agustin@hotmail.com', 'admin.jpg', '$2b$12$1uHNmNIuagOpI8FT1PT1Ee96BpSkjdiT9rkoW8ZFbPdn7Vm.Lgbyq', 1),
 (11, 'Tomas', 'tomas@tecseg.com', 'tomas.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
 (12, 'Juan', 'juan@tecseg.com', 'juan.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
 (14, 'Jorge', 'jorge@tecseg.com', 'jorge.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3),
@@ -3785,9 +3852,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_i
 -- Filtros para la tabla `client`
 --
 ALTER TABLE `client`
-  ADD CONSTRAINT `client_cf` FOREIGN KEY (`cond_fiscal_id`) REFERENCES `cond_fiscal` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `client_domicilio` FOREIGN KEY (`domicilio_id`) REFERENCES `domicilio` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `client_iibb` FOREIGN KEY (`iibb_id`) REFERENCES `iibb` (`jurisdiccion`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `client_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
@@ -3815,7 +3880,6 @@ ALTER TABLE `domicilio`
 --
 ALTER TABLE `equipment`
   ADD CONSTRAINT `eq_detalle` FOREIGN KEY (`detalle_trabajo_id`) REFERENCES `detalle_trabajo` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `eq_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 

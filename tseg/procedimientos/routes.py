@@ -3,15 +3,14 @@ from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Procedimiento
 from tseg.procedimientos.forms import ProcedimientoForm
-from tseg.users.utils import dateFormat, role_required, buscarLista
+from tseg.users.utils import dateFormat, role_required, buscarLista, error_logger
 
 procedimientos = Blueprint('procedimientos', __name__)
 
 
 @login_required
 @procedimientos.route("/all_procedimientos")
-def all_procedimientos():
-	
+def all_procedimientos():	
 	select_item = request.args.get('selectItem', '')
 	if select_item:
 		return redirect(url_for('procedimientos.procedimiento', procedimiento_id=select_item, 
@@ -31,20 +30,20 @@ def all_procedimientos():
 @role_required("Admin", "Técnico") # impide el acceso sin login
 def add_procedimiento():
 	form = ProcedimientoForm()	
-	if form.validate_on_submit():		
-		procedimiento = Procedimiento(
+	if form.validate_on_submit():
+		try:
+			procedimiento = Procedimiento(
 							title=form.title.data,
 							content=form.content.data,							
 							user=current_user,
 							user_edit=current_user,
 							)
-		try:
 			db.session.add(procedimiento)
 			db.session.commit()
 			flash('Se ha guardado el Procedimiento técnico!', 'success')
 			return redirect(url_for('procedimientos.all_procedimientos', filterBy='date_modified', filterOrder='desc'))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('procedimientos.add_procedimiento', procedimiento_id=procedimiento.id))
 	return render_template('create_procedimiento.html', title='Nueva Procedimiento', 
 												form=form,												
@@ -65,16 +64,16 @@ def update_procedimiento(procedimiento_id):
 	procedimiento = Procedimiento.query.get_or_404(procedimiento_id)	
 	form = ProcedimientoForm(procedimiento)
 	if form.validate_on_submit():	
-		procedimiento.title = form.title.data
-		procedimiento.content = form.content.data
-		procedimiento.date_modified = dateFormat()
-		procedimiento.user_edit = current_user
 		try:
+			procedimiento.title = form.title.data
+			procedimiento.content = form.content.data
+			procedimiento.date_modified = dateFormat()
+			procedimiento.user_edit = current_user
 			db.session.commit()
 			flash("Su procedimiento ha sido modificado con éxito", 'success')
 			return redirect(url_for('procedimientos.procedimiento', procedimiento_id=procedimiento.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('procedimientos.update_procedimiento', procedimiento_id=procedimiento.id))
 	elif request.method == 'GET':		
 		form.title.data = procedimiento.title

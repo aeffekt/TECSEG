@@ -1,8 +1,8 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
-from flask_login import login_required
+from flask_login import login_required, current_user
 from tseg.models import Homologacion
 from tseg.homologaciones.forms import HomologacionForm
-from tseg.users.utils import role_required, buscarLista
+from tseg.users.utils import role_required, buscarLista, error_logger
 from tseg import db
 
 
@@ -30,14 +30,14 @@ def homologacion(homologacion_id):
 	homologacion = Homologacion.query.get_or_404(homologacion_id)
 	form = HomologacionForm(homologacion)
 	if form.validate_on_submit():		
-		homologacion.codigo = form.codigo.data
-		homologacion.modelo = form.modelo.data
-		try:	
+		try:
+			homologacion.codigo = form.codigo.data
+			homologacion.modelo = form.modelo.data			
 			db.session.commit()
 			flash(f"El codigo {homologacion.codigo} ha sido actualizado.", 'success')
 			return redirect(url_for('homologaciones.homologacion', homologacion_id=homologacion.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('homologacion.homologacion', homologacion_id=homologacion.id))
 	elif request.method == 'GET':		
 		form.codigo.data = homologacion.codigo
@@ -53,16 +53,16 @@ def homologacion(homologacion_id):
 def add_homologacion():
 	form = HomologacionForm()
 	if form.validate_on_submit():		
-		homologacion = Homologacion(
-						codigo=form.codigo.data,
-						modelo=form.modelo.data)
 		try:
+			homologacion = Homologacion(
+						codigo=form.codigo.data,
+						modelo=form.modelo.data)		
 			db.session.add(homologacion)
 			db.session.commit()
 			flash(f'Código homologacion {homologacion.codigo} agregado!', 'success')
 			return redirect(url_for('homologaciones.all_homologaciones', homologacion_id=homologacion.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('homologaciones.add_homologacion'))
 	else:
 		return render_template('create_homologacion.html', title='Agregar código', 

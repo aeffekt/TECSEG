@@ -6,8 +6,7 @@
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
 				<div class="row">
-					<div class="col-md-6">						
-
+					<div class="col-md-6">
 						<div class="form-group">
 							{{ form.detalle_trabajo.label(class="form-control-label") }}<span class="red"> *</span>
 							{% if form.detalle_trabajo.errors %}
@@ -18,7 +17,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.detalle_trabajo(class="chosen form-select form-select-sm custom-select") }}
+								{{ form.detalle_trabajo(class="chosen form-select form-select-sm custom-select", title="Todo equipo debe estar asociado a un detalle de orden de trabajo") }}
 							{% endif %}
 						</div>
 
@@ -32,7 +31,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.modelo(id="modelo_input",class="chosen form-select form-select-sm custom-select") }}
+								{{ form.modelo(id="modelo_input", class="chosen form-select form-select-sm custom-select", title="Seleccione el modelo de equipo según lo descripto en el Detalle de orden de trabajo") }}
 							{% endif %}
 						</div>						
 
@@ -46,13 +45,13 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.numSerie(class="form-control form-control-sm", placeholder="1/1234", title="Solo completar para equipos LIE/IA", id="numSerie") }}
+								{{ form.numSerie(class="form-control form-control-sm", placeholder="1/1234", title="Solo completar para equipos LIECOM / IA (ej: 1/1234)", id="numSerie") }}
 							{% endif %}
 						</div>										
 					</div>
-					<div class="col-md-6">						
+					<div class="col-md-6">
 						<div class="form-group">
-							{{ form.anio.label(class="form-control-label") }}					
+							{{ form.anio.label(class="form-control-label") }}<span class="red"> *</span>
 							{% if form.anio.errors %}
 								{{ form.anio(class="form-control form-control-sm is-invalid") }}
 								<div class="invalid-feedback">
@@ -61,23 +60,41 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.anio(class="chosen form-select form-select-sm custom-select") }}
+								{{ form.anio(class="chosen form-select form-select-sm custom-select", title="Año de fabricación, compra o entrega del equipo") }}
 							{% endif %}
 						</div>
-
-						<div class="form-group">
-							{{ form.frecuencia.label(class="form-control-label") }}					
-							{% if form.frecuencia.errors %}
-								{{ form.frecuencia(class="form-control form-control-sm is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.frecuencia.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
-								</div>
-							{% else %}
-								{{ form.frecuencia(class="chosen form-select form-select-sm custom-select") }}
-							{% endif %}
+						<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								{{ form.frecuencia.label(class="form-control-label") }}					
+								{% if form.frecuencia.errors %}
+									{{ form.frecuencia(class="form-control form-control-sm is-invalid") }}
+									<div class="invalid-feedback">
+										{% for error in form.frecuencia.errors %}
+											<span>{{ error }}</span>
+										{% endfor %}
+									</div>
+								{% else %}
+									{{ form.frecuencia(class="chosen form-select form-select-sm custom-select", title="Por defecto dejar vacío. O Seleccione un canal o frecuencia de trabajo del equipo") }}
+								{% endif %}
+							</div>
 						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								{{ form.color.label(class="form-control-label") }}					
+								{% if form.color.errors %}
+									{{ form.color(class="form-control form-control-sm is-invalid") }}
+									<div class="invalid-feedback">
+										{% for error in form.color.errors %}
+											<span>{{ error }}</span>
+										{% endfor %}
+									</div>
+								{% else %}
+									{{ form.color(class="chosen form-select form-select-sm custom-select", title="Por defecto dejar vacío. Seleccione un color para distinguir dentro del detalle de Orden de Trabajo") }}
+								{% endif %}
+							</div>
+						</div>
+					</div>				
 
 						<div class="form-group">
 							{{ form.upload_files.label(class="form-control-label") }}					

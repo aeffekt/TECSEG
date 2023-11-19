@@ -9,69 +9,67 @@
 			<!-- SOLO admin -->
 			{% if current_user.role.role_name == "Admin" %}
 				<li>
-					<a class="menu-horizontal">Admin</a>
+					<a class="menu-horizontal"> <i class="bi bi-person-fill custom-icon"> </i>Admin</a>
 					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Registrar Usuario</a></li>									
-						<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}">Ver cuentas de usuarios</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}"><i class="bi bi-person-add"></i> Registrar Usuario</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}"><i class="bi bi-person-vcard"></i> Ver cuentas de usuarios</a></li>
 						
 						<hr>							
-						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_zona') }}">Reporte equipos por zona</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_modelo') }}">Reporte equipos por modelo</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_anio') }}">Reporte ventas por año</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_zona') }}"><i class="bi bi-bar-chart"></i> Reporte equipos por zona</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_modelo') }}"><i class="bi bi-bar-chart"></i> Reporte equipos por modelo</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_anio') }}"><i class="bi bi-bar-chart"></i> Reporte ventas por año</a></li>
 						
 					</ul>
 				</li>
 			{% endif %}
 			<!-- SECTOR TODOS menos INVITADOS -->
 			{% if current_user.role.role_name != "Invitado" %}
-
 				<li>
-					<a class="menu-horizontal">Atención al Cliente</a>
+					<a class="menu-horizontal"><i class="bi bi-people-fill"></i>Atención al Cliente</a>
 					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}">Registrar Cliente</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}">Buscar cliente</a></li>	
+						<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}"><i class="bi bi-person-plus"></i> Registrar Cliente</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar cliente</a></li>	
 						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}">Registrar Orden de Reparación</a></li>
-						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}">Buscar Orden de Reparación</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}"><i class="bi bi-wrench"></i> Registrar Orden de Reparación</a></li>
+						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Reparación</a></li>
 							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}">Reporte Reparaciones por Técnico</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_reparaciones') }}">Reporte Reparaciones por modelo</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por Técnico</a></li>
+							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_reparaciones') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por modelo</a></li>
 					</ul>
 				</li>
 				
 				<li>
-					<a class="menu-horizontal">Comercial</a>
+					<a class="menu-horizontal"><i class="bi bi-buildings"></i>Comercial</a>
 					<ul class="menu-vertical">						
 
-						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_trabajo.add_orden_trabajo', client_id=0, orderBy='estado_id', orderOrder='asc') }}">Registrar Orden de Trabajo</a></li>
-						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc') }}">Buscar Orden de Trabajo</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_trabajo.add_orden_trabajo', client_id=0, orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-journal-text"></i> Registrar Orden de Trabajo</a></li>
+						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Trabajo</a></li>
 						<hr>		
 						
-						<li><a class="nav-item nav-link" href="{{ url_for('marcas.add_marca') }}">Registrar Marca</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('marcas.all_marcas', orderBy='nombre', orderOrder='asc') }}">Buscar marcas</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('marcas.add_marca') }}"><i class="bi bi-r-circle"></i> Registrar Marca</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('marcas.all_marcas', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar marcas</a></li>
 
-						<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}">Registrar Modelo</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}">Buscar modelos</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}"><i class="bi bi-pencil"></i> Registrar Modelo</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar modelos</a></li>
 						
 						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}">Registrar Homologación</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}">Buscar Homologaciones</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}"><i class="bi bi-patch-check"></i> Registrar Homologación</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Homologaciones</a></li>
 						
 						
 					</ul>
-				</li>
-											
-				
+				</li>					
+			
 				<li>
-					<a class="menu-horizontal">Técnico</a>
+					<a class="menu-horizontal"><i class="bi bi-cast"></i>Técnico</a>
 					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=0) }}">Registrar Equipo</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}">Buscar equipo</a></li>							
+						<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=0) }}"><i class="bi bi-tv"></i> Registrar Equipo</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-search"></i> Buscar equipo</a></li>							
 						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}">Mis historias</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-file-earmark-text"></i> Mis historias</a></li>
 						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.add_procedimiento') }}">Registrar Procedimiento técnico</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.all_procedimientos', orderBy='date_modified', orderOrder='desc') }}">Buscar Procedimiento técnico</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.add_procedimiento') }}"><i class="bi bi-list-check"></i> Registrar Procedimiento técnico</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.all_procedimientos', orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-search"></i> Buscar Procedimiento técnico</a></li>
 					</ul>
 				</li>
 				
@@ -80,10 +78,10 @@
 			<li>
 				<a title="Ir a mi cuenta" ><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>
 				<ul class="menu-vertical">
-					<li><a class="nav-item nav-link" href="{{ url_for('users.account', user_id=current_user.id) }}">Ir a mi cuenta</a></li>
-					<li><a class="nav-item nav-link" href="{{ url_for('users.update_password', user_id=current_user.id) }}">Modificar Contraseña</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('users.account', user_id=current_user.id) }}"><i class="bi bi-person-circle"></i> Ir a mi cuenta</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('users.update_password', user_id=current_user.id) }}"><i class="bi bi-key"></i> Modificar Contraseña</a></li>
 					<hr>
-					<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Cerrar sesión</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('users.logout') }}"><i class="bi bi-x-circle"></i> Cerrar sesión</a></li>
 				</ul>
 			</li>				
 		{% endif %}
@@ -93,15 +91,5 @@
 	</ul>
 	
 	<!-- Boton para desplegar el MENU en modo mobile -->
-	<script>
-		let menuToggle = document.querySelector('.menu-toggle');
-		let menuHorizontal = document.querySelector('.menu-horizontal');
-		
-		menuToggle.addEventListener('click', () => {
-		  menuHorizontal.classList.toggle('open');
-		});
-	  </script>
-	
-
-
+	<script src="{{ url_for('static', filename='js/boton_menu_mobile.js') }}"></script>	
 </div>

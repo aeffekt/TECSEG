@@ -13,7 +13,7 @@
 			</div>
 			<div class="row align-items-center">
 				<div class="col-md-3 text-end">
-					<small>Nombre / Apellido:</small>
+					<small>Nombre y Apellido:</small>
 				</div>
 				<div class="col-md-9">
 					<h1 class="aticle-title">{{ client.nombre }} {{ client.apellido }}</h1></p>
@@ -73,7 +73,7 @@
 					</div>
 				</div>
 			{% endif %}
-			{% if client.cond_fiscal.nombre != 'Sin especificar'%}
+			{% if client.cond_fiscal %}
 				<div class="row align-items-center">
 					<div class="col-md-3 text-end">
 					<small>Condición fiscal:</small> 
@@ -83,7 +83,7 @@
 					</div>
 				</div>
 			{% endif %}
-			{% if client.iibb.jurisdiccion != 0 %}
+			{% if client.iibb %}
 				<div class="row align-items-center">
 					<div class="col-md-3 text-end">
 					<small>Ingresos Brutos:</small> 

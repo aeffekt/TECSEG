@@ -1,0 +1,10 @@
+04/02/21
+desde enero presentan interrupcion de señal intermitente, falla desconocida, sospecha del enlace
+
+04/11/22
+por incendio problemas en la señal digital y FO
+problemas en el mux aparente- hay que reparar mux
+
+18/01/22
+se reparó mux, y se dejóandando junto a otro de back up.
+Por falla esporádica de perdida de datos, se cambió la referencia de 10MHz, ahora la genera el modulador y se la pasa a los mux

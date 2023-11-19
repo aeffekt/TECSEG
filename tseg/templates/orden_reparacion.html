@@ -66,7 +66,7 @@
             </div>
             <hr 80%>
             {% if not orden_reparacion.estado.descripcion == "Resuelta" and not orden_reparacion.estado.descripcion =="Anulada"%}
-                <a class="bi bi-chat btn btn-outline-light" title="Añadir Detalle" href="{{ url_for('detalles_reparacion.add_detalle_reparacion', orden_reparacion_id = orden_reparacion.id) }}"></a>
+                <a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Detalle" href="{{ url_for('detalles_reparacion.add_detalle_reparacion', orden_reparacion_id = orden_reparacion.id) }}"></a>
                 {% if current_user.username == orden_reparacion.tecnicoAsignado.username or current_user.role.role_name =="Admin" %}
                     <a class="bi bi-x-circle btn btn-outline-dark" title="Cancelar O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Anulada') }}"></a>
                     <a class="bi bi-check-square btn btn-outline-info" title="Resolver O.R."  href="{{ url_for('ordenes_reparacion.update_estado', orden_reparacion_id=orden_reparacion.id, estado_descripcion ='Resuelta') }}"></a>                
@@ -84,7 +84,7 @@
             <div class="media-body">
                 <div class="row">
                     <div class="col-md-10">
-                        <a class="article-title" href="{{ url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id) }}">                            
+                        <a class="article-title" href="{{ url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id) }}">
                             <h6 class="article-title">{{ detalle_reparacion.content }}</h6>
                             <small class="article-content">Última modificación: <b>{{ detalle_reparacion.date_modified.strftime('%d-%m-%Y') }}</b>
                             </small>

@@ -2,7 +2,7 @@ from flask import render_template, request, Blueprint, flash, redirect, url_for,
 from flask_login import current_user, login_required
 from tseg.models import Equipment, Historia, Orden_reparacion
 from tseg.equipments.forms import EquipmentForm
-from tseg.users.utils import role_required, dateFormat, buscarLista
+from tseg.users.utils import role_required, dateFormat, buscarLista, error_logger
 from tseg.equipments.utils import (print_caratula_pdf, print_etiqueta_pdf, upload_files, get_full_folder_path, 
 								   get_files_info, get_folder_path, delete_file,get_folder_name)
 from tseg import db
@@ -76,6 +76,7 @@ def add_equipment(detalle_trabajo_id):
 							author_eq=current_user,
 							modelo_id=form.modelo.data,
 							frecuencia_id=form.frecuencia.data,
+							color_id=form.color.data,
 							detalle_trabajo_id=form.detalle_trabajo.data)		
 			db.session.add(equipment)
 			db.session.commit()
@@ -85,8 +86,8 @@ def add_equipment(detalle_trabajo_id):
 					upload_files(archivos_seleccionados, equipment)
 			flash(f'Equipo {equipment.numSerie} agregado!', 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc'))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)			
 			return redirect(url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo_id))	
 	form.detalle_trabajo.default = detalle_trabajo_id
 	form.process()
@@ -101,38 +102,39 @@ def update_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	form = EquipmentForm(equipment)
 	if form.validate_on_submit():		
-		if form.numSerie.data == '':			
-			equipment.numSerie = None
-		else:
-			# si se cambia el serie, se cambia la carpeta con archivos			
-			if form.numSerie.data != equipment.numSerie:
-				path = get_full_folder_path(equipment)
-				equipment.numSerie = form.numSerie.data
-				if os.path.exists(path):					
-					new_folder_name = get_folder_name(equipment)
-					new_path = os.path.join(os.path.dirname(path), new_folder_name)				
-					try:
-						os.rename(path, new_path)
-						flash(f'Directorio de equipo renombrado a {new_folder_name}', 'success')
-					except OSError as e:
-						flash(f'Ocurrió un error al querer renombrar el directorio del equipo: {e}', 'warning')				
-		equipment.detalle_trabajo_id = form.detalle_trabajo.data
-		equipment.modelo_id = form.modelo.data
-		equipment.frecuencia_id = form.frecuencia.data		
-		equipment.content = form.content.data
-		equipment.anio = form.anio.data		
-		equipment.date_modified = dateFormat()	
-		archivos_seleccionados = request.files.getlist('upload_files')
-		if archivos_seleccionados[0].filename!='':
-			upload_files(archivos_seleccionados, equipment)
-		try:			
+		try:
+			if form.numSerie.data == '':			
+				equipment.numSerie = None
+			else:
+				# si se cambia el serie, se cambia la carpeta con archivos			
+				if form.numSerie.data != equipment.numSerie:
+					path = get_full_folder_path(equipment)
+					equipment.numSerie = form.numSerie.data
+					if os.path.exists(path):					
+						new_folder_name = get_folder_name(equipment)
+						new_path = os.path.join(os.path.dirname(path), new_folder_name)				
+						try:
+							os.rename(path, new_path)
+							flash(f'Directorio de equipo renombrado a {new_folder_name}', 'success')
+						except OSError as e:
+							flash(f'Ocurrió un error al querer renombrar el directorio del equipo: {e}', 'warning')				
+			equipment.detalle_trabajo_id = form.detalle_trabajo.data
+			equipment.modelo_id = form.modelo.data
+			equipment.frecuencia_id = form.frecuencia.data
+			equipment.color_id=form.color.data
+			equipment.content = form.content.data
+			equipment.anio = form.anio.data		
+			equipment.date_modified = dateFormat()	
+			archivos_seleccionados = request.files.getlist('upload_files')
+			if archivos_seleccionados[0].filename!='':
+				upload_files(archivos_seleccionados, equipment)		
 			db.session.commit()
 			flash(f"Se guardaron los cambios", 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment.id, 
 														filterBy='date_modified',
 														filterSort='desc'))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('equipments.update_equipment', equipment_id=equipment.id))
 		
 	elif request.method == 'GET':
@@ -140,6 +142,7 @@ def update_equipment(equipment_id):
 		form.detalle_trabajo.default = equipment.detalle_trabajo.id
 		form.modelo.default = equipment.modelo_id
 		form.frecuencia.default = equipment.frecuencia_eq.canal if equipment.frecuencia_eq else None
+		form.color.default = equipment.color_id
 		form.process()		
 		form.numSerie.data = equipment.numSerie
 		form.content.data = equipment.content

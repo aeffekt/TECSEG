@@ -100,7 +100,7 @@
 											{% endfor %}
 										</div>
 									{% else %}
-										{{ form.codigo_postal(class="form-control form-control-sm", title="Ingrese 4 digitos", placeholder="Ingresar C.P. primero", tabindex="7") }}
+										{{ form.codigo_postal(class="form-control form-control-sm", title="Ingrese 4 digitos para cargar datos de la Localidad", placeholder="Ingresar C.P. primero", tabindex="7") }}
 									{% endif %}
 								</div>
 								<div class="form-group">									
@@ -185,7 +185,7 @@
 											{% endfor %}
 										</div>
 									{% else %}
-										{{ form.cuit(class="form-control form-control-sm", tabindex="13", id="cuit_input", title="Dígitos: Verde=OK, Naranja=Faltan, Rojo=Sobran", placeholder="ingresar solo números, sin guiones") }}
+										{{ form.cuit(class="form-control form-control-sm", tabindex="13", id="cuit_input", title="Ingresar 11 Dígitos (Verde=OK, Naranja=Faltan, Rojo=Sobran)", placeholder="ingresar solo números, sin guiones") }}
 									{% endif %}
 								</div>
 								<div class="form-group">					
@@ -198,7 +198,7 @@
 											{% endfor %}
 										</div>
 									{% else %}
-										{{ form.iibb(class="form-select form-select-sm custom-select", tabindex="14" ) }}
+										{{ form.iibb(class="chosen form-select form-select-sm custom-select", tabindex="14" ) }}
 									{% endif %}
 								</div>
 								<div class="form-group">					
@@ -211,7 +211,7 @@
 											{% endfor %}
 										</div>
 									{% else %}
-										{{ form.cond_fiscal(class="form-select form-select-sm custom-select", tabindex="14" ) }}
+										{{ form.cond_fiscal(class="chosen form-select form-select-sm custom-select", tabindex="14" ) }}
 									{% endif %}
 								</div>
 							</div>

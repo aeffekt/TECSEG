@@ -13,12 +13,11 @@
 	    
 	    <!-- Bootstrap CSS ICONS online -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">	    
-		
 
 	    <!-- CSS Libreria CHOSEN - SELECT user friendly  downloaded -->
 	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chosen.css') }}">
-	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chosen.min.css') }}"> 
-
+	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chosen.min.css') }}">
+		
 	    <!-- CSS general -->
 	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
@@ -88,7 +87,8 @@
 		    search_contains: true,
 		    no_results_text: 'No se encontró: ',
 		    width: '100%',
-		    max_shown_results: 500, 		    
+		    max_shown_results: 500,
+			allow_single_deselect: true,			
 		});
 
 		// THEME COLOR CHANGER

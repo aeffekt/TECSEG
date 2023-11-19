@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Detalle_trabajo, Orden_trabajo, Equipment
 from tseg.detalles_trabajo.forms import DetalleTrabajoForm
-from tseg.users.utils import dateFormat, role_required, buscarLista
+from tseg.users.utils import dateFormat,  buscarLista, error_logger
 
 detalles_trabajo = Blueprint('detalles_trabajo', __name__)
 
@@ -22,8 +22,8 @@ def add_detalle_trabajo(orden_trabajo_id):
 			db.session.commit()
 			flash('Se ha guardado la nueva detalle de orden de trabajo!', 'success')
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id, filterBy='date_modified', filterOrder='desc'))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('detalles_trabajo.add_detalle_trabajo', orden_trabajo_id=orden_trabajo.id))
 	
 	return render_template('create_detalle_trabajo.html', title='Nuevo detalle de trabajo', 
@@ -65,8 +65,8 @@ def update_detalle_trabajo(detalle_trabajo_id):
 			db.session.commit()
 			flash("Su detalle de trabajo ha sido modificado con éxito", 'success')
 			return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('ordenes_trabajos.update_detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id))
 		
 	form.content.data = detalle_trabajo.content

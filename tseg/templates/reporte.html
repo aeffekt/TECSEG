@@ -51,6 +51,7 @@
                     <select class="form-select form-select-sm"  style="width: 100px;", id="chartTypeSelect" >
                         <option value="pie">Torta</option>
                         <option value="bar">Barras</option>
+                        <option value="line">Lineal</option>
                     </select>
                 </div>
                 
@@ -91,60 +92,58 @@
         <button class="btn btn-primary" id="borrarFilterAnioButton">Borrar filtro de resultados</button>
     {% endif %} 
 {% endif %}
-    <!-- import plugin script -->
-    <script src="static/js/Chart.min.js"></script>
+<!-- import plugin script -->
+<script src="static/js/Chart.min.js"></script>
 
-    <!-- import filtro de años de reporte -->
-    <script src="static/js/filter_reporte.js"></script>
-    
-    <!-- bar chart canvas element -->
-    <script>
-        const labels_json = JSON.parse('{{ labels|safe }}');
-        const data_json = JSON.parse('{{ data|safe }}');
-        const ctx = document.getElementById('chart');
-        const chartTypeSelect = document.getElementById('chartTypeSelect');
-        let chartInstance;
+<!-- import filtro de años de reporte -->
+<script src="static/js/filter_reporte.js"></script>
 
-        chartTypeSelect.addEventListener('change', function() {
-            const selectedType = chartTypeSelect.value;
+<!-- bar chart canvas element -->
+<script>
+    const labels_json = JSON.parse('{{ labels|safe }}');
+    const data_json = JSON.parse('{{ data|safe }}');
+    const ctx = document.getElementById('chart');
+    const chartTypeSelect = document.getElementById('chartTypeSelect');
+    let chartInstance;
 
-            chartInstance.config.type = selectedType;
-            chartInstance.update();
-          }
-        );
+    chartTypeSelect.addEventListener('change', function() {
+        const selectedType = chartTypeSelect.value;
 
-        chartInstance = new Chart(ctx, {
-          type: 'pie',
+        chartInstance.config.type = selectedType;
+        chartInstance.update();
+        }
+    );
 
-          data: {
+    chartInstance = new Chart(ctx, {
+        type: '{{ chart_type }}',
+        data: {
             labels: labels_json,
             datasets: [{
                 color:'Grey',
                 label: 'Cantidad',
                 data: data_json,              
-                borderWidth: 1                
+                borderWidth: 1               
             }]
-          },
-
-          options: {
+        },
+        options: {
             scales: {
                 y: {
                     beginAtZero: true
-              }
+                }
             }
-          }
-        });
-    </script>
+        }
+    });
+</script>
 
-    <script>
-        document.getElementById("borrarFilterAnioButton").addEventListener("click", function() {
-          // Borra las variables anio1 y anio2 de la barra de navegación
-          history.replaceState({}, document.title, location.pathname);
-          
-          // Recarga la página
-          location.reload();
-        });
-        </script>
+<script>
+    document.getElementById("borrarFilterAnioButton").addEventListener("click", function() {
+        // Borra las variables anio1 y anio2 de la barra de navegación
+        history.replaceState({}, document.title, location.pathname);
+        
+        // Recarga la página
+        location.reload();
+    });
+</script>
     
 {% endblock content %}
 

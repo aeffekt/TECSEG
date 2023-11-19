@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField, TextAreaField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, ValidationError, NumberRange
 from tseg.models import Equipment, User, Orden_reparacion
 
@@ -9,16 +9,24 @@ class OrdenReparacionForm(FlaskForm):
 		self.equipo.choices = [(e.id, e) for e in Equipment.query.all()]
 		self.equipo.choices.insert(0,(0, '')) # agrega item "sin datos"
 		self.tecnico.choices = [(t.id, t) for t in User.query.filter_by(role_id=3)]
-		self.tecnico.choices.insert(0,(0, 'Asignación pendiente')) # agrega item
+		self.tecnico.choices.insert(0, (0, 'Asignación pendiente')) # agrega item
 		self.objeto = objeto
 
-	codigo = IntegerField('Código', validators=[DataRequired(), NumberRange(min=200101, max=991231)])
+	codigo = StringField('Código', validators=[DataRequired()])
 	content = TextAreaField('Descripción', validators=[DataRequired()])
 	equipo = SelectField('Equipo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
 	tecnico = SelectField('Técnico encargado', coerce=int)
 	submit = SubmitField('Agregar')
 
-	def validate_codigo(self, codigo):		
+	def validate_codigo(self, codigo):
+		if not codigo.data.isdigit() or len(codigo.data)!=6:
+			raise ValidationError('El código debe contener 6 números.')		
+		codigo_mes = int(codigo.data[2:4])
+		codigo_dia = int(codigo.data[4:6])
+		if not codigo_mes >=1 or not codigo_mes <= 12:
+			raise ValidationError('El mes debe ser entre 1 y 12.')
+		if not codigo_dia >= 1 or not codigo_dia <= 31:
+			raise ValidationError('El dia debe ser entre 1 y 31.')
 		# self.objeto se pasa en UPDATE, no en CREATE, se controla el codigo en objetos de otro ID		
 		if self.objeto:
 			codigo_already_exist = Orden_reparacion.query.filter(

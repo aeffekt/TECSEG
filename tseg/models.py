@@ -94,12 +94,23 @@ class Equipment(db.Model):
 	detalle_trabajo_id = db.Column(db.Integer, db.ForeignKey('detalle_trabajo.id'), nullable=True)	
 	modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=True)
 	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)	
+	color_id = db.Column(db.Integer, db.ForeignKey('color.id'), nullable=True)	
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
 	historias = db.relationship('Historia', backref='eq_historia', lazy=True)
+	
 	detalles_trabajo = db.relationship('Detalle_trabajo', backref='equipment', lazy=True, viewonly=True)	
 
 	def __repr__(self):
-		return f'[{self.detalle_trabajo.orden_trabajo.codigo}-{self.numSerie}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
+		if self.numSerie:
+			return f'[{self.detalle_trabajo.orden_trabajo.codigo}-{self.numSerie}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
+		else:
+			return f'[{self.detalle_trabajo.orden_trabajo.codigo}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
+
+class Color(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	hex =db.Column(db.String(7), nullable=False)
+	nombre =db.Column(db.String(15), nullable=False)
+	equipments = db.relationship('Equipment', backref='color', lazy=True)
 
 
 class Marca(db.Model):
@@ -127,7 +138,7 @@ class Modelo(db.Model):
 	equipos = db.relationship('Equipment', backref='modelo', lazy=True)
 
 	def __repr__(self):
-		if self.anio != "N/D":
+		if self.anio != None:
 			return f'{self.nombre} {self.anio}'
 		else:
 			return f'{self.nombre}'
@@ -193,7 +204,7 @@ class TipoHistoria(db.Model):
 	historias = db.relationship('Historia', backref='tipo_historia', lazy=True)
 
 	def __repr__(self):
-		return f'[{self.id}] {self.tipo}'
+		return {self.tipo}
 
 
 class Orden_reparacion(db.Model):
@@ -202,7 +213,7 @@ class Orden_reparacion(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	codigo = db.Column(db.Integer, unique=True, nullable=False)
+	codigo = db.Column(db.String(6), unique=True, nullable=False)
 	content = db.Column(db.Text, nullable=False)	
 	tecnico_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -244,7 +255,7 @@ class Orden_trabajo(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
 	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	codigo = db.Column(db.Integer, unique=True, nullable=False)
+	codigo = db.Column(db.String(6), unique=True, nullable=False)
 	content = db.Column(db.Text, nullable=False)	
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), unique=False, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)	

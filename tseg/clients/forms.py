@@ -8,7 +8,9 @@ class ClientForm(FlaskForm):
 	def __init__(self, objeto=None):
 		super(ClientForm, self).__init__()  # Llamar al constructor de la clase padre		
 		self.cond_fiscal.choices = [(cond_fiscal.id, cond_fiscal.nombre) for cond_fiscal in Cond_fiscal.query.all()]
+		self.cond_fiscal.choices.insert(0, (0,''))
 		self.iibb.choices = [(iibb.jurisdiccion, iibb) for iibb in Iibb.query.order_by(Iibb.jurisdiccion.asc()).all()]
+		self.iibb.choices.insert(0, (0, ''))
 		self.pais.choices = [p for p in Pais.query.all()]
 		self.pais.choices.insert(0,'') # agrega item "sin datos"
 		self.objeto = objeto
@@ -26,7 +28,7 @@ class ClientForm(FlaskForm):
 	provincia = StringField('Provincia')	
 	pais = SelectField('Pais', coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 
-	cuit = IntegerField('CUIT', validators=[Optional(), NumberRange(min= 20000000000, max=33999999999)])
+	cuit = IntegerField('CUIT/CUIL', validators=[Optional(), NumberRange(min= 20000000000, max=33999999999)])
 	cond_fiscal = SelectField('Condición fiscal', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 	iibb = SelectField('Ingresos brutos', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 		
@@ -67,3 +69,12 @@ class ClientForm(FlaskForm):
 			if not all([self.codigo_postal.data, self.localidad.data, self.provincia.data, self.pais.data, self.direccion.data]):
 				flash("Advertencia! Debe completar: Código Postal, Dirección, Localidad, Provincia y Pais del domicilio, o ninguno de esos datos.", 'warning')
 				raise ValidationError('Completar el resto de los campos de domicilio.')
+
+	# Validación de valor NULL para iibb y cond_fiscal
+	def validate_iibb(self, iibb):	
+		if iibb.data == 0:
+			iibb.data=None
+	
+	def validate_cond_fiscal(self, cond_fiscal):	
+		if cond_fiscal.data == 0:
+			cond_fiscal.data=None

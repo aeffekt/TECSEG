@@ -1,8 +1,8 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
-from flask_login import login_required
+from flask_login import login_required, current_user
 from tseg.models import Marca, Modelo
 from tseg.marcas.forms import MarcaForm
-from tseg.users.utils import role_required, buscarLista
+from tseg.users.utils import role_required, buscarLista, error_logger
 from tseg import db
 
 
@@ -15,8 +15,8 @@ def all_marcas():
 		select_item = request.args.get('selectItem', '')
 		if select_item:			
 			return redirect(url_for('marcas.marca', marca_id=select_item))
-	except Exception as err:
-		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
+	except Exception as e:
+		error_logger(e, current_user)
 		return redirect(url_for('marcas.all_marcas'))
 	all_marcas = buscarLista(Marca)	
 	orderBy = current_app.config['ORDER_MARCAS']
@@ -33,13 +33,13 @@ def marca(marca_id):
 	marca = Marca.query.get_or_404(marca_id)	
 	form = MarcaForm(marca)
 	if form.validate_on_submit():		
-		marca.nombre = form.nombre.data		
-		try:			
+		try:
+			marca.nombre = form.nombre.data						
 			db.session.commit()
 			flash(f"La marca {marca.nombre} ha sido actualizada.", 'success')
 			return redirect(url_for('marcas.marca', marca_id=marca.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('marcas.marca', marca_id=marca.id))
 	elif request.method == 'GET':		
 		form.nombre.data = marca.nombre
@@ -54,14 +54,14 @@ def marca(marca_id):
 def add_marca():
 	form = MarcaForm()
 	if form.validate_on_submit():		
-		marca = Marca(nombre=form.nombre.data)
 		try:
+			marca = Marca(nombre=form.nombre.data)		
 			db.session.add(marca)
 			db.session.commit()
 			flash(f'marca "{marca.nombre}" agregada!', 'success')
 			return redirect(url_for('marcas.marca', marca_id=marca.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('marcas.add_marca'))
 	return render_template('create_marca.html', title='Agregar marca', 
 												form=form, legend="Agregar marca")

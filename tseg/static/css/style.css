@@ -177,6 +177,10 @@
   padding: 10px 10px 10px 10px;
   }
   
+/* Separacion de iconos con titulo en menu */
+  .menu-horizontal i {
+    margin-right: 7px; 
+}
   
   /* Estilos para pantallas pequeñas (dispositivos móviles) */
   @media screen and (max-width: 767px) {
@@ -251,7 +255,7 @@
       width: 100%;
       text-align: center;
     }
-  
+
     .menu-horizontal > li > a {
       padding: 10px;
       display: block;

@@ -4,7 +4,7 @@ from tseg.models import (Client, Equipment, Pais, Provincia, Localidad,
 						 Domicilio, Cond_fiscal, Iibb, Orden_trabajo, Detalle_trabajo)
 from tseg.clients.forms import ClientForm
 from tseg import db
-from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista
+from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista, error_logger
 
 
 clients = Blueprint('clients', __name__)
@@ -24,8 +24,7 @@ def obtener_datos_geograficos():
 def all_clients():
 	select_item = request.args.get('selectItem', '')
 	if select_item:		
-		return redirect(url_for('clients.client', client_id=select_item))
-		
+		return redirect(url_for('clients.client', client_id=select_item))		
 	all_clients = buscarLista(Client)
 	orderBy = current_app.config["ORDER_CLIENTES"]
 	item_type = 'Cliente'
@@ -71,7 +70,7 @@ def add_client():
 					db.session.add(provincia)			
 				localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
 				if not localidad:
-					localidad=Localidad(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia)
+					localidad=Localidad(nombre=form.localidad.data.upper(), cp=form.codigo_postal.data, provincia=provincia)
 					db.session.add(localidad)
 			else:
 				localidad = None
@@ -94,14 +93,13 @@ def add_client():
 							email=form.email.data,
 							comments=form.comments.data,
 							domicilio=domicilio,
-							author_cl=current_user)
-		
+							author_cl=current_user)		
 			db.session.add(client)
 			db.session.commit()		
 			flash('Cliente agregado!', 'success')
 			return redirect(url_for('clients.client', client_id=client.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('clients.add_client'))
 	return render_template('create_client.html', title='Nuevo cliente', 
 												form=form,
@@ -114,50 +112,51 @@ def update_client(client_id):
 	client = Client.query.get_or_404(client_id)
 	form = ClientForm(client)
 	if form.validate_on_submit():
-		domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
-		domicilio.direccion = form.direccion.data
-		if form.pais.data != '':			
-				pais = Pais.query.filter_by(nombre=form.pais.data).first()
-				if not pais:
-					pais=Pais(nombre=form.pais.data)
-					db.session.add(pais)			
-				provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais=pais).first()
-				if not provincia:
-					provincia=Provincia(nombre=form.provincia.data, pais=pais)
-					db.session.add(provincia)
-				localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
-				if not localidad:
-					localidad=Localidad(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia)
-					db.session.add(localidad)
-				domicilio.localidad = localidad
-		else:
-			client.pais=None
-			client.provincia=None
-			client.localidad=None
-			client.domicilio.direccion=''
-			client.domicilio.localidad=None
-		client.cond_fiscal_id = form.cond_fiscal.data
-		client.iibb_id = form.iibb.data
-		client.domicilio_id = domicilio.id
-		client.nombre = form.nombre.data
-		client.apellido = form.apellido.data
-		client.business_name = form.business_name.data		
-		client.cuit = form.cuit.data
-		client.telefono = form.telefono.data
-		client.email = form.email.data
-		client.comments = form.comments.data
 		try:
+			domicilio = Domicilio.query.filter(Domicilio.id==client.domicilio.id).first()		
+			domicilio.direccion = form.direccion.data
+			if form.pais.data != '':			
+					pais = Pais.query.filter_by(nombre=form.pais.data).first()
+					if not pais:
+						pais=Pais(nombre=form.pais.data)
+						db.session.add(pais)			
+					provincia = Provincia.query.filter_by(nombre=form.provincia.data, pais=pais).first()
+					if not provincia:
+						provincia=Provincia(nombre=form.provincia.data, pais=pais)
+						db.session.add(provincia)
+					localidad = Localidad.query.filter_by(nombre=form.localidad.data.upper(), provincia=provincia).first()
+					if not localidad:
+						localidad=Localidad(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia)
+						db.session.add(localidad)
+					domicilio.localidad = localidad
+			else:
+				client.pais=None
+				client.provincia=None
+				client.localidad=None
+				client.domicilio.direccion=''
+				client.domicilio.localidad=None
+			client.cond_fiscal_id = form.cond_fiscal.data			
+			client.iibb_id = form.iibb.data				
+			client.domicilio_id = domicilio.id
+			client.nombre = form.nombre.data
+			client.apellido = form.apellido.data
+			client.business_name = form.business_name.data		
+			client.cuit = form.cuit.data
+			client.telefono = form.telefono.data
+			client.email = form.email.data
+			client.comments = form.comments.data
 			db.session.commit()
 			flash("Los datos del cliente han sido actualizado", 'success')
 			return redirect(url_for('clients.client', client_id=client.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('clients.client', client_id=client.id))
 			
 	elif request.method == 'GET':
-		form.cond_fiscal.default = client.cond_fiscal.id
+		if client.cond_fiscal:
+			form.cond_fiscal.default = client.cond_fiscal.id		
 		if client.iibb:
-			form.iibb.default = client.iibb.jurisdiccion
+			form.iibb.default = client.iibb.jurisdiccion		
 		form.process()
 		form.nombre.data = client.nombre
 		form.apellido.data = client.apellido

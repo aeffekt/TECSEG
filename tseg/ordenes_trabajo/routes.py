@@ -2,10 +2,9 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Orden_trabajo, Client, User, Estado_or, Detalle_trabajo
+from tseg.models import Orden_trabajo, Client, Estado_or, Detalle_trabajo
 from tseg.ordenes_trabajo.forms import OrdenTrabajoForm
-from sqlalchemy import func
-from tseg.users.utils import role_required, dateFormat, buscarLista
+from tseg.users.utils import role_required, dateFormat, buscarLista, error_logger
 
 
 ordenes_trabajo = Blueprint('ordenes_trabajo', __name__)
@@ -19,7 +18,7 @@ def all_ordenes_trabajo():
 		if select_item:			
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=select_item))
 	except Exception as err:
-		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
+		flash(f'Ocurrió un error al intentar mostrar el Item.', 'warning')
 		return redirect(url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc'))
 	all_ot = buscarLista(Orden_trabajo)
 	orderBy = current_app.config["ORDER_OT"]
@@ -62,15 +61,15 @@ def add_orden_trabajo(client_id):
 	copiar_orden_trabajo_id = request.args.get('copiar_orden_trabajo_id', '')
 	if copiar_orden_trabajo_id:
 		vieja_orden_trabajo = Orden_trabajo.query.get(copiar_orden_trabajo_id)
-	if form.validate_on_submit():		
-		orden_trabajo = Orden_trabajo(
+	
+	if form.validate_on_submit():
+		try:
+			orden_trabajo = Orden_trabajo(
 							codigo=form.codigo.data, 
 							content=form.content.data,
 							client_id=form.client.data,
 							estado_id=form.estado.data,
-							author_ot=current_user,							
-							)
-		try:
+							author_ot=current_user)
 			db.session.add(orden_trabajo)
 			db.session.commit()
 			#copia todos los detalles de la vieja OT en la nueva	
@@ -85,8 +84,8 @@ def add_orden_trabajo(client_id):
 				db.session.commit()
 			flash(f'Orden de Trabajo {orden_trabajo.codigo} agregada!', 'success')
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('ordenes_trabajo.add_orden_trabajo', client_id=client_id))
 	
 	if client: # CARGA EL VALOR 'DEFAULT' EN SELECT si se por arg client
@@ -113,17 +112,17 @@ def update_orden_trabajo(orden_trabajo_id):
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)	
 	form = OrdenTrabajoForm(orden_trabajo)
 	if form.validate_on_submit():
-		orden_trabajo.client_id = form.client.data
-		orden_trabajo.estado_id = form.estado.data
-		orden_trabajo.date_modified = dateFormat()
-		orden_trabajo.codigo = form.codigo.data
-		orden_trabajo.content = form.content.data
 		try:
+			orden_trabajo.client_id = form.client.data
+			orden_trabajo.estado_id = form.estado.data
+			orden_trabajo.date_modified = dateFormat()
+			orden_trabajo.codigo = form.codigo.data
+			orden_trabajo.content = form.content.data
 			db.session.commit()
 			flash("Su órden de trabajo ha sido editada con éxito", 'success')
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('ordenes_trabajo.update_orden_trabajo', orden_trabajo_id=orden_trabajo.id))
 	elif request.method == 'GET':		
 		form.client.default = orden_trabajo.client_id

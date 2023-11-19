@@ -1,9 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Historia, Equipment, TipoHistoria
+from tseg.models import Historia, Equipment
 from tseg.historias.forms import HistoriaForm
-from tseg.users.utils import dateFormat, role_required
+from tseg.users.utils import dateFormat, role_required, error_logger
 
 historias = Blueprint('historias', __name__)
 
@@ -23,8 +23,8 @@ def add_historia(equipment_id):
 			db.session.commit()
 			flash('Se ha guardado la nueva Historia de equipo!', 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment_id, filterBy='date_modified', filterOrder='desc'))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('historias.add_historia', equipment_id=equipment.id))
 	return render_template('create_historia.html', title='Nueva Historia', 
 												form=form,
@@ -49,17 +49,17 @@ def update_historia(historia_id):
 	if historia.author_historia != current_user:
 		abort(403) #http forbidden
 	form = HistoriaForm()
-	if form.validate_on_submit():		
-		historia.tipo_historia_id = form.tipo.data
-		historia.title = form.title.data
-		historia.content = form.content.data
-		historia.date_modified = dateFormat()
+	if form.validate_on_submit():
 		try:
+			historia.tipo_historia_id = form.tipo.data
+			historia.title = form.title.data
+			historia.content = form.content.data
+			historia.date_modified = dateFormat()		
 			db.session.commit()
 			flash("Su historia ha sido modificada con éxito", 'success')
 			return redirect(url_for('historias.historia', historia_id=historia.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('equipments.update_historia', historia_id=historia.id))
 	elif request.method == 'GET':
 		form.tipo.default = historia.tipo_historia_id

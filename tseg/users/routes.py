@@ -6,7 +6,7 @@ from tseg.models import (User, Historia, Equipment, Client, Role, Detalle_repara
 						 Modelo, Orden_reparacion, Marca, Procedimiento, Orden_trabajo)
 from tseg.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, UpdatePassword,
 							RequestResetForm, ResetPasswordForm, SearchForm)
-from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista
+from tseg.users.utils import save_picture, send_reset_email, role_required, buscarLista, error_logger
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 
@@ -26,18 +26,21 @@ def index():
 def register():	
 	form = RegistrationForm()		
 	if form.validate_on_submit():
-		# creación de usuario válido y protección de contraseña
-		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		role = Role.query.get(form.role.data)
-		#role = Role.query.filter_by(role_name=form.role.data).first()
-		user = User(username=form.username.data, 
-			email=form.email.data, 
-			password=hashed_password, 
-			role=role)
-		db.session.add(user)
-		db.session.commit()
-		flash(f'Cuenta creada: {form.username.data}', 'success')		
-		return redirect(url_for("users.all_users"))	
+		try:
+			# creación de usuario válido y protección de contraseña
+			hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+			role = Role.query.get(form.role.data)
+			#role = Role.query.filter_by(role_name=form.role.data).first()
+			user = User(username=form.username.data, 
+				email=form.email.data, 
+				password=hashed_password, 
+				role=role)
+			db.session.add(user)
+			db.session.commit()
+			flash(f'Cuenta creada: {form.username.data}', 'success')
+			return redirect(url_for("users.all_users"))	
+		except Exception as e:
+			error_logger(e, current_user)
 	return render_template('register.html', title='Registrar', form=form)
 
 
@@ -45,19 +48,22 @@ def register():
 def login():
 	if current_user.is_authenticated:
 		return redirect(url_for('users.index'))
-	form = LoginForm()		
+	form = LoginForm()	
 	if form.validate_on_submit():
-		user = User.query.filter_by(username=form.username.data).first()
-		# checkea en simultaneo si existe el ususario y su contraseña
-		if user and bcrypt.check_password_hash(user.password, form.password.data):
-			# LOGIN: user + remember?
-			login_user(user, remember=form.remember.data)
-			# lleva a la pagina que se queria acceder antes de login
-			next_page = request.args.get('next') # metodo request lee ruta barra direcciones
-			flash(f'Sesión iniciada correctamente. Bienvenido {form.username.data}', 'success')
-			return redirect(next_page) if next_page else redirect(url_for('users.index'))		
-		else:
-			flash(f'Inicio de sesión incorrecto: {form.username.data}', 'danger')
+		try:
+			user = User.query.filter_by(username=form.username.data).first()
+			# checkea en simultaneo si existe el ususario y su contraseña
+			if user and bcrypt.check_password_hash(user.password, form.password.data):
+				# LOGIN: user + remember?
+				login_user(user, remember=form.remember.data)
+				# lleva a la pagina que se queria acceder antes de login
+				next_page = request.args.get('next') # metodo request lee ruta barra direcciones
+				flash(f'Bienvenido', 'success')
+				return redirect(url_for('users.index'))		
+			else:
+				flash(f'Inicio de sesión incorrecto: {form.username.data}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)		
 	return render_template('login.html', title='login', form=form)	
 
 
@@ -84,9 +90,9 @@ def account(user_id):
 			flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
 			return redirect(url_for('users.account', user_id=user.id))
 		# except especial que requiere el rollback para evitar error de ejecucion por integrityError
-		except IntegrityError as err:
+		except IntegrityError as e:
 			db.session.rollback()
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+			error_logger(e,current_user.id)
 			return redirect(url_for('users.account', user_id=user.id))
 	elif request.method == 'GET':		
 		form.role.default = user.role.id
@@ -111,9 +117,9 @@ def update_password(user_id):
 			flash(f"La Contraseña de {user.username} ha sido actualizada.", 'success')
 			return redirect(url_for('users.account', user_id=user.id))
 		# except especial que requiere el rollback para evitar error de ejecucion por integrityError
-		except IntegrityError as err:
-			db.session.rollback()
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except IntegrityError as e:
+			db.session.rollback()			
+			error_logger(e, current_user)			
 			return redirect(url_for('users.account', user_id=user.id))
 	image_file = url_for("static", filename='profile_pics/'+user.image_file)
 	return render_template('update_password.html',
@@ -128,15 +134,18 @@ def delete_account(user_id):
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
-    if current_user.is_authenticated:
-        return redirect(url_for('users.index'))
-    form = RequestResetForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        send_reset_email(user)
-        flash('Un email ha sido enviado con las instrucciones para resetear su contraseña.', 'info')
-        return redirect(url_for('users.login'))
-    return render_template('reset_request.html', title='Reset Password', form=form)
+	if current_user.is_authenticated:
+		return redirect(url_for('users.index'))
+	form = RequestResetForm()	
+	if form.validate_on_submit():
+		try:
+			user = User.query.filter_by(email=form.email.data).first()
+			send_reset_email(user)
+			flash('Un email ha sido enviado con las instrucciones para resetear su contraseña.', 'info')
+			return redirect(url_for('users.login'))
+		except Exception as e:
+			error_logger(e, current_user)
+	return render_template('reset_request.html', title='Reset Password', form=form)
 
 
 @users.route("/reset_password-<token>", methods=['GET', 'POST'])
@@ -149,12 +158,15 @@ def reset_token(token):
 		return redirect(url_for('users.reset_request'))
 	form = ResetPasswordForm()
 	if form.validate_on_submit():
-		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		user.password = hashed_password
-		db.session.commit()
-		flash(f'Su contraseña se ha cambiado con éxito!', 'success')
-		login_user(user)
-		return redirect(url_for("users.login"))
+		try:
+			hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+			user.password = hashed_password
+			db.session.commit()
+			flash(f'Su contraseña se ha cambiado con éxito!', 'success')
+			login_user(user)
+			return redirect(url_for("users.login"))
+		except Exception as e:
+			error_logger(e, current_user)
 	return render_template('reset_token.html', title='Reset Password', form=form)
 
 
@@ -163,39 +175,42 @@ def reset_token(token):
 def search():
 	form = SearchForm()	
 	if form.validate_on_submit():
-		searched = form.searched.data
-		equipments = Equipment.query.filter(or_(
-												Equipment.content.like('%'+searched+'%'),
-												Equipment.anio.like('%'+searched+'%'),												
-												Equipment.modelo.has(Modelo.nombre.like('%'+searched+'%')),
-												Equipment.modelo.has(Modelo.descripcion.like('%'+searched+'%')),
-												Equipment.modelo.has(Modelo.marca.has(Marca.nombre.like('%'+searched+'%')),)
-												
-												)												
-											)		
-		clients = Client.query.filter(or_(
-									Client.nombre.like('%'+searched+'%'), \
-									Client.apellido.like('%'+searched+'%'),
-									Client.business_name.like('%'+searched+'%'),
-									Client.comments.like('%'+searched+'%'),
-									Client.telefono.like('%'+searched+'%'),
-									Client.email.like('%'+searched+'%'),
-												))
-		historias = Historia.query.filter(or_(Historia.title.like('%'+searched+'%'),
-								Historia.content.like('%'+searched+'%')))
-		procedimientos = Procedimiento.query.filter(or_(Procedimiento.title.like('%'+searched+'%'),
-								Procedimiento.content.like('%'+searched+'%')))
-		ordenes_trabajo = Orden_trabajo.query.filter(or_(Orden_trabajo.codigo.like('%'+searched+'%'),
+		try:
+			searched = form.searched.data
+			equipments = Equipment.query.filter(or_(
+													Equipment.content.like('%'+searched+'%'),
+													Equipment.anio.like('%'+searched+'%'),												
+													Equipment.modelo.has(Modelo.nombre.like('%'+searched+'%')),
+													Equipment.modelo.has(Modelo.descripcion.like('%'+searched+'%')),
+													Equipment.modelo.has(Modelo.marca.has(Marca.nombre.like('%'+searched+'%')),)
+													
+													)												
+												)		
+			clients = Client.query.filter(or_(
+										Client.nombre.like('%'+searched+'%'), \
+										Client.apellido.like('%'+searched+'%'),
+										Client.business_name.like('%'+searched+'%'),
+										Client.comments.like('%'+searched+'%'),
+										Client.telefono.like('%'+searched+'%'),
+										Client.email.like('%'+searched+'%'),
+													))
+			historias = Historia.query.filter(or_(Historia.title.like('%'+searched+'%'),
+									Historia.content.like('%'+searched+'%')))
+			procedimientos = Procedimiento.query.filter(or_(Procedimiento.title.like('%'+searched+'%'),
+									Procedimiento.content.like('%'+searched+'%')))
+			ordenes_trabajo = 	Orden_trabajo.query.filter(or_(
+								Orden_trabajo.codigo.like('%'+searched+'%'),
 								Orden_trabajo.content.like('%'+searched+'%')))
-
-		return render_template('search.html', title="Busqueda",
-									searched = searched,							
-									equipments=equipments,
-									clients=clients,
-									historias=historias,
-									ordenes_trabajo=ordenes_trabajo,
-									procedimientos=procedimientos
-									)
+			return render_template('search.html', title="Busqueda",
+										searched = searched,							
+										equipments=equipments,
+										clients=clients,
+										historias=historias,
+										ordenes_trabajo=ordenes_trabajo,
+										procedimientos=procedimientos)
+		except Exception as e:
+			error_logger(e, current_user)
+			return redirect(request.referrer)
 	if request.method == 'GET':
 		return render_template('search.html')
 	else:

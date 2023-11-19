@@ -1,7 +1,7 @@
 import os
 import secrets
 from PIL import Image
-from flask import url_for,current_app, abort, request
+from flask import url_for,current_app, abort, request, flash
 from flask_login import current_user
 from flask_mail import Message
 from tseg import mail
@@ -174,4 +174,8 @@ def cargarFechasFiltroReportes():
 	else:
 		return anio2, anio1
 
+
+# Error LOGGER
+def error_logger(Exception, user):
+	flash('Ocurrió un error inesperado. Si el problema persiste consulte al administrador.', 'danger')
 

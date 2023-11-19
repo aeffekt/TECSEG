@@ -126,7 +126,7 @@ def reporte_modelo():
 	cantidades_json = json.dumps(cantidades)
 
 	return render_template('reporte.html',
-							chart_type='bar',
+							chart_type='pie',
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_modelo,							
@@ -154,10 +154,10 @@ def reporte_anio():
 	cantidades_json = json.dumps(cantidades)
 
 	return render_template('reporte.html',
-							chart_type='bar',
+							chart_type='line',
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_anio,							
-							nombre_reporte='Reporte de ventas de equipos por año',
+							nombre_reporte='Reporte de ventas de equipos LIE - IA por año',
 							title='Reporte de ventas')
 

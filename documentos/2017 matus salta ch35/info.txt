@@ -1,0 +1,16 @@
+encoder 4-1 SNMP	
+	192.168.1.30
+	salidas IP 224.2.2.2 12001/3
+	1 - MULTIVISIÓN HD 8M
+	2 - SIN NOMBRE SD 3M
+	3 - SIN NOMBRE/SIN SEÑAL SD 3M
+
+mux DMUX1000 (tiene un 500 con la misma IP de backup)
+192.168.1.40
+Se usa la salida "BTS MONITOR" la salida ASI parece no andar
+
+mod MIST-13 - CH35 64QAM 1/16
+192.168.1.90
+
+tx-TRUD500
+192.168.1.100

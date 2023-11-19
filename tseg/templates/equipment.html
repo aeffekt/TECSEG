@@ -36,15 +36,14 @@
 					{% endif %}
                 </div>
                 <div class="col-md-9">
-                    <a href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id) }}">
-						<small><b class="article-title" title="Ir a la Orden de trabajo">{{ equipment.detalle_trabajo.orden_trabajo.codigo }}
-							{% if equipment.numSerie %}
-								-{{ equipment.numSerie }}
+                    <a class="article-title" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id) }}">
+						<h5><b style="color: {{ equipment.color.hex|default('pearl') }}", class="article-title" title="Ir a la Orden de trabajo">
+							{{ equipment.detalle_trabajo.orden_trabajo.codigo }}{% if equipment.numSerie %}-{{ equipment.numSerie }}
 							{% endif %}
-						</b></small>
+						</b></h5>
 					</a>
                 </div>
-				{% if equipment.frecuencia_id !=0 %}
+				{% if equipment.frecuencia_id %}
 					<div class="col-md-3 text-end">
 					<small>Canal / Frecuencia: </small>
 					</div>
@@ -58,6 +57,14 @@
                 <div class="col-md-9">
                     <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.detalle_trabajo.orden_trabajo.client.id) }}"><b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b></a>
                 </div>
+				
+				<div class="col-md-3 text-end">
+					<small>Año de fabricación:</small>
+				</div>
+				<div class="col-md-9">
+					<span class="article-title"><b>{{ equipment.anio }}</b></span>
+				</div>
+				
 				{% if equipment.content %}
 					<div class="col-md-3 text-end">
 						<small>Descripción:</small>
@@ -66,14 +73,7 @@
 						<h6 class="article-title">{{ equipment.content }}</h6>
 					</div>
 				{% endif %}
-				{% if equipment.frecuencia_id !=0 %}
-					<div class="col-md-3 text-end">
-						<small>Año fabricación: </small>
-					</div>
-					<div class="col-md-9">
-						<small><b class="article-title" >{{ equipment.anio }}</b></small>
-					</div>
-				{% endif %}
+				
 				<div class="col-md-3 text-end">
 					<small>Última modificación: </small>
 				</div>
@@ -103,7 +103,7 @@
         <hr 80%>
         <div class="row">
             <div class="col-md6">                
-                <a class="bi bi-chat btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
+                <a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
                 <a class="bi bi-wrench btn btn-outline-info" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}" title="Añadir O.R."></a>
                 <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar equipo" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}"></a>
                 <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar equipo"></a>

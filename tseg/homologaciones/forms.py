@@ -36,4 +36,4 @@ class HomologacionForm(FlaskForm):
 			object_already_exist = Homologacion.query.filter(
 							Homologacion.modelo == modelo.data).first() # aqui se presenta la edicion del title de un ITEM registrado
 		if object_already_exist:
-			raise ValidationError('Ese Modelo ya cuenta con un Código de Homologación registrado. Seleccione otro modelo.')
+			raise ValidationError(f'Ese Modelo ya cuenta con el Código "{object_already_exist.codigo}" de Homologación registrado. Seleccione otro modelo.')

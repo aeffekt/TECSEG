@@ -1,15 +1,15 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
-from flask_login import login_required
-from tseg.models import Modelo, Client, Historia, Homologacion, Marca
+from flask_login import login_required, current_user
+from tseg.models import Modelo, Homologacion
 from tseg.modelos.forms import ModeloForm
-from tseg.users.utils import role_required, buscarLista, save_picture
+from tseg.users.utils import role_required, buscarLista, save_picture, error_logger
+from datetime import datetime
 from tseg import db
 import os
 
-from datetime import datetime
-
 
 modelos = Blueprint('modelos', __name__)
+
 
 @modelos.route("/all_modelos")
 @login_required
@@ -39,23 +39,23 @@ def modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)	
 	form = ModeloForm(modelo)
 	if form.validate_on_submit():
-		if form.picture.data:
-			picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
-			modelo.image_file = picture_file		
-		modelo.marca_id = form.marca.data
-		modelo.nombre = form.nombre.data
-		modelo.anio = form.anio.data
-		modelo.tipo_modelo_id = form.tipo_modelo.data
-		modelo.descripcion = form.descripcion.data
-		now = datetime.now()
-		now = now.strftime("%Y-%m-%dT%H:%M:%S")
 		try:
+			if form.picture.data:
+				picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
+				modelo.image_file = picture_file		
+			modelo.marca_id = form.marca.data
+			modelo.nombre = form.nombre.data
+			modelo.anio = form.anio.data
+			modelo.tipo_modelo_id = form.tipo_modelo.data
+			modelo.descripcion = form.descripcion.data
+			now = datetime.now()
+			now = now.strftime("%Y-%m-%dT%H:%M:%S")
 			modelo.date_modified = datetime.fromisoformat(now)
 			db.session.commit()
 			flash(f"El modelo {modelo.nombre} ha sido actualizado.", 'success')
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	
 	form.anio.default = modelo.anio
 	form.tipo_modelo.default=modelo.tipo_modelo.id
@@ -76,23 +76,23 @@ def modelo(modelo_id):
 def add_modelo():
 	form = ModeloForm()
 	if form.validate_on_submit():	
-		homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()
-		modelo = Modelo(nombre=form.nombre.data,
-						anio=form.anio.data,
-						descripcion=form.descripcion.data,
-						tipo_modelo_id=form.tipo_modelo.data,
-						homologacion=homologacion,
-						marca_id=form.marca.data)
-		if form.picture.data:
-			picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
-			modelo.image_file = picture_file			
 		try:
+			homologacion = Homologacion.query.filter_by(modelo=form.nombre.data).first()
+			modelo = Modelo(nombre=form.nombre.data,
+							anio=form.anio.data,
+							descripcion=form.descripcion.data,
+							tipo_modelo_id=form.tipo_modelo.data,
+							homologacion=homologacion,
+							marca_id=form.marca.data)
+			if form.picture.data:
+				picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
+				modelo.image_file = picture_file			
 			db.session.add(modelo)
 			db.session.commit()
 			flash(f'modelo {modelo.nombre} agregado!', 'success')
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
-		except Exception as err:
-			flash(f'Ocurrió un error al intentar guardar los datos. Error: {err}', 'danger')
+		except Exception as e:
+			error_logger(e, current_user)
 			return redirect(url_for('modelos.add_modelo'))
 	return render_template('create_modelo.html', title='Agregar modelo', 
 												form=form, legend="Agregar modelo")
@@ -112,6 +112,5 @@ def delete_modelo(modelo_id):
 		return redirect(url_for('modelos.all_modelos'))
 	except Exception as e:
 		db.session.rollback() 
-		flash("Ocurrió un error al intentar eliminar: Es probable que el modelo se encuentre asignado a un equipo.", 'warning')
-		flash(f"Detalles del error: {e}", 'danger')
+		flash("Ocurrió un error al intentar eliminar: Es probable que el modelo se encuentre asignado a un equipo.", 'warning')		
 		return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	

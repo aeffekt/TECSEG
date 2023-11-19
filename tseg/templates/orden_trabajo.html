@@ -72,7 +72,7 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
 		<li class="nav-item" role="presentation">
-		  <button class="nav-link active" id="Detalles-tab" data-bs-toggle="tab" data-bs-target="#Detalles" type="button" role="tab" aria-controls="Detalles" aria-selected="true">Detalles ({{ lista.count() }})</button>
+		  <button class="nav-link active" id="Detalles-tab" data-bs-toggle="tab" data-bs-target="#Detalles" type="button" role="tab" aria-controls="Detalles" aria-selected="true">Sistema ({{ lista.count() }} detalles)</button>
 		</li>    
 	</ul>
     <div class="tab-content" id="myTabContent">
@@ -82,7 +82,7 @@
                 <article class="media content-section-list">
                     <div class="media-body">
                         <div class="row">
-                            <div class="col-md-11">
+                            <div class="col-md-8">
                                 <a class="article-title" href="{{ url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id) }}">
                                     <h6 class="article-title"style="background-color: 
                                     {% if detalle_trabajo.cantidad == detalle_trabajo.equipments|length %}
@@ -95,10 +95,28 @@
                                         <b>{{ detalle_trabajo.date_created.strftime('%d-%m-%Y') }} 
                                         </b> por el usuario  <b>{{ detalle_trabajo.author_detalle_trabajo.username }}</b></small>
                                 </a>
-                            </div>  
-                            <div class="col-md-1">                        
+                            </div>
+                            <div class="col-md-3">
                                 {% for equipo_asignado in detalle_trabajo.equipments %}
-                                    <a  class="bi bi-{{ loop.index }}-square  btn btn-outline-light" title="Ver equipo {{ equipo_asignado }}" href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id) }}"></a>                                    
+                                    {% if equipo_asignado.numSerie %}
+                                        <small class="article-content"> Número Serie: <b>{{ equipo_asignado.numSerie }}</b></small>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-1">                        
+                                {% for equipo_asignado in detalle_trabajo.equipments %}                                    
+                                    <!-- muestra un color de equipo si se personalizo uno, si hay mas de 10 elemntos ya no hay bi-10 bi-11 etc, pone el numero-->
+                                    {% if loop.index < 10%}
+                                        <a style="color: {{ equipo_asignado.color.hex|default('pearl') }}"
+                                        class="bi bi-{{ loop.index }}-square btn btn-outline-light" 
+                                        title="Ver equipo {{ equipo_asignado }}" 
+                                        href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id) }}"></a>
+                                    {% else %}
+                                        <a style="color: {{ equipo_asignado.color.hex|default('pearl') }}"
+                                        class="btn btn-outline-light" 
+                                        title="Ver equipo {{ equipo_asignado }}" 
+                                        href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id) }}">{{ loop.index }}</a>
+                                    {% endif %}
                                 {% endfor %}
                                 <!-- agrega sumar equipo hasta cantidad -->
                                 {% if detalle_trabajo.cantidad > detalle_trabajo.equipments|length %}
