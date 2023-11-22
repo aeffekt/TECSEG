@@ -2,9 +2,9 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Orden_trabajo, Client, Estado_or, Detalle_trabajo
+from tseg.models import Orden_trabajo, Client, Estado_or, Detalle_trabajo, dateFormat
 from tseg.ordenes_trabajo.forms import OrdenTrabajoForm
-from tseg.users.utils import role_required, dateFormat, buscarLista, error_logger
+from tseg.users.utils import role_required, buscarLista, error_logger
 
 
 ordenes_trabajo = Blueprint('ordenes_trabajo', __name__)
@@ -34,12 +34,18 @@ def all_ordenes_trabajo():
 @ordenes_trabajo.route("/orden_trabajo-<int:orden_trabajo_id>")
 @login_required
 def orden_trabajo(orden_trabajo_id):
+	sistemas=[]
 	select_item = request.args.get('selectItem')
 	if select_item:		
 		return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=select_item))
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)
 	detalles_trabajo =  buscarLista(Detalle_trabajo, orden_trabajo)	
-	orderBy = current_app.config['ORDER_DETALLES_OT']	
+	orderBy = current_app.config['ORDER_DETALLES_OT']
+	for detalle in detalles_trabajo:
+		for equipment in detalle.equipments:
+			if equipment.sistema != None and equipment.sistema not in sistemas:
+				sistemas.append(equipment.sistema)
+	image_path = url_for("static", filename='models_pics/')
 	# texto para toolbar
 	item_type="Detalle de orden de Trabajo"	
 	return render_template("orden_trabajo.html", title=f'O.T. {orden_trabajo}',
@@ -48,6 +54,8 @@ def orden_trabajo(orden_trabajo_id):
 											orderBy = orderBy,
 											lista=detalles_trabajo,											
 											item_type=item_type,
+											sistemas=sistemas,
+											image_path=image_path
 											)
 	
 
@@ -60,8 +68,7 @@ def add_orden_trabajo(client_id):
 	# Si se llamo desde copiar OT, pasa el argunmento viaja OT
 	copiar_orden_trabajo_id = request.args.get('copiar_orden_trabajo_id', '')
 	if copiar_orden_trabajo_id:
-		vieja_orden_trabajo = Orden_trabajo.query.get(copiar_orden_trabajo_id)
-	
+		vieja_orden_trabajo = Orden_trabajo.query.get(copiar_orden_trabajo_id)	
 	if form.validate_on_submit():
 		try:
 			orden_trabajo = Orden_trabajo(
@@ -85,9 +92,8 @@ def add_orden_trabajo(client_id):
 			flash(f'Orden de Trabajo {orden_trabajo.codigo} agregada!', 'success')
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))
 		except Exception as e:
-			error_logger(e, current_user)
-			return redirect(url_for('ordenes_trabajo.add_orden_trabajo', client_id=client_id))
-	
+			error_logger(e)
+			return redirect(url_for('ordenes_trabajo.add_orden_trabajo', client_id=client_id))	
 	if client: # CARGA EL VALOR 'DEFAULT' EN SELECT si se por arg client
 		form.client.default = client.id
 		form.process() 
@@ -122,7 +128,7 @@ def update_orden_trabajo(orden_trabajo_id):
 			flash("Su órden de trabajo ha sido editada con éxito", 'success')
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('ordenes_trabajo.update_orden_trabajo', orden_trabajo_id=orden_trabajo.id))
 	elif request.method == 'GET':		
 		form.client.default = orden_trabajo.client_id

@@ -7,10 +7,11 @@ from tseg.models import (Orden_reparacion, Equipment, Role, User,
 from sqlalchemy import func
 from tseg.users.utils import role_required, cargarFechasFiltroReportes
 import json
+from datetime import datetime
 
 
 reportes = Blueprint('reportes', __name__)
-
+current_year = datetime.now().year # Envia el año actual a los reportes para el tope de filtro
 
 @reportes.route("/reporte_reparaciones")
 @role_required("Admin", "ServicioCliente")
@@ -25,21 +26,20 @@ def reporte_reparaciones():
 					.filter(Equipment.anio >= fecha1, Equipment.anio <= fecha2)\
 					.group_by(Modelo.nombre)\
 					.order_by(func.count(Equipment.id).desc())
-
 	# Obtener los resultados
 	equipos_por_modelo = query.all()	
 	modelos = [item.Modelo for item in equipos_por_modelo]
 	cantidades = [item.Cantidad for item in equipos_por_modelo]
 	labels_json = json.dumps(modelos)
 	cantidades_json = json.dumps(cantidades)
-
 	return render_template('reporte.html',
 							chart_type='bar',
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_modelo,							
 							nombre_reporte='Reporte de O.R. por modelo de equipo',
-							title='Reporte reparaciones')
+							title='Reporte reparaciones',
+							current_year=current_year)
 
 
 @reportes.route("/reporte_tecnico")
@@ -60,14 +60,15 @@ def reporte_tecnico():
 	tecnicos = [item.Técnico for item in asignaciones_tecnicos]
 	cantidades = [item.Pendientes for item in asignaciones_tecnicos]
 	labels_json = json.dumps(tecnicos)
-	cantidades_json = json.dumps(cantidades)	
+	cantidades_json = json.dumps(cantidades)		
 	return render_template('reporte.html',
 							chart_type='bar',
 							labels=labels_json,
 							data=cantidades_json,
 							datos_sql=asignaciones_tecnicos,							
 							nombre_reporte='Reporte de O.R. Activas por técnico',
-							title='Reporte técnicos')
+							title='Reporte técnicos',
+							current_year=current_year)
 
 
 @reportes.route("/reporte_zonal")
@@ -88,7 +89,6 @@ def reporte_zona():
 						where(Equipment.numSerie != None).\
 						group_by(Provincia.nombre).\
 						order_by(func.count(Equipment.id).desc())
-
 	# Obtener los resultados
 	equipos_por_provincia = query.all()	
 	provincias = [item.Provincia for item in equipos_por_provincia]
@@ -100,8 +100,9 @@ def reporte_zona():
 							labels=labels_json,
 							data=cantidades_json,
 							datos_sql=equipos_por_provincia,							
-							nombre_reporte='Reporte de equipos instalados por Provincia',
-							title='Reporte por zona',)
+							nombre_reporte='Reporte de equipos LIE / IA instalados por Provincia',
+							title='Reporte por zona',
+							current_year=current_year)
 
 
 @reportes.route("/reporte_modelo")
@@ -117,21 +118,20 @@ def reporte_modelo():
 						.where(Equipment.numSerie != None)\
 						.group_by(Modelo.nombre)\
 						.order_by(func.count(Equipment.id).desc())
-
 	# Obtener los resultados
 	equipos_por_modelo = query.all()	
 	modelos = [item.Modelo for item in equipos_por_modelo]
 	cantidades = [item.Cantidad for item in equipos_por_modelo]
 	labels_json = json.dumps(modelos)
 	cantidades_json = json.dumps(cantidades)
-
 	return render_template('reporte.html',
-							chart_type='pie',
+							chart_type='bar',
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_modelo,							
 							nombre_reporte='Reporte de equipos vendidos por Modelo',
-							title='Reporte por modelo')
+							title='Reporte por modelo',
+							current_year=current_year)
 
 
 @reportes.route("/reporte_anio")
@@ -152,12 +152,11 @@ def reporte_anio():
 	cantidades = [item.Cantidad for item in equipos_por_anio]
 	labels_json = json.dumps(anios)
 	cantidades_json = json.dumps(cantidades)
-
 	return render_template('reporte.html',
 							chart_type='line',
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_anio,							
-							nombre_reporte='Reporte de ventas de equipos LIE - IA por año',
-							title='Reporte de ventas')
-
+							nombre_reporte='Reporte de ventas de equipos LIE / IA por año',
+							title='Reporte de ventas',
+							current_year=current_year)

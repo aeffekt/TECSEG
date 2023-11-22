@@ -53,7 +53,7 @@
                         <small>Última modificación:</small> 
                     </div>
                 <div class="col-md-9">
-                    <small class="article-title">{{ orden_reparacion.date_modified.strftime('%d-%m-%Y') }}</small>
+                    <small class="article-title"><b>{{ orden_reparacion.date_modified }}</b></small>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -61,7 +61,7 @@
                     <small>Fecha de creación:</small> 
                 </div>
                 <div class="col-md-9">
-                    <small class="article-title">{{ orden_reparacion.date_created.strftime('%d-%m-%Y') }} por el usuario <b>{{ orden_reparacion.author_or.username }}</b></small>
+                    <small class="article-title"><b>{{ orden_reparacion.date_created }}</b> por el usuario <b>{{ orden_reparacion.author_or.username }}</b></small>
                 </div>
             </div>
             <hr 80%>

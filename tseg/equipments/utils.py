@@ -2,7 +2,7 @@ import os
 from flask import current_app, url_for, flash
 from tseg import db
 from datetime import datetime
-from tseg.users.utils import dateFormat
+from tseg.models import dateFormat
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from PyPDF2 import PdfReader, PdfWriter
@@ -55,8 +55,12 @@ def print_caratula_pdf(path, equipo):
 	cliente = f"{equipo.detalle_trabajo.orden_trabajo.client.nombre} {equipo.detalle_trabajo.orden_trabajo.client.apellido}"
 	domicilio=f"{equipo.detalle_trabajo.orden_trabajo.client.domicilio.localidad.nombre} ({equipo.detalle_trabajo.orden_trabajo.client.domicilio.localidad.provincia.nombre})"
 	otn = f"{equipo.detalle_trabajo.orden_trabajo.codigo}"	
-	canalFrec = equipo.frecuencia_eq.canal
-	rango = equipo.frecuencia_eq.rango
+	canalFrec = ' '
+	rango = ""
+	if equipo.frecuencias:
+		for f in equipo.frecuencias:
+			canalFrec += str(f.canal)+', '
+		rango = equipo.frecuencias[0].rango
 	if str(rango) == "MHz":
 		tipoCanalFrec="FRECUENCIA: "		
 		canalFrec = str(canalFrec)+" "+str(rango)
@@ -76,7 +80,8 @@ def print_caratula_pdf(path, equipo):
 	caratula_a4.drawString(70, y-480, 'EQUIPO :')
 	caratula_a4.setFont("Helvetica-Bold", 15)
 	caratula_a4.drawString(180, y-480, f"{tipo_equipo} {equipo.modelo.nombre}")	
-	caratula_a4.drawString(180, y-500, f"banda {rango}")
+	if equipo.frecuencias:
+		caratula_a4.drawString(180, y-500, f"banda {rango}")
 	caratula_a4.setFont("Helvetica-Bold", 18)
 	caratula_a4.drawString(70, y-530, 'MODELO :')
 	caratula_a4.drawString(180, y-530, modelo)

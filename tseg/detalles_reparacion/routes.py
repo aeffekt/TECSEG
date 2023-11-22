@@ -1,9 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Detalle_reparacion, Orden_reparacion
+from tseg.models import Detalle_reparacion, Orden_reparacion, dateFormat
 from tseg.detalles_reparacion.forms import DetalleReparacionForm
-from tseg.users.utils import dateFormat, role_required, error_logger
+from tseg.users.utils import role_required, error_logger
 
 detalles_reparacion = Blueprint('detalles_reparacion', __name__)
 
@@ -22,7 +22,7 @@ def add_detalle_reparacion(orden_reparacion_id):
 			flash('Se ha guardado la nueva detalle_reparacion de equipo!', 'success')
 			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion_id, filterBy='date_modified', filterOrder='desc'))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('detalles_reparacion.add_detalle_reparacion', orden_reparacion_id=orden_reparacion.id))
 	return render_template('create_detalle_reparacion.html', title='Nueva detalle_reparacion', 
 												form=form,
@@ -54,7 +54,7 @@ def update_detalle_reparacion(detalle_reparacion_id):
 			flash("Su detalle de reparación ha sido modificado con éxito", 'success')
 			return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id))
 		except Exception as e:			
-			error_logger(e, current_user)			
+			error_logger(e)			
 			return redirect(url_for('ordenes_reparacions.update_detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id))
 	elif request.method == 'GET':		
 		form.content.data = detalle_reparacion.content

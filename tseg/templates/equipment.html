@@ -37,18 +37,27 @@
                 </div>
                 <div class="col-md-9">
                     <a class="article-title" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id) }}">
-						<h5><b style="color: {{ equipment.color.hex|default('pearl') }}", class="article-title" title="Ir a la Orden de trabajo">
+						<h5><b class="article-title" title="Ir a la Orden de trabajo">
 							{{ equipment.detalle_trabajo.orden_trabajo.codigo }}{% if equipment.numSerie %}-{{ equipment.numSerie }}
 							{% endif %}
 						</b></h5>
 					</a>
                 </div>
-				{% if equipment.frecuencia_id %}
+				{% if equipment.sistema %}
+					<div class="col-md-3 text-end">
+					<small>Sistema: </small>
+					</div>
+					<div class="col-md-9">
+						<small><b class="article-title" >{{ equipment.sistema }}</b></small>
+					</div>
+				{% endif %}
+				
+				{% if equipment.frecuencias %}
 					<div class="col-md-3 text-end">
 					<small>Canal / Frecuencia: </small>
 					</div>
 					<div class="col-md-9">
-						<small><b class="article-title" >{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></small>
+						<small><b class="article-title" >{% for f in equipment.frecuencias%}{{ f }} {% endfor %} </b></small>
 					</div>
 				{% endif %}
                 <div class="col-md-3 text-end">
@@ -78,14 +87,14 @@
 					<small>Última modificación: </small>
 				</div>
 				<div class="col-md-9">
-					<small class="article-title"><b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></small>
+					<small class="article-title"><b>{{ equipment.date_modified }}</b></small>
 				</div>
 
 				<div class="col-md-3 text-end">
 					<small>Creado el: </small>
 				</div>
 				<div class="col-md-9">
-					<small class="article-title"><b>{{ equipment.date_created.strftime('%d-%m-%Y') }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
+					<small class="article-title"><b>{{ equipment.date_created }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
 				</div>
             </div>            
 			<div class="col-md-3">

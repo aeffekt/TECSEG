@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<article class="media content-section">
+    <div class="media-body">
+        <legend class="border-bottom mb-4">Error: </legend>        
+        <h5 class="article-title" >Fecha creado: <b>{{ error.date_created }}</b></h5>
+        <h6 class="article-title" >Usuario: <b>{{ error.user }}</b></h6>
+        <p class="article-title" >Descripción: <b>{{ error.error }}</b></p>        
+        <small class="article-title" >Traceback: <b>{{ error.traceback }}</b></small>        
+    </div>
+</article>
+{% endblock content %}

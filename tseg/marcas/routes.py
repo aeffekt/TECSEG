@@ -16,7 +16,7 @@ def all_marcas():
 		if select_item:			
 			return redirect(url_for('marcas.marca', marca_id=select_item))
 	except Exception as e:
-		error_logger(e, current_user)
+		error_logger(e)
 		return redirect(url_for('marcas.all_marcas'))
 	all_marcas = buscarLista(Marca)	
 	orderBy = current_app.config['ORDER_MARCAS']
@@ -24,7 +24,7 @@ def all_marcas():
 	return render_template('all_marcas.html', 
 							lista=all_marcas,
 							orderBy=orderBy,
-							title='Marcas de marcas',							
+							title='Marcas de equipos',							
 							item_type=item_type)
 
 @marcas.route("/marca-<int:marca_id>-update", methods=['GET', 'POST'])
@@ -39,7 +39,7 @@ def marca(marca_id):
 			flash(f"La marca {marca.nombre} ha sido actualizada.", 'success')
 			return redirect(url_for('marcas.marca', marca_id=marca.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('marcas.marca', marca_id=marca.id))
 	elif request.method == 'GET':		
 		form.nombre.data = marca.nombre
@@ -61,9 +61,9 @@ def add_marca():
 			flash(f'marca "{marca.nombre}" agregada!', 'success')
 			return redirect(url_for('marcas.marca', marca_id=marca.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('marcas.add_marca'))
-	return render_template('create_marca.html', title='Agregar marca', 
+	return render_template('create_marca.html', title='Regitrar una marca', 
 												form=form, legend="Agregar marca")
 
 

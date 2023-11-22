@@ -37,27 +37,10 @@
                     <canvas id="chart"></canvas>
                 </div>
             </article>
-            <div class="row">
-                <div class="col-md-6">  
-                    <div>Tipo de gráfico</div>
-                </div>                  
-                <div class="col-md-4">
-                    <div>Rango de fechas</div>
-                </div>
-            </div>
-                
-            <div class="row">
-                <div class="col-md-6">
-                    <select class="form-select form-select-sm"  style="width: 100px;", id="chartTypeSelect" >
-                        <option value="pie">Torta</option>
-                        <option value="bar">Barras</option>
-                        <option value="line">Lineal</option>
-                    </select>
-                </div>
-                
+            <div>Limitar Rango de fechas</div>                
+            <div class="row">                
                 <div class="col-md-2">
-                    <select  class="form-select form-select-sm" style="width: 90px;", id="anio1" name="anio1" title="Elija un año de fabricación">
-                        {% set current_year = 2023 %}
+                    <select  class="form-select form-select-sm" style="width: 90px;", id="anio1" name="anio1" title="Elija un año de fabricación">                        
                         {% set selected_year1 = request.args.get('anio1') %}
                         {% for year in range(2000, current_year + 1) %}
                             <option value="{{ year }}" {% if year|string == selected_year1 %}selected{% endif %}>{{ year }}</option>
@@ -66,21 +49,23 @@
                 </div>
                 <div class="col-md-2">
                     <select class="form-select form-select-sm" style="width: 90px;" id="anio2" name="anio2" title="Elija otro año para crear un rango">
-                        {% set selected_year2 = request.args.get('anio2') %}  
-                        {% set current_year = 2023 %}
-                        {% if selected_year2 %}
+                        {% set selected_year2 = request.args.get('anio2') %}                         
+                        
                             {% for year in range(2000, current_year + 1) %}
-                                <option value="{{ year }}" {% if year|string == selected_year2 %}selected{% endif %}>{{ year }}</option>
+                                {% if selected_year2 %}
+                                    <option value="{{ year }}" {% if year|string == selected_year2 %}selected{% endif %}>{{ year }}</option>
+                                {% else %}
+                                    {% if current_year == year %}
+                                        <option value="{{ current_year }}" selected>{{ current_year }}</option>
+                                    {% else %}
+                                        <option value="{{ year }}">{{ year }}</option>
+                                    {% endif %}
+                                {% endif %}
                             {% endfor %}
-                            {% else %}
-                                <option value="{{ current_year }}" selected>{{ current_year }}</option>
-                                {% for year in range(2000, current_year) %}
-                                    <option value="{{ year }}">{{ year }}</option>
-                                {% endfor %}
-                        {% endif %}               
+                        
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-8">
                     <button class="btn btn-primary" id="filterAnioButton">Aplicar</button>
                 </div>            
             </div>
@@ -100,28 +85,42 @@
 
 <!-- bar chart canvas element -->
 <script>
-    const labels_json = JSON.parse('{{ labels|safe }}');
-    const data_json = JSON.parse('{{ data|safe }}');
-    const ctx = document.getElementById('chart');
-    const chartTypeSelect = document.getElementById('chartTypeSelect');
-    let chartInstance;
+    let labels_json = JSON.parse('{{ labels|safe }}');
+    let data_json = JSON.parse('{{ data|safe }}');
+    let ctx = document.getElementById('chart');
+    
+    // invierte los datos del EJE X para mostrar los años de menos a mas
+    labels_json.reverse();
+    data_json.reverse();
 
-    chartTypeSelect.addEventListener('change', function() {
-        const selectedType = chartTypeSelect.value;
-
-        chartInstance.config.type = selectedType;
-        chartInstance.update();
-        }
-    );
+    // Colores para los datos
+    let customColors = [
+    '#FF677D', // MistyRose    
+    '#A2F7F5', // Turquoise
+    '#FFD700', // Gold    
+    '#9ACD32', // YellowGreen    
+    '#6A5ACD', // SlateBlue    
+    '#FFA07A', // LightSalmon
+    '#20B2AA', // LightSeaGreen
+    '#778899', // LightSlateGray
+    '#9932CC', // DarkOrchid
+    '#CD5C5C', // IndianRed
+    '#87CEEB', // SkyBlue
+    '#FF8C00', // DarkOrange
+    '#48D1CC', // MediumTurquoise
+    '#8A2BE2', // BlueViolet
+    '#556B2F', // DarkOliveGreen
+    ];
 
     chartInstance = new Chart(ctx, {
         type: '{{ chart_type }}',
         data: {
             labels: labels_json,
             datasets: [{
-                color:'Grey',
-                label: 'Cantidad',
-                data: data_json,              
+                backgroundColor: customColors,                
+                label: '',
+                data: data_json,        
+                pointRadius: 6,       
                 borderWidth: 1               
             }]
         },

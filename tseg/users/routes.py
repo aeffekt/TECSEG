@@ -40,8 +40,8 @@ def register():
 			flash(f'Cuenta creada: {form.username.data}', 'success')
 			return redirect(url_for("users.all_users"))	
 		except Exception as e:
-			error_logger(e, current_user)
-	return render_template('register.html', title='Registrar', form=form)
+			error_logger(e)
+	return render_template('register.html', title='Registrar nuevo usuario', form=form)
 
 
 @users.route("/login", methods=['GET', 'POST'])
@@ -63,7 +63,7 @@ def login():
 			else:
 				flash(f'Inicio de sesión incorrecto: {form.username.data}', 'danger')
 		except Exception as e:
-			error_logger(e, current_user)		
+			error_logger(e)		
 	return render_template('login.html', title='login', form=form)	
 
 
@@ -119,11 +119,11 @@ def update_password(user_id):
 		# except especial que requiere el rollback para evitar error de ejecucion por integrityError
 		except IntegrityError as e:
 			db.session.rollback()			
-			error_logger(e, current_user)			
+			error_logger(e)			
 			return redirect(url_for('users.account', user_id=user.id))
 	image_file = url_for("static", filename='profile_pics/'+user.image_file)
 	return render_template('update_password.html',
-						title='Datos de cuenta', image_file=image_file, form=form, user=user)
+						title='Modificar contraseña', image_file=image_file, form=form, user=user)
 
 
 @users.route("/account-<int:user_id>", methods=['GET', 'POST'])
@@ -144,7 +144,7 @@ def reset_request():
 			flash('Un email ha sido enviado con las instrucciones para resetear su contraseña.', 'info')
 			return redirect(url_for('users.login'))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 	return render_template('reset_request.html', title='Reset Password', form=form)
 
 
@@ -166,7 +166,7 @@ def reset_token(token):
 			login_user(user)
 			return redirect(url_for("users.login"))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 	return render_template('reset_token.html', title='Reset Password', form=form)
 
 
@@ -209,7 +209,7 @@ def search():
 										ordenes_trabajo=ordenes_trabajo,
 										procedimientos=procedimientos)
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(request.referrer)
 	if request.method == 'GET':
 		return render_template('search.html')

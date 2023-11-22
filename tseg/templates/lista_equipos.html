@@ -1,0 +1,62 @@
+{% for equipment in lista %}
+        <article class="media content-section-list">
+            <div class="media-body">
+                <div class="row">                    
+                    <div class="col-md-3"> 
+                        <div class="img-container">
+                            <a href="#" onclick="abrirImagen('{{ image_path+equipment.modelo.image_file }}'); return false;">
+                                <img class="rounded-3 account-img" src="{{ image_path+equipment.modelo.image_file }}" alt="Imagen" />
+                                <div class="overlay">
+                                    <div class="overlay-content">Abrir Imagen</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
+                        <h2>{{ equipment.modelo }}</h2>
+                        <h6 class="article-title">
+                            {% if equipment.frecuencia_id %}
+                                <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b> -
+                            {% endif %}
+                            {% if equipment.numSerie %}
+                                Nº serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b>
+                            {% else %}
+                                O.T.: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}</b>
+                            {% endif %}
+                        </h6>
+
+                        <small>
+                            Cliente: <b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b>                             
+                                - Año fabricación: <b>{{ equipment.anio }}</b>                            
+                            <h6 class="article-title">Última modificación: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></h6>
+                        </small>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
+                        <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal{{ loop.index }}" title="Eliminar equipo {{ equipment }}"></a>
+                    </div>
+                </div> 
+            </div>
+        </article>
+        <!-- Modal EQUIPOS -->
+        <div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal{{ loop.index }}Label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModal{{ loop.index }}Label">¿Seguro desea eliminar el Equipo "{{ equipment }}"?</h5>
+                        <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
+                            <input class="btn btn-danger" type="submit" value="Borrar">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}

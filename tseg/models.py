@@ -6,9 +6,23 @@ from tseg import db, login_manager
 from flask_login import UserMixin
 
 
+# dar formato a la fecha actual NOW
+def dateFormat():
+	now = datetime.now()
+	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+	return datetime.fromisoformat(now)
+
+
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
+
+
+# tabla many to many de equipos con frecuencias de canales
+equipos_frecuencias = db.Table('equipos_frecuencias',
+						db.Column('equipment_id', db.Integer, db.ForeignKey('equipment.id'), primary_key=True),
+						db.Column('frecuencia_id', db.Integer, db.ForeignKey('frecuencia.id'), primary_key=True))	
+
 
 # Tablas de la base de datos en forma de clases
 class User(db.Model, UserMixin):	
@@ -26,6 +40,7 @@ class User(db.Model, UserMixin):
 	detalles_trabajo = db.relationship('Detalle_trabajo', backref='author_detalle_trabajo', lazy=True, foreign_keys='Detalle_trabajo.user_id')
 	historias = db.relationship('Historia', backref='author_historia', lazy=True)	
 	ordenes_asignadas = db.relationship('Orden_reparacion', backref='tecnicoAsignado', lazy=True, foreign_keys='Orden_reparacion.tecnico_id')
+	logged_errors = db.relationship('ErrorLog', backref='user', lazy=True)
 
 	
 	def get_reset_token(self, expires_sec=1800):
@@ -79,38 +94,29 @@ class Cond_fiscal(db.Model):
 	clientes = db.relationship('Client', backref='cond_fiscal', lazy=True)
 
 
-class Equipment(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Equipment(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)	
 	numSerie = db.Column(db.String(20), nullable=True)
 	anio = db.Column(db.String(4), unique=False, nullable=True)
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	content = db.Column(db.Text, nullable=False)	
 	etiqueta_file = db.Column(db.String(50), nullable=True, default=None)
 	caratula_file = db.Column(db.String(50), nullable=True, default=None)
+	sistema = db.Column(db.String(25), nullable=True)	
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	detalle_trabajo_id = db.Column(db.Integer, db.ForeignKey('detalle_trabajo.id'), nullable=True)	
-	modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=True)
-	frecuencia_id = db.Column(db.Integer, db.ForeignKey('frecuencia.id'), nullable=True)	
-	color_id = db.Column(db.Integer, db.ForeignKey('color.id'), nullable=True)	
+	modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=True)	
 	ordenes_reparacion = db.relationship('Orden_reparacion', backref='equipo', lazy=True)
-	historias = db.relationship('Historia', backref='eq_historia', lazy=True)
-	
-	detalles_trabajo = db.relationship('Detalle_trabajo', backref='equipment', lazy=True, viewonly=True)	
+	historias = db.relationship('Historia', backref='eq_historia', lazy=True)	
+	detalles_trabajo = db.relationship('Detalle_trabajo', backref='equipment', lazy=True, viewonly=True)
+	frecuencias = db.relationship('Frecuencia', secondary=equipos_frecuencias, backref=db.backref('frecuencias', lazy=True))
 
 	def __repr__(self):
 		if self.numSerie:
 			return f'[{self.detalle_trabajo.orden_trabajo.codigo}-{self.numSerie}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
 		else:
 			return f'[{self.detalle_trabajo.orden_trabajo.codigo}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
-
-class Color(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	hex =db.Column(db.String(7), nullable=False)
-	nombre =db.Column(db.String(15), nullable=False)
-	equipments = db.relationship('Equipment', backref='color', lazy=True)
 
 
 class Marca(db.Model):
@@ -122,15 +128,13 @@ class Marca(db.Model):
 		return self.nombre
 	
 
-class Modelo(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Modelo(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)
 	nombre = db.Column(db.String(50), unique=True, nullable=False)
 	anio = db.Column(db.String(4), unique=False, nullable=False)
 	descripcion = db.Column(db.String(250), unique=True, nullable=False)
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))	
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())	
 	image_file = db.Column(db.String(50), nullable=False, default='default_eq.png')
 	marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
 	homologacion_id = db.Column(db.Integer, db.ForeignKey('homologacion.id'), nullable=False)
@@ -166,8 +170,7 @@ class Homologacion(db.Model):
 class Frecuencia(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	canal = db.Column(db.String(50), unique=True, nullable=False)
-	unidad_id = db.Column(db.Integer, db.ForeignKey('unidad.id'), nullable=False)
-	equipos = db.relationship('Equipment', backref='frecuencia_eq', lazy=True)
+	unidad_id = db.Column(db.Integer, db.ForeignKey('unidad.id'), nullable=False)	
 
 	def __repr__(self):
 		return f'{self.canal} {self.rango}'
@@ -182,13 +185,11 @@ class Unidad(db.Model):
 		return self.nombre
 
 
-class Historia(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Historia(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(150), unique=False, nullable=False)	
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	content = db.Column(db.Text, nullable=False)
 	tipo_historia_id = db.Column(db.Integer, db.ForeignKey('tipo_historia.id'), nullable=False)
 	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id', onupdate='CASCADE'), nullable=True)
@@ -207,12 +208,10 @@ class TipoHistoria(db.Model):
 		return {self.tipo}
 
 
-class Orden_reparacion(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Orden_reparacion(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	codigo = db.Column(db.String(6), unique=True, nullable=False)
 	content = db.Column(db.Text, nullable=False)	
 	tecnico_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=True)
@@ -226,12 +225,10 @@ class Orden_reparacion(db.Model):
 		return f"{self.codigo} '{self.estado}'"
 
 
-class Detalle_reparacion(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Detalle_reparacion(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)	
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	content = db.Column(db.Text, nullable=False)	
 	reparacion_id = db.Column(db.Integer, db.ForeignKey('orden_reparacion.id', onupdate='CASCADE'), nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -249,12 +246,10 @@ class Estado_or(db.Model):
 		return self.descripcion
 
 
-class Orden_trabajo(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Orden_trabajo(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	codigo = db.Column(db.String(6), unique=True, nullable=False)
 	content = db.Column(db.Text, nullable=False)	
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), unique=False, nullable=False)
@@ -267,12 +262,10 @@ class Orden_trabajo(db.Model):
 		return f"{self.codigo} '{self.estado}'"
 
 
-class Detalle_trabajo(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Detalle_trabajo(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)	
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	content = db.Column(db.Text, nullable=False)
 	cantidad = db.Column(db.Integer, nullable=False, default=1)
 	trabajo_id = db.Column(db.Integer, db.ForeignKey('orden_trabajo.id', onupdate='CASCADE'), nullable=True)
@@ -292,13 +285,11 @@ class Estado_ot(db.Model):
 		return self.descripcion
 
 
-class Procedimiento(db.Model):
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
+class Procedimiento(db.Model):	
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(150), unique=False, nullable=False)	
-	date_created = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
-	date_modified = db.Column(db.DateTime, nullable=False, default=datetime.fromisoformat(now))
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	content = db.Column(db.Text, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	user_edit_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -359,3 +350,14 @@ class Iibb(db.Model):
 
 	def __repr__(self):
 		return f'{self.jurisdiccion} - {self.provincia}'
+
+
+class ErrorLog(db.Model):	
+	id = db.Column(db.Integer, primary_key=True)
+	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	error = db.Column(db.String(250), nullable=False)	
+	traceback = db.Column(db.Text, nullable=True)	
+
+	def __repr__(self):
+		return self.error

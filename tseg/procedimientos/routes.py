@@ -1,9 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Procedimiento
+from tseg.models import Procedimiento, dateFormat
 from tseg.procedimientos.forms import ProcedimientoForm
-from tseg.users.utils import dateFormat, role_required, buscarLista, error_logger
+from tseg.users.utils import role_required, buscarLista, error_logger
 
 procedimientos = Blueprint('procedimientos', __name__)
 
@@ -43,9 +43,9 @@ def add_procedimiento():
 			flash('Se ha guardado el Procedimiento técnico!', 'success')
 			return redirect(url_for('procedimientos.all_procedimientos', filterBy='date_modified', filterOrder='desc'))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('procedimientos.add_procedimiento', procedimiento_id=procedimiento.id))
-	return render_template('create_procedimiento.html', title='Nueva Procedimiento', 
+	return render_template('create_procedimiento.html', title='Nuevo Procedimiento', 
 												form=form,												
 												legend=f'Nuevo Procedimiento')
 
@@ -73,7 +73,7 @@ def update_procedimiento(procedimiento_id):
 			flash("Su procedimiento ha sido modificado con éxito", 'success')
 			return redirect(url_for('procedimientos.procedimiento', procedimiento_id=procedimiento.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('procedimientos.update_procedimiento', procedimiento_id=procedimiento.id))
 	elif request.method == 'GET':		
 		form.title.data = procedimiento.title

@@ -12,13 +12,15 @@
 					<a class="menu-horizontal"> <i class="bi bi-person-fill custom-icon"> </i>Admin</a>
 					<ul class="menu-vertical">
 						<li><a class="nav-item nav-link" href="{{ url_for('users.register') }}"><i class="bi bi-person-add"></i> Registrar Usuario</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}"><i class="bi bi-person-vcard"></i> Ver cuentas de usuarios</a></li>
-						
+						<li><a class="nav-item nav-link" href="{{ url_for('users.all_users', orderBy='username', orderOrder='asc') }}"><i class="bi bi-person-vcard"></i> Ver cuentas de usuarios</a></li>						
 						<hr>							
 						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_zona') }}"><i class="bi bi-bar-chart"></i> Reporte equipos por zona</a></li>
 						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_modelo') }}"><i class="bi bi-bar-chart"></i> Reporte equipos por modelo</a></li>
 						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_anio') }}"><i class="bi bi-bar-chart"></i> Reporte ventas por año</a></li>
-						
+						{% if current_user.username == "admin" %}
+							<hr>							
+							<li><a class="nav-item nav-link" href="{{ url_for('errors.errors_log') }}"><i class="bi bi-bug"></i> Log errores</a></li>
+						{% endif %}
 					</ul>
 				</li>
 			{% endif %}

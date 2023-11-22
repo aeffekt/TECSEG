@@ -20,7 +20,7 @@ def all_homologaciones():
 	return render_template('all_homologaciones.html', 
 							lista=all_homologaciones,
 							orderBy=orderBy,
-							title='Homologaciónes',
+							title='Homologaciones',
 							item_type=item_type)
 
 
@@ -37,13 +37,13 @@ def homologacion(homologacion_id):
 			flash(f"El codigo {homologacion.codigo} ha sido actualizado.", 'success')
 			return redirect(url_for('homologaciones.homologacion', homologacion_id=homologacion.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('homologacion.homologacion', homologacion_id=homologacion.id))
 	elif request.method == 'GET':		
 		form.codigo.data = homologacion.codigo
 		form.modelo.data = homologacion.modelo
 	return render_template('homologacion.html',
-						title='Código homologacion',						
+						title='Código homologación',						
 						form=form,
 						homologacion=homologacion)
 
@@ -62,11 +62,11 @@ def add_homologacion():
 			flash(f'Código homologacion {homologacion.codigo} agregado!', 'success')
 			return redirect(url_for('homologaciones.all_homologaciones', homologacion_id=homologacion.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('homologaciones.add_homologacion'))
 	else:
-		return render_template('create_homologacion.html', title='Agregar código', 
-												form=form, legend="Agregar código homologacion")
+		return render_template('create_homologacion.html', title='Registrar código homologación', 
+												form=form, legend="Registrar código homologación")
 
 
 @homologaciones.route("/homologacion-<int:homologacion_id>-delete", methods=['GET', 'POST'])

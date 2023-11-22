@@ -1,8 +1,8 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
-from tseg.models import Equipment, Historia, Orden_reparacion
+from tseg.models import Equipment, Historia, Orden_reparacion, Frecuencia, dateFormat
 from tseg.equipments.forms import EquipmentForm
-from tseg.users.utils import role_required, dateFormat, buscarLista, error_logger
+from tseg.users.utils import role_required, buscarLista, error_logger
 from tseg.equipments.utils import (print_caratula_pdf, print_etiqueta_pdf, upload_files, get_full_folder_path, 
 								   get_files_info, get_folder_path, delete_file,get_folder_name)
 from tseg import db
@@ -50,7 +50,7 @@ def equipment(equipment_id):
 	# texto para toolbar
 	item_type="Historia"
 	path_pdfs = url_for("static", filename='pdfs/')	
-	return render_template("equipment.html", title=equipment.modelo,
+	return render_template("equipment.html", title=equipment,
 											equipment=equipment,
 											legend="Ver Equipo",
 											orderBy = orderBy,
@@ -74,11 +74,14 @@ def add_equipment(detalle_trabajo_id):
 							content=form.content.data,
 							anio=form.anio.data,
 							author_eq=current_user,
-							modelo_id=form.modelo.data,
-							frecuencia_id=form.frecuencia.data,
-							color_id=form.color.data,
+							modelo_id=form.modelo.data,							
+							sistema=form.sistema.data,
 							detalle_trabajo_id=form.detalle_trabajo.data)		
 			db.session.add(equipment)
+			for frecuencia_id in form.frecuencias.data:
+				frecuencia = Frecuencia.query.get(frecuencia_id)
+				if frecuencia:
+					equipment.frecuencias.append(frecuencia)
 			db.session.commit()
 			if form.upload_files.data:
 				archivos_seleccionados = request.files.getlist('upload_files')
@@ -87,7 +90,7 @@ def add_equipment(detalle_trabajo_id):
 			flash(f'Equipo {equipment.numSerie} agregado!', 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc'))
 		except Exception as e:
-			error_logger(e, current_user)			
+			error_logger(e)		
 			return redirect(url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo_id))	
 	form.detalle_trabajo.default = detalle_trabajo_id
 	form.process()
@@ -117,13 +120,21 @@ def update_equipment(equipment_id):
 							os.rename(path, new_path)
 							flash(f'Directorio de equipo renombrado a {new_folder_name}', 'success')
 						except OSError as e:
-							flash(f'Ocurrió un error al querer renombrar el directorio del equipo: {e}', 'warning')				
+							flash(f'Ocurrió un error al querer renombrar el directorio del equipo', 'warning')				
 			equipment.detalle_trabajo_id = form.detalle_trabajo.data
 			equipment.modelo_id = form.modelo.data
-			equipment.frecuencia_id = form.frecuencia.data
-			equipment.color_id=form.color.data
+			# actualiza las frecuencias del equipo
+			for frecuencia_id in equipment.frecuencias:
+				frecuencia = Frecuencia.query.get(frecuencia_id)
+				if frecuencia:
+					equipment.frecuencias.remove(frecuencia)			
+			for frecuencia_id in form.frecuencias.data:
+				frecuencia = Frecuencia.query.get(frecuencia_id)
+				if frecuencia:
+					equipment.frecuencias.append(frecuencia)
+			equipment.sistema=form.sistema.data
 			equipment.content = form.content.data
-			equipment.anio = form.anio.data		
+			equipment.anio = form.anio.data
 			equipment.date_modified = dateFormat()	
 			archivos_seleccionados = request.files.getlist('upload_files')
 			if archivos_seleccionados[0].filename!='':
@@ -134,16 +145,15 @@ def update_equipment(equipment_id):
 														filterBy='date_modified',
 														filterSort='desc'))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('equipments.update_equipment', equipment_id=equipment.id))
-		
 	elif request.method == 'GET':
 		form.anio.default = equipment.anio
 		form.detalle_trabajo.default = equipment.detalle_trabajo.id
-		form.modelo.default = equipment.modelo_id
-		form.frecuencia.default = equipment.frecuencia_eq.canal if equipment.frecuencia_eq else None
-		form.color.default = equipment.color_id
+		form.modelo.default = equipment.modelo_id		
+		form.frecuencias.default = [f.id for f in equipment.frecuencias]
 		form.process()		
+		form.sistema.data = equipment.sistema
 		form.numSerie.data = equipment.numSerie
 		form.content.data = equipment.content
 	return render_template('create_equipment.html',title='Editar equipo', 
@@ -155,7 +165,7 @@ def update_equipment(equipment_id):
 @role_required("Admin", "Técnico")
 def delete_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
-	ot_id = equipment.detalle_trabajo.orden_trabajo.id
+	detalle_trabajo_id = equipment.detalle_trabajo.id
 	folder_path = get_full_folder_path(equipment)
 	archivos_info = get_files_info(folder_path)
 	for archivo in archivos_info:
@@ -167,12 +177,17 @@ def delete_equipment(equipment_id):
 	# elimina las O.R. del equipo
 	for orden in equipment.ordenes_reparacion:
 		db.session.delete(orden)
+	# elimina las las referencias de frecuencias del equipo
+	for frecuencia_id in equipment.frecuencias:
+				frecuencia = Frecuencia.query.get(frecuencia_id)
+				if frecuencia:
+					equipment.frecuencias.remove(frecuencia)
 	db.session.delete(equipment)
 	db.session.commit()
 	# elimina los archivos del equipo
 	
 	flash(f"El equipo ha sido eliminado!", 'success')
-	return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot_id))
+	return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo_id))
 
 
 @login_required

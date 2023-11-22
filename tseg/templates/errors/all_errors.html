@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h6 class="border-bottom border-secondary mb-4">Log de errores ({{ lista.count() }})</h6>
+
+    {% for error in lista %}
+        <article class="media content-section-list">            
+            <div class="media-body">
+                <a href="{{ url_for('errors.error_log', error_log_id=error.id) }}">
+                    <h5>Fecha creado: <b>{{ error.date_created }}</b></h5>
+                    <h6 class="article-title" >Usuario: <b>{{ error.user }}</b></h6>
+                    <small class="article-title" >Descripción: <b>{{ error.error }}</b></small>                    
+                </a>
+                
+            </div>
+        </article>
+    {% endfor %}
+    
+{% endblock content %}

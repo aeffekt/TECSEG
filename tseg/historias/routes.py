@@ -1,9 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Historia, Equipment
+from tseg.models import Historia, Equipment, dateFormat
 from tseg.historias.forms import HistoriaForm
-from tseg.users.utils import dateFormat, role_required, error_logger
+from tseg.users.utils import role_required, error_logger
 
 historias = Blueprint('historias', __name__)
 
@@ -24,7 +24,7 @@ def add_historia(equipment_id):
 			flash('Se ha guardado la nueva Historia de equipo!', 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment_id, filterBy='date_modified', filterOrder='desc'))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('historias.add_historia', equipment_id=equipment.id))
 	return render_template('create_historia.html', title='Nueva Historia', 
 												form=form,
@@ -59,7 +59,7 @@ def update_historia(historia_id):
 			flash("Su historia ha sido modificada con éxito", 'success')
 			return redirect(url_for('historias.historia', historia_id=historia.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('equipments.update_historia', historia_id=historia.id))
 	elif request.method == 'GET':
 		form.tipo.default = historia.tipo_historia_id

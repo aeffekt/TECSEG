@@ -2,10 +2,10 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Orden_reparacion, Equipment, User, Estado_or, Detalle_reparacion
+from tseg.models import Orden_reparacion, Equipment, User, Estado_or, Detalle_reparacion, dateFormat
 from tseg.ordenes_reparacion.forms import OrdenReparacionForm
 from sqlalchemy import func
-from tseg.users.utils import role_required, dateFormat, buscarLista, error_logger
+from tseg.users.utils import role_required, buscarLista, error_logger
 
 
 ordenes_reparacion = Blueprint('ordenes_reparacion', __name__)
@@ -77,7 +77,7 @@ def add_orden_reparacion(equipment_id):
 			flash(f'Orden de reparación {orden_reparacion.codigo} agregada!', 'success')
 			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=equipment.id))	
 	equipment = Equipment.query.filter_by(id=equipment_id).first()
 	if equipment: # CARGA EL VALOR 'DEFAULT' EN SELECT si encuentra un equipo
@@ -113,7 +113,7 @@ def update_orden_reparacion(orden_reparacion_id):
 			flash("Su Orden de Reparación ha sido editada con éxito", 'success')
 			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('ordenes_reparacion.update_orden_reparacion', orden_reparacion_id=orden_reparacion.id))
 	elif request.method == 'GET':		
 		form.tecnico.default = orden_reparacion.tecnico_id

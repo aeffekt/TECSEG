@@ -1,0 +1,219 @@
+{'Hora': '2023-11-20 19:26:50', 'Usuario': 'admin (Admin)', 'Error': "'TextAreaField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 125, in update_equipment
+    equipment.content = form.content.dat
+AttributeError: 'TextAreaField' object has no attribute 'dat'
+{'Hora': '2023-11-20 19:27:00', 'Usuario': 'admin (Admin)', 'Error': "'TextAreaField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 125, in update_equipment
+    equipment.content = form.content.dat
+AttributeError: 'TextAreaField' object has no attribute 'dat'
+{'Hora': '2023-11-20 20:33:01', 'Usuario': 'admin (Admin)', 'Error': "'SelectField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencia_id = form.frecuencia.dat
+AttributeError: 'SelectField' object has no attribute 'dat'
+{'Hora': '2023-11-20 20:33:49', 'Usuario': 'admin (Admin)', 'Error': "'SelectField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencia_id = form.frecuencia.dat
+AttributeError: 'SelectField' object has no attribute 'dat'
+{'Hora': '2023-11-21 00:32:08', 'Usuario': 'admin (Admin)', 'Error': "'SelectField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencia_id = form.frecuencia.dat
+AttributeError: 'SelectField' object has no attribute 'dat'
+{'Hora': '2023-11-21 00:32:32', 'Usuario': 'admin (Admin)', 'Error': "'SelectField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 126, in update_equipment
+    equipment.anio = form.anio.dat
+AttributeError: 'SelectField' object has no attribute 'dat'
+{'Hora': '2023-11-21 10:30:24', 'Usuario': 'admin (Admin)', 'Error': "'TextAreaField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "C:\Documentos\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 125, in update_equipment
+    equipment.content = form.content.dat
+AttributeError: 'TextAreaField' object has no attribute 'dat'
+{'Hora': '2023-11-21 10:30:29', 'Usuario': 'admin (Admin)', 'Error': "'TextAreaField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "C:\Documentos\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 125, in update_equipment
+    equipment.content = form.content.dat
+AttributeError: 'TextAreaField' object has no attribute 'dat'
+{'Hora': '2023-11-21 10:30:43', 'Usuario': 'admin (Admin)', 'Error': "'SelectField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "C:\Documentos\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 124, in update_equipment
+    equipment.color_id=form.color.dat
+AttributeError: 'SelectField' object has no attribute 'dat'
+{'Hora': '2023-11-21 11:06:42', 'Usuario': 'admin (Admin)', 'Error': "'SelectField' object has no attribute 'dat'"}
+Traceback (most recent call last):
+  File "C:\Documentos\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 124, in update_equipment
+    equipment.color_id=form.color.dat
+AttributeError: 'SelectField' object has no attribute 'dat'
+{'Hora': '2023-11-21 21:17:34', 'Usuario': 'admin (Admin)', 'Error': 'Incompatible collection type: int is not list-like'}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = form.frecuencias.data
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1933, in set
+    raise TypeError(
+TypeError: Incompatible collection type: int is not list-like
+{'Hora': '2023-11-21 21:19:18', 'Usuario': 'admin (Admin)', 'Error': 'Incompatible collection type: int is not list-like'}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = form.frecuencias.data
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1933, in set
+    raise TypeError(
+TypeError: Incompatible collection type: int is not list-like
+{'Hora': '2023-11-21 21:36:45', 'Usuario': 'admin (Admin)', 'Error': 'Incompatible collection type: None is not list-like'}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = form.frecuencias.data
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1933, in set
+    raise TypeError(
+TypeError: Incompatible collection type: None is not list-like
+{'Hora': '2023-11-21 21:38:33', 'Usuario': 'admin (Admin)', 'Error': "'int' object is not iterable"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = [(f.id) for f in form.frecuencias.data]
+TypeError: 'int' object is not iterable
+{'Hora': '2023-11-21 21:39:15', 'Usuario': 'admin (Admin)', 'Error': "'int' object is not iterable"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = [f for f in form.frecuencias.data]
+TypeError: 'int' object is not iterable
+{'Hora': '2023-11-21 21:49:51', 'Usuario': 'admin (Admin)', 'Error': "'int' object has no attribute '_sa_instance_state'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = [f for f in form.frecuencias.data]
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1977, in set
+    collections.bulk_replace(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 761, in bulk_replace
+    appender(member, _sa_initiator=initiator)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1087, in append
+    item = __set(self, item, _sa_initiator, NO_KEY)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1052, in __set
+    item = executor.fire_append_event(item, _sa_initiator, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 665, in fire_append_event
+    return self.attr.fire_append_event(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1743, in fire_append_event
+    value = fn(state, value, initiator or self._append_token, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 63, in append
+    item_state = attributes.instance_state(item)
+AttributeError: 'int' object has no attribute '_sa_instance_state'
+{'Hora': '2023-11-21 21:50:51', 'Usuario': 'admin (Admin)', 'Error': "'int' object has no attribute '_sa_instance_state'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = [f for f in form.frecuencias.data]
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1977, in set
+    collections.bulk_replace(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 761, in bulk_replace
+    appender(member, _sa_initiator=initiator)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1087, in append
+    item = __set(self, item, _sa_initiator, NO_KEY)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1052, in __set
+    item = executor.fire_append_event(item, _sa_initiator, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 665, in fire_append_event
+    return self.attr.fire_append_event(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1743, in fire_append_event
+    value = fn(state, value, initiator or self._append_token, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 63, in append
+    item_state = attributes.instance_state(item)
+AttributeError: 'int' object has no attribute '_sa_instance_state'
+{'Hora': '2023-11-21 21:51:09', 'Usuario': 'admin (Admin)', 'Error': "'int' object has no attribute '_sa_instance_state'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = [f for f in form.frecuencias.data]
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1977, in set
+    collections.bulk_replace(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 761, in bulk_replace
+    appender(member, _sa_initiator=initiator)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1087, in append
+    item = __set(self, item, _sa_initiator, NO_KEY)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1052, in __set
+    item = executor.fire_append_event(item, _sa_initiator, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 665, in fire_append_event
+    return self.attr.fire_append_event(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1743, in fire_append_event
+    value = fn(state, value, initiator or self._append_token, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 63, in append
+    item_state = attributes.instance_state(item)
+AttributeError: 'int' object has no attribute '_sa_instance_state'
+{'Hora': '2023-11-21 21:51:41', 'Usuario': 'admin (Admin)', 'Error': "'int' object has no attribute '_sa_instance_state'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = [f for f in form.frecuencias.data]
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1977, in set
+    collections.bulk_replace(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 761, in bulk_replace
+    appender(member, _sa_initiator=initiator)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1087, in append
+    item = __set(self, item, _sa_initiator, NO_KEY)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1052, in __set
+    item = executor.fire_append_event(item, _sa_initiator, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 665, in fire_append_event
+    return self.attr.fire_append_event(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1743, in fire_append_event
+    value = fn(state, value, initiator or self._append_token, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 63, in append
+    item_state = attributes.instance_state(item)
+AttributeError: 'int' object has no attribute '_sa_instance_state'
+{'Hora': '2023-11-21 21:52:36', 'Usuario': 'admin (Admin)', 'Error': 'Incompatible collection type: tuple is not list-like'}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = equipment.id, [f for f in form.frecuencias.data]
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1933, in set
+    raise TypeError(
+TypeError: Incompatible collection type: tuple is not list-like
+{'Hora': '2023-11-21 21:53:06', 'Usuario': 'admin (Admin)', 'Error': 'Incompatible collection type: tuple is not list-like'}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias = (equipment.id, [f for f in form.frecuencias.data])
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 534, in __set__
+    self.impl.set(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1933, in set
+    raise TypeError(
+TypeError: Incompatible collection type: tuple is not list-like
+{'Hora': '2023-11-21 21:57:15', 'Usuario': 'admin (Admin)', 'Error': "'list' object has no attribute '_sa_instance_state'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 123, in update_equipment
+    equipment.frecuencias.append([f for f in form.frecuencias.data])
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1087, in append
+    item = __set(self, item, _sa_initiator, NO_KEY)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1052, in __set
+    item = executor.fire_append_event(item, _sa_initiator, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 665, in fire_append_event
+    return self.attr.fire_append_event(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1743, in fire_append_event
+    value = fn(state, value, initiator or self._append_token, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 63, in append
+    item_state = attributes.instance_state(item)
+AttributeError: 'list' object has no attribute '_sa_instance_state'
+{'Hora': '2023-11-21 22:55:50', 'Usuario': 'admin (Admin)', 'Error': "'InstrumentedList' object has no attribute '_sa_instance_state'"}
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\equipments\routes.py", line 129, in update_equipment
+    equipment.frecuencias.remove(equipment.frecuencias)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1095, in remove
+    __del(self, value, _sa_initiator, NO_KEY)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 1068, in __del
+    executor.fire_remove_event(item, _sa_initiator, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\collections.py", line 686, in fire_remove_event
+    self.attr.fire_remove_event(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 1794, in fire_remove_event
+    fn(state, value, initiator or self._remove_token, key=key)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\attributes.py", line 2233, in emit_backref_from_collection_remove_event
+    instance_state(child),
+AttributeError: 'InstrumentedList' object has no attribute '_sa_instance_state'

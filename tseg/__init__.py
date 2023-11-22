@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from tseg.config import Config
+from logging import WARNING, FileHandler
 
 
 db = SQLAlchemy()
@@ -14,6 +15,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'users.login' # redirige a login si se quiere acceder sin login
 login_manager.login_message_category = 'info' # brinda estetica al msg que no esta loggeado
 
+
 def create_app(config_class=Config):
 	app = Flask(__name__)	
 	app.config.from_object(Config)
@@ -22,6 +24,10 @@ def create_app(config_class=Config):
 	bcrypt.init_app(app)
 	login_manager.init_app(app)
 	mail.init_app(app)
+	# ERROR LOGGER
+	file_handler = FileHandler('tseg/_errors.log')
+	file_handler.setLevel(WARNING)
+	app.logger.addHandler(file_handler)
 
 	# routes se importan acá ya que routes usa "db"
 	from tseg.users.routes import users	

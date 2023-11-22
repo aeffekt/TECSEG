@@ -99,7 +99,7 @@ def add_client():
 			flash('Cliente agregado!', 'success')
 			return redirect(url_for('clients.client', client_id=client.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('clients.add_client'))
 	return render_template('create_client.html', title='Nuevo cliente', 
 												form=form,
@@ -149,7 +149,7 @@ def update_client(client_id):
 			flash("Los datos del cliente han sido actualizado", 'success')
 			return redirect(url_for('clients.client', client_id=client.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('clients.client', client_id=client.id))
 			
 	elif request.method == 'GET':

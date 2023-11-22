@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileField,SelectMultipleField
 from wtforms.validators import DataRequired, ValidationError
-from tseg.models import Modelo, Frecuencia, Detalle_trabajo, Equipment, Orden_trabajo, Color
+from tseg.models import Modelo, Frecuencia, Detalle_trabajo, Equipment, Orden_trabajo
 from datetime import datetime
 
 
@@ -15,18 +15,16 @@ class EquipmentForm(FlaskForm):
 		self.detalle_trabajo.choices.insert(0,(0,''))
 		self.anio.choices = [int(year) for year in range(datetime.now().year + 1, 1999, -1)]		
 		self.anio.choices.insert(0,'')
-		self.frecuencia.choices = [(f.id, f) for f in Frecuencia.query.all()]
-		self.frecuencia.choices.insert(0,(0,''))		
-		self.color.choices = [(c.id, c.nombre) for c in Color.query.all()]
-		self.color.choices.insert(0, (0,''))
+		self.frecuencias.choices = [(f.id, f) for f in Frecuencia.query.all()]
+		self.frecuencias.choices.insert(0,(0,''))		
 		
 	modelo = SelectField('Modelo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
-	frecuencia = SelectField('Canal / Frecuencia', coerce=int, render_kw={'data-placeholder': 'Seleccione un item'})
+	frecuencias = SelectMultipleField('Canal / Frecuencia', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione item(s)'})
 	numSerie = StringField('Orden de equipo y Fecha de entrega')
 	anio = SelectField('Año de fabricación', coerce=str, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
 	content = TextAreaField('Descripción')
 	detalle_trabajo = SelectField('Detalle orden de trabajo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
-	color = SelectField('Color', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item'})
+	sistema = StringField('Sistema')
 	upload_files = FileField("Agregar archivos extras")
 	submit = SubmitField('Crear / Actualizar')
 
@@ -47,10 +45,10 @@ class EquipmentForm(FlaskForm):
 			if object_already_exist:
 				raise ValidationError('Ese número de serie ya está registrado en la misma O.T. Por favor, ingrese uno diferente')
 
-	def validate_frecuencia(self, frecuencia):	
-		if frecuencia.data == 0:
-			frecuencia.data=None
+	def validate_frecuencias(self, frecuencias):	
+		if frecuencias.data == 0:
+			frecuencias.data=None
 
-	def validate_color(self, color):	
-		if color.data == 0:
-			color.data=None
+	def validate_sistema(self, sistema):	
+		if sistema.data == '':
+			sistema.data=None

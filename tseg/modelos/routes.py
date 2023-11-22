@@ -55,7 +55,7 @@ def modelo(modelo_id):
 			flash(f"El modelo {modelo.nombre} ha sido actualizado.", 'success')
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	
 	form.anio.default = modelo.anio
 	form.tipo_modelo.default=modelo.tipo_modelo.id
@@ -92,7 +92,7 @@ def add_modelo():
 			flash(f'modelo {modelo.nombre} agregado!', 'success')
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
 		except Exception as e:
-			error_logger(e, current_user)
+			error_logger(e)
 			return redirect(url_for('modelos.add_modelo'))
 	return render_template('create_modelo.html', title='Agregar modelo', 
 												form=form, legend="Agregar modelo")

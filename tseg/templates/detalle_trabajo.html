@@ -83,41 +83,21 @@
             </div>
         
     </article>
-        
-    {% for equipment in lista %}
-        <article class="media content-section-list">
-            <div class="media-body">
-                <div class="row">                    
-                    <div class="col-md-3"> 
-                        <div class="img-container">
-                            <a href="#" onclick="abrirImagen('{{ image_path+equipment.modelo.image_file }}'); return false;">
-                                <img class="rounded-3 account-img" src="{{ image_path+equipment.modelo.image_file }}" alt="Imagen" />
-                                <div class="overlay">
-                                    <div class="overlay-content">Abrir Imagen</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                    <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-                        <h2>{{ equipment.modelo }}</h2>
-                        <h6 class="article-title" href=""><b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }} </b>
-                            - Nº serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b></h6>
-                        <small>
-                            Cliente: <b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b> - Año fabricación: <b>{{ equipment.anio }}</b>
-                            <h6 class="article-title">Última modificación: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></h6>
-                        </small>
-                        </a>
-                    </div>
-                    <div class="col-md-1">
-                        <a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Historia al equipo" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
-                    </div>
-                </div> 
-            </div>
-        </article>
-    {% endfor %}
 
-     <!-- Modal -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+		<li class="nav-item" role="presentation">
+		  <button class="nav-link active" id="Equipos-tab" data-bs-toggle="tab" data-bs-target="#Equipos" type="button" role="tab" aria-controls="Equipos" aria-selected="true">{{ lista.count() }} {% if lista.count()==1 %}Equipo{% else %}Equipos{% endif %}</button>
+		</li>    
+	</ul>
+    
+    <div class="tab-content" id="myTabContent">
+		<div class="tab-pane fade show active" id="Equipos" role="tabpanel" aria-labelledby="Equipos-tab">
+			<br>
+            {% include "lista_equipos.html"  %}            
+        </div>
+    </div>
+
+     <!-- Modal DETALLE TRABAJO-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

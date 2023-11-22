@@ -1,15 +1,15 @@
 import os
-import secrets
 from PIL import Image
 from flask import url_for,current_app, abort, request, flash
 from flask_login import current_user
 from flask_mail import Message
-from tseg import mail
+from tseg import mail, db
 from functools import wraps
 from datetime import datetime
 from tseg.models import (Equipment, User, Historia, Orden_reparacion, Localidad, Provincia, Pais, 
-						 Detalle_reparacion, Detalle_trabajo, Orden_trabajo, Client)
+						 Detalle_reparacion, Detalle_trabajo, Orden_trabajo, Client, ErrorLog, dateFormat)
 from sqlalchemy import asc, desc
+import traceback
 
 
 # obtener el nombre del atributo para filtrar la búsqueda
@@ -96,13 +96,6 @@ def obtener_informacion_geografica(codigo_postal):
 	return localidad_nombre, provincia_nombre, pais_nombre;
 
 
-# dar formato a la fecha actual NOW
-def dateFormat():
-	now = datetime.now()
-	now = now.strftime("%Y-%m-%dT%H:%M:%S")
-	return datetime.fromisoformat(now)
-
-
 #guardar imagen en carpeta
 def save_picture(form_picture, folder,img_filename):	
 	_, f_ext = os.path.splitext(form_picture.filename)
@@ -176,6 +169,17 @@ def cargarFechasFiltroReportes():
 
 
 # Error LOGGER
-def error_logger(Exception, user):
+def error_logger(Exception):
+	now = dateFormat()	
+	error = ErrorLog(date_created=now,
+					user_id=current_user.id,
+					error=Exception,
+					traceback=traceback.format_exc())		
+	db.session.add(error)
+	db.session.commit()	
+	error_message_log = {"Hora": str(now),
+					  "Usuario": str(current_user),
+					  "Error": str(Exception)}
+	current_app.logger.exception(error_message_log)
 	flash('Ocurrió un error inesperado. Si el problema persiste consulte al administrador.', 'danger')
-
+	
