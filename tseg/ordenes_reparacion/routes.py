@@ -4,7 +4,6 @@ from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Orden_reparacion, Equipment, User, Estado_or, Detalle_reparacion, dateFormat
 from tseg.ordenes_reparacion.forms import OrdenReparacionForm
-from sqlalchemy import func
 from tseg.users.utils import role_required, buscarLista, error_logger
 
 
@@ -86,7 +85,7 @@ def add_orden_reparacion(equipment_id):
 	return render_template('create_orden_reparacion.html', 
 												title='Registrar O.R.', 
 												form=form, 
-												legend="Registrar órden de reparación")
+												legend="Registrar orden de reparación")
 
 
 @ordenes_reparacion.route("/update_orden_reparacion-<int:orden_reparacion_id>", methods=['GET', 'POST'])

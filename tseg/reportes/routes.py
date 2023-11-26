@@ -1,5 +1,5 @@
 # reportes routes
-from flask import render_template, Blueprint, request, current_app
+from flask import render_template, Blueprint
 from tseg import db
 from tseg.models import (Orden_reparacion, Equipment, Role, User, 
 						 Provincia, Domicilio, Localidad, Client, 
@@ -129,7 +129,7 @@ def reporte_modelo():
 							labels=labels_json,
 							data=cantidades_json,		
 							datos_sql=equipos_por_modelo,							
-							nombre_reporte='Reporte de equipos vendidos por Modelo',
+							nombre_reporte='Reporte de equipos LIE / IA vendidos por Modelo',
 							title='Reporte por modelo',
 							current_year=current_year)
 
@@ -151,7 +151,7 @@ def reporte_anio():
 	anios = [item.Año for item in equipos_por_anio]
 	cantidades = [item.Cantidad for item in equipos_por_anio]
 	labels_json = json.dumps(anios)
-	cantidades_json = json.dumps(cantidades)
+	cantidades_json = json.dumps(cantidades)	
 	return render_template('reporte.html',
 							chart_type='line',
 							labels=labels_json,

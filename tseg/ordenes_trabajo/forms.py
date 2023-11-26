@@ -13,9 +13,10 @@ class OrdenTrabajoForm(FlaskForm):
 		self.objeto = objeto
 
 	codigo = StringField('Código', validators=[DataRequired()])
-	content = TextAreaField('Descripción')	
+	content = TextAreaField('Descripción', validators=[DataRequired()])
 	client = SelectField('Cliente', coerce=int, validators=[DataRequired(message='Debe seleccionar un cliente')], render_kw={'data-placeholder': 'Seleccione un item...'})
 	estado = SelectField('Estado', coerce=int)
+	notes = TextAreaField('Comentarios')
 	submit = SubmitField('Agregar')
 
 	def validate_codigo(self, codigo):
@@ -37,3 +38,7 @@ class OrdenTrabajoForm(FlaskForm):
 					        Orden_trabajo.codigo == codigo.data).first()
 		if codigo_already_exist:
 			raise ValidationError('Ese código ya existe. Por favor, ingrese uno diferente')
+
+	def validate_comment(self, comment):
+		if comment.data == '':
+			comment.data=None

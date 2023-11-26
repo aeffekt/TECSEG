@@ -48,7 +48,6 @@ class ClientForm(FlaskForm):
 		if client_already_exist:
 			raise ValidationError('Ya existe un cliente con el mismo nombre y apellido')
 		
-	
 	# validacion del nombre+apellido
 	def validate_business_name(self, business_name):		
 		if business_name.data != '' and business_name.data !=None:
@@ -60,7 +59,7 @@ class ClientForm(FlaskForm):
 				business_already_exist = Client.query.filter(					        
 								Client.business_name == business_name.data).first()
 			if business_already_exist:
-				raise ValidationError('Ya existe un cliente con el mismo nombre de negocio')
+				raise ValidationError('Ya existe un cliente con el mismo nombre de negocio')		
 		
 	# Validación de domicilio, código postal, país, provincia y localidad
 	def validate_direccion(self, field):		
@@ -70,7 +69,7 @@ class ClientForm(FlaskForm):
 				flash("Advertencia! Debe completar: Código Postal, Dirección, Localidad, Provincia y Pais del domicilio, o ninguno de esos datos.", 'warning')
 				raise ValidationError('Completar el resto de los campos de domicilio.')
 
-	# Validación de valor NULL para iibb y cond_fiscal
+	# Validación de valor NULL para campos no obligatorios
 	def validate_iibb(self, iibb):	
 		if iibb.data == 0:
 			iibb.data=None
@@ -78,3 +77,8 @@ class ClientForm(FlaskForm):
 	def validate_cond_fiscal(self, cond_fiscal):	
 		if cond_fiscal.data == 0:
 			cond_fiscal.data=None
+			
+	def validate_comments(self, comments):	
+		if comments.data == '':
+			comments.data=None
+			

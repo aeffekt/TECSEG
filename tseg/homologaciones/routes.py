@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
-from flask_login import login_required, current_user
+from flask_login import login_required
 from tseg.models import Homologacion
 from tseg.homologaciones.forms import HomologacionForm
 from tseg.users.utils import role_required, buscarLista, error_logger
@@ -25,7 +25,7 @@ def all_homologaciones():
 
 
 @homologaciones.route("/homologacion-<int:homologacion_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Comercial")
 def homologacion(homologacion_id):
 	homologacion = Homologacion.query.get_or_404(homologacion_id)
 	form = HomologacionForm(homologacion)

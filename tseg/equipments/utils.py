@@ -11,12 +11,12 @@ from PyPDF2 import PdfReader, PdfWriter
 # generar PDF etiqueta num serie
 def print_etiqueta_pdf(path, equipo):
 	homologacion = equipo.modelo.homologacion
-	modelo = f'{equipo.modelo.nombre} {equipo.modelo.anio}'	
+	modelo = equipo.modelo.nombre
 	numSerie = f'{equipo.detalle_trabajo.orden_trabajo.codigo}-{equipo.numSerie}'	
 	# formateo del texto
 	heading = f'Etiqueta de equipo'
-	file_name_numSerie = str(f"{equipo.detalle_trabajo.orden_trabajo.codigo}-{equipo.numSerie}").replace('/', '_')		
-	name_etiqueta = f"{file_name_numSerie}.pdf"	
+	file_name_numSerie = str(f"{equipo.detalle_trabajo.orden_trabajo.id}-{equipo.id}")
+	name_etiqueta = f"{file_name_numSerie}_numSerie.pdf"	
 	# config CANVAS
 	x, y = A4
 	hoja_A4 = canvas.Canvas(f"{path}{name_etiqueta}", pagesize=A4)
@@ -41,9 +41,9 @@ def print_etiqueta_pdf(path, equipo):
 		hoja_A4.save()
 		equipo.etiqueta_file = name_etiqueta		
 		db.session.commit()
-		flash(f"La etiqueta del número de serie se generó correctamente. ",'success')
+		flash(f"La etiqueta del Nº serie se generó correctamente. ",'success')
 	except Exception as err:
-		flash(f"Ocurrió un error al generar la etiqueta del número de serie: {err}",'warning')
+		flash(f"Ocurrió un error al generar la etiqueta del Nº serie: {err}",'warning')
 
 
 # Carátula de manual PDF
@@ -59,7 +59,7 @@ def print_caratula_pdf(path, equipo):
 	rango = ""
 	if equipo.frecuencias:
 		for f in equipo.frecuencias:
-			canalFrec += str(f.canal)+', '
+			canalFrec += str(f.canal)+'  '
 		rango = equipo.frecuencias[0].rango
 	if str(rango) == "MHz":
 		tipoCanalFrec="FRECUENCIA: "		
@@ -68,7 +68,7 @@ def print_caratula_pdf(path, equipo):
 	else:
 		tipoCanalFrec="CANAL: "	
 	# formateo del texto
-	file_name_caratula = str(f"{equipo.detalle_trabajo.orden_trabajo.codigo}-{equipo.numSerie}_caratula").replace('/', '_')
+	file_name_caratula = str(f"{equipo.detalle_trabajo.orden_trabajo.id}-{equipo.id}_caratula")
 	name_caratula = f"{file_name_caratula}.pdf"	
 	# config CANVAS
 	x, y = A4
@@ -129,9 +129,8 @@ def upload_files(files, equipment):
 
 # devuelve el nombre de la carpeta de archivos de un equipo
 def get_folder_name(equipment):
-    numero_serie = f'{equipment.detalles_trabajo.orden_trabajo.codigo}-{equipment.numSerie}'
-    folder_name = numero_serie.replace('/','-')
-    return folder_name
+	folder_name= f'{equipment.detalles_trabajo.orden_trabajo.id}-{equipment.id}'	
+	return folder_name
 
 
 # devuelve el nombre de carpeta para archivos de un equipo (sirve para el path del template)

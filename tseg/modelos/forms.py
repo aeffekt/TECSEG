@@ -22,7 +22,7 @@ class ModeloForm(FlaskForm):
 	anio = SelectField('Año del modelo', validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
 	tipo_modelo = SelectField('Tipo de equipo',coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
 	descripcion = TextAreaField('Descripción')
-	picture = FileField('Imagen de equipo', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
+	picture = FileField('Imagen de equipo', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif', 'webp', 'jpeg'])])
 	submit = SubmitField('Crear / Actualizar')
 
 	def validate_nombre(self, field):
@@ -43,3 +43,4 @@ class ModeloForm(FlaskForm):
 	def validate_anio(self, anio):	
 		if anio.data == ' ':
 			anio.data=None
+			

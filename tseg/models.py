@@ -100,7 +100,7 @@ class Equipment(db.Model):
 	anio = db.Column(db.String(4), unique=False, nullable=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
-	content = db.Column(db.Text, nullable=False)	
+	content = db.Column(db.String(1000), nullable=False)	
 	etiqueta_file = db.Column(db.String(50), nullable=True, default=None)
 	caratula_file = db.Column(db.String(50), nullable=True, default=None)
 	sistema = db.Column(db.String(25), nullable=True)	
@@ -190,7 +190,7 @@ class Historia(db.Model):
 	title = db.Column(db.String(150), unique=False, nullable=False)	
 	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
-	content = db.Column(db.Text, nullable=False)
+	content = db.Column(db.String(1000), nullable=False)
 	tipo_historia_id = db.Column(db.Integer, db.ForeignKey('tipo_historia.id'), nullable=False)
 	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id', onupdate='CASCADE'), nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -251,7 +251,8 @@ class Orden_trabajo(db.Model):
 	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	codigo = db.Column(db.String(6), unique=True, nullable=False)
-	content = db.Column(db.Text, nullable=False)	
+	content = db.Column(db.String(1000), nullable=False)
+	notes = db.Column(db.Text, nullable=True)
 	client_id = db.Column(db.Integer, db.ForeignKey('client.id'), unique=False, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)	
 	estado_id = db.Column(db.Integer, db.ForeignKey('estado_ot.id'), nullable=False)
@@ -361,3 +362,4 @@ class ErrorLog(db.Model):
 
 	def __repr__(self):
 		return self.error
+	

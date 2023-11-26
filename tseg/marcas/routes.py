@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
-from flask_login import login_required, current_user
+from flask_login import login_required
 from tseg.models import Marca, Modelo
 from tseg.marcas.forms import MarcaForm
 from tseg.users.utils import role_required, buscarLista, error_logger
@@ -28,7 +28,7 @@ def all_marcas():
 							item_type=item_type)
 
 @marcas.route("/marca-<int:marca_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Comercial")
 def marca(marca_id):
 	marca = Marca.query.get_or_404(marca_id)	
 	form = MarcaForm(marca)

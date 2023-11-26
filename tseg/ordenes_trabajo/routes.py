@@ -2,7 +2,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
-from tseg.models import Orden_trabajo, Client, Estado_or, Detalle_trabajo, dateFormat
+from tseg.models import Orden_trabajo, Client, Detalle_trabajo, dateFormat
 from tseg.ordenes_trabajo.forms import OrdenTrabajoForm
 from tseg.users.utils import role_required, buscarLista, error_logger
 
@@ -22,7 +22,7 @@ def all_ordenes_trabajo():
 		return redirect(url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc'))
 	all_ot = buscarLista(Orden_trabajo)
 	orderBy = current_app.config["ORDER_OT"]
-	item_type = 'Órden de Reparación'
+	item_type = 'Orden de Reparación'
 	return render_template('all_ordenes_trabajo.html', 
 							lista=all_ot, 
 							orderBy = orderBy,
@@ -74,6 +74,7 @@ def add_orden_trabajo(client_id):
 			orden_trabajo = Orden_trabajo(
 							codigo=form.codigo.data, 
 							content=form.content.data,
+							notes=form.notes.data,
 							client_id=form.client.data,
 							estado_id=form.estado.data,
 							author_ot=current_user)
@@ -102,7 +103,7 @@ def add_orden_trabajo(client_id):
 	return render_template('create_orden_trabajo.html', 
 												title='Registrar O.T.', 
 												form=form, 
-												legend="Registrar órden de Trabajo")
+												legend="Registrar orden de Trabajo")
 
 
 @ordenes_trabajo.route("/copy_orden_trabajo-<string:orden_trabajo_id>")
@@ -113,19 +114,20 @@ def copy_orden_trabajo(orden_trabajo_id):
 
 
 @ordenes_trabajo.route("/update_orden_trabajo-<int:orden_trabajo_id>", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "ServicioCliente", "Comercial", "Técnico")
 def update_orden_trabajo(orden_trabajo_id):
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)	
 	form = OrdenTrabajoForm(orden_trabajo)
 	if form.validate_on_submit():
-		try:
+		try:			
 			orden_trabajo.client_id = form.client.data
 			orden_trabajo.estado_id = form.estado.data
 			orden_trabajo.date_modified = dateFormat()
 			orden_trabajo.codigo = form.codigo.data
 			orden_trabajo.content = form.content.data
+			orden_trabajo.notes = form.notes.data
 			db.session.commit()
-			flash("Su órden de trabajo ha sido editada con éxito", 'success')
+			flash("Su orden de trabajo ha sido editada con éxito", 'success')
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))
 		except Exception as e:
 			error_logger(e)
@@ -153,24 +155,10 @@ def delete_orden_trabajo(orden_trabajo_id):
 			db.session.delete(detalle_trabajo)
 		db.session.delete(orden_trabajo)
 		db.session.commit()
-		flash(f"La órden de trabajo {orden_trabajo.codigo} ha sido eliminada!", 'success')
+		flash(f"La orden de trabajo {orden_trabajo.codigo} ha sido eliminada!", 'success')
 		return redirect(url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc'))
 	except Exception as e:
 		db.session.rollback() 
 		flash("Ocurrió un error al intentar eliminar.", 'warning')		
 		flash(f"Hay equipos asociados a la O.T. Debe borrarlos primero", 'warning')
 		return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))	
-
-
-@ordenes_trabajo.route("/update_estado-<int:orden_trabajo_id>-<string:estado_descripcion>", methods=['GET'])
-@login_required
-def update_estado(orden_trabajo_id, estado_descripcion):
-	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)
-	estado_or = Estado_or.query.filter_by(descripcion=estado_descripcion).first()	
-	orden_trabajo.date_modified = dateFormat()
-	orden_trabajo.estado_id = estado_or.id
-	db.session.commit()
-	flash("La órden de Trabajo se ha actualizado", 'success')	
-	return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=orden_trabajo.id))
-
-

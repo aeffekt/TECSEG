@@ -3,6 +3,8 @@ from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileFi
 from wtforms.validators import DataRequired, ValidationError
 from tseg.models import Modelo, Frecuencia, Detalle_trabajo, Equipment, Orden_trabajo
 from datetime import datetime
+from sqlalchemy.sql import exists
+from tseg import db
 
 
 class EquipmentForm(FlaskForm):
@@ -29,7 +31,7 @@ class EquipmentForm(FlaskForm):
 	submit = SubmitField('Crear / Actualizar')
 
 	def validate_numSerie(self, field):		
-		if self.numSerie.data != "" and self.numSerie.data != None:			
+		if self.numSerie.data != "" and self.numSerie.data != None:
 			if self.objeto:
 				ot = self.objeto.detalle_trabajo.orden_trabajo.codigo
 				object_already_exist = Equipment.query.join(Detalle_trabajo).join(Orden_trabajo).filter(
@@ -38,12 +40,15 @@ class EquipmentForm(FlaskForm):
 									Equipment.id != self.objeto.id).first() # al cambiar el ID significa que es un nuevo ITEM
 			else:				
 				dt = Detalle_trabajo.query.get(int(self.detalle_trabajo.data))
-				ot = dt.orden_trabajo
-				object_already_exist = Equipment.query.filter(
-								Equipment.numSerie == self.numSerie.data,
-								Orden_trabajo.codigo == ot.codigo).first() # aqui se presenta la edicion del title de un ITEM registrado
+				ot = dt.orden_trabajo.codigo			
+				object_already_exist = Equipment.query.join(Detalle_trabajo).join(Orden_trabajo).filter(
+									Equipment.numSerie == self.numSerie.data,
+									Orden_trabajo.codigo == ot).first()
+				print(object_already_exist)
 			if object_already_exist:
-				raise ValidationError('Ese número de serie ya está registrado en la misma O.T. Por favor, ingrese uno diferente')
+				raise ValidationError('Ese Nº serie ya está registrado en la misma O.T. Por favor, ingrese uno diferente')
+		else:
+			self.numSerie.data = None
 
 	def validate_frecuencias(self, frecuencias):	
 		if frecuencias.data == 0:
@@ -52,3 +57,4 @@ class EquipmentForm(FlaskForm):
 	def validate_sistema(self, sistema):	
 		if sistema.data == '':
 			sistema.data=None
+			

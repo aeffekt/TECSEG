@@ -4,9 +4,9 @@ from tseg.models import Equipment, Historia, Orden_reparacion, Frecuencia, dateF
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.utils import role_required, buscarLista, error_logger
 from tseg.equipments.utils import (print_caratula_pdf, print_etiqueta_pdf, upload_files, get_full_folder_path, 
-								   get_files_info, get_folder_path, delete_file,get_folder_name)
+								   get_files_info, get_folder_path, delete_file)
 from tseg import db
-import os
+import os, shutil # shutil se usa para borrar un directorio mas archivos
 
 
 equipments = Blueprint('equipments', __name__)
@@ -37,16 +37,15 @@ def equipment(equipment_id):
 	select_item = request.args.get('selectItem')
 	if select_item:		
 		return redirect(url_for('historias.historia', historia_id=select_item))
-	equipment = Equipment.query.get_or_404(equipment_id)
+	equipment = Equipment.query.get_or_404(equipment_id)	
 	historias =  buscarLista(Historia, equipment)
-	reparaciones = buscarLista(Orden_reparacion, equipment)
+	reparaciones = buscarLista(Orden_reparacion, equipment, toFilter=False)
 	orderBy = current_app.config['ORDER_HISTORIAS']	
 	image_path = url_for("static", filename='models_pics/')
-
+	#info de los archivos del equipo
 	full_folder_path = get_full_folder_path(equipment)
 	archivos_info = get_files_info(full_folder_path)
 	folder_path = get_folder_path(equipment)
-
 	# texto para toolbar
 	item_type="Historia"
 	path_pdfs = url_for("static", filename='pdfs/')	
@@ -88,7 +87,7 @@ def add_equipment(detalle_trabajo_id):
 				if archivos_seleccionados:
 					upload_files(archivos_seleccionados, equipment)
 			flash(f'Equipo {equipment.numSerie} agregado!', 'success')
-			return redirect(url_for('equipments.equipment', equipment_id=equipment.id, filterBy='date_modified',filterOrder='desc'))
+			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id))
 		except Exception as e:
 			error_logger(e)		
 			return redirect(url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo_id))	
@@ -106,39 +105,23 @@ def update_equipment(equipment_id):
 	form = EquipmentForm(equipment)
 	if form.validate_on_submit():		
 		try:
-			if form.numSerie.data == '':			
-				equipment.numSerie = None
-			else:
-				# si se cambia el serie, se cambia la carpeta con archivos			
-				if form.numSerie.data != equipment.numSerie:
-					path = get_full_folder_path(equipment)
-					equipment.numSerie = form.numSerie.data
-					if os.path.exists(path):					
-						new_folder_name = get_folder_name(equipment)
-						new_path = os.path.join(os.path.dirname(path), new_folder_name)				
-						try:
-							os.rename(path, new_path)
-							flash(f'Directorio de equipo renombrado a {new_folder_name}', 'success')
-						except OSError as e:
-							flash(f'Ocurrió un error al querer renombrar el directorio del equipo', 'warning')				
+			# actualiza las frecuencias del equipo			
+			for frecuencia_old in equipment.frecuencias:				
+				equipment.frecuencias.remove(frecuencia_old)
+			for frecuencia_selected in form.frecuencias.data:
+				frecuencia_new = Frecuencia.query.get(frecuencia_selected)
+				if frecuencia_new:
+					equipment.frecuencias.append(frecuencia_new)
+			equipment.numSerie = form.numSerie.data
 			equipment.detalle_trabajo_id = form.detalle_trabajo.data
-			equipment.modelo_id = form.modelo.data
-			# actualiza las frecuencias del equipo
-			for frecuencia_id in equipment.frecuencias:
-				frecuencia = Frecuencia.query.get(frecuencia_id)
-				if frecuencia:
-					equipment.frecuencias.remove(frecuencia)			
-			for frecuencia_id in form.frecuencias.data:
-				frecuencia = Frecuencia.query.get(frecuencia_id)
-				if frecuencia:
-					equipment.frecuencias.append(frecuencia)
-			equipment.sistema=form.sistema.data
+			equipment.modelo_id = form.modelo.data			
+			equipment.sistema = form.sistema.data
 			equipment.content = form.content.data
 			equipment.anio = form.anio.data
 			equipment.date_modified = dateFormat()	
 			archivos_seleccionados = request.files.getlist('upload_files')
 			if archivos_seleccionados[0].filename!='':
-				upload_files(archivos_seleccionados, equipment)		
+				upload_files(archivos_seleccionados, equipment)
 			db.session.commit()
 			flash(f"Se guardaron los cambios", 'success')
 			return redirect(url_for('equipments.equipment', equipment_id=equipment.id, 
@@ -167,27 +150,29 @@ def delete_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	detalle_trabajo_id = equipment.detalle_trabajo.id
 	folder_path = get_full_folder_path(equipment)
-	archivos_info = get_files_info(folder_path)
-	for archivo in archivos_info:
-		delete_file(folder_path, archivo["nombre"])
-
-	# elimina las historias del equipo
-	for historia in equipment.historias:
-		db.session.delete(historia)
-	# elimina las O.R. del equipo
-	for orden in equipment.ordenes_reparacion:
-		db.session.delete(orden)
-	# elimina las las referencias de frecuencias del equipo
-	for frecuencia_id in equipment.frecuencias:
-				frecuencia = Frecuencia.query.get(frecuencia_id)
-				if frecuencia:
-					equipment.frecuencias.remove(frecuencia)
-	db.session.delete(equipment)
-	db.session.commit()
-	# elimina los archivos del equipo
-	
-	flash(f"El equipo ha sido eliminado!", 'success')
-	return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo_id))
+	try:
+		shutil.rmtree(folder_path)
+		flash(f"Los archivos del equipo han sido eliminado!", 'success')
+	except Exception as e:
+		flash(f"Ocurrió un error al intentar eliminar los archivos del equipo", 'warning')
+	try:
+		# elimina las historias del equipo
+		for historia in equipment.historias:
+			db.session.delete(historia)
+		# elimina las O.R. del equipo
+		for orden in equipment.ordenes_reparacion:
+			db.session.delete(orden)
+		# elimina las las referencias de frecuencias del equipo
+		for frecuencia in equipment.frecuencias:
+			equipment.frecuencias.remove(frecuencia)
+		db.session.delete(equipment)
+		db.session.commit()
+		# elimina los archivos del equipo		
+		flash(f"El equipo ha sido eliminado!", 'success')		
+	except Exception as e:
+		error_logger(e)		
+	finally:
+		return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo_id))
 
 
 @login_required

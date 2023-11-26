@@ -16,6 +16,7 @@
                         <a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
                                           {% elif historia.tipo_historia.tipo == 'Reparación' %}warning
                                           {% elif historia.tipo_historia.tipo == 'Modificación' %}info
+                                          {% elif historia.tipo_historia.tipo == 'Falla' %}danger
                                           {% endif %} btn-block btn-sm"
                                           href="{{ url_for('equipments.equipment',  equipment_id=historia.equipo_id, tipo_historia_id=historia.tipo_historia.id) }}"
                                           title="Ir a equipo '{{ historia.eq_historia.modelo }}'">

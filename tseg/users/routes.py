@@ -81,7 +81,7 @@ def account(user_id):
 	if form.validate_on_submit():		
 		try:
 			if form.picture.data:
-				picture_file = save_picture(form.picture.data, 'profile_pics', user.username)
+				picture_file = save_picture(form.picture.data, 'profile_pics')
 				user.image_file = picture_file
 			user.username = form.username.data
 			user.email = form.email.data			
@@ -198,6 +198,8 @@ def search():
 									Historia.content.like('%'+searched+'%')))
 			procedimientos = Procedimiento.query.filter(or_(Procedimiento.title.like('%'+searched+'%'),
 									Procedimiento.content.like('%'+searched+'%')))
+			modelos = Modelo.query.filter(or_(Modelo.nombre.like('%'+searched+'%'),
+									Modelo.descripcion.like('%'+searched+'%')))
 			ordenes_trabajo = 	Orden_trabajo.query.filter(or_(
 								Orden_trabajo.codigo.like('%'+searched+'%'),
 								Orden_trabajo.content.like('%'+searched+'%')))
@@ -207,7 +209,8 @@ def search():
 										clients=clients,
 										historias=historias,
 										ordenes_trabajo=ordenes_trabajo,
-										procedimientos=procedimientos)
+										procedimientos=procedimientos,
+										modelos=modelos)
 		except Exception as e:
 			error_logger(e)
 			return redirect(request.referrer)

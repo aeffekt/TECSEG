@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <h6 class="mb-3 article-metadata">Historias de <a class="mr-2" href="{{ url_for('equipments.equipment', equipment_id=equipo.id) }}">{{ equipo.modelo.nombre }}</a> ({{ lista.count() }})</h6>
-    <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('historias.add_historia', equipment_id = equipo.id) }}">Agregar historia</a></p>
+    <p><a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{{ url_for('historias.add_historia', equipment_id = equipo.id) }}">Añadir historia al equipo</a></p>
     
     {% for historia in lista %}
         <article class="media content-section-list">
@@ -19,6 +19,7 @@
                             <a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
                                           {% elif historia.tipo_historia.tipo == 'Reparación' %}warning
                                           {% elif historia.tipo_historia.tipo == 'Modificación' %}info
+                                          {% elif historia.tipo_historia.tipo == 'Falla' %}danger
                                           {% endif %} btn-block btn-sm"
                                           >{{ historia.tipo_historia.tipo }}
                             </a>

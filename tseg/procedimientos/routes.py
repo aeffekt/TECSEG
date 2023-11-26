@@ -27,7 +27,7 @@ def all_procedimientos():
 
 
 @procedimientos.route("/procedimiento-new", methods=['GET', 'POST'])
-@role_required("Admin", "Técnico") # impide el acceso sin login
+@role_required("Admin", "Técnico")
 def add_procedimiento():
 	form = ProcedimientoForm()	
 	if form.validate_on_submit():

@@ -43,8 +43,7 @@ def create_app(config_class=Config):
 	from tseg.detalles_trabajo.routes import detalles_trabajo
 	from tseg.procedimientos.routes import procedimientos
 	from tseg.reportes.routes import reportes
-	from tseg.errors.handlers import errors	
-
+	from tseg.errors.handlers import errors
 	from tseg.users.forms import SearchForm
 	
 	app.register_blueprint(users)	

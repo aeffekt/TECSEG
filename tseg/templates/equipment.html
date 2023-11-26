@@ -100,10 +100,10 @@
 			<div class="col-md-3">
 				{% if equipment.numSerie %}
 					<br>
-					<a class="bi bi-printer btn btn-outline-light" title="Generar Carátula y Etiqueta Número de Serie (PDF)" href="{{ url_for('equipments.print_pdfs', equipment_id=equipment.id) }}"></a>
+					<a class="bi bi-printer btn btn-outline-light" title="Generar Carátula y Etiqueta Nº serie (PDF)" href="{{ url_for('equipments.print_pdfs', equipment_id=equipment.id) }}"></a>
 					{% if equipment.etiqueta_file %}
 						<a class="bi bi-filetype-pdf btn btn-outline-light" title="Abrir archivo de Carátula del manual" href="{{ path }}{{ equipment.caratula_file }}" target="_blank"></a>
-						<a class="bi bi-upc-scan btn btn-outline-light" title="Abrir archivo de etiqueta de número de serie" href="{{ path }}{{ equipment.etiqueta_file }}" target="_blank"></a>
+						<a class="bi bi-upc-scan btn btn-outline-light" title="Abrir archivo de etiqueta de Nº serie" href="{{ path }}{{ equipment.etiqueta_file }}" target="_blank"></a>
 					{% endif %}
 				{% endif %}
 			</div>
@@ -156,6 +156,7 @@
 								<a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
 										{% elif historia.tipo_historia.tipo == 'Reparación' %}warning
 										{% elif historia.tipo_historia.tipo == 'Modificación' %}info
+										{% elif historia.tipo_historia.tipo == 'Falla' %}danger
 										{% endif %} btn-block btn-sm"
 									href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipo_historia_id=historia.tipo_historia.id) }}"
 									title="Ver todas las historias del tipo '{{ historia.tipo_historia.tipo }}'">

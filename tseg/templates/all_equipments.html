@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
     <h6 class="border-bottom border-secondary mb-4">Equipos ({{ lista.count() }})</h6>
-    
-    {% include "lista_equipos.html"  %}
-    
-    
+    {% set equipments = lista %}
+    {% include "lista_equipos.html" %}
 {% endblock content %}

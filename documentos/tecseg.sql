@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 21-11-2023 a las 16:12:51
+-- Tiempo de generación: 25-11-2023 a las 16:35:37
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -47,23 +47,30 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`),
   KEY `client_iibb` (`iibb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
 --
 
 INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `telefono`, `email`, `comments`, `user_id`, `domicilio_id`, `cond_fiscal_id`, `iibb_id`) VALUES
-(1, 'Sergio', 'Viola', 'Sistema Confiar S.R.L.', 30644088398, '3434560058', 'sergiodarioviola@gmail.com', '', 4, 25, 1, 908),
+(1, 'Sergio', 'Viola', 'Sistema Confiar S.R.L.', 30644088398, '3434560058', 'sergiodarioviola@gmail.com', NULL, 4, 25, 1, 908),
 (2, 'Nestor', 'busso', '', NULL, '2920484213', 'nestorbusso@gmail.com', 'Técnico Joshué: 2920650099..', 4, 26, NULL, 916),
-(3, 'Fabio', 'Brandan', '', NULL, '1155637121', 'faviobrandan@hotmail.com', '', 4, 27, NULL, 902),
-(4, 'Guillermo Claudio', 'Gelves', '', 20136080750, '2646614200', 'ingelves@gmail.com', '', 4, 28, 1, 918),
-(5, 'Pastor', 'Aquino', 'JTA', NULL, '', '', '', 10, 29, NULL, 913),
+(3, 'Fabio', 'Brandan', '', NULL, '1155637121', 'faviobrandan@hotmail.com', NULL, 4, 27, NULL, 902),
+(4, 'Guillermo Claudio', 'Gelves', '', 20136080750, '2646614200', 'ingelves@gmail.com', NULL, 4, 28, 1, 918),
+(5, 'Pastor', 'Aquino', 'JTA', NULL, NULL, '', NULL, 10, 29, NULL, 913),
 (6, 'Lapacho', 'TV', 'LAPACHO - L.T. 88 TV CANAL 11', 30707032126, '(54) 0370 - 4436404 / 4430723', 'info@lapachotv.com.ar', 'www.lapachotv.com.ar', 10, 30, 1, 909),
-(7, 'Municipalidad', 'Concordia', 'Municipalidad De Concordia', 30999011728, '0345 - 4291300', '', '', 10, 31, 2, 908),
-(8, 'Federal', 'Comunicaciones', 'Federal Comunicaciones S.A.', 30690497960, '+54 343 4312196', '', '', 10, 32, 1, 908),
+(7, 'Municipalidad', 'Concordia', 'Municipalidad De Concordia', 30999011728, '0345 - 4291300', '', NULL, 10, 31, 2, 908),
+(8, 'Federal', 'Comunicaciones', 'Federal Comunicaciones S.A.', 30690497960, '+54 343 4312196', '', NULL, 10, 32, 1, 908),
 (9, 'Luis', 'Mazurier', 'COOP. DE TRAB. OBR PRENSA ESCRITA Y TV LTDA', NULL, '', '', 'Director TELE 5', 10, 33, 1, 908),
-(10, 'Javier', 'Matus', 'Multivisión Federal', 20207068226, '', '', '', 10, 34, 2, 917);
+(10, 'Javier', 'Matus', 'Multivisión Federal', 20207068226, '', '', NULL, 10, 34, 2, 917),
+(11, 'Gustavo', 'Paladini', '', NULL, '', '', NULL, 10, 35, NULL, 921),
+(12, 'Ariel', 'Guevara', '', NULL, '', '', NULL, 10, 36, NULL, 904),
+(13, 'Daniel', 'Boga', '', NULL, '+54 9 3704 03-5191', 'daniboga@yahoo.com.ar', NULL, 10, 37, NULL, 909),
+(14, 'Hector Hugo', 'Bonarrico', 'Kingdom TV', NULL, '', '', 'ANYDESK: 255 433 310\r\npass: ?\r\nTécnico externo: Luis Fernández - 2615 58-6978 radiosysistemas@gmail.com\r\nTécnico interno: Juan Silva - 261 618 8088', 10, 38, NULL, 913),
+(15, 'Richard', 'Paladini', 'Grupo Cristal', NULL, '3472506644', 'ricardopaladini@grupocristal.com.ar', 'TeamViewer:\r\nID: 982 097 431\r\npass: Back13215\r\n\r\nAnyDesk: 702893875\r\npass: Back13215', 10, 39, 1, 921),
+(16, 'Güemes', 'Televisión', 'Güemes Televisión S.A.', 30700082969, '', '', NULL, 10, 40, 1, 917),
+(17, 'Canal', 'Señora del Rosario', 'Canal Señora del Rosario', 30690717197, '03868421768 03868421768', '', NULL, 10, 41, 2, 917);
 
 -- --------------------------------------------------------
 
@@ -112,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `orden_detalle` (`reparacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_reparacion`
@@ -121,7 +128,10 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
 INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modified`, `user_id`, `reparacion_id`) VALUES
 (1, 'hubo corte de energía. presenta falla mux y muleto\r\nmux no detecta bitrate del encoder.\r\ndesconecto y reinicio todo, salió andando bien!!!!!\r\n', '2023-08-19 11:39:42', '2023-08-19 11:39:42', 1, 1),
 (2, 'se pidió asistencia a remota a VIDEOSWITCH, se aguarda informe', '2023-10-26 12:23:43', '2023-11-11 17:33:50', 1, 5),
-(3, 'El señor Néstor  Busso nos comentó que el problema había desaparecido después de que la gente de videoswitch revisara el sistema, mas haya de que no reportaron ningún cambio o mala configuración, se da por concretada la orden de reparación', '2023-11-11 15:23:29', '2023-11-11 17:33:54', 1, 5);
+(3, 'El señor Néstor  Busso nos comentó que el problema había desaparecido después de que la gente de videoswitch revisara el sistema, mas haya de que no reportaron ningún cambio o mala configuración, se da por concretada la orden de reparación', '2023-11-11 15:23:29', '2023-11-11 17:33:54', 1, 5),
+(4, 'se programa un 3542 para préstamo: #1 Kingdom TV y #2 VTV', '2022-05-25 12:14:55', '2023-11-23 13:06:49', 1, 6),
+(5, 'Equipo reparado por VideoSwitch', '2023-09-19 12:14:55', '2023-11-23 13:06:51', 1, 6),
+(6, 'Se aguardan datos de Luis Fernández para corroborar si el equipo falla, o se está mal usando sus entradasy por ello se entrecorta la señal', '2023-11-23 21:36:49', '2023-11-23 21:36:49', 10, 6);
 
 -- --------------------------------------------------------
 
@@ -141,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `detalle_trabajo` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `detalle_OT` (`trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_trabajo`
@@ -183,7 +193,7 @@ INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `dat
 (44, 'Encodulator NDS3542', 2, '2023-11-03 10:17:34', '2023-11-13 18:43:55', 11, 33),
 (47, 'Tx TRUD500 CTM', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
 (48, 'Encoder 2 entrdas HD y SD', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
-(49, 'Mux videoswitch dmux3000', 1, '2023-11-09 11:34:53', '2023-11-13 18:43:55', 11, 35),
+(49, 'Mux videoswitch dmux-1000', 1, '2023-11-09 11:34:53', '2023-11-24 13:24:36', 11, 35),
 (50, 'mod digital mist-13', 1, '2023-11-09 11:34:53', '2023-11-14 15:14:54', 11, 35),
 (51, 'Encoder IP LA214', 2, '2023-11-17 10:42:48', '2023-11-17 13:13:15', 10, 36),
 (52, 'Switch HP', 3, '2023-11-17 10:42:48', '2023-11-17 13:12:35', 10, 36),
@@ -192,7 +202,30 @@ INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `dat
 (55, 'Modulador ISDB MIST-13', 2, '2023-11-17 10:42:48', '2023-11-17 13:13:31', 10, 36),
 (56, 'Tx TRUD500', 1, '2023-11-17 10:42:48', '2023-11-17 10:42:48', 10, 36),
 (57, 'Filtro de mascara UHF', 2, '2023-11-17 10:42:48', '2023-11-17 13:12:54', 10, 36),
-(58, 'Tx TRUD250/70', 1, '2023-11-17 12:26:27', '2023-11-17 12:26:27', 10, 36);
+(58, 'Tx TRUD250/70', 1, '2023-11-17 12:26:27', '2023-11-17 12:26:27', 10, 36),
+(59, 'Modulador FM MFM4', 1, '2023-11-21 13:45:40', '2023-11-21 13:45:40', 10, 37),
+(60, 'Tx FM1000 ctm', 1, '2023-11-21 13:45:40', '2023-11-22 11:05:08', 10, 37),
+(61, 'Tx FM2000 ctm', 1, '2023-11-22 09:47:41', '2023-11-22 10:06:13', 10, 38),
+(62, 'modulador MFM1', 1, '2023-11-22 09:47:41', '2023-11-22 09:47:41', 10, 38),
+(63, 'encoder modulador 3558A', 1, '2023-11-23 11:02:37', '2023-11-23 11:02:37', 10, 39),
+(64, 'enlace ubiquiti prism 5g', 2, '2023-11-23 11:02:37', '2023-11-23 11:02:37', 10, 39),
+(65, 'router edgepoint', 1, '2023-11-23 11:02:37', '2023-11-23 11:02:37', 10, 39),
+(66, 'switch trendnet', 1, '2023-11-23 11:02:37', '2023-11-23 11:02:37', 10, 39),
+(67, 'decoder DX3702', 1, '2023-11-23 11:02:37', '2023-11-23 11:02:37', 10, 39),
+(68, 'parabola ubiquiti', 2, '2023-11-23 11:02:37', '2023-11-23 11:02:37', 10, 39),
+(70, 'enlace 11G ubiquiti', 2, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 40),
+(71, 'encoder 3224v', 1, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 40),
+(72, 'modulador ip a isdb L3306', 1, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 40),
+(73, 'router HEX', 1, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 40),
+(74, 'switch HP', 1, '2023-11-23 12:14:55', '2023-11-23 12:51:29', 10, 40),
+(75, 'Encoder SDI (wellav/dexin)', 1, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 41),
+(76, 'mux vs DMUX500', 1, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 41),
+(77, 'mod ZACH36 BTS MFM', 1, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 41),
+(78, 'Tx TRUD900', 1, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 41),
+(79, 'Switch', 2, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 41),
+(80, 'Tx FM1000', 4, '2023-11-24 09:37:19', '2023-11-24 09:37:19', 10, 42),
+(81, 'Tx TRUD250 ch34', 1, '2023-11-24 09:43:20', '2023-11-24 09:43:20', 10, 43),
+(82, 'modulador dexin 3542 4 hdmi', 1, '2023-11-24 09:43:20', '2023-11-24 09:43:20', 10, 43);
 
 -- --------------------------------------------------------
 
@@ -207,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -223,7 +256,14 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (31, 'Mitre 76', 1565),
 (32, 'avda Ramirez 1518', 1515),
 (33, 'Concejal Veiga 777', 1565),
-(34, 'Av. Juan Domingo Perón 2900', 1936);
+(34, 'Av. Juan Domingo Perón 2900', 1936),
+(35, 'revisar direccion', 2093),
+(36, 'ver direccion', 1214),
+(37, 'ver dirección', 1598),
+(38, 'Vicente López 443', 1758),
+(39, 'San Lorenzo 1069', 2093),
+(40, 'RIVADAVIA 565 ', 1955),
+(41, 'Sebastián Arias 69', 1954);
 
 -- --------------------------------------------------------
 
@@ -243,80 +283,183 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `etiqueta_file` varchar(50) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `modelo_id` int(11) NOT NULL,
-  `frecuencia_id` int(11) DEFAULT NULL,
   `detalle_trabajo_id` int(11) NOT NULL,
   `sistema` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `equipment_modelo` (`modelo_id`),
-  KEY `equipment_canal_frecuencia` (`frecuencia_id`),
   KEY `eq_detalle` (`detalle_trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
 --
 
-INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `caratula_file`, `etiqueta_file`, `user_id`, `modelo_id`, `frecuencia_id`, `detalle_trabajo_id`, `sistema`) VALUES
-(95, '3/1122', '2023', '2023-10-20 19:08:32', '2023-11-21 12:58:05', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, NULL, 14, 'Paraná'),
-(96, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:48:32', 'IP: 10.0.0.96', NULL, NULL, 1, 34, NULL, 13, 'Paraná'),
-(99, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:47:20', 'IP: 10.0.0.95', NULL, NULL, 1, 69, NULL, 10, 'Paraná'),
-(100, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:47:47', 'IP: 10.0.0.94', NULL, NULL, 1, 69, NULL, 10, 'Crespo'),
-(101, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:52:21', 'IP: 10.0.0.90\r\nsalida IP\r\nMultiplex vs entrada IP: 224.2.2.2 port 2234. IP : 10.0.0.88', NULL, NULL, 1, 37, 18, 9, 'Crespo'),
-(102, NULL, '2020', '2023-10-20 22:51:31', '2023-11-21 12:49:42', '(solo #1 a 9Mb + 2 FM 1M5 c/u) \r\nIP: 10.0.0.89', NULL, NULL, 1, 58, NULL, 8, 'Estudios'),
-(106, '4/1122', '2022', '2023-10-21 00:19:20', '2023-11-21 12:48:10', 'IP: 192.168.1.90(?) or 192.168.1.210', NULL, NULL, 1, 56, 18, 11, 'Crespo'),
-(108, '1/1221', '2021', '2023-10-22 11:33:10', '2023-10-23 10:39:19', 'Potencia de salida RMS 150W', NULL, NULL, 1, 13, 29, 16, NULL),
-(109, NULL, '2020', '2023-10-22 11:33:10', '2023-10-23 10:39:43', 'tiene 2 señales 7,5Mb.. quiere agregar 3er señal\r\nla señal viaja via fibra SDI 4 pelos convierte a HDMI', NULL, NULL, 1, 58, 29, 17, NULL),
-(110, '3/1221', '2021', '2023-10-22 14:53:12', '2023-10-26 11:58:07', 'TRUD1000 CTM instalada\r\nIP: 10.6.0.205', NULL, NULL, 1, 19, 21, 24, NULL),
-(111, NULL, '2020', '2023-10-22 14:53:12', '2023-10-26 11:58:26', '10.6.0.201	NIT= 21.1 	BTS-MFN', NULL, NULL, 1, 61, 21, 23, NULL),
-(112, NULL, '2022', '2023-10-22 14:53:12', '2023-10-26 11:58:47', 'IP: 10.6.0.202	\r\ncapa A 13 seg\r\n64QAM \r\n5/6 \r\n1/16\r\ningresa IP multicast 224.2.2.2 puerto 12000', NULL, NULL, 1, 36, 21, 22, NULL),
-(113, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 11:54:42', 'MASTER 	\r\n192.168.0.20 \r\nuser:ubnt \r\npass:ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, NULL, 21, NULL),
-(114, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 12:04:30', 'SLAVE	\r\n192.168.0.21 \r\nuser: ubnt \r\npass: ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, NULL, 21, NULL),
-(115, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:31', 'ARUBA 1930\r\nIP 192.168.1.1', NULL, NULL, 1, 49, NULL, 20, NULL),
-(116, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:06', 'ARUBA 1930', NULL, NULL, 1, 49, NULL, 20, NULL),
-(117, NULL, '2021', '2023-10-22 14:53:12', '2023-11-19 12:46:34', 'IP: 172.20.3.130\r\n8 entradas HDMI\r\n#1 8MBps \"JTA TV\" high profile 1920x1080\r\n#3 8MBps \"JTA DEPORTES\" high profile 1920x1080\r\nSalida IP 224.2.2.2 12000 hasta 12008', NULL, NULL, 1, 60, NULL, 19, NULL),
-(118, NULL, '2021', '2023-10-22 15:40:14', '2023-11-21 00:33:08', '192.168.0.30 	nombre=\"JTA TV\" \r\nbitrate= 8M ENtrada HDMI \r\nIP OUT 224.2.2.2 puerto 12.000', NULL, NULL, 1, 38, NULL, 18, NULL),
-(119, '2/1122', '2020', '2023-10-23 10:21:21', '2023-11-21 13:01:52', '10.0.0.86\r\ninstalado en CRESPO. \r\nEn primer lugar fue a préstamo un TRUD500', '220516-2_1122_caratula.pdf', '220516-2_1122.pdf', 1, 20, 18, 12, 'Crespo'),
-(121, '2/1218', '2018', '2023-10-23 11:39:42', '2023-11-13 18:05:35', '', NULL, NULL, 1, 55, 31, 29, NULL),
-(122, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', '192.168.0.40', NULL, NULL, 1, 37, 31, 28, NULL),
-(123, NULL, '2018', '2023-10-23 11:39:42', '2023-10-26 12:00:27', ' 192.168.0.136\r\nusa conversor hdmi, no funciona SDI\r\nLo usa de BACKUP', NULL, NULL, 1, 58, 31, 27, NULL),
-(124, '1/1218', '2018', '2023-10-23 11:39:42', '2023-10-26 15:32:01', '', NULL, NULL, 1, 13, 31, 25, NULL),
-(125, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', 'HDMI sin webbrower usar SNMP 192.168.0.30', NULL, NULL, 1, 38, NULL, 26, NULL),
-(126, '1/1023', '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'sin pre corrección', NULL, NULL, 1, 15, 19, 33, NULL),
-(127, NULL, '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'IP 192.168.1.136\r\nchannel #1 GUANACO PLAY 9M\r\nchannel #3 CHINGUI CHINGUI 4M5\r\nchannel #4 DYNAMIS TV 4M5\r\n\r\nRF OUT -5dBm 64qam 1/32 7/8', NULL, NULL, 1, 58, 19, 32, NULL),
-(128, '1/0322', '2022', '2023-10-25 13:05:56', '2023-10-25 13:16:08', '', NULL, NULL, 1, 13, 16, 35, NULL),
-(129, NULL, '2022', '2023-10-25 13:05:56', '2023-10-26 09:09:09', 'IP: 192.168.1.136\r\n16QAM modo3 conv 5/6 IG: 1/16\r\n#1 señal 9 MBps \"FIVE TV\"\r\n#2 señal 3,5 MBps \"TV Channel\"\r\nMPEG2 audio, para mejor recepción a pedido del cliente', NULL, NULL, 1, 58, 16, 34, NULL),
-(130, '1/1223', '2023', '2023-10-26 14:14:40', '2023-10-26 15:09:05', '192.168.1.100', NULL, NULL, 1, 67, NULL, 42, NULL),
-(131, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.101  S/N:01-0102-5522', NULL, NULL, 1, 34, NULL, 41, NULL),
-(132, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.102 S/N:01-0102-6184', NULL, NULL, 1, 69, NULL, 40, NULL),
-(133, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.106 S/N:01-0102-6183', NULL, NULL, 1, 69, NULL, 40, NULL),
-(134, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, NULL, 39, NULL),
-(135, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, NULL, 39, NULL),
-(136, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.103 S/N:01-0102-6182', NULL, NULL, 1, 54, NULL, 38, NULL),
-(137, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.104 one-seg y HD 9Mb S/N:01-0102-6142\r\n', NULL, NULL, 1, 70, NULL, 37, NULL),
-(138, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.105 (idem repuesto) S/N:01-0102-6181\r\n', NULL, NULL, 1, 70, NULL, 37, NULL),
-(140, NULL, '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#1 \r\nNDS3542\r\n172.30.9.8 \r\n20.1 	7 Mbps Municipalidad de Concordia 1\r\n20.2	        3 Mbps Municipalidad de Concordia 2\r\n64QAM 1/16 3/4 RF -14,5dBm', NULL, NULL, 1, 58, 20, 44, NULL),
-(141, NULL, '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3	   3 Mbps Direccion Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Direccion Electrotécnica y comunicaciones 2', NULL, NULL, 1, 58, 20, 44, NULL),
-(142, '1/0218', '2018', '2023-11-08 13:27:23', '2023-11-08 16:36:59', 'ex TRU400 linealizado', '180102-1_0218_caratula.pdf', '180102-1_0218.pdf', 1, 13, 20, 43, NULL),
-(143, '2/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.90', NULL, NULL, 1, 55, 16, 50, NULL),
-(144, NULL, '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.40', NULL, NULL, 1, 37, 16, 49, NULL),
-(145, NULL, '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.30', NULL, NULL, 1, 58, NULL, 48, NULL),
-(146, '1/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.100', NULL, NULL, 1, 15, 16, 47, NULL),
-(154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-21 12:45:38', '10.0.0.92 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 18, 12, 'Paraná'),
-(155, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 13:10:10', '4-1 SNMP	\r\n192.168.1.30\r\nsalidas IP 224.2.2.2 12001/3\r\n1 - MULTIVISIÓN HD 8M\r\n2 - SIN NOMBRE SD 3M\r\n3 - SIN NOMBRE/SIN SEÑAL SD 3M', NULL, NULL, 10, 72, NULL, 51, 'Estudios'),
-(156, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 13:10:39', 'HP.192.168.1.2  admin :: blank\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (NMS Encoder)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (PC Control)\r\n! Port 5: VLAN 5 (DATA Encoder, video MPTS)\r\n! Port 6: VLAN 5 ()\r\n! Port 7: VLAN 1\r\n! Port 8: VLAN 1 (Notebook Control)', NULL, NULL, 10, 49, NULL, 52, 'Estudios'),
-(157, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 11:09:23', 'Switch Planta Transmisora (IP 192.168.1.1):\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (Control Mux)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (Control Modulador)\r\n! Port 5: VLAN 5 (GbE1 Mux)\r\n! Port 6: VLAN 1 (Control TRUD500)\r\n! Port 7: VLAN 1 (Control equipo analógico)\r\n! Port 8: VLAN 1', NULL, NULL, 10, 49, NULL, 52, 'Cerro'),
-(158, '1/0117', '2017', '2023-11-17 11:58:28', '2023-11-21 13:06:40', '192.168.1.100', NULL, NULL, 10, 15, 35, 56, 'Cerro'),
-(159, NULL, '2017', '2023-11-17 11:59:56', '2023-11-21 11:08:57', '192.168.1.40\r\nSe usa la salida \"BTS MONITOR\" la salida ASI parece no andar\r\nModo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM', NULL, NULL, 10, 74, 35, 53, 'Cerro'),
-(160, NULL, '2017', '2023-11-17 12:09:29', '2023-11-21 11:07:50', '', NULL, NULL, 10, 73, 35, 57, 'Cerro'),
-(161, '2/0117', '2017', '2023-11-17 12:19:28', '2023-11-21 11:08:27', '64QAM 1/16\r\n192.168.1.90\r\n', NULL, NULL, 10, 55, 35, 55, 'Cerro'),
-(162, NULL, '2017', '2023-11-17 12:20:46', '2023-11-21 11:08:42', 'Modo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM\r\n192.168.1.40', NULL, NULL, 10, 36, 35, 54, 'Cerro'),
-(163, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 12:10:52', '192.168.0.30\r\nSDI HD\r\nSDI SD\r\nSDI SD\r\nSDI SD', NULL, NULL, 10, 72, NULL, 51, 'Salta'),
-(164, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 12:10:39', '', NULL, NULL, 10, 49, NULL, 52, 'Salta'),
-(165, '3/0117', '2017', '2023-11-17 12:26:27', '2023-11-18 12:06:19', '192.168.0.100', NULL, NULL, 10, 13, 35, 58, 'Salta'),
-(166, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:37', '', NULL, NULL, 10, 73, 35, 57, 'Salta'),
-(167, '4/0117', '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:45', 'IP: 192.168.0.90', NULL, NULL, 10, 55, 35, 55, 'Salta'),
-(168, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:53', 'Modo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM\r\n192.168.0.40', NULL, NULL, 10, 74, 35, 53, 'Salta');
+INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `caratula_file`, `etiqueta_file`, `user_id`, `modelo_id`, `detalle_trabajo_id`, `sistema`) VALUES
+(95, '3/1122', '2023', '2023-10-20 19:08:32', '2023-11-21 22:01:28', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, 14, 'Paraná'),
+(96, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:48:32', 'IP: 10.0.0.96', NULL, NULL, 1, 34, 13, 'Paraná'),
+(99, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:47:20', 'IP: 10.0.0.95', NULL, NULL, 1, 69, 10, 'Paraná'),
+(100, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:47:47', 'IP: 10.0.0.94', NULL, NULL, 1, 69, 10, 'Crespo'),
+(101, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:52:21', 'IP: 10.0.0.90\r\nsalida IP\r\nMultiplex vs entrada IP: 224.2.2.2 port 2234. IP : 10.0.0.88', NULL, NULL, 1, 37, 9, 'Crespo'),
+(102, NULL, '2020', '2023-10-20 22:51:31', '2023-11-21 12:49:42', '(solo #1 a 9Mb + 2 FM 1M5 c/u) \r\nIP: 10.0.0.89', NULL, NULL, 1, 58, 8, 'Estudios'),
+(106, '4/1122', '2022', '2023-10-21 00:19:20', '2023-11-21 12:48:10', 'IP: 192.168.1.90(?) or 192.168.1.210', NULL, NULL, 1, 56, 11, 'Crespo'),
+(108, '1/1221', '2021', '2023-10-22 11:33:10', '2023-10-23 10:39:19', 'Potencia de salida RMS 150W', NULL, NULL, 1, 13, 16, NULL),
+(109, NULL, '2020', '2023-10-22 11:33:10', '2023-10-23 10:39:43', 'tiene 2 señales 7,5Mb.. quiere agregar 3er señal\r\nla señal viaja via fibra SDI 4 pelos convierte a HDMI', NULL, NULL, 1, 58, 17, NULL),
+(110, '3/1221', '2021', '2023-10-22 14:53:12', '2023-10-26 11:58:07', 'TRUD1000 CTM instalada\r\nIP: 10.6.0.205', NULL, NULL, 1, 19, 24, NULL),
+(111, NULL, '2020', '2023-10-22 14:53:12', '2023-10-26 11:58:26', '10.6.0.201	NIT= 21.1 	BTS-MFN', NULL, NULL, 1, 61, 23, NULL),
+(112, NULL, '2022', '2023-10-22 14:53:12', '2023-10-26 11:58:47', 'IP: 10.6.0.202	\r\ncapa A 13 seg\r\n64QAM \r\n5/6 \r\n1/16\r\ningresa IP multicast 224.2.2.2 puerto 12000', NULL, NULL, 1, 36, 22, NULL),
+(113, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 11:54:42', 'MASTER 	\r\n192.168.0.20 \r\nuser:ubnt \r\npass:ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, 21, NULL),
+(114, NULL, '2020', '2023-10-22 14:53:12', '2023-10-27 12:04:30', 'SLAVE	\r\n192.168.0.21 \r\nuser: ubnt \r\npass: ubnt	\r\nnombre de link: JTA24G \r\npassword: jesusteama', NULL, NULL, 1, 59, 21, NULL),
+(115, NULL, '2021', '2023-10-22 14:53:12', '2023-11-23 16:38:29', 'ARUBA 1930\r\nIP 192.168.1.1', NULL, NULL, 1, 49, 20, NULL),
+(116, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:06', 'ARUBA 1930', NULL, NULL, 1, 49, 20, NULL),
+(117, NULL, '2021', '2023-10-22 14:53:12', '2023-11-19 12:46:34', 'IP: 172.20.3.130\r\n8 entradas HDMI\r\n#1 8MBps \"JTA TV\" high profile 1920x1080\r\n#3 8MBps \"JTA DEPORTES\" high profile 1920x1080\r\nSalida IP 224.2.2.2 12000 hasta 12008', NULL, NULL, 1, 60, 19, NULL),
+(118, NULL, '2021', '2023-10-22 15:40:14', '2023-11-21 00:33:08', '192.168.0.30 	nombre=\"JTA TV\" \r\nbitrate= 8M ENtrada HDMI \r\nIP OUT 224.2.2.2 puerto 12.000', NULL, NULL, 1, 38, 18, NULL),
+(119, '2/1122', '2022', '2023-10-23 10:21:21', '2023-11-23 16:24:16', '10.0.0.86\r\ninstalado en CRESPO. \r\nEn primer lugar fue a préstamo un TRUD500', '220516-2_1122_caratula.pdf', '220516-2_1122.pdf', 1, 20, 12, 'Crespo'),
+(121, '2/0917', '2018', '2023-10-23 11:39:42', '2023-11-24 12:43:50', '', NULL, NULL, 1, 55, 29, NULL),
+(122, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', '192.168.0.40', NULL, NULL, 1, 37, 28, NULL),
+(123, NULL, '2018', '2023-10-23 11:39:42', '2023-10-26 12:00:27', ' 192.168.0.136\r\nusa conversor hdmi, no funciona SDI\r\nLo usa de BACKUP', NULL, NULL, 1, 58, 27, NULL),
+(124, '1/0917', '2018', '2023-10-23 11:39:42', '2023-11-24 12:44:08', '', NULL, NULL, 1, 13, 25, NULL),
+(125, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', 'HDMI sin webbrower usar SNMP 192.168.0.30', NULL, NULL, 1, 38, 26, NULL),
+(126, '1/1023', '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'sin pre corrección', NULL, NULL, 1, 15, 33, NULL),
+(127, NULL, '2023', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'IP 192.168.1.136\r\nchannel #1 GUANACO PLAY 9M\r\nchannel #3 CHINGUI CHINGUI 4M5\r\nchannel #4 DYNAMIS TV 4M5\r\n\r\nRF OUT -5dBm 64qam 1/32 7/8', NULL, NULL, 1, 58, 32, NULL),
+(128, '1/0322', '2022', '2023-10-25 13:05:56', '2023-10-25 13:16:08', '', NULL, NULL, 1, 13, 35, NULL),
+(129, NULL, '2022', '2023-10-25 13:05:56', '2023-10-26 09:09:09', 'IP: 192.168.1.136\r\n16QAM modo3 conv 5/6 IG: 1/16\r\n#1 señal 9 MBps \"FIVE TV\"\r\n#2 señal 3,5 MBps \"TV Channel\"\r\nMPEG2 audio, para mejor recepción a pedido del cliente', NULL, NULL, 1, 58, 34, NULL),
+(130, '1/1223', '2023', '2023-10-26 14:14:40', '2023-10-26 15:09:05', '192.168.1.100', NULL, NULL, 1, 67, 42, NULL),
+(131, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.101  S/N:01-0102-5522', NULL, NULL, 1, 34, 41, NULL),
+(132, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.102 S/N:01-0102-6184', NULL, NULL, 1, 69, 40, NULL),
+(133, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.106 S/N:01-0102-6183', NULL, NULL, 1, 69, 40, NULL),
+(134, NULL, '2022', '2023-10-26 15:03:10', '2023-11-23 16:38:16', 'Aruba', NULL, NULL, 1, 49, 39, NULL),
+(135, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'Aruba', NULL, NULL, 1, 49, 39, NULL),
+(136, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', '192.168.1.103 S/N:01-0102-6182', NULL, NULL, 1, 54, 38, NULL),
+(137, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.104 one-seg y HD 9Mb S/N:01-0102-6142\r\n', NULL, NULL, 1, 70, 37, NULL),
+(138, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.105 (idem repuesto) S/N:01-0102-6181\r\n', NULL, NULL, 1, 70, 37, NULL),
+(140, NULL, '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#1 \r\nNDS3542\r\n172.30.9.8 \r\n20.1 	7 Mbps Municipalidad de Concordia 1\r\n20.2	        3 Mbps Municipalidad de Concordia 2\r\n64QAM 1/16 3/4 RF -14,5dBm', NULL, NULL, 1, 58, 44, NULL),
+(141, NULL, '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3	   3 Mbps Direccion Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Direccion Electrotécnica y comunicaciones 2', NULL, NULL, 1, 58, 44, NULL),
+(142, '1/0218', '2018', '2023-11-08 13:27:23', '2023-11-08 16:36:59', 'ex TRU400 linealizado', '180102-1_0218_caratula.pdf', '180102-1_0218.pdf', 1, 13, 43, NULL),
+(143, '2/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.90', NULL, NULL, 1, 55, 50, NULL),
+(144, NULL, '2019', '2023-11-09 11:34:53', '2023-11-24 13:24:58', '192.168.1.40', NULL, NULL, 1, 74, 49, NULL),
+(145, NULL, '2019', '2023-11-09 11:34:53', '2023-11-24 13:24:17', '192.168.1.30\r\nSe usa solo como encoder', NULL, NULL, 1, 58, 48, NULL),
+(146, '1/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.100', NULL, NULL, 1, 15, 47, NULL),
+(154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-21 12:45:38', '10.0.0.92 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 12, 'Paraná'),
+(155, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 13:18:33', '4-1 SNMP	\r\n192.168.1.30\r\nsalidas IP 224.2.2.2 12001/3\r\n1 - MULTIVISIÓN HD 8M\r\n2 - SIN NOMBRE SD 3M\r\n3 - SIN NOMBRE/SIN SEÑAL SD 3M', NULL, NULL, 10, 72, 51, 'Estudios'),
+(156, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 13:10:39', 'HP.192.168.1.2  admin :: blank\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (NMS Encoder)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (PC Control)\r\n! Port 5: VLAN 5 (DATA Encoder, video MPTS)\r\n! Port 6: VLAN 5 ()\r\n! Port 7: VLAN 1\r\n! Port 8: VLAN 1 (Notebook Control)', NULL, NULL, 10, 49, 52, 'Estudios'),
+(157, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 11:09:23', 'Switch Planta Transmisora (IP 192.168.1.1):\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (Control Mux)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (Control Modulador)\r\n! Port 5: VLAN 5 (GbE1 Mux)\r\n! Port 6: VLAN 1 (Control TRUD500)\r\n! Port 7: VLAN 1 (Control equipo analógico)\r\n! Port 8: VLAN 1', NULL, NULL, 10, 49, 52, 'Cerro'),
+(158, '1/1217', '2017', '2023-11-17 11:58:28', '2023-11-24 13:12:23', '192.168.1.100', NULL, NULL, 10, 15, 56, 'Cerro'),
+(159, NULL, '2017', '2023-11-17 11:59:56', '2023-11-21 13:20:46', '192.168.1.40\r\nSe usa la salida \"BTS MONITOR\" la salida ASI parece no andar\r\nModo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM', NULL, NULL, 10, 74, 53, 'Cerro'),
+(160, NULL, '2017', '2023-11-17 12:09:29', '2023-11-21 11:07:50', '', NULL, NULL, 10, 73, 57, 'Cerro'),
+(161, '2/1217', '2017', '2023-11-17 12:19:28', '2023-11-24 13:12:55', '64QAM 1/16\r\n192.168.1.90\r\n', NULL, NULL, 10, 55, 55, 'Cerro'),
+(162, NULL, '2017', '2023-11-17 12:20:46', '2023-11-21 11:08:42', 'Modo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM\r\n192.168.1.40', NULL, NULL, 10, 36, 54, 'Cerro'),
+(163, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 12:10:52', '192.168.0.30\r\nSDI HD\r\nSDI SD\r\nSDI SD\r\nSDI SD', NULL, NULL, 10, 72, 51, 'Salta'),
+(164, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 12:10:39', '', NULL, NULL, 10, 49, 52, 'Salta'),
+(165, '3/1217', '2017', '2023-11-17 12:26:27', '2023-11-24 13:13:13', '192.168.0.100', '36-165_caratula.pdf', '36-165_numSerie.pdf', 10, 13, 58, 'Salta'),
+(166, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:37', '', NULL, NULL, 10, 73, 57, 'Salta'),
+(167, '4/1217', '2017', '2023-11-17 12:26:27', '2023-11-24 13:13:05', 'IP: 192.168.0.90', NULL, NULL, 10, 55, 55, 'Salta'),
+(168, NULL, '2017', '2023-11-17 12:26:27', '2023-11-18 01:49:53', 'Modo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM\r\n192.168.0.40', NULL, NULL, 10, 74, 53, 'Salta'),
+(169, '1/1123', '2023', '2023-11-21 13:45:40', '2023-11-22 11:10:17', '', '37-169_caratula.pdf', '37-169_numSerie.pdf', 10, 4, 60, NULL),
+(170, '2/1123', '2023', '2023-11-21 13:45:40', '2023-11-22 15:54:05', 'Frec: 101,3MHz,  105,1MHz,  106,3MHz,  107,9MHz', '231006-2_1123_caratula.pdf', '231006-2_1123.pdf', 10, 75, 59, NULL),
+(171, NULL, '2023', '2023-11-22 09:47:41', '2023-11-22 09:47:41', '', NULL, NULL, 10, 76, 62, NULL),
+(172, '1/1123', '2023', '2023-11-22 11:02:42', '2023-11-24 12:18:56', 'frente con pulsadores en L', '38-172_caratula.pdf', '38-172_numSerie.pdf', 10, 5, 61, NULL),
+(173, NULL, '2018', '2023-11-23 11:02:37', '2023-11-23 11:02:37', '', NULL, NULL, 10, 82, 68, 'Recepción'),
+(174, NULL, '2018', '2023-11-23 11:02:37', '2023-11-23 11:02:37', '', NULL, NULL, 10, 82, 68, 'Transmisión'),
+(175, NULL, '2018', '2023-11-23 11:02:37', '2023-11-23 11:39:16', 'NMS IP=192.168.1.136\r\nASI1= IN\r\nASI2= OUT\r\nsalida SDI', NULL, NULL, 10, 79, 67, 'Recepción'),
+(176, NULL, '2018', '2023-11-23 11:13:54', '2023-11-23 11:13:54', 'trendnet se conecta con Microtik enlace fibra', NULL, NULL, 10, 49, 66, 'Recepción'),
+(177, NULL, '2018', '2023-11-23 11:13:54', '2023-11-23 11:13:54', 'IP=192.168.1.1\r\nuser: ubnt\r\npass:ubnt', NULL, NULL, 10, 78, 65, 'Recepción'),
+(178, NULL, '2018', '2023-11-23 11:13:54', '2023-11-23 11:13:54', 'IP=192.168.1.135\r\nOUT IP= 224.2.2.2\r\nPORT= 12002', NULL, NULL, 10, 81, 63, 'Transmisión'),
+(179, NULL, '2018', '2023-11-23 11:13:54', '2023-11-23 12:12:40', 'IP=192.168.1.201\r\nuser: admin\r\nLogin pass: Admin123\r\nWiFi pass: Admin123\r\nfrec utiles:\r\n5,2\r\n5,245\r\n5,36\r\n5,73\r\n5,76\r\n5,825', NULL, NULL, 10, 80, 64, 'Transmisión'),
+(180, NULL, '2018', '2023-11-23 11:13:54', '2023-11-23 12:13:09', 'IP=192.168.1.200\r\nuser: admin\r\nLogin pass: Admin123\r\nWiFi pass: Admin123', NULL, NULL, 10, 80, 64, 'Recepción'),
+(182, NULL, '2018', '2023-11-23 12:14:55', '2023-11-23 12:14:55', 'IP: 192.168.88.136 (webserver)\r\n64qam 8K 1/32 3/4 \r\nRF-FREC: 503MHz RF-level: -10dBm', NULL, NULL, 10, 84, 72, 'Planta'),
+(183, NULL, '2018', '2023-11-23 12:14:55', '2023-11-23 12:14:55', '4-1 IP sin display 192.168.88.135 - (Las 4 señales se configuran igual)\r\n	CH4 y CH3= 10Mbps H.264 FULL-HD 1080p\r\n	out-ip: 224.2.2.2 port:2236/2237 respectivamente (port 2012?)\r\n	CH4: KINGDOM TV\r\n	CH3: VTV\r\n(si o si, usar señal #4 para que funcione)', NULL, NULL, 10, 52, 71, 'Estudio'),
+(184, NULL, '2018', '2023-11-23 12:14:55', '2023-11-23 12:14:55', 'IP: 192.168.1.21', NULL, NULL, 10, 83, 70, 'Estudio'),
+(185, NULL, '2018', '2023-11-23 12:14:55', '2023-11-23 12:55:07', 'marca HEX, color blanco\r\nIP:192.168.88.1', NULL, NULL, 10, 48, 73, 'Estudio'),
+(186, NULL, '2018', '2023-11-23 12:14:55', '2023-11-23 12:14:55', 'HP - IP:192.168.88.246 (dicen fallan algunos puertos)', NULL, NULL, 10, 49, 74, 'Planta'),
+(187, NULL, '2018', '2023-11-23 12:14:55', '2023-11-23 12:14:55', 'IP: 192.168.1.20', NULL, NULL, 10, 83, 70, 'Planta'),
+(188, NULL, '2022', '2023-11-23 12:14:55', '2023-11-23 12:14:55', '', NULL, NULL, 10, 49, 79, 'Estudios'),
+(189, NULL, '2022', '2023-11-23 12:14:55', '2023-11-23 12:14:55', '', NULL, NULL, 10, 49, 79, 'Recepción'),
+(190, '1/1122', '2022', '2023-11-23 12:14:55', '2023-11-23 13:39:30', '192.168.1.100', NULL, NULL, 10, 85, 78, 'Recepción'),
+(191, NULL, '2022', '2023-11-23 12:14:55', '2023-11-23 13:35:50', '192.168.1.99\r\n16QAM IG:1/16 CONV:3/4 ', NULL, NULL, 10, 36, 76, 'Recepción'),
+(192, NULL, '2022', '2023-11-23 12:14:55', '2023-11-23 12:14:55', 'Marca Wellav,software Dexin, 192.168.1.135, \r\n9mbps, \r\nout IP: 192.168.2.100 port: 21002\r\n', NULL, NULL, 10, 38, 75, 'Estudios'),
+(193, NULL, '2022', '2023-11-23 12:14:55', '2023-11-23 12:14:55', 'ZACH36 BTS MFN\r\n192.168.1.136', NULL, NULL, 10, 61, 77, 'Recepción'),
+(194, '1/0220', '2020', '2023-11-24 09:37:19', '2023-11-24 09:37:19', '#0 192.168.51.210', NULL, NULL, 10, 4, 80, NULL),
+(195, '2/0220', '2020', '2023-11-24 09:37:19', '2023-11-24 09:37:19', '#1 192.168.51.211', NULL, NULL, 10, 4, 80, NULL),
+(196, '3/0220', '2020', '2023-11-24 09:37:19', '2023-11-24 09:37:19', '#2 192.168.51.212', NULL, NULL, 10, 4, 80, NULL),
+(197, '4/0220', '2020', '2023-11-24 09:43:20', '2023-11-24 10:03:53', '#3 192.168.51.213\r\nEquipo de Backup', NULL, NULL, 10, 4, 80, NULL),
+(198, NULL, '2020', '2023-11-24 09:43:20', '2023-11-24 10:29:26', 'La potencia de salida del Modulador indica -10 dBm en el display pero realmente son -12,5 dBm', NULL, NULL, 10, 58, 82, NULL),
+(199, '1/0421', '2020', '2023-11-24 09:43:20', '2023-11-24 10:29:59', '', NULL, NULL, 10, 86, 81, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `equipos_frecuencias`
+--
+
+DROP TABLE IF EXISTS `equipos_frecuencias`;
+CREATE TABLE IF NOT EXISTS `equipos_frecuencias` (
+  `equipment_id` int(11) NOT NULL,
+  `frecuencia_id` int(11) NOT NULL,
+  KEY `eq_frec_eq` (`equipment_id`),
+  KEY `eq_frec_frec` (`frecuencia_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `equipos_frecuencias`
+--
+
+INSERT INTO `equipos_frecuencias` (`equipment_id`, `frecuencia_id`) VALUES
+(129, 16),
+(143, 16),
+(144, 16),
+(146, 16),
+(101, 18),
+(106, 18),
+(119, 18),
+(154, 18),
+(126, 19),
+(127, 19),
+(140, 20),
+(141, 20),
+(142, 20),
+(110, 21),
+(111, 21),
+(112, 21),
+(108, 29),
+(109, 29),
+(121, 31),
+(122, 31),
+(123, 31),
+(124, 31),
+(158, 35),
+(159, 35),
+(160, 35),
+(161, 35),
+(162, 35),
+(165, 35),
+(166, 35),
+(167, 35),
+(168, 35),
+(170, 167),
+(170, 186),
+(170, 192),
+(170, 200),
+(169, 167),
+(169, 186),
+(169, 192),
+(169, 200),
+(171, 123),
+(172, 123),
+(179, 319),
+(180, 319),
+(182, 19),
+(184, 320),
+(187, 320),
+(190, 36),
+(191, 36),
+(193, 36),
+(194, 186),
+(195, 167),
+(196, 192),
+(197, 200),
+(198, 34),
+(199, 34);
 
 -- --------------------------------------------------------
 
@@ -333,17 +476,23 @@ CREATE TABLE IF NOT EXISTS `error_log` (
   `traceback` text,
   PRIMARY KEY (`id`),
   KEY `error_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `error_log`
 --
 
 INSERT INTO `error_log` (`id`, `date_created`, `user_id`, `error`, `traceback`) VALUES
-(14, '2023-11-21 10:30:24', 1, '\'TextAreaField\' object has no attribute \'dat\'', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 125, in update_equipment\n    equipment.content = form.content.dat\nAttributeError: \'TextAreaField\' object has no attribute \'dat\'\n'),
-(15, '2023-11-21 10:30:29', 4, '\'TextAreaField\' object has no attribute \'dat\'', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 125, in update_equipment\n    equipment.content = form.content.dat\nAttributeError: \'TextAreaField\' object has no attribute \'dat\'\n'),
-(16, '2023-11-21 10:30:43', 10, '\'SelectField\' object has no attribute \'dat\'', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 124, in update_equipment\n    equipment.color_id=form.color.dat\nAttributeError: \'SelectField\' object has no attribute \'dat\'\n'),
-(17, '2023-11-21 11:06:42', 10, '\'SelectField\' object has no attribute \'dat\'', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 124, in update_equipment\n    equipment.color_id=form.color.dat\nAttributeError: \'SelectField\' object has no attribute \'dat\'\n');
+(1, '2023-11-23 10:29:13', 10, '\'tseg.models.Equipment object\' has no attribute \'frecuencia_eq\'', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 204, in search\n    return render_template(\'search.html\', title=\"Busqueda\",\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\flask\\templating.py\", line 147, in render_template\n    return _render(app, template, context)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\flask\\templating.py\", line 130, in _render\n    rv = template.render(context)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 1301, in render\n    self.environment.handle_exception()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 936, in handle_exception\n    raise rewrite_traceback_stack(source=source)\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\templates\\search.html\", line 1, in top-level template code\n    {% extends \"layout.html\" %}\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\templates\\layout.html\", line 65, in top-level template code\n    {% block content %}\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\templates\\search.html\", line 55, in block \'content\'\n    <small class=\"article-title\">Canal/Frec: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></small>\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 485, in getattr\n    return getattr(obj, attribute)\njinja2.exceptions.UndefinedError: \'tseg.models.Equipment object\' has no attribute \'frecuencia_eq\'\n'),
+(2, '2023-11-23 10:35:32', 10, 'Encountered unknown tag \'endfor\'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for \'elif\' or \'else\' or \'endif\'. The innermost block that needs to be closed is \'if\'.', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 204, in search\n    return render_template(\'search.html\', title=\"Busqueda\",\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\flask\\templating.py\", line 146, in render_template\n    template = app.jinja_env.get_or_select_template(template_name_or_list)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 1081, in get_or_select_template\n    return self.get_template(template_name_or_list, parent, globals)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 1010, in get_template\n    return self._load_template(name, globals)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 969, in _load_template\n    template = self.loader.load(self, name, self.make_globals(globals))\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\loaders.py\", line 138, in load\n    code = environment.compile(source, name, filename)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 768, in compile\n    self.handle_exception(source=source_hint)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\jinja2\\environment.py\", line 936, in handle_exception\n    raise rewrite_traceback_stack(source=source)\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\templates\\search.html\", line 57, in template\n    {% endfor%}\njinja2.exceptions.TemplateSyntaxError: Encountered unknown tag \'endfor\'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for \'elif\' or \'else\' or \'endif\'. The innermost block that needs to be closed is \'if\'.\n'),
+(3, '2023-11-23 10:43:18', 10, '<function like_op at 0x000002A14D3E7040>', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 202, in search\n    Modelo.marca.like(\'%\'+searched+\'%\')))\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 683, in like\n    return self.operate(like_op, other, escape=escape)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\attributes.py\", line 444, in operate\n    return op(self.comparator, *other, **kwargs)  # type: ignore[return-value]  # noqa: E501\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 1994, in like_op\n    return a.like(b, escape=escape)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 683, in like\n    return self.operate(like_op, other, escape=escape)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 344, in operate\n    raise NotImplementedError(str(op))\nNotImplementedError: <function like_op at 0x000002A14D3E7040>\n'),
+(4, '2023-11-23 10:44:01', 10, '<function like_op at 0x000002A14D3E7040>', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 202, in search\n    Modelo.marca.like(\'%\'+searched+\'%\')))\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 683, in like\n    return self.operate(like_op, other, escape=escape)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\attributes.py\", line 444, in operate\n    return op(self.comparator, *other, **kwargs)  # type: ignore[return-value]  # noqa: E501\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 1994, in like_op\n    return a.like(b, escape=escape)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 683, in like\n    return self.operate(like_op, other, escape=escape)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\operators.py\", line 344, in operate\n    raise NotImplementedError(str(op))\nNotImplementedError: <function like_op at 0x000002A14D3E7040>\n'),
+(5, '2023-11-23 10:45:27', 10, 'Join target, typically a FROM expression, or ORM relationship attribute expected, got <sqlalchemy.sql.elements.BinaryExpression object at 0x0000029700DBB7C0>.', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 201, in search\n    modelos = Modelo.query.join(Marca.id == Modelo.marca_id).filter(or_(Modelo.nombre.like(\'%\'+searched+\'%\'),\n  File \"<string>\", line 2, in join\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\base.py\", line 248, in _generative\n    x = fn(self, *args, **kw)\n  File \"<string>\", line 2, in join\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\base.py\", line 299, in generate\n    fn(self, *args, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\query.py\", line 2439, in join\n    join_target = coercions.expect(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\coercions.py\", line 443, in expect\n    return impl._implicit_coercions(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\coercions.py\", line 1269, in _implicit_coercions\n    self._raise_for_expected(element, argname, resolved)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\coercions.py\", line 536, in _raise_for_expected\n    raise exc.ArgumentError(msg, code=code) from err\nsqlalchemy.exc.ArgumentError: Join target, typically a FROM expression, or ORM relationship attribute expected, got <sqlalchemy.sql.elements.BinaryExpression object at 0x0000029700DBB7C0>.\n'),
+(6, '2023-11-23 11:19:17', 10, 'list.remove(x): x not in list', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 129, in update_equipment\n    equipment.frecuencias.remove(frecuencia)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\collections.py\", line 1097, in remove\n    fn(self, value)\nValueError: list.remove(x): x not in list\n'),
+(7, '2023-11-23 11:23:08', 10, 'list.remove(x): x not in list', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 133, in update_equipment\n    equipment.frecuencias.remove(frecuencia)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\collections.py\", line 1097, in remove\n    fn(self, value)\nValueError: list.remove(x): x not in list\n'),
+(8, '2023-11-23 11:30:31', 10, 'list.remove(x): x not in list', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 133, in update_equipment\n    equipment.frecuencias.remove(frecuencia)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\collections.py\", line 1097, in remove\n    fn(self, value)\nValueError: list.remove(x): x not in list\n'),
+(9, '2023-11-23 11:34:20', 10, 'list.remove(x): x not in list', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 131, in update_equipment\n    equipment.frecuencias.remove(frecuencia)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\collections.py\", line 1097, in remove\n    fn(self, value)\nValueError: list.remove(x): x not in list\n'),
+(10, '2023-11-25 13:32:46', 10, '\'OrdenTrabajoForm\' object has no attribute \'comment\'', 'Traceback (most recent call last):\n  File \"E:\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\ordenes_trabajo\\routes.py\", line 130, in update_orden_trabajo\n    orden_trabajo.comment = form.comment.data\nAttributeError: \'OrdenTrabajoForm\' object has no attribute \'comment\'\n');
 
 -- --------------------------------------------------------
 
@@ -753,7 +902,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipo_historia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -764,13 +913,31 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (61, 'Calidad de señal', '2021-10-22 11:33:10', '2023-10-22 11:33:10', 'recibe la señal en 720 bien, pero no en 1080... problema de conversor parece (no nuestro).', 1, 109, 1),
 (62, '4 señales', '2021-10-22 11:33:10', '2023-10-22 11:33:10', 'se agregaron las 4 señales\r\n#1: 6M  - #2#3#4: 3M', 3, 109, 1),
 (63, 'Falla PD', '2021-03-02 11:39:42', '2021-03-02 11:39:42', 'el TX presenta falla de ROE.. 30W de PR sobre 170 de PD (queda a revisar por parte de busso)', 2, 124, 1),
-(64, 'Equipo backup', '2021-06-24 11:39:42', '2021-06-21 11:39:42', 'se instalo Dexin 3542 (backup) \r\ncon salida a -22,4 dbm para una Pot de 187W RMS TRUD250 iSAL=14,7A max', 3, 123, 1),
+(64, 'Equipo backup', '2021-04-27 11:39:42', '2021-04-27 11:39:42', 'se instalo Dexin 3542 (backup) \r\ncon salida a -22,4 dbm para una Pot de 187W RMS TRUD250 iSAL=14,7A max', 3, 123, 1),
 (65, 'Falla audio', '2023-10-23 13:02:45', '2023-10-23 13:02:45', 'Con el sistema del modulador MIST-13, recibe bien señal de video, pero no de audio', 1, 124, 1),
 (66, 'Nueva señal', '2023-10-25 12:53:33', '2023-10-25 12:53:33', 'se agregó señal #3, chingui chingui d 4M5', 3, 127, 1),
 (67, 'Ficha alimentación', '2023-03-07 13:05:56', '2023-03-07 13:05:56', 'falla en la ficha de alimentación del mod, se asistió por teléfono para encontrar la falla y fue resuelta', 2, 129, 1),
 (68, 'Nueva señal', '2023-04-19 13:05:56', '2023-04-19 13:05:56', 'se agrega señal 16.2', 3, 129, 1),
 (70, 'Módulo', '2023-11-03 10:17:34', '2023-11-03 10:17:34', 'se reparó un módulo', 2, 140, 1),
-(71, 'Reparación RF', '2023-11-08 13:27:23', '2023-11-08 13:27:23', 'se reparó la RF (no hay mayor info al respecto)', 2, 142, 1);
+(71, 'Reparación RF', '2023-11-08 13:27:23', '2023-11-08 13:27:23', 'se reparó la RF (no hay mayor info al respecto)', 2, 142, 1),
+(72, 'Falla general', '2022-11-04 12:43:56', '2023-11-21 12:43:56', 'por incendio problemas en la señal digital y FO\r\nproblemas en el mux aparente- hay que reparar mux', 2, 159, 10),
+(73, 'Cambio ref. 10MHz', '2022-01-18 12:43:56', '2023-11-21 12:43:56', 'se reparó mux, y se dejó andando junto a otro de back up.\r\nPor falla esporádica de perdida de datos, se cambió la referencia de 10MHz, ahora la genera el modulador y se la pasa a los mux', 3, 159, 10),
+(74, 'Config encoder', '2021-12-27 12:14:55', '2021-12-27 12:14:55', 'Se configuro 4x encoder salida IP NDS3224V \r\nIP=192.168.1.136\r\nIP-OUT: 224.2.2.2:77\r\nencoders entradas 4 y 3 ', 3, 183, 10),
+(75, 'falla conexión al mod', '2022-01-24 12:14:55', '2022-01-22 12:14:55', 'no se tiene acceso al modulador fuera de estudio vía remoto', 1, 182, 10),
+(76, 'está en 720, quieren 1080', '2022-01-26 12:14:55', '2023-11-23 13:00:45', 'Se conectó el nuevo encoder sin display con 2 señales\r\nout-IP 224.2.2.2 port 2236 (in #3) y 2237 (in #4)\r\n!quedo en 720.. quieren 1080\r\n', 2, 183, 10),
+(77, 'Quedó en 1080', '2022-01-28 12:14:55', '2022-01-28 12:14:55', 'Quedó funcionando bien en full-hd', 1, 183, 10),
+(78, 'Mediciones', '2021-02-26 09:43:20', '2021-02-26 09:43:20', 'Se bajaron mediciones del 105.1.. hubo cortes (logicas pasaron de 111110 --> 110110)', 1, 194, 10),
+(79, 'falla >>ROE', '2021-04-01 09:43:20', '2021-04-01 09:43:20', 'conectamos porque hubo problemas de roe con 105,1 - se dejo tomando mediciones', 4, 194, 10),
+(80, 'Potencia baja', '2021-04-15 09:43:20', '2021-04-15 09:43:20', 'Equipo #2 cayo potencia a 20W el dia 12/04/21 a las 8:20 am, ISAL muy baja', 4, 195, 10),
+(81, 'Potencia baja', '2021-05-11 09:43:20', '2021-05-11 09:43:20', 'equipo #3 105,1 potencia a 800W... solucionado', 2, 196, 10),
+(82, 'Potencia un poco Baja', '2021-07-28 09:43:20', '2023-11-24 10:04:56', 'en FREC 101,3MHz x.x.x.214 potencia 910W equipo backup', 4, 197, 10),
+(83, 'Ex Nº Serie', '2023-11-24 09:43:20', '2023-11-24 09:43:20', '140318-1/0514', 3, 172, 10),
+(84, 'O.R Nº:', '2023-11-24 09:43:20', '2023-11-24 09:43:20', '150912', 2, 172, 10),
+(85, 'Origen del modulador', '2017-05-25 09:43:20', '2017-05-25 09:43:20', 'sacado del equipo de Alma TV San Luis', 1, 121, 10),
+(86, 'Potencia de salida', '2017-05-25 09:43:20', '2017-05-25 09:43:20', 'A este se le agrega un atenuador interno de 10 dB para que entregue -10 dBm de salida.\r\nSe ajusta a 150W sin precorrección porque después se pone modulador DEXIN.', 3, 121, 10),
+(87, 'Amp ERA3', '2021-04-27 09:43:20', '2021-04-27 09:43:20', 'se le agregó un Amp. ERA3 en la salida para que diera el nivel 0 dBm. y se setea a -20,5 dBm en el software para que la salida esté en -2dBm y la potencia de salida no pase de 150WRMS en el Amplificador ya que no tendrá precorreción.', 3, 123, 10),
+(88, 'Cambio transistores >>R', '2023-11-24 09:43:20', '2023-11-24 09:43:20', '5. Este equipo se rompio 2 veces cuando se probó con ROE de 5dB y 7dB por error y se cambiaron dos transistores quemados en cada vez que se rompio.', 2, 146, 10),
+(89, 'Ajuste proteccion >r', '2023-11-24 09:43:20', '2023-11-24 09:43:20', 'Finalmente se ajusto en el banco la proteccion de ROE 10dB y no se probo mas', 3, 146, 10);
 
 -- --------------------------------------------------------
 
@@ -3392,7 +3559,7 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`),
   KEY `modelo_tipo` (`tipo_modelo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
@@ -3400,54 +3567,67 @@ CREATE TABLE IF NOT EXISTS `modelo` (
 
 INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `homologacion_id`, `tipo_modelo_id`) VALUES
 (0, 1, 'N/D', 'Modelo no específico', 'default_eq.png', '2023-07-06 10:45:57', '2023-07-06 10:45:57', NULL, NULL, 11),
-(1, 3, 'FM100', 'STM', 'FM100 -17.png', '2023-06-30 10:17:39', '2023-07-09 12:55:38', '\'17', 2, 3),
-(2, 3, 'FM250', 'STM', 'FM250 -16.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'16', 3, 3),
-(3, 2, 'FM500', 'STM', 'FM500 -19.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'19', 4, 3),
-(4, 2, 'FM1000', 'CTM', 'FM1000 -23.png', '2023-06-30 10:17:39', '2023-07-07 10:54:26', '\'23', 5, 3),
-(5, 2, 'FM2000', 'STM', 'FM2000 -23.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 6, 3),
-(6, 2, 'FM3000', 'CTM', 'FM3000 -23.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', NULL, 3),
-(8, 2, 'FM7000', 'refrigeración Agua', 'FM7000 -14.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'14', NULL, 3),
-(10, 2, 'FM5000', 'rack CTM', 'FM5000 -23.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'23', 7, 3),
-(11, 2, 'TRUD70', 'STM', 'TRUD70 -20.png', '2023-06-30 10:17:39', '2023-06-30 10:17:39', '\'20', NULL, 2),
-(13, 2, 'TRUD250', 'STM', 'TRUD250 -20.png', '2023-06-30 10:17:39', '2023-11-04 14:57:43', '\'20', 9, 2),
-(15, 2, 'TRUD500', 'CTM', 'TRUD500 -21.png', '2023-06-30 10:17:39', '2023-07-04 10:47:31', '\'21', 10, 2),
-(19, 2, 'TRUD1200', 'CTM', 'TRUD1200 -10.png', '2023-06-30 10:17:39', '2023-07-04 10:55:33', '\'10', 11, 2),
-(20, 2, 'TRUD1800', 'CTM', 'TRUD1800 -22.png', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL, 2),
-(22, 2, 'TRV5000', 'CTM', 'TRV5000 -10.JPG', '2023-06-30 10:17:39', '2023-07-04 11:22:04', '\'10', NULL, 1),
-(23, 2, 'TRU250', 'CTM', 'TRU250 -06.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL, 1),
-(25, 2, 'TRU400', 'CTM', 'TRU400 -08.png', '2023-06-30 10:17:39', '2023-07-04 11:11:20', '\'08', NULL, 1),
-(26, 2, 'TRU500', 'CTM', 'TRU500 -19.png', '2023-06-30 10:17:39', '2023-07-04 11:12:53', '\'19', NULL, 1),
-(30, 2, 'TRM2650', 'CTM', 'TRM2650 -23.jpg', '2023-06-30 10:17:39', '2023-07-04 10:23:40', '\'23', NULL, 1),
-(31, 2, 'TRM26100', 'CTM', 'TRM26100 -16.png', '2023-06-30 10:17:39', '2023-07-04 10:22:48', '\'16', NULL, 1),
-(34, 8, 'DMOD-1000i', 'Modulador ISDB-T', 'DMOD-1000i -20.png', '2023-06-30 10:17:39', '2023-10-26 15:03:42', NULL, NULL, 9),
-(36, 8, 'DMUX-500i', 'Multiplexor ISDB Sin Display', 'DMUX-500i -19.png', '2023-06-30 10:17:39', '2023-10-26 15:04:33', NULL, NULL, 9),
-(37, 8, 'DMUX-3100', 'Multiplexor ISDB', 'DMUX-3100 -20.png', '2023-06-30 10:17:39', '2023-10-26 15:04:03', NULL, NULL, 9),
-(38, 4, 'LP211', 'Encoder HD HDMI-SDI NDS3211P', 'LP211 -18.png', '2023-06-30 10:17:39', '2023-11-19 12:46:54', NULL, NULL, 9),
-(40, 3, 'FM100', 'enc. posterior', 'FM100 -23.png', '2023-06-30 12:39:07', '2023-07-09 12:18:53', '\'23', 2, 3),
-(46, 2, 'TRV100', 'STM', 'TRV100 -08.png', '2023-07-04 10:22:36', '2023-07-04 10:22:36', '\'08', 12, 1),
+(1, 3, 'FM100', 'STM', '78d612984b497d6b.png', '2023-06-30 10:17:39', '2023-11-25 01:32:16', '\'17', 2, 3),
+(2, 3, 'FM250', 'STM', '5aa13f857c3c387f.png', '2023-06-30 10:17:39', '2023-11-25 01:29:22', '\'20', 3, 3),
+(3, 2, 'FM500', 'STM', '7e1b8c6f85b042cb.png', '2023-06-30 10:17:39', '2023-11-25 01:24:09', '\'19', 4, 3),
+(4, 2, 'FM1000', 'CTM MFM4', '06da08cbfd9b01b3.JPG', '2023-06-30 10:17:39', '2023-11-25 01:18:55', '\'23', 5, 3),
+(5, 2, 'FM2000', 'STM', '358cc0d84db45d78.png', '2023-06-30 10:17:39', '2023-11-25 01:31:16', '\'21', 6, 3),
+(6, 2, 'FM3000', 'CTM', '44cf1302c3fdd311.png', '2023-06-30 10:17:39', '2023-11-25 01:19:18', '\'23', NULL, 3),
+(8, 2, 'FM7000', 'refrigeración Agua', '1a48bc98edf2bf0d.png', '2023-06-30 10:17:39', '2023-11-25 01:12:55', '\'14', NULL, 3),
+(10, 2, 'FM5000', 'rack CTM', '5534eed205cd1b6d.jpg', '2023-06-30 10:17:39', '2023-11-25 01:20:30', '\'20', 7, 3),
+(11, 2, 'TRUD70', 'STM', 'ac54172a2e2753e9.png', '2023-06-30 10:17:39', '2023-11-25 01:19:59', '\'20', NULL, 2),
+(13, 2, 'TRUD250', 'STM', '2ff4d8be28e7777a.png', '2023-06-30 10:17:39', '2023-11-25 01:23:46', '\'20', 9, 2),
+(15, 2, 'TRUD500', 'CTM', '7e8410f2da7ff2a2.png', '2023-06-30 10:17:39', '2023-11-25 01:33:09', '\'21', 10, 2),
+(19, 2, 'TRUD1200', 'CTM', '01bc7026e332d601.png', '2023-06-30 10:17:39', '2023-11-25 01:33:25', '\'10', 11, 2),
+(20, 2, 'TRUD1800', 'CTM', '20.png', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL, 2),
+(22, 2, 'TRV5000', 'CTM', '3c6446ff9e25af3e.JPG', '2023-06-30 10:17:39', '2023-11-25 01:24:50', '\'10', NULL, 1),
+(23, 2, 'TRU250', 'CTM', '23.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL, 1),
+(25, 2, 'TRU400', 'CTM', 'c2c47a0ce4d95d2e.png', '2023-06-30 10:17:39', '2023-11-25 01:36:06', '\'08', NULL, 1),
+(26, 2, 'TRU500', 'CTM', '93fe7df9eeab8b3e.png', '2023-06-30 10:17:39', '2023-11-25 01:19:41', '\'19', NULL, 1),
+(30, 2, 'TRM2650', 'CTM', '54389ad878ab00a2.jpg', '2023-06-30 10:17:39', '2023-11-25 01:35:19', '\'23', NULL, 1),
+(31, 2, 'TRM26100', 'CTM', 'b737f29383b3332a.png', '2023-06-30 10:17:39', '2023-11-25 01:26:55', '\'16', NULL, 1),
+(34, 8, 'DMOD-1000i', 'Modulador ISDB-T', 'bfaf1decb3c744a3.png', '2023-06-30 10:17:39', '2023-11-25 01:43:35', NULL, NULL, 9),
+(36, 8, 'DMUX-500i', 'Multiplexor ISDB Sin Display', 'acfd60bed6d5574e.png', '2023-06-30 10:17:39', '2023-11-25 01:40:28', NULL, NULL, 9),
+(37, 8, 'DMUX-3100', 'Multiplexor ISDB', 'b048c9462e195084.png', '2023-06-30 10:17:39', '2023-11-25 01:45:49', NULL, NULL, 9),
+(38, 4, 'LP211', 'Encoder HD HDMI-SDI NDS3211P', '3693ed9195014851.png', '2023-06-30 10:17:39', '2023-11-25 01:38:45', NULL, NULL, 9),
+(40, 3, 'FM100', 'enc. posterior', '9066fb53df6f19b6.png', '2023-06-30 12:39:07', '2023-11-25 01:37:30', '\'23', 2, 3),
+(46, 2, 'TRV100', 'STM', '5ef1c1c834bd204c.png', '2023-07-04 10:22:36', '2023-11-25 01:34:04', '\'08', 12, 1),
 (47, 3, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-11-06 17:02:44', '\'07', 1, 3),
-(48, 1, 'Router', '', 'Router.png', '2023-07-07 12:16:00', '2023-07-07 12:16:00', NULL, NULL, 10),
-(49, 1, 'Switch', '', 'Switch.png', '2023-07-07 12:16:19', '2023-08-10 13:34:52', NULL, NULL, 10),
-(50, 1, 'Enlace', 'banda 5GHz', 'Enlace.png', '2023-07-07 12:16:19', '2023-07-07 12:16:19', NULL, NULL, 8),
-(51, 2, 'FM10.000', '', 'FM10.000 -18.jpg', '2023-07-10 11:01:51', '2023-07-10 11:03:13', '\'18', 8, 3),
-(52, 4, 'NDS3224V', 'Encoder 4 HDMI, salida IP.Sin display. Funciona con señal en la entrada #4 fija, sino se corta', 'NDS3224V -21.png', '2023-09-20 09:06:55', '2023-09-20 09:06:55', NULL, NULL, 9),
-(54, 8, 'MCMP-3100', 'Mux compresor', 'MCMP3100 -22.png', '2023-10-20 19:08:32', '2023-11-14 08:57:10', NULL, NULL, 9),
-(55, 2, 'MIST-13', 'Modulador Digital ISDB-T (módulo Teamcast MHX)', 'MIST-13 -12.JPG', '2023-10-20 19:08:32', '2023-11-06 11:50:23', NULL, NULL, 6),
-(56, 2, 'MIST-15', 'Modulador ISDB-T Con WebBrowser (Módulo TeamCast)', 'MIST-15 -15.JPG', '2023-10-20 19:08:32', '2023-11-19 12:42:40', NULL, NULL, 6),
-(57, 4, 'NDS3224', 'Encoder digital 4 entradas SDI salida IP\r\nrenombrado L224', 'NDS3224 -20.png', '2023-10-20 19:08:32', '2023-10-20 19:08:32', NULL, NULL, 9),
-(58, 4, 'NDS3542A', 'Encoder-Modulador HDMI-SDI c/ display', 'NDS3542A -20.png', '2023-10-20 19:08:32', '2023-11-11 15:18:12', NULL, NULL, 9),
-(59, 5, 'AirFiber24G', 'Enlace 24 GHz', 'AirFiber24G.jpg', '2023-10-22 14:53:12', '2023-11-04 11:41:11', NULL, NULL, 8),
-(60, 4, 'NDS3228S', 'Encoder 8 entradas salida IP', 'NDS3228S -20.png', '2023-10-22 14:53:12', '2023-10-22 14:53:12', NULL, NULL, 9),
-(61, 4, 'NDS2405G', 'Modulador digital ISDB-T', 'NDS2405G -20.jpg', '2023-10-22 14:53:12', '2023-10-22 14:53:12', NULL, NULL, 9),
-(66, 2, 'MIST-13s', 'Modulador digital MHX c/GPS', 'MIST-13s -14.JPG', '2023-10-23 13:02:45', '2023-11-06 11:55:15', NULL, NULL, 6),
-(67, 2, 'TRUD2400', '', 'TRUD2400 -23.JPG', '2023-10-26 12:23:43', '2023-10-26 12:23:43', '\'23', NULL, 2),
-(68, 8, 'DMM-3100', 'Multiplexor y modulador ISDB', 'DMM-3100 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:27:25', NULL, NULL, 9),
-(69, 8, 'DCMP-500', 'Descompresor ISDB', 'DCMP-500 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:28:29', NULL, NULL, 9),
-(70, 8, 'ECD-3000', 'Encoder H.264', 'ECD-3000 -23.png', '2023-10-26 15:03:10', '2023-11-07 12:29:10', NULL, NULL, 9),
-(71, 2, 'Filtro Notch FM', 'Filtro Notch', 'Filtro_Notch_FM -18.jpg', '2023-11-09 12:24:30', '2023-11-14 08:56:17', NULL, NULL, 11),
-(72, 4, 'LA214', 'Multi Encoder Salida IP - SNMP\r\nCódigo Dexin DX3214B.', 'LA214.png', '2023-11-17 10:42:48', '2023-11-17 11:11:13', NULL, NULL, 9),
-(73, 1, 'Filtro de máscara', 'Filtro de máscara UHF', 'Filtro de máscara.png', '2023-11-17 10:42:48', '2023-11-17 10:42:48', NULL, NULL, 11),
-(74, 8, 'DMUX-1000i', 'multiplexor ISDB-T', 'DMUX-1000i -17.png', '2023-11-17 11:42:02', '2023-11-17 11:48:59', NULL, NULL, 9);
+(48, 1, 'Router', '', '0623b961947068cd.png', '2023-07-07 12:16:00', '2023-11-25 01:20:57', NULL, NULL, 10),
+(49, 1, 'Switch', '', 'dbf0e696608f4ec4.png', '2023-07-07 12:16:19', '2023-11-25 01:17:00', NULL, NULL, 10),
+(50, 1, 'Enlace', 'banda 5GHz', '54832bdd9fac4967.png', '2023-07-07 12:16:19', '2023-11-25 01:36:47', NULL, NULL, 8),
+(51, 2, 'FM10.000', '', '11201b75c6bd39b9.JPG', '2023-07-10 11:01:51', '2023-11-25 01:46:32', '\'18', 8, 3),
+(52, 4, 'NDS3224V', 'Encoder 4 HDMI/SDI, salida IP. Sin display. Funciona con señal en la entrada #4 fija, sino se corta', '52028e7dad9deddb.png', '2023-09-20 09:06:55', '2023-11-25 01:30:16', NULL, NULL, 9),
+(54, 8, 'MCMP-3100', 'Mux compresor', '219dc7a2fb57a789.png', '2023-10-20 19:08:32', '2023-11-25 01:51:33', NULL, NULL, 9),
+(55, 2, 'MIST-13', 'Modulador Digital ISDB-T (módulo Teamcast MHX)', 'a1d6207cc715a365.JPG', '2023-10-20 19:08:32', '2023-11-25 01:34:49', NULL, NULL, 6),
+(56, 2, 'MIST-15', 'Modulador ISDB-T Con WebBrowser (Módulo TeamCast)', '56.JPG', '2023-10-20 19:08:32', '2023-11-19 12:42:40', NULL, NULL, 6),
+(57, 4, 'NDS3224', 'Encoder digital 4 entradas SDI salida IP\r\nrenombrado L224', '244724d54ef33734.png', '2023-10-20 19:08:32', '2023-11-25 01:32:52', NULL, NULL, 9),
+(58, 4, 'NDS3542A', 'Encoder-Modulador HDMI-SDI c/ display', '3a4d234b8f374983.png', '2023-10-20 19:08:32', '2023-11-25 01:25:12', NULL, NULL, 9),
+(59, 5, 'AirFiber24G', 'Enlace 24 GHz', '211a935348e22ce1.jpg', '2023-10-22 14:53:12', '2023-11-25 01:07:39', NULL, NULL, 8),
+(60, 4, 'NDS3228S', 'Encoder 8 entradas salida IP', '25e0f50eaf43b7d5.png', '2023-10-22 14:53:12', '2023-11-25 01:48:28', NULL, NULL, 9),
+(61, 4, 'NDS2405G', 'Modulador digital ISDB-T', '1811048e07c1dc68.jpg', '2023-10-22 14:53:12', '2023-11-25 01:14:45', NULL, NULL, 9),
+(66, 2, 'MIST-13s', 'Modulador digital MHX c/GPS', 'a59129c19a184357.JPG', '2023-10-23 13:02:45', '2023-11-25 01:34:53', NULL, NULL, 6),
+(67, 2, 'TRUD2400', '', 'dde659ff5ea7cec4.png', '2023-10-26 12:23:43', '2023-11-25 01:44:35', '\'23', NULL, 2),
+(68, 8, 'DMM-3100', 'Multiplexor y modulador ISDB', 'd2e70f7f1d9af78d.png', '2023-10-26 15:03:10', '2023-11-25 01:45:08', NULL, NULL, 9),
+(69, 8, 'DCMP-500', 'Descompresor ISDB', '908d4283b37b6657.png', '2023-10-26 15:03:10', '2023-11-25 01:37:57', NULL, NULL, 9),
+(70, 8, 'ECD-3000', 'Encoder H.264', 'b12e23d8e634ebd9.png', '2023-10-26 15:03:10', '2023-11-25 01:46:12', NULL, NULL, 9),
+(71, 2, 'Filtro Notch FM', 'Filtro Notch', '8e381df421de4ae3.jpg', '2023-11-09 12:24:30', '2023-11-25 01:13:57', NULL, NULL, 11),
+(72, 4, 'LA214', 'Multi Encoder Salida IP - SNMP\r\nCódigo Dexin DX3214B.', '85dfbf243dd727d9.png', '2023-11-17 10:42:48', '2023-11-25 01:47:46', NULL, NULL, 9),
+(73, 1, 'Filtro de máscara', 'Filtro de máscara UHF', 'e7c06513f45ce34f.png', '2023-11-17 10:42:48', '2023-11-25 01:14:20', NULL, NULL, 11),
+(74, 8, 'DMUX-1000i', 'multiplexor ISDB-T', '5801ca360832ba0a.png', '2023-11-17 11:42:02', '2023-11-25 01:24:30', NULL, NULL, 9),
+(75, 2, 'MFM4', 'Modulador de FM', '374c6061031880ab.jpg', '2023-11-21 13:45:40', '2023-11-25 01:43:07', NULL, NULL, 7),
+(76, 2, 'MFM1', 'Modulador de FM', '9647f8140143b836.jpg', '2023-11-22 09:47:41', '2023-11-25 01:42:52', NULL, NULL, 7),
+(77, 2, 'FM2000', 'CTM', 'fcce0f2673416b98.jpg', '2023-11-22 09:47:41', '2023-11-25 01:31:36', '\'22', 6, 3),
+(78, 5, 'Edgepoint EP-R6', 'Ubiquiti EdgePoint R6 EP-R6 Router 6-Port WISP inteligente Gigabit Router 7W al aire libre', 'ac73740d6f73eb46.png', '2023-11-23 10:00:35', '2023-11-25 01:39:42', NULL, NULL, 8),
+(79, 4, 'DX3702', ' Ip Decoder,Ip To Sdi Decoder,Full Hd Decoder', '2910f739c479e9c8.png', '2023-11-23 10:00:35', '2023-11-25 01:30:35', NULL, NULL, 6),
+(80, 5, 'Prism 5G', 'Enlace banda 5GHz PtP', '3005dc395d742453.webp', '2023-11-23 10:51:35', '2023-11-25 01:33:52', NULL, NULL, 8),
+(81, 4, 'NDS3558', 'Encudulator portatil con webbrowser', 'fe129da7105b560b.png', '2023-11-23 10:51:35', '2023-11-25 01:48:52', NULL, NULL, 6),
+(82, 5, 'Parabola', 'Parábola xDb', '56fa2b30a4e0cc11.webp', '2023-11-23 11:02:37', '2023-11-25 01:32:34', NULL, NULL, 8),
+(83, 5, 'AirFiber11G', 'Sistema de enlace compacto de 11 GHz', '9f83c2b7f4f1374d.webp', '2023-11-23 12:14:55', '2023-11-25 01:53:44', NULL, NULL, 8),
+(84, 4, 'NDS3306', 'Modulador IP a ISDB-T', '8d49b68f814f4719.png', '2023-11-23 12:14:55', '2023-11-25 01:15:08', NULL, NULL, 6),
+(85, 2, 'TRUD1000', 'CTM (TRUD900)', '3176138a2317169c.png', '2023-11-23 12:14:55', '2023-11-25 01:30:52', '\'22', NULL, 2),
+(86, 2, 'TRUD250T', 'CTM', 'dea827fdf6d1a03d.jpg', '2023-11-24 09:43:20', '2023-11-25 01:17:21', '\'20', NULL, 2),
+(87, 2, 'FM1000', 'CTM MFM1', 'be26710cf718b0d8.png', '2023-11-24 23:39:31', '2023-11-25 01:10:00', '\'22', 5, 3);
 
 -- --------------------------------------------------------
 
@@ -3472,7 +3652,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
@@ -3480,7 +3660,8 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
 
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
 (1, '2023-08-18 11:39:42', '2023-08-18 12:04:28', '230818', 'Falla general del Tx', 1, 124, 12, 4),
-(5, '2023-10-25 16:16:46', '2023-11-12 13:48:00', '231025', 'Recibe bien video , pero no el audio, con el equipo muleto no tiene problemas', 1, 122, 12, 4);
+(5, '2023-10-25 16:16:46', '2023-10-25 13:48:00', '231025', 'Recibe bien video , pero no el audio, con el equipo muleto no tiene problemas', 1, 122, 12, 4),
+(6, '2022-05-19 12:14:55', '2023-11-23 21:37:06', '220519', 'encoder 3224V falla, calor en integrados de entrada en #1 y #4', 1, 183, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -3495,6 +3676,7 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `codigo` int(6) NOT NULL,
   `content` varchar(1000) NOT NULL,
+  `notes` text,
   `client_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `estado_id` int(11) NOT NULL DEFAULT '1',
@@ -3503,23 +3685,30 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   KEY `user_id` (`user_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_client` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_trabajo`
 --
 
-INSERT INTO `orden_trabajo` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `client_id`, `user_id`, `estado_id`) VALUES
-(12, '2022-05-16 19:08:32', '2023-11-12 13:40:41', 220516, 'Red SFN CH18 TRUD1800\r\nEncoder 4 SDI, Remux, Mod VS, Mist-15, 2 descompresores VS\r\nFM5000\r\nEntrega en dos tiempos', 1, 4, 3),
-(14, '2021-07-22 11:33:10', '2023-11-06 11:44:17', 210729, 'TV Digital ALL IN ONE TRUD250', 4, 4, 3),
-(15, '2021-01-22 14:53:13', '2023-11-12 13:36:47', 210101, 'TV Digital Enlace 24G Ubiquiti, TRUD1000, 2 ENC IP, MUX, MOD', 5, 4, 3),
-(16, '2018-01-23 11:39:42', '2023-11-12 13:35:47', 180101, 'Tv digital TRUD250, enc, mux, mod y 3542 de repuesto', 2, 4, 3),
-(30, '2023-08-10 12:53:33', '2023-10-26 11:52:48', 230810, 'TV digital all in one TRUD500', 4, 4, 3),
-(31, '2023-10-25 13:05:56', '2023-11-12 13:35:06', 220505, 'Tv Digital TRUD250 ALL IN ONE CH16', 3, 4, 3),
-(32, '2023-10-26 13:58:22', '2023-11-12 13:48:41', 221219, 'TRUD2400 digital\r\nSeñal ISDB comprimida, con equipos VS y switchs\r\n', 6, 4, 1),
-(33, '2023-11-03 10:17:34', '2023-11-15 23:03:06', 180102, 'Tx TRUD250 digital  con 2 NDS3542', 7, 11, 3),
-(35, '2023-11-09 11:34:53', '2023-11-15 17:00:44', 190101, 'TRUD500 con enc 2 entradas + mux + mod', 9, 11, 3),
-(36, '2023-11-17 10:42:48', '2023-11-20 00:13:55', 170101, 'TRUD500 c/Filtro de máscara. Mist-13, Mux VS -1000-500, fibra, Switch HP x2, encoder LA214', 10, 10, 3);
+INSERT INTO `orden_trabajo` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `notes`, `client_id`, `user_id`, `estado_id`) VALUES
+(12, '2022-05-16 19:08:32', '2023-11-12 13:40:41', 220516, 'Red SFN CH18 TRUD1800\r\nEncoder 4 SDI, Remux, Mod VS, Mist-15, 2 descompresores VS\r\nFM5000\r\nEntrega en dos tiempos', NULL, 1, 4, 3),
+(14, '2021-07-22 11:33:10', '2023-11-06 11:44:17', 210729, 'TV Digital ALL IN ONE TRUD250', NULL, 4, 4, 3),
+(15, '2021-01-22 14:53:13', '2023-11-12 13:36:47', 210101, 'TV Digital Enlace 24G Ubiquiti, TRUD1000, 2 ENC IP, MUX, MOD', NULL, 5, 4, 3),
+(16, '2018-01-23 11:39:42', '2023-11-24 12:37:48', 170725, 'Tv digital TRUD250, enc, mux, mod MHX MIST13', NULL, 2, 4, 3),
+(30, '2023-08-10 12:53:33', '2023-10-26 11:52:48', 230810, 'TV digital all in one TRUD500', NULL, 4, 4, 3),
+(31, '2023-10-25 13:05:56', '2023-11-12 13:35:06', 220505, 'Tv Digital TRUD250 ALL IN ONE CH16', NULL, 3, 4, 3),
+(32, '2023-10-26 13:58:22', '2023-11-23 13:13:39', 221219, 'TRUD2400 digital\r\nSeñal ISDB comprimida, con equipos VS y switchs\r\n', NULL, 6, 4, 2),
+(33, '2023-11-03 10:17:34', '2023-11-15 23:03:06', 180102, 'Tx TRUD250 digital  con 2 NDS3542', NULL, 7, 11, 3),
+(35, '2023-11-09 11:34:53', '2023-11-24 13:23:10', 190915, 'TRUD500 con enc 2 entradas + mux + mod', NULL, 9, 11, 3),
+(36, '2023-11-17 10:42:48', '2023-11-24 13:14:30', 171010, 'TRUD500 c/Filtro de máscara. Mist-13, Mux VS -1000-500, fibra, Switch HP x2, encoder LA214', NULL, 10, 10, 3),
+(37, '2023-11-21 13:45:40', '2023-11-21 14:31:59', 231006, 'FM1000W ctm c/MFM4\r\nF: 101.3 105.1 106.3 107.9', NULL, 11, 10, 2),
+(38, '2023-11-22 09:47:41', '2023-11-22 09:47:41', 231120, 'FM2K c/MFM1', NULL, 12, 10, 1),
+(39, '2023-11-23 10:51:35', '2023-11-23 10:51:35', 180103, 'Enlace movil ISDB', NULL, 13, 10, 3),
+(40, '2023-11-23 12:14:55', '2023-11-23 13:12:53', 180104, 'Enlace 11G - Encoders, Modulador IP', NULL, 14, 10, 3),
+(41, '2023-11-23 12:14:55', '2023-11-23 13:38:27', 220225, 'ENC, MOD, MUX, TRUD900,2 switchs', NULL, 8, 10, 3),
+(42, '2023-11-24 09:37:19', '2023-11-24 13:04:44', 200820, '4 FM1000 CTM (+software)', NULL, 15, 10, 3),
+(43, '2023-11-24 09:43:20', '2023-11-24 10:41:08', 201210, 'TRUD250 ch34, mod 3542 4xHDMI', NULL, 16, 10, 3);
 
 -- --------------------------------------------------------
 
@@ -3728,13 +3917,14 @@ CREATE TABLE IF NOT EXISTS `tipo_historia` (
   `tipo` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `tipo` (`tipo`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `tipo_historia`
 --
 
 INSERT INTO `tipo_historia` (`id`, `tipo`) VALUES
+(4, 'Falla'),
 (1, 'Mensaje'),
 (3, 'Modificación'),
 (2, 'Reparación');
@@ -3819,15 +4009,15 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_id`) VALUES
-(1, 'Turko', 'arnaizagustin@gmail.com', 'turko.jpg', '$2b$12$kA//4qKktlTfMDbwXLt2iOATL/imj7eAAACh0bUiddV6W/T5tsyFa', 3),
-(4, 'Alejandro', 'toparuiz@mail.com', 'Alejandro.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
-(5, 'Atilio', 'atilioavanzini@mail.com', 'atilio.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
-(6, 'Oscar', 'oscar@mail.com', 'Oscar.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
-(10, 'admin', 'arnaiz_agustin@hotmail.com', 'admin.jpg', '$2b$12$1uHNmNIuagOpI8FT1PT1Ee96BpSkjdiT9rkoW8ZFbPdn7Vm.Lgbyq', 1),
-(11, 'Tomas', 'tomas@tecseg.com', 'tomas.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
-(12, 'Juan', 'juan@tecseg.com', 'juan.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
-(14, 'Jorge', 'jorge@tecseg.com', 'jorge.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3),
-(16, 'Salvador', 'salvi@tecseg.com', 'salvador.jpg', '$2b$12$JtiK1H.DH4Wnk.hFcn8RseHdBpmNko46NvvwtA/ell9x6BDD9oAkG', 2);
+(1, 'Turko', 'arnaizagustin@gmail.com', '1.jpg', '$2b$12$kA//4qKktlTfMDbwXLt2iOATL/imj7eAAACh0bUiddV6W/T5tsyFa', 3),
+(4, 'Alejandro', 'toparuiz@mail.com', '4.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
+(5, 'Atilio', 'atilioavanzini@mail.com', '5.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
+(6, 'Oscar', 'oscar@mail.com', '6.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
+(10, 'admin', 'arnaiz_agustin@hotmail.com', '10.jpg', '$2b$12$1uHNmNIuagOpI8FT1PT1Ee96BpSkjdiT9rkoW8ZFbPdn7Vm.Lgbyq', 1),
+(11, 'Tomas', 'tomas@tecseg.com', '11.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
+(12, 'Juan', 'juan@tecseg.com', '12.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
+(14, 'Jorge', 'jorge@tecseg.com', '14.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3),
+(16, 'Salvador', 'salvi@tecseg.com', '16.jpg', '$2b$12$JtiK1H.DH4Wnk.hFcn8RseHdBpmNko46NvvwtA/ell9x6BDD9oAkG', 2);
 
 --
 -- Restricciones para tablas volcadas
@@ -3867,9 +4057,15 @@ ALTER TABLE `domicilio`
 --
 ALTER TABLE `equipment`
   ADD CONSTRAINT `eq_detalle` FOREIGN KEY (`detalle_trabajo_id`) REFERENCES `detalle_trabajo` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `eq_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_modelo` FOREIGN KEY (`modelo_id`) REFERENCES `modelo` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `eq_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `equipos_frecuencias`
+--
+ALTER TABLE `equipos_frecuencias`
+  ADD CONSTRAINT `eq_frec_eq` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `eq_frec_frec` FOREIGN KEY (`frecuencia_id`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `error_log`

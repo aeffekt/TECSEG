@@ -29,7 +29,7 @@ class RegistrationForm(LoginForm):
 
 	email = StringField('Email', validators=[DataRequired(), Email()])
 	role = SelectField('Tipo de usuario', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'}) # validate_choice=F si no hay error de validacion
-	confirm_password = PasswordField('Confirmar Contraseña', 
+	confirm_password = PasswordField('Repetir Contraseña', 
 						validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])
 	submit = SubmitField('Registrar Usuario')
 
@@ -98,3 +98,4 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Aplicar nueva contraseña.')
+	

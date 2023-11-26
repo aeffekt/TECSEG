@@ -9,70 +9,62 @@ from datetime import datetime
 from tseg.models import (Equipment, User, Historia, Orden_reparacion, Localidad, Provincia, Pais, 
 						 Detalle_reparacion, Detalle_trabajo, Orden_trabajo, Client, ErrorLog, dateFormat)
 from sqlalchemy import asc, desc
+import secrets
 import traceback
 
 
 # obtener el nombre del atributo para filtrar la búsqueda
-def buscarLista(dBModel, *arg):
+def buscarLista(dBModel, *arg, toFilter=True):
 	order_by = dBModel.__table__.columns.keys()[0]
-
 	# Obtener los valores de filterBy y filterOrder desde la solicitud
 	select_item = request.args.get('selectItem', '')
-	if not select_item:
-		# sino hay un elemento seleccionado, carga orden por parametro
-		order_by = request.args.get('orderBy', order_by)
-	
+	if not select_item:		
+		if toFilter:
+			# si no hay un elemento seleccionado, carga orden por parametro
+			order_by = request.args.get('orderBy', order_by)	
 	sort_column = getattr(dBModel, order_by)
-
 	# ORDEN
 	order_order = request.args.get('orderOrder', 'desc')
 	if order_order == "asc":
 		orden = asc(sort_column)
 	else:
-		orden = desc(sort_column)
-
+		orden = desc(sort_column)	
 	lista = dBModel.query.order_by(orden, desc(dBModel.id))
-
+	# Filtros segun *ARG
 	if arg:
 		# filtrado extra de Equipos
 		if dBModel==Equipment:
 			# para un detalle trabajo determinado
 			if isinstance(arg[0], Detalle_trabajo):
 				lista = lista.filter_by(detalle_trabajo_id=arg[0].id)
-
 		# filtrado extra Historias 
-		elif dBModel==Historia:
+		elif dBModel==Historia:			
 			# para un equipo determinado
-			if isinstance(arg[0], Equipment):
+			if isinstance(arg[0], Equipment):				
 				lista = lista.filter_by(equipo_id=arg[0].id)
 				if len(arg)==2:
 					lista.filter_by(tipo_historia_id=arg[1])
 			# para un usuario determinado
 			if isinstance(arg[0], User):				
-				lista = lista.filter_by(author_historia=arg[0])
-		
+				lista = lista.filter_by(author_historia=arg[0])		
 		# filtrado extra de O.R.
-		elif dBModel==Orden_reparacion:
+		elif dBModel==Orden_reparacion:			
 			# ordenes de reparacion por tecnico
 			if isinstance(arg[0], User):
 				lista = lista.filter_by(tecnico_id=arg[0].id)
-
 			# ordenes de reparacion por equipo
-			if isinstance(arg[0], Equipment):
-				lista = lista.filter_by(equipo_id=arg[0].id)
-		
+			if isinstance(arg[0], Equipment):				
+				lista = lista.filter_by(equipo_id=arg[0].id)		
 		# filtrado extra de Detalle Reparación
 		elif dBModel==Detalle_reparacion:
 			# para un OR determinada
 			if isinstance(arg[0], Orden_reparacion):
-				lista = lista.filter_by(reparacion_id=arg[0].id)
-		
+				lista = lista.filter_by(reparacion_id=arg[0].id)		
 		# filtrado extra de Orden trabajo
 		elif dBModel==Orden_trabajo:
 			# para un cliente determinado
 			if isinstance(arg[0], Client):				
 				lista = lista.filter_by(client_id=arg[0].id)
-
 		# filtrado extra de Detalle trabajo
 		elif dBModel==Detalle_trabajo:
 			# para un OT determinada			
@@ -97,9 +89,9 @@ def obtener_informacion_geografica(codigo_postal):
 
 
 #guardar imagen en carpeta
-def save_picture(form_picture, folder,img_filename):	
-	_, f_ext = os.path.splitext(form_picture.filename)
-	img_filename = img_filename.replace("'", "-")
+def save_picture(form_picture, folder):
+	img_filename = secrets.token_hex(8) #crea nombre random para la imagen elegida
+	_, f_ext = os.path.splitext(form_picture.filename)	
 	picture_fn = img_filename + f_ext #conserva la extension original del archivo
 	picture_path = os.path.join(current_app.root_path, f'static\\{folder}', picture_fn)
 	img = Image.open(form_picture)
@@ -182,4 +174,3 @@ def error_logger(Exception):
 					  "Error": str(Exception)}
 	current_app.logger.exception(error_message_log)
 	flash('Ocurrió un error inesperado. Si el problema persiste consulte al administrador.', 'danger')
-	

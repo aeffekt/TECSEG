@@ -16,7 +16,7 @@
                         </div>                            
                     </div>
                     <div class="col-md-9">
-                        <a class="article-title" href="{{ url_for('modelos.modelo', modelo_id=modelo.id) }}" >
+                        <a title="marca: {{ modelo.marca }}" class="article-title" href="{{ url_for('modelos.modelo', modelo_id=modelo.id) }}" >
                             <h2 >{{ modelo }}</h2>
                             <h5 >{{ modelo.marca }} {{ modelo.descripcion }}</h5>
                             <small class="article-title">Modificado: {{ modelo.date_modified }}</small>

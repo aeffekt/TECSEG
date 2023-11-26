@@ -1,14 +1,15 @@
-from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, current_app
+from flask import render_template, url_for, flash, redirect, abort, Blueprint, current_app
 from flask_login import current_user, login_required
 from tseg import db
 from tseg.models import Detalle_trabajo, Orden_trabajo, Equipment, dateFormat
 from tseg.detalles_trabajo.forms import DetalleTrabajoForm
-from tseg.users.utils import buscarLista, error_logger
+from tseg.users.utils import buscarLista, error_logger, role_required
 
 detalles_trabajo = Blueprint('detalles_trabajo', __name__)
 
+
 @detalles_trabajo.route("/detalle-ot-nuevo-<string:orden_trabajo_id>", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Comercial", "Técnico")
 def add_detalle_trabajo(orden_trabajo_id):
 	form = DetalleTrabajoForm()
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)
@@ -53,7 +54,7 @@ def detalle_trabajo(detalle_trabajo_id):
 
 
 @detalles_trabajo.route("/detalle-trabajo-<int:detalle_trabajo_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Comercial", "Técnico")
 def update_detalle_trabajo(detalle_trabajo_id):
 	detalle_trabajo = Detalle_trabajo.query.get_or_404(detalle_trabajo_id)	
 	form = DetalleTrabajoForm()
@@ -77,7 +78,7 @@ def update_detalle_trabajo(detalle_trabajo_id):
 
 
 @detalles_trabajo.route("/detalle-trabajo-<int:detalle_trabajo_id>-delete", methods=['POST'])
-@login_required
+@role_required("Admin", "Comercial", "Técnico")
 def delete_detalle_trabajo(detalle_trabajo_id):	
 	detalle_trabajo = Detalle_trabajo.query.get_or_404(detalle_trabajo_id)
 	# se guarda la ot id para que no de error al no encontrar el detalle en redirect
@@ -94,3 +95,4 @@ def delete_detalle_trabajo(detalle_trabajo_id):
 		flash("Ocurrió un error al intentar eliminar.", 'warning')		
 		flash(f"Hay equipos asociados a la O.T. Debe borrarlos primero", 'warning')
 		return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id))	
+	

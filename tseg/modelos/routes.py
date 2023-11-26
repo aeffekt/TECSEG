@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
-from flask_login import login_required, current_user
+from flask_login import login_required
 from tseg.models import Modelo, Homologacion
 from tseg.modelos.forms import ModeloForm
 from tseg.users.utils import role_required, buscarLista, save_picture, error_logger
@@ -22,27 +22,27 @@ def all_modelos():
 		flash(f'Ocurrió un error al intentar mostrar el Item. Error: {err}', 'danger')
 		return redirect(url_for('modelos.all_modelos'))
 	all_modelos = buscarLista(Modelo)
-	image_path = url_for("static", filename='models_pics/')
+	images_path = url_for("static", filename='models_pics/')
 	orderBy = current_app.config['ORDER_MODELOS']
 	item_type = 'Modelo'
 	return render_template('all_modelos.html', 
 							lista=all_modelos,
 							orderBy=orderBy,
 							title='Modelos de equipo',
-							image_path=image_path,
+							image_path=images_path,
 							item_type=item_type)
 
 
 @modelos.route("/modelo-<int:modelo_id>-update", methods=['GET', 'POST'])
-@login_required
+@role_required("Admin", "Comercial", "Técnico")
 def modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)	
 	form = ModeloForm(modelo)
 	if form.validate_on_submit():
 		try:
 			if form.picture.data:
-				picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
-				modelo.image_file = picture_file		
+				picture_file = save_picture(form.picture.data, 'models_pics')
+				modelo.image_file = picture_file
 			modelo.marca_id = form.marca.data
 			modelo.nombre = form.nombre.data
 			modelo.anio = form.anio.data
@@ -72,7 +72,7 @@ def modelo(modelo_id):
 
 
 @modelos.route("/add_modelo", methods=['GET','POST'] )
-@role_required("Admin", "Comercial")
+@role_required("Admin", "Comercial", "Técnico")
 def add_modelo():
 	form = ModeloForm()
 	if form.validate_on_submit():	
@@ -83,11 +83,13 @@ def add_modelo():
 							descripcion=form.descripcion.data,
 							tipo_modelo_id=form.tipo_modelo.data,
 							homologacion=homologacion,
-							marca_id=form.marca.data)
-			if form.picture.data:
-				picture_file = save_picture(form.picture.data, 'models_pics', str(modelo))
-				modelo.image_file = picture_file			
+							marca_id=form.marca.data)			
 			db.session.add(modelo)
+			if form.picture.data:
+				picture_file = save_picture(form.picture.data, 'models_pics')
+				modelo.image_file = picture_file
+			else:
+				modelo.image_file = "default_eq.png"
 			db.session.commit()
 			flash(f'modelo {modelo.nombre} agregado!', 'success')
 			return redirect(url_for('modelos.modelo', modelo_id=modelo.id))
@@ -99,7 +101,7 @@ def add_modelo():
 
 
 @modelos.route("/modelo-<int:modelo_id>-delete", methods=['GET', 'POST'])
-@role_required("Admin", "Comercial")
+@role_required("Admin", "Comercial", "Técnico")
 def delete_modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)
 	try:		
@@ -114,3 +116,4 @@ def delete_modelo(modelo_id):
 		db.session.rollback() 
 		flash("Ocurrió un error al intentar eliminar: Es probable que el modelo se encuentre asignado a un equipo.", 'warning')		
 		return redirect(url_for('modelos.modelo', modelo_id=modelo.id))	
+	

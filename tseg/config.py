@@ -85,7 +85,8 @@ class Config:
 	ORDER_TECNICO = {"cantidad": "Cantidad",
 					"username": "Nombre",
 					}
-	ORDER_HISTORIAS = {"date_created": "Fecha creado",
+	ORDER_ERRORS = {"date_created": "Fecha creado",
 					"user_id": "Usuario",
 					"error": "Tipo de error",
 					}
+	

@@ -39,7 +39,7 @@
             </article>
             <div>Limitar Rango de fechas</div>                
             <div class="row">                
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <select  class="form-select form-select-sm" style="width: 90px;", id="anio1" name="anio1" title="Elija un año de fabricación">                        
                         {% set selected_year1 = request.args.get('anio1') %}
                         {% for year in range(2000, current_year + 1) %}
@@ -47,7 +47,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <select class="form-select form-select-sm" style="width: 90px;" id="anio2" name="anio2" title="Elija otro año para crear un rango">
                         {% set selected_year2 = request.args.get('anio2') %}                         
                         
@@ -65,7 +65,7 @@
                         
                     </select>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <button class="btn btn-primary" id="filterAnioButton">Aplicar</button>
                 </div>            
             </div>
@@ -145,5 +145,3 @@
 </script>
     
 {% endblock content %}
-
-

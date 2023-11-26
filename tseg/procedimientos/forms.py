@@ -23,3 +23,4 @@ class ProcedimientoForm(FlaskForm):
 							Procedimiento.title == title.data).first() # aqui se presenta la edicion del title de un ITEM registrado
 		if object_already_exist:
 			raise ValidationError('Ese Título ya existe. Por favor, ingrese uno diferente')
+		

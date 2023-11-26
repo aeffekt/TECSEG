@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-md-10">
                   	<div class="media-body">
-                    	<a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
+                    	<a title="{{ orden_reparacion.detalles_reparacion }}" class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
                             <h2>{{ orden_reparacion.codigo }}</h2>
                     	    <h6 class="article-title">{{ orden_reparacion.content }}</h6>
                             <small>{{ orden_reparacion.equipo.title }}</small>

@@ -18,7 +18,7 @@
                 <div class="col-md-9">
                     <h5 class="article-content">{{ orden_trabajo.content }}</h5>
                 </div>
-            </div>            
+            </div>
             
             <div class="row align-items-center">
                 <div class="col-md-3 text-end">
@@ -69,158 +69,154 @@
         </div>
     </article>
     <br>
+    {# arma lista de equipos GENERAL para mostrar #}
+    {% set equipments = [] %}
+    {% for detalle_trabajo in lista %}
+        {% for equipment in detalle_trabajo.equipments %}
+            {% set _ = equipments.append(equipment) %}  {# Agrega el equipment a la lista #}
+        {% endfor %} 
+    {% endfor %}
+    {# arma lista de equipos por SISTEMA para mostrar #}
+    {% set sistema_equipments = {} %}
+    {% for sistema in sistemas %}
+    {% set _ = sistema_equipments.update({sistema: [] if not sistema_equipments.get(sistema) else sistema_equipments[sistema]}) %}
+        {% for detalle_trabajo in lista %}
+            {% for equipment in detalle_trabajo.equipments %}
+                {% if equipment.sistema == sistema %}
+                    {% set _ = sistema_equipments[sistema].append(equipment) %}
+                {% endif %}
+            {% endfor %} 
+        {% endfor %}
+    {% endfor %}
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-		<li class="nav-item" role="presentation">
-		  <button class="nav-link active" id="Detalles-tab" data-bs-toggle="tab" data-bs-target="#Detalles" type="button" role="tab" aria-controls="Detalles" aria-selected="true">{{ lista.count() }} {% if lista.count()==1 %}Detalle{% else %}Detalles{% endif %}</button>
-		</li> 
-        {% if sistemas|length() != 0 %}
-            {% for sistema in sistemas %}                
+    {% if lista.count() > 0 %}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="Detalles-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#Detalles" 
+                            type="button" role="tab" 
+                            aria-controls="Detalles" 
+                            aria-selected="true">{{ lista.count() }} {% if lista.count()==1 %}Detalle{% else %}Detalles{% endif %}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="Equipos-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#Equipos" 
+                            type="button" role="tab" 
+                            aria-controls="Equipos" 
+                            aria-selected="true">Equipos ({{ equipments|length() }})</button>
+            </li> 
+            {% if sistemas|length() != 0 %}
+                {% for sistema in sistemas %}                
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="Sistema-tab{{sistema}}" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#Sistema{{sistema}}" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="Sistema{{sistema}}" 
+                            aria-selected="true">{{ sistema }} ({{ sistema_equipments[sistema]|length() }})</button>
+                    </li>                                        
+                {% endfor %}
+            {% endif %}
+            {% if orden_trabajo.notes != None %}
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="Sistema-tab{{sistema}}" 
-                        data-bs-toggle="tab" 
-                        data-bs-target="#Sistema{{sistema}}" 
-                        type="button" 
-                        role="tab" 
-                        aria-controls="Sistema{{sistema}}" 
-                        aria-selected="true">{{sistema}}</button>
-                </li>                                        
-            {% endfor %}
-        {% endif %}
-	</ul>    
+                    <button class="nav-link" id="Notes-tab" 
+                                data-bs-toggle="tab" 
+                                data-bs-target="#Notes" 
+                                type="button" role="tab" 
+                                aria-controls="Notes" 
+                                aria-selected="true">Notas</button>
+                </li>
+            {% endif %}
+    	</ul>        
     
-    <div class="tab-content" id="myTabContent">
-		<div class="tab-pane fade show active" id="Detalles" role="tabpanel" aria-labelledby="Detalles-tab">
-			<br>
-            {% for detalle_trabajo in lista %}
-                <article class="media content-section-list">
-                    <div class="media-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <a class="article-title" href="{{ url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id) }}">
-                                    <h6 class="article-title"style="background-color: 
-                                    {% if detalle_trabajo.cantidad == detalle_trabajo.equipments|length %}
-                                    {% elif detalle_trabajo.cantidad >= detalle_trabajo.equipments|length %}orange
-                                    {% elif detalle_trabajo.cantidad <= detalle_trabajo.equipments|length %}red
-                                    {% endif %}"><b>{{ detalle_trabajo.content }} </b>- Cantidad: <b>{{ detalle_trabajo.cantidad }}</b></h6>
-                                    <small class="article-content">Última modificación: <b>{{ detalle_trabajo.date_modified.strftime('%d-%m-%Y') }}</b>
-                                    </small>
-                                    <small>Fecha de creación: 
-                                        <b>{{ detalle_trabajo.date_created.strftime('%d-%m-%Y') }} 
-                                        </b> por el usuario  <b>{{ detalle_trabajo.author_detalle_trabajo.username }}</b></small>
-                                </a>
-                            </div>
-                            <div class="col-md-3">
-                                {% for equipo_asignado in detalle_trabajo.equipments %}
-                                    {% if equipo_asignado.numSerie %}
-                                        <small class="article-content"> Número Serie: <b>{{ equipo_asignado.numSerie }}</b></small>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="Detalles" role="tabpanel" aria-labelledby="Detalles-tab">
+                <br>
+                {% for detalle_trabajo in lista %}
+                    <article class="media content-section-list">
+                        <div class="media-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <a title="{{detalle_trabajo.equipments}}" class="article-title" href="{{ url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo.id) }}">
+                                        <h6 class="article-title"style="background-color: 
+                                        {% if detalle_trabajo.cantidad == detalle_trabajo.equipments|length %}
+                                        {% elif detalle_trabajo.cantidad >= detalle_trabajo.equipments|length %}orange
+                                        {% elif detalle_trabajo.cantidad <= detalle_trabajo.equipments|length %}red
+                                        {% endif %}"><b>{{ detalle_trabajo.content }} </b>- Cantidad: <b>{{ detalle_trabajo.cantidad }}</b></h6>
+                                        <small class="article-content">Última modificación: <b>{{ detalle_trabajo.date_modified.strftime('%d-%m-%Y') }}</b>
+                                        </small>
+                                        <small>Fecha de creación: 
+                                            <b>{{ detalle_trabajo.date_created.strftime('%d-%m-%Y') }} 
+                                            </b> por el usuario  <b>{{ detalle_trabajo.author_detalle_trabajo.username }}</b></small>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    {% for equipo_asignado in detalle_trabajo.equipments %}
+                                        {% if equipo_asignado.numSerie %}
+                                            <p class="article-content"> Nº Serie: <b>{{ equipo_asignado.numSerie }}</b></p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-1">                        
+                                    {% for equipo_asignado in detalle_trabajo.equipments %}                                    
+                                        <!-- muestra un color de equipo si se personalizo uno, si hay mas de 10 elemntos ya no hay bi-10 bi-11 etc, pone el numero-->
+                                        {% if loop.index < 10%}
+                                            <a 
+                                            class="bi bi-{{ loop.index }}-square btn btn-outline-light" 
+                                            title="Ver equipo {{ equipo_asignado }}" 
+                                            href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id, orderBy='date_modified', OrderOrder='Desc') }}"></a>
+                                        {% else %}
+                                            <a 
+                                            class="btn btn-outline-light" 
+                                            title="Ver equipo {{ equipo_asignado }}" 
+                                            href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id, orderBy='date_modified', OrderOrder='Desc') }}">{{ loop.index }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <!-- agrega sumar equipo hasta cantidad -->
+                                    {% if detalle_trabajo.cantidad > detalle_trabajo.equipments|length %}
+                                        <a class="bi bi-plus-square btn btn-outline-info" title="Añadir Equipo" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo.id) }}"></a>
                                     {% endif %}
-                                {% endfor %}
-                            </div>
-                            <div class="col-md-1">                        
-                                {% for equipo_asignado in detalle_trabajo.equipments %}                                    
-                                    <!-- muestra un color de equipo si se personalizo uno, si hay mas de 10 elemntos ya no hay bi-10 bi-11 etc, pone el numero-->
-                                    {% if loop.index < 10%}
-                                        <a 
-                                        class="bi bi-{{ loop.index }}-square btn btn-outline-light" 
-                                        title="Ver equipo {{ equipo_asignado }}" 
-                                        href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id) }}"></a>
-                                    {% else %}
-                                        <a 
-                                        class="btn btn-outline-light" 
-                                        title="Ver equipo {{ equipo_asignado }}" 
-                                        href="{{ url_for('equipments.equipment', equipment_id=equipo_asignado.id) }}">{{ loop.index }}</a>
-                                    {% endif %}
-                                {% endfor %}
-                                <!-- agrega sumar equipo hasta cantidad -->
-                                {% if detalle_trabajo.cantidad > detalle_trabajo.equipments|length %}
-                                    <a class="bi bi-plus-square btn btn-outline-info" title="Añadir Equipo" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=detalle_trabajo.id) }}"></a>
-                                {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </article>
-            {% endfor %}
-		</div>		
-	</div>
+                    </article>
+                {% endfor %}
+            </div>		
+        </div>    
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show" id="Equipos" role="tabpanel" aria-labelledby="Equipos-tab">
+                <br>
+                {% include "lista_equipos.html" %}
+            </div>		
+        </div>
+    {% endif %}
     
     {% if sistemas|length() != 0 %}
         {% for sistema in sistemas %}                
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade" id="Sistema{{sistema}}" role="tabpanel" aria-labelledby="Sistema{{sistema}}-tab">
                     <br>
-                    {% for detalle_trabajo in lista %}
-                        {% for equipment in detalle_trabajo.equipments %}
-                            {% if equipment.sistema == sistema %}
-                                <article class="media content-section-list">
-                                    <div class="media-body">
-                                        <div class="row">                    
-                                            <div class="col-md-3"> 
-                                                <div class="img-container">
-                                                    <a href="#" onclick="abrirImagen('{{ image_path+equipment.modelo.image_file }}'); return false;">
-                                                        <img class="rounded-3 account-img" src="{{ image_path+equipment.modelo.image_file }}" alt="Imagen" />
-                                                        <div class="overlay">
-                                                            <div class="overlay-content">Abrir Imagen</div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                            <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=equipment.id) }}">
-                                                <h2>{{ equipment.modelo }}</h2>
-                                                <h6 class="article-title">
-                                                    {% if equipment.frecuencia_id %}
-                                                        <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b> -
-                                                    {% endif %}
-                                                    {% if equipment.numSerie %}
-                                                        Nº serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b>
-                                                    {% else %}
-                                                        O.T.: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}</b>
-                                                    {% endif %}
-                                                </h6>
-                        
-                                                <small>
-                                                    Cliente: <b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b>                             
-                                                        - Año fabricación: <b>{{ equipment.anio }}</b>                            
-                                                    <h6 class="article-title">Última modificación: <b>{{ equipment.date_modified.strftime('%d-%m-%Y') }}</b></h6>
-                                                </small>
-                                                </a>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
-                                                <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal{{ loop.index }}" title="Eliminar equipo {{ equipment }}"></a>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </article>
-                                <!-- Modal EQUIPOS -->
-                                <div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal{{ loop.index }}Label" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModal{{ loop.index }}Label">¿Seguro desea eliminar el Equipo "{{ equipment }}"?</h5>
-                                                <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                <form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
-                                                    <input class="btn btn-danger" type="submit" value="Borrar">
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endfor %} 
-                    {% endfor %}  
+                    {% set equipments = sistema_equipments[sistema] %}
+                    {% include "lista_equipos.html" %}
                 </div>
             </div>          
         {% endfor %}
-    {% endif %}    
+    {% endif %}
 
-    
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show" id="Notes" role="tabpanel" aria-labelledby="Notes-tab">
+            <br>
+            <article class="media content-section-list">
+                <div class="media-body">
+                    <p class="article-title">{{ orden_trabajo.notes }}</p>
+                </div>
+            </article>
+        </div>		
+    </div>    
     
      <!-- Modal OT -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

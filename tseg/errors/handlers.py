@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, current_app, url_for, request, redirect
-from tseg.users.utils import role_required, buscarLista
+from flask import Blueprint, render_template, current_app, url_for, request, redirect, flash
+from tseg.users.utils import role_required, buscarLista, error_logger
 from tseg.models import ErrorLog
+from tseg import db
 
 errors = Blueprint('errors', __name__) # 'name', __name variable__
 
@@ -27,7 +28,7 @@ def errors_log():
     if select_item:		
         return redirect(url_for('errors.error_log', error_log_id=select_item))
     registros = buscarLista(ErrorLog)
-    orderBy = current_app.config['ORDER_HISTORIAS']	
+    orderBy = current_app.config['ORDER_ERRORS']	
     item_type="Error"
     return render_template('errors/all_errors.html', 
                            title="Log de errores", 
@@ -43,3 +44,16 @@ def error_log(error_log_id):
     return render_template('errors/error_log.html', 
                            title="Consulta Error", 
                            error = error_log)
+
+
+@role_required("Admin")
+@errors.route("/delete-errors_log", methods=['POST'])
+def delete_errors_log():
+    try:
+        ErrorLog.query.delete()
+        db.session.commit()
+        flash('Se han eliminado todos los registros de errores', 'success')
+    except Exception as e:
+        error_logger(e)
+    finally:
+        return redirect(url_for('errors.errors_log'))

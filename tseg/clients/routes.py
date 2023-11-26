@@ -181,7 +181,7 @@ def update_client(client_id):
 
 
 @clients.route("/client-<int:client_id>-delete", methods=['POST'])
-@role_required("ServicioCliente", "Admin")
+@role_required("ServicioCliente", "Admin", "Comercial")
 def delete_client(client_id):
 	client = Client.query.get_or_404(client_id)
 	try:	

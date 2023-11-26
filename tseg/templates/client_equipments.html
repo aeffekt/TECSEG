@@ -2,7 +2,7 @@
 {% block content %}
     <h6 class="border-bottom border-secondary mb-4">Equipos de 
         <a class="mr-2" href="{{ url_for('clients.client', client_id=client.id) }}">{{ client.nombre }} {{ client.apellido }}</a> ({{ lista.count() }})</h6>    
-    </p>    
-    {% include "lista_equipos.html"  %}
-
+    </p> 
+    {% set equipments = lista %}
+    {% include "lista_equipos.html" %}
 {% endblock content %}

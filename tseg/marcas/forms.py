@@ -21,3 +21,4 @@ class MarcaForm(FlaskForm):
 							Marca.nombre == nombre.data).first() # aqui se presenta la edicion del title de un ITEM registrado
 		if object_already_exist:
 			raise ValidationError('Ese Nombre de Marca ya existe. Por favor, ingrese uno diferente')
+		

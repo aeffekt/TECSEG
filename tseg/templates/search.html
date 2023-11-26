@@ -51,8 +51,8 @@
 					{% if searched|lower in equipment.modelo.marca|lower %}
 						<small class="article-title">{{ equipment.modelo.marca }}</small>
 					{% endif %}
-					<small class="article-title">Número de serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b></small>
-					<small class="article-title">Canal/Frec: <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b></small>
+					<small class="article-title">Nº serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}{%if equipment.numSerie %}-{{ equipment.numSerie }}{% endif %}</b></small>
+					{%if equipment.frecuencias %}<small class="article-title">Canal/Frec: <b>{{ equipment.frecuencias }}</b></small>{% endif %}
 					<small><p class="article-title">Pertenece a: <b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b></p></small>
 				{% endfor%}
 			</div>
@@ -104,4 +104,20 @@
 			</div>
 		</div>
 	{% endif %}
+
+	{% if modelos.count() > 0 %}
+		<div class="container">
+			<div class="content-section">
+				<h5>Modelos:</h5>
+				{% for modelo in modelos %}
+					<a class="article-title" href="{{ url_for('modelos.modelo', modelo_id=modelo.id) }}"><h6><li>{{ modelo.nombre }}</h6></li>
+					</a>
+					{% if searched|lower in modelo.descripcion|lower %}
+						<small class="article-title">{{ modelo.descripcion }}</small>
+					{% endif %}					
+				{% endfor%}
+			</div>
+		</div>
+	{% endif %}
+
 {% endblock content %}

@@ -13,3 +13,4 @@ function abrirImagen(src) {
     ventana.close();
     });
   }
+  

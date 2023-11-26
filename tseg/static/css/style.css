@@ -494,12 +494,6 @@
   text-decoration: none;
   }
   
-  .article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-  }
-  
   .account-img {
     max-width: 125px;
     max-height: 125px;
@@ -562,3 +556,4 @@
       color: var(--title-color);
       border-top: 1px solid var(--title-color);    
   }
+  

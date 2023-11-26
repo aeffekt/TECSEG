@@ -8,7 +8,7 @@ from tseg.users.utils import role_required, error_logger
 detalles_reparacion = Blueprint('detalles_reparacion', __name__)
 
 @detalles_reparacion.route("/detalle-new-<string:orden_reparacion_id>", methods=['GET', 'POST'])
-@role_required("Admin", "Técnico") # impide el acceso sin login
+@role_required("Admin", "Técnico")
 def add_detalle_reparacion(orden_reparacion_id):
 	form = DetalleReparacionForm()
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)

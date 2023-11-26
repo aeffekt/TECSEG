@@ -41,7 +41,7 @@
 				{% if ordenes_trabajo_vigentes|length() !=0 %}
 					<h5 class="border-bottom border-secondary mb-4">Órdenes de trabajo Activas</h5>
 					{% for ot in ordenes_trabajo_vigentes %}				
-						<a href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot.id) }}" class="article-title"> OT: {{ ot.codigo }} {{ot.estado}}</a>
+						<a title="{{ ot.content }}" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot.id) }}" class="article-title"> OT: {{ ot.codigo }} {{ot.estado}}</a>
 						<br>
 					{% endfor %}
 					<hr 80%>
@@ -49,7 +49,7 @@
 				{% if ordenes_reparacion_vigentes|length() !=0 %}
 					<h5 class="border-bottom border-secondary mb-4">Órdenes de reparación Activas</h5>
 					{% for orv in ordenes_reparacion_vigentes %}					
-						<a href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orv.id) }}" class="article-title"> {{ orv }}
+						<a title="{{ orv.content }}" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orv.id) }}" class="article-title"> {{ orv }}
 							{% if orv.tecnicoAsignado %}
 								-{{ orv.tecnicoAsignado }}</a>
 							{% endif %}
