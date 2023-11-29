@@ -1,6 +1,6 @@
-from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app
+from flask import render_template, request, Blueprint, flash, redirect, url_for, current_app, jsonify
 from flask_login import current_user, login_required
-from tseg.models import Equipment, Historia, Orden_reparacion, Frecuencia, dateFormat
+from tseg.models import Equipment, Historia, Orden_reparacion, Frecuencia, Detalle_trabajo, Orden_trabajo, dateFormat
 from tseg.equipments.forms import EquipmentForm
 from tseg.users.utils import role_required, buscarLista, error_logger
 from tseg.equipments.utils import (print_caratula_pdf, print_etiqueta_pdf, upload_files, get_full_folder_path, 
@@ -10,6 +10,21 @@ import os, shutil # shutil se usa para borrar un directorio mas archivos
 
 
 equipments = Blueprint('equipments', __name__)
+
+
+# Busca los sistemas de todos los equipos de la misma OT
+@equipments.route('/get_sistemas', methods=['GET', 'POST'])
+def get_sistemas():
+	detalle_trabajo_id = request.args.get('detalle_trabajo')	
+	sistemas=[]
+	dt = Detalle_trabajo.query.get_or_404(detalle_trabajo_id)
+	ot = Orden_trabajo.query.get(dt.orden_trabajo.id)	
+	for detalle in ot.detalles_trabajo:
+		for equipo in detalle.equipments:
+			if equipo.sistema not in sistemas:
+				sistemas.append(equipo.sistema)	
+	return jsonify(sistemas)
+
 
 @login_required
 @equipments.route("/all_equipments")
@@ -104,7 +119,7 @@ def update_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	form = EquipmentForm(equipment)
 	if form.validate_on_submit():		
-		try:
+		try:			
 			# actualiza las frecuencias del equipo			
 			for frecuencia_old in equipment.frecuencias:				
 				equipment.frecuencias.remove(frecuencia_old)
@@ -115,7 +130,7 @@ def update_equipment(equipment_id):
 			equipment.numSerie = form.numSerie.data
 			equipment.detalle_trabajo_id = form.detalle_trabajo.data
 			equipment.modelo_id = form.modelo.data			
-			equipment.sistema = form.sistema.data
+			equipment.sistema = form.sistema.data			
 			equipment.content = form.content.data
 			equipment.anio = form.anio.data
 			equipment.date_modified = dateFormat()	
@@ -133,10 +148,10 @@ def update_equipment(equipment_id):
 	elif request.method == 'GET':
 		form.anio.default = equipment.anio
 		form.detalle_trabajo.default = equipment.detalle_trabajo.id
-		form.modelo.default = equipment.modelo_id		
+		form.modelo.default = equipment.modelo_id
 		form.frecuencias.default = [f.id for f in equipment.frecuencias]
+		form.sistema.default = equipment.sistema
 		form.process()		
-		form.sistema.data = equipment.sistema
 		form.numSerie.data = equipment.numSerie
 		form.content.data = equipment.content
 	return render_template('create_equipment.html',title='Editar equipo', 

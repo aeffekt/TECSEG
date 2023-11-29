@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 25-11-2023 a las 16:35:37
+-- Tiempo de generación: 28-11-2023 a las 16:47:08
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `cuit` bigint(11) DEFAULT NULL,
   `telefono` varchar(50) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
-  `comments` varchar(1000) DEFAULT NULL,
+  `comments` text,
   `user_id` int(11) NOT NULL,
   `domicilio_id` int(11) DEFAULT NULL,
   `cond_fiscal_id` int(11) DEFAULT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`),
   KEY `client_iibb` (`iibb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -127,10 +127,10 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
 
 INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modified`, `user_id`, `reparacion_id`) VALUES
 (1, 'hubo corte de energía. presenta falla mux y muleto\r\nmux no detecta bitrate del encoder.\r\ndesconecto y reinicio todo, salió andando bien!!!!!\r\n', '2023-08-19 11:39:42', '2023-08-19 11:39:42', 1, 1),
-(2, 'se pidió asistencia a remota a VIDEOSWITCH, se aguarda informe', '2023-10-26 12:23:43', '2023-11-11 17:33:50', 1, 5),
+(2, 'se pidió asistencia a remota a VIDEOSWITCH, se aguarda informe', '2023-10-26 12:23:43', '2023-10-26 17:33:50', 1, 5),
 (3, 'El señor Néstor  Busso nos comentó que el problema había desaparecido después de que la gente de videoswitch revisara el sistema, mas haya de que no reportaron ningún cambio o mala configuración, se da por concretada la orden de reparación', '2023-11-11 15:23:29', '2023-11-11 17:33:54', 1, 5),
-(4, 'se programa un 3542 para préstamo: #1 Kingdom TV y #2 VTV', '2022-05-25 12:14:55', '2023-11-23 13:06:49', 1, 6),
-(5, 'Equipo reparado por VideoSwitch', '2023-09-19 12:14:55', '2023-11-23 13:06:51', 1, 6),
+(4, 'se programa un 3542 para préstamo: #1 Kingdom TV y #2 VTV', '2022-05-25 12:14:55', '2022-05-25 13:06:49', 1, 6),
+(5, 'Equipo reparado por VideoSwitch', '2023-09-19 12:14:55', '2023-09-19 13:06:51', 1, 6),
 (6, 'Se aguardan datos de Luis Fernández para corroborar si el equipo falla, o se está mal usando sus entradasy por ello se entrecorta la señal', '2023-11-23 21:36:49', '2023-11-23 21:36:49', 10, 6);
 
 -- --------------------------------------------------------
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `detalle_trabajo` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `detalle_OT` (`trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_trabajo`
@@ -225,7 +225,8 @@ INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `dat
 (79, 'Switch', 2, '2023-11-23 12:14:55', '2023-11-23 12:14:55', 10, 41),
 (80, 'Tx FM1000', 4, '2023-11-24 09:37:19', '2023-11-24 09:37:19', 10, 42),
 (81, 'Tx TRUD250 ch34', 1, '2023-11-24 09:43:20', '2023-11-24 09:43:20', 10, 43),
-(82, 'modulador dexin 3542 4 hdmi', 1, '2023-11-24 09:43:20', '2023-11-24 09:43:20', 10, 43);
+(82, 'modulador dexin 3542 4 hdmi', 1, '2023-11-24 09:43:20', '2023-11-24 09:43:20', 10, 43),
+(84, 'delete', 1, '2023-11-27 21:03:42', '2023-11-27 21:03:42', 10, 12);
 
 -- --------------------------------------------------------
 
@@ -240,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -289,14 +290,14 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `user_id` (`user_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `eq_detalle` (`detalle_trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
 --
 
 INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modified`, `content`, `caratula_file`, `etiqueta_file`, `user_id`, `modelo_id`, `detalle_trabajo_id`, `sistema`) VALUES
-(95, '3/1122', '2023', '2023-10-20 19:08:32', '2023-11-21 22:01:28', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, 14, 'Paraná'),
+(95, '3/1122', '2023', '2023-10-20 19:08:32', '2023-11-27 11:52:21', 'IP: 10.0.0.85 ', NULL, NULL, 1, 10, 14, 'Paraná'),
 (96, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:48:32', 'IP: 10.0.0.96', NULL, NULL, 1, 34, 13, 'Paraná'),
 (99, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:47:20', 'IP: 10.0.0.95', NULL, NULL, 1, 69, 10, 'Paraná'),
 (100, NULL, '2022', '2023-10-20 22:51:31', '2023-11-21 12:47:47', 'IP: 10.0.0.94', NULL, NULL, 1, 69, 10, 'Crespo'),
@@ -314,7 +315,7 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (116, NULL, '2020', '2023-10-22 14:53:12', '2023-10-22 15:42:06', 'ARUBA 1930', NULL, NULL, 1, 49, 20, NULL),
 (117, NULL, '2021', '2023-10-22 14:53:12', '2023-11-19 12:46:34', 'IP: 172.20.3.130\r\n8 entradas HDMI\r\n#1 8MBps \"JTA TV\" high profile 1920x1080\r\n#3 8MBps \"JTA DEPORTES\" high profile 1920x1080\r\nSalida IP 224.2.2.2 12000 hasta 12008', NULL, NULL, 1, 60, 19, NULL),
 (118, NULL, '2021', '2023-10-22 15:40:14', '2023-11-21 00:33:08', '192.168.0.30 	nombre=\"JTA TV\" \r\nbitrate= 8M ENtrada HDMI \r\nIP OUT 224.2.2.2 puerto 12.000', NULL, NULL, 1, 38, 18, NULL),
-(119, '2/1122', '2022', '2023-10-23 10:21:21', '2023-11-23 16:24:16', '10.0.0.86\r\ninstalado en CRESPO. \r\nEn primer lugar fue a préstamo un TRUD500', '220516-2_1122_caratula.pdf', '220516-2_1122.pdf', 1, 20, 12, 'Crespo'),
+(119, '2/1122', '2022', '2023-10-23 10:21:21', '2023-11-25 14:10:49', '10.0.0.86\r\ninstalado en CRESPO. \r\nEn primer lugar fue a préstamo un TRUD500', '220516-2_1122_caratula.pdf', '220516-2_1122.pdf', 1, 20, 12, 'Crespo'),
 (121, '2/0917', '2018', '2023-10-23 11:39:42', '2023-11-24 12:43:50', '', NULL, NULL, 1, 55, 29, NULL),
 (122, NULL, '2018', '2023-10-23 11:39:42', '2023-10-23 11:39:42', '192.168.0.40', NULL, NULL, 1, 37, 28, NULL),
 (123, NULL, '2018', '2023-10-23 11:39:42', '2023-10-26 12:00:27', ' 192.168.0.136\r\nusa conversor hdmi, no funciona SDI\r\nLo usa de BACKUP', NULL, NULL, 1, 58, 27, NULL),
@@ -334,7 +335,7 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (137, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.104 one-seg y HD 9Mb S/N:01-0102-6142\r\n', NULL, NULL, 1, 70, 37, NULL),
 (138, NULL, '2023', '2023-10-26 15:03:10', '2023-10-26 15:03:10', 'HDMI 192.168.1.105 (idem repuesto) S/N:01-0102-6181\r\n', NULL, NULL, 1, 70, 37, NULL),
 (140, NULL, '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#1 \r\nNDS3542\r\n172.30.9.8 \r\n20.1 	7 Mbps Municipalidad de Concordia 1\r\n20.2	        3 Mbps Municipalidad de Concordia 2\r\n64QAM 1/16 3/4 RF -14,5dBm', NULL, NULL, 1, 58, 44, NULL),
-(141, NULL, '2018', '2023-11-03 10:17:34', '2023-11-03 10:17:34', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3	   3 Mbps Direccion Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Direccion Electrotécnica y comunicaciones 2', NULL, NULL, 1, 58, 44, NULL),
+(141, NULL, '2018', '2023-11-03 10:17:34', '2023-11-26 23:48:02', '#2 \r\nNDS3542 (usa solo encoder, replicado el modulador)\r\n172.30.9.9 \r\n20.3    3 Mbps Dirección Electrotécnica y comunicaciones 1\r\n20.4    3 Mbps Dirección Electrotécnica y comunicaciones 2', NULL, NULL, 1, 58, 44, NULL),
 (142, '1/0218', '2018', '2023-11-08 13:27:23', '2023-11-08 16:36:59', 'ex TRU400 linealizado', '180102-1_0218_caratula.pdf', '180102-1_0218.pdf', 1, 13, 43, NULL),
 (143, '2/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.90', NULL, NULL, 1, 55, 50, NULL),
 (144, NULL, '2019', '2023-11-09 11:34:53', '2023-11-24 13:24:58', '192.168.1.40', NULL, NULL, 1, 74, 49, NULL),
@@ -476,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `error_log` (
   `traceback` text,
   PRIMARY KEY (`id`),
   KEY `error_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `error_log`
@@ -492,7 +493,8 @@ INSERT INTO `error_log` (`id`, `date_created`, `user_id`, `error`, `traceback`) 
 (7, '2023-11-23 11:23:08', 10, 'list.remove(x): x not in list', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 133, in update_equipment\n    equipment.frecuencias.remove(frecuencia)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\collections.py\", line 1097, in remove\n    fn(self, value)\nValueError: list.remove(x): x not in list\n'),
 (8, '2023-11-23 11:30:31', 10, 'list.remove(x): x not in list', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 133, in update_equipment\n    equipment.frecuencias.remove(frecuencia)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\collections.py\", line 1097, in remove\n    fn(self, value)\nValueError: list.remove(x): x not in list\n'),
 (9, '2023-11-23 11:34:20', 10, 'list.remove(x): x not in list', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 131, in update_equipment\n    equipment.frecuencias.remove(frecuencia)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\collections.py\", line 1097, in remove\n    fn(self, value)\nValueError: list.remove(x): x not in list\n'),
-(10, '2023-11-25 13:32:46', 10, '\'OrdenTrabajoForm\' object has no attribute \'comment\'', 'Traceback (most recent call last):\n  File \"E:\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\ordenes_trabajo\\routes.py\", line 130, in update_orden_trabajo\n    orden_trabajo.comment = form.comment.data\nAttributeError: \'OrdenTrabajoForm\' object has no attribute \'comment\'\n');
+(10, '2023-11-25 13:32:46', 10, '\'OrdenTrabajoForm\' object has no attribute \'comment\'', 'Traceback (most recent call last):\n  File \"E:\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\ordenes_trabajo\\routes.py\", line 130, in update_orden_trabajo\n    orden_trabajo.comment = form.comment.data\nAttributeError: \'OrdenTrabajoForm\' object has no attribute \'comment\'\n'),
+(11, '2023-11-25 13:47:31', 10, '\'Equipment\' object has no attribute \'frecuencia_olds\'', 'Traceback (most recent call last):\n  File \"E:\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\equipments\\routes.py\", line 109, in update_equipment\n    for frecuencia_old in equipment.frecuencia_olds:\nAttributeError: \'Equipment\' object has no attribute \'frecuencia_olds\'\n');
 
 -- --------------------------------------------------------
 
@@ -3559,14 +3561,13 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`),
   KEY `modelo_tipo` (`tipo_modelo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
 --
 
 INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `date_created`, `date_modified`, `anio`, `homologacion_id`, `tipo_modelo_id`) VALUES
-(0, 1, 'N/D', 'Modelo no específico', 'default_eq.png', '2023-07-06 10:45:57', '2023-07-06 10:45:57', NULL, NULL, 11),
 (1, 3, 'FM100', 'STM', '78d612984b497d6b.png', '2023-06-30 10:17:39', '2023-11-25 01:32:16', '\'17', 2, 3),
 (2, 3, 'FM250', 'STM', '5aa13f857c3c387f.png', '2023-06-30 10:17:39', '2023-11-25 01:29:22', '\'20', 3, 3),
 (3, 2, 'FM500', 'STM', '7e1b8c6f85b042cb.png', '2023-06-30 10:17:39', '2023-11-25 01:24:09', '\'19', 4, 3),
@@ -3579,9 +3580,8 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (13, 2, 'TRUD250', 'STM', '2ff4d8be28e7777a.png', '2023-06-30 10:17:39', '2023-11-25 01:23:46', '\'20', 9, 2),
 (15, 2, 'TRUD500', 'CTM', '7e8410f2da7ff2a2.png', '2023-06-30 10:17:39', '2023-11-25 01:33:09', '\'21', 10, 2),
 (19, 2, 'TRUD1200', 'CTM', '01bc7026e332d601.png', '2023-06-30 10:17:39', '2023-11-25 01:33:25', '\'10', 11, 2),
-(20, 2, 'TRUD1800', 'CTM', '20.png', '2023-06-30 10:17:39', '2023-07-04 10:56:48', '\'22', NULL, 2),
+(20, 2, 'TRUD1800', 'CTM (TRUD1200)', 'f5d52bd355fa086e.jpg', '2023-06-30 10:17:39', '2023-11-27 11:31:36', '\'22', NULL, 2),
 (22, 2, 'TRV5000', 'CTM', '3c6446ff9e25af3e.JPG', '2023-06-30 10:17:39', '2023-11-25 01:24:50', '\'10', NULL, 1),
-(23, 2, 'TRU250', 'CTM', '23.jpg', '2023-06-30 10:17:39', '2023-07-04 11:14:24', '\'06', NULL, 1),
 (25, 2, 'TRU400', 'CTM', 'c2c47a0ce4d95d2e.png', '2023-06-30 10:17:39', '2023-11-25 01:36:06', '\'08', NULL, 1),
 (26, 2, 'TRU500', 'CTM', '93fe7df9eeab8b3e.png', '2023-06-30 10:17:39', '2023-11-25 01:19:41', '\'19', NULL, 1),
 (30, 2, 'TRM2650', 'CTM', '54389ad878ab00a2.jpg', '2023-06-30 10:17:39', '2023-11-25 01:35:19', '\'23', NULL, 1),
@@ -3593,14 +3593,14 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (40, 3, 'FM100', 'enc. posterior', '9066fb53df6f19b6.png', '2023-06-30 12:39:07', '2023-11-25 01:37:30', '\'23', 2, 3),
 (46, 2, 'TRV100', 'STM', '5ef1c1c834bd204c.png', '2023-07-04 10:22:36', '2023-11-25 01:34:04', '\'08', 12, 1),
 (47, 3, 'FM50', '', 'default_eq.png', '2023-07-04 13:21:30', '2023-11-06 17:02:44', '\'07', 1, 3),
-(48, 1, 'Router', '', '0623b961947068cd.png', '2023-07-07 12:16:00', '2023-11-25 01:20:57', NULL, NULL, 10),
-(49, 1, 'Switch', '', 'dbf0e696608f4ec4.png', '2023-07-07 12:16:19', '2023-11-25 01:17:00', NULL, NULL, 10),
+(48, 1, 'Router', '', '196f7cec42e432fe.jpg', '2023-07-07 12:16:00', '2023-11-27 00:15:15', NULL, NULL, 10),
+(49, 1, 'Switch', '', '8991b15364bd79fa.webp', '2023-07-07 12:16:19', '2023-11-27 00:13:23', NULL, NULL, 10),
 (50, 1, 'Enlace', 'banda 5GHz', '54832bdd9fac4967.png', '2023-07-07 12:16:19', '2023-11-25 01:36:47', NULL, NULL, 8),
 (51, 2, 'FM10.000', '', '11201b75c6bd39b9.JPG', '2023-07-10 11:01:51', '2023-11-25 01:46:32', '\'18', 8, 3),
 (52, 4, 'NDS3224V', 'Encoder 4 HDMI/SDI, salida IP. Sin display. Funciona con señal en la entrada #4 fija, sino se corta', '52028e7dad9deddb.png', '2023-09-20 09:06:55', '2023-11-25 01:30:16', NULL, NULL, 9),
 (54, 8, 'MCMP-3100', 'Mux compresor', '219dc7a2fb57a789.png', '2023-10-20 19:08:32', '2023-11-25 01:51:33', NULL, NULL, 9),
 (55, 2, 'MIST-13', 'Modulador Digital ISDB-T (módulo Teamcast MHX)', 'a1d6207cc715a365.JPG', '2023-10-20 19:08:32', '2023-11-25 01:34:49', NULL, NULL, 6),
-(56, 2, 'MIST-15', 'Modulador ISDB-T Con WebBrowser (Módulo TeamCast)', '56.JPG', '2023-10-20 19:08:32', '2023-11-19 12:42:40', NULL, NULL, 6),
+(56, 2, 'MIST-15', 'Modulador ISDB-T Con WebBrowser (Módulo G4C TeamCast)', 'e64b21a0617c2143.png', '2023-10-20 19:08:32', '2023-11-27 11:19:39', NULL, NULL, 6),
 (57, 4, 'NDS3224', 'Encoder digital 4 entradas SDI salida IP\r\nrenombrado L224', '244724d54ef33734.png', '2023-10-20 19:08:32', '2023-11-25 01:32:52', NULL, NULL, 9),
 (58, 4, 'NDS3542A', 'Encoder-Modulador HDMI-SDI c/ display', '3a4d234b8f374983.png', '2023-10-20 19:08:32', '2023-11-25 01:25:12', NULL, NULL, 9),
 (59, 5, 'AirFiber24G', 'Enlace 24 GHz', '211a935348e22ce1.jpg', '2023-10-22 14:53:12', '2023-11-25 01:07:39', NULL, NULL, 8),
@@ -3609,7 +3609,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (66, 2, 'MIST-13s', 'Modulador digital MHX c/GPS', 'a59129c19a184357.JPG', '2023-10-23 13:02:45', '2023-11-25 01:34:53', NULL, NULL, 6),
 (67, 2, 'TRUD2400', '', 'dde659ff5ea7cec4.png', '2023-10-26 12:23:43', '2023-11-25 01:44:35', '\'23', NULL, 2),
 (68, 8, 'DMM-3100', 'Multiplexor y modulador ISDB', 'd2e70f7f1d9af78d.png', '2023-10-26 15:03:10', '2023-11-25 01:45:08', NULL, NULL, 9),
-(69, 8, 'DCMP-500', 'Descompresor ISDB', '908d4283b37b6657.png', '2023-10-26 15:03:10', '2023-11-25 01:37:57', NULL, NULL, 9),
+(69, 8, 'DCMP-500', 'Descompresor ISDB', '91fbf52f3300cce7.png', '2023-10-26 15:03:10', '2023-11-27 00:17:07', NULL, NULL, 9),
 (70, 8, 'ECD-3000', 'Encoder H.264', 'b12e23d8e634ebd9.png', '2023-10-26 15:03:10', '2023-11-25 01:46:12', NULL, NULL, 9),
 (71, 2, 'Filtro Notch FM', 'Filtro Notch', '8e381df421de4ae3.jpg', '2023-11-09 12:24:30', '2023-11-25 01:13:57', NULL, NULL, 11),
 (72, 4, 'LA214', 'Multi Encoder Salida IP - SNMP\r\nCódigo Dexin DX3214B.', '85dfbf243dd727d9.png', '2023-11-17 10:42:48', '2023-11-25 01:47:46', NULL, NULL, 9),
@@ -3641,7 +3641,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `codigo` varchar(6) NOT NULL,
-  `content` varchar(250) NOT NULL,
+  `content` text NOT NULL,
   `tecnico_id` int(11) DEFAULT NULL,
   `equipo_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -3685,14 +3685,14 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   KEY `user_id` (`user_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_client` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_trabajo`
 --
 
 INSERT INTO `orden_trabajo` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `notes`, `client_id`, `user_id`, `estado_id`) VALUES
-(12, '2022-05-16 19:08:32', '2023-11-12 13:40:41', 220516, 'Red SFN CH18 TRUD1800\r\nEncoder 4 SDI, Remux, Mod VS, Mist-15, 2 descompresores VS\r\nFM5000\r\nEntrega en dos tiempos', NULL, 1, 4, 3),
+(12, '2022-05-16 19:08:32', '2023-11-28 13:38:19', 220516, 'Red SFN CH18 TRUD1800\r\nEncoder 4 SDI, Remux, Mod VS, Mist-15, 2 descompresores VS\r\nFM5000\r\nEntrega en dos tiempos', '', 1, 4, 1),
 (14, '2021-07-22 11:33:10', '2023-11-06 11:44:17', 210729, 'TV Digital ALL IN ONE TRUD250', NULL, 4, 4, 3),
 (15, '2021-01-22 14:53:13', '2023-11-12 13:36:47', 210101, 'TV Digital Enlace 24G Ubiquiti, TRUD1000, 2 ENC IP, MUX, MOD', NULL, 5, 4, 3),
 (16, '2018-01-23 11:39:42', '2023-11-24 12:37:48', 170725, 'Tv digital TRUD250, enc, mux, mod MHX MIST13', NULL, 2, 4, 3),
@@ -4009,15 +4009,15 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_id`) VALUES
-(1, 'Turko', 'arnaizagustin@gmail.com', '1.jpg', '$2b$12$kA//4qKktlTfMDbwXLt2iOATL/imj7eAAACh0bUiddV6W/T5tsyFa', 3),
-(4, 'Alejandro', 'toparuiz@mail.com', '4.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
-(5, 'Atilio', 'atilioavanzini@mail.com', '5.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
-(6, 'Oscar', 'oscar@mail.com', '6.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
-(10, 'admin', 'arnaiz_agustin@hotmail.com', '10.jpg', '$2b$12$1uHNmNIuagOpI8FT1PT1Ee96BpSkjdiT9rkoW8ZFbPdn7Vm.Lgbyq', 1),
-(11, 'Tomas', 'tomas@tecseg.com', '11.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
-(12, 'Juan', 'juan@tecseg.com', '12.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
-(14, 'Jorge', 'jorge@tecseg.com', '14.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3),
-(16, 'Salvador', 'salvi@tecseg.com', '16.jpg', '$2b$12$JtiK1H.DH4Wnk.hFcn8RseHdBpmNko46NvvwtA/ell9x6BDD9oAkG', 2);
+(1, 'Turko', 'arnaizagustin@gmail.com', '3fe04ce3b01015e7.jpg', '$2b$12$kA//4qKktlTfMDbwXLt2iOATL/imj7eAAACh0bUiddV6W/T5tsyFa', 3),
+(4, 'Alejandro', 'toparuiz@mail.com', '2a31ef684d61de2a.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
+(5, 'Atilio', 'atilioavanzini@mail.com', 'd7bbd992b034c0c5.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
+(6, 'Oscar', 'oscar@mail.com', '3291551b75b0a3c4.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
+(10, 'admin', 'arnaiz_agustin@hotmail.com', '69d336fd1cbd7443.jpg', '$2b$12$1uHNmNIuagOpI8FT1PT1Ee96BpSkjdiT9rkoW8ZFbPdn7Vm.Lgbyq', 1),
+(11, 'Tomas', 'tomas@tecseg.com', '19ef28d03b9cbcde.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
+(12, 'Juan', 'juan@tecseg.com', 'bd5feecdf59f8abf.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
+(14, 'Jorge', 'jorge@tecseg.com', '6d84bd75556ba63d.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3),
+(16, 'Salvador', 'salvi@tecseg.com', '3c48edfbaeec3e90.jpg', '$2b$12$JtiK1H.DH4Wnk.hFcn8RseHdBpmNko46NvvwtA/ell9x6BDD9oAkG', 2);
 
 --
 -- Restricciones para tablas volcadas

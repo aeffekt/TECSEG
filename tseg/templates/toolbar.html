@@ -14,26 +14,26 @@
 
 		{% if lista and lista.count() != 0 %}		
 			<article class="media content-section">
-				<h5 class="border-bottom border-secondary mb-4">Buscar {{ item_type }}</h5>
-				<select class="chosen form-select form-select-sm" aria-label="Filter by column" id="selectItem" data-placeholder="Seleccione un item">
-					<option></option>
-					{% for item in lista %}
-						<option value="{{ item.id }}">{{ item }}</option>
-					{% endfor %}
-				</select>
-				<br>
-				<br>
 				<h5 class="border-bottom border-secondary mb-4">Ordenar lista {{ title }}</h5>
-				<select class="form-select custom-select form-select-sm" aria-label="Filter by column" id="orderBy">
+				<select id="orderBy" class="form-select form-select-sm" aria-label="Filter by column" >
 					{% for key, value in orderBy.items() %}
 						<option value="{{ key }}" {% if request.args.get('orderBy') == key %}selected{% endif %}>{{ value }}</option>
 					{% endfor %}
 				</select>			
-				<select class="form-select custom-select form-select-sm" aria-label="order order" id="orderOrder">				
+				<select id="orderOrder" class="form-select form-select-sm" aria-label="order order" >
 					<option value="asc" {% if request.args.get('orderOrder') == 'asc' %}selected{% endif %}>Ascendente</option>
 					<option value="desc" {% if request.args.get('orderOrder') == 'desc' %}selected{% endif %}>Descendente</option>
+				</select>
+				<br>
+				<h5 class="border-bottom border-secondary mb-4">Buscar {{ item_type }}</h5>
+				<select id="selectItem" class="select2 form-select form-select-sm" aria-label="Filter by column" data-placeholder="Seleccione un item">
+					<option></option>
+					{% for item in lista %}
+						<option value="{{ item.id }}">{{ item }}</option>
+					{% endfor %}
 				</select>				
-				<button class="btn btn-primary" id="filterButton">Aplicar</button>
+				<button class="btn btn-primary" id="filterButton">Ir al elemento</button>
+				<br>				
 			</article>		
 		<!-- Muestra O.T. y O.R. vigentes segun rol de usuario  -->
 		{% elif (ordenes_trabajo_vigentes|length() !=0 or ordenes_reparacion_vigentes|length() !=0) %}
@@ -41,7 +41,8 @@
 				{% if ordenes_trabajo_vigentes|length() !=0 %}
 					<h5 class="border-bottom border-secondary mb-4">Órdenes de trabajo Activas</h5>
 					{% for ot in ordenes_trabajo_vigentes %}				
-						<a title="{{ ot.content }}" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot.id) }}" class="article-title"> OT: {{ ot.codigo }} {{ot.estado}}</a>
+						<b><a class="link-info link-offset-2 link-underline link-underline-opacity-25" title="{{ ot.content }}" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot.id) }}"> </b>
+							{{ ot.codigo }} <b>{{ot.estado}}</b></a>
 						<br>
 					{% endfor %}
 					<hr 80%>
@@ -49,10 +50,8 @@
 				{% if ordenes_reparacion_vigentes|length() !=0 %}
 					<h5 class="border-bottom border-secondary mb-4">Órdenes de reparación Activas</h5>
 					{% for orv in ordenes_reparacion_vigentes %}					
-						<a title="{{ orv.content }}" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orv.id) }}" class="article-title"> {{ orv }}
-							{% if orv.tecnicoAsignado %}
-								-{{ orv.tecnicoAsignado }}</a>
-							{% endif %}
+						<a class="link-info link-offset-2 link-underline link-underline-opacity-25" title="{{ orv.content }}" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orv.id) }}"> 
+							{{ orv }}{% if orv.tecnicoAsignado %}<b>-{{ orv.tecnicoAsignado }}</b></a>{% endif %}
 						<br>
 					{% endfor %}
 				{% endif %}

@@ -8,7 +8,7 @@ class OrdenTrabajoForm(FlaskForm):
 	def __init__(self, objeto=None):
 		super(OrdenTrabajoForm, self).__init__()  # Llamar al constructor de la clase padre		
 		self.client.choices = [(c.id, c) for c in Client.query.filter_by()]
-		self.client.choices.insert(0,(0, '')) # agrega item
+		self.client.choices.insert(0,(-1, '')) # agrega item
 		self.estado.choices = [(e.id, e) for e in Estado_ot.query.filter_by()]		
 		self.objeto = objeto
 
@@ -16,7 +16,7 @@ class OrdenTrabajoForm(FlaskForm):
 	content = TextAreaField('Descripción', validators=[DataRequired()])
 	client = SelectField('Cliente', coerce=int, validators=[DataRequired(message='Debe seleccionar un cliente')], render_kw={'data-placeholder': 'Seleccione un item...'})
 	estado = SelectField('Estado', coerce=int)
-	notes = TextAreaField('Comentarios')
+	notes = TextAreaField('Notas')
 	submit = SubmitField('Agregar')
 
 	def validate_codigo(self, codigo):

@@ -24,13 +24,12 @@ class LoginForm(FlaskForm):
 class RegistrationForm(LoginForm):
 	def __init__(self):
 		super(RegistrationForm, self).__init__()  # Llamar al constructor de la clase padre
-		self.role.choices = [(r.id, r.role_name) for r in Role.query.all()]		
-		self.role.choices.insert(0,(0,''))
+		self.role.choices = [(r.id, r.role_name) for r in Role.query.all()]
+		self.role.choices.insert(0,(-1,''))
 
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'}) # validate_choice=F si no hay error de validacion
-	confirm_password = PasswordField('Repetir Contraseña', 
-						validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])
+	role = SelectField('Tipo de usuario', coerce=int, validators=[DataRequired()])
+	confirm_password = PasswordField('Repetir Contraseña', validators=[DataRequired(), EqualTo('password'), Length(min=4, max=12)])
 	submit = SubmitField('Registrar Usuario')
 
 	# custom validators = validator_{field_name}
@@ -50,15 +49,13 @@ class RegistrationForm(LoginForm):
 class UpdateAccountForm(FlaskForm):
 	def __init__(self):
 		super(UpdateAccountForm, self).__init__()  # Llamar al constructor de la clase padre
-		self.role.choices = [(r.id, r.role_name) for r in Role.query.all()]		
+		self.role.choices = [(r.id, r.role_name) for r in Role.query.all()]
 
 	username = StringField('Nombre de usuario',
 						validators=[DataRequired(), Length(min=2, max=30)], 
 						render_kw={'autofocus': True})
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', choices=[], 
-										coerce=int, 
-										validate_choice=False) # validate_choice=F si no hay error de validacion
+	role = SelectField('Tipo de usuario', coerce=int, validate_choice=False) # validate_choice=F si no hay error de validacion
 	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Actualizar datos de cuenta')
 

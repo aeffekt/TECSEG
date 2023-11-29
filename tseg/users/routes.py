@@ -58,7 +58,7 @@ def login():
 				login_user(user, remember=form.remember.data)
 				# lleva a la pagina que se queria acceder antes de login
 				next_page = request.args.get('next') # metodo request lee ruta barra direcciones
-				flash(f'Bienvenido', 'success')
+				flash(f'{current_user.username} ha iniciado sessión correctamente', 'success')
 				return redirect(url_for('users.index'))		
 			else:
 				flash(f'Inicio de sesión incorrecto: {form.username.data}', 'danger')
@@ -84,19 +84,20 @@ def account(user_id):
 				picture_file = save_picture(form.picture.data, 'profile_pics')
 				user.image_file = picture_file
 			user.username = form.username.data
-			user.email = form.email.data			
-			user.role_id = form.role.data
+			user.email = form.email.data
+			if current_user.role.role_name == "Admin":
+				user.role_id = form.role.data
 			db.session.commit()
 			flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
 			return redirect(url_for('users.account', user_id=user.id))
 		# except especial que requiere el rollback para evitar error de ejecucion por integrityError
 		except IntegrityError as e:
 			db.session.rollback()
-			error_logger(e,current_user.id)
+			error_logger(e)
 			return redirect(url_for('users.account', user_id=user.id))
 	elif request.method == 'GET':		
 		form.role.default = user.role.id
-		form.process()
+		form.process()		
 		form.username.data = user.username
 		form.email.data = user.email		
 	image_file = url_for("static", filename='profile_pics/'+user.image_file)

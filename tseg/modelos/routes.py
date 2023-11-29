@@ -41,6 +41,10 @@ def modelo(modelo_id):
 	if form.validate_on_submit():
 		try:
 			if form.picture.data:
+				# Se elimina la foto anterior
+				old_picture_path = os.path.join(current_app.root_path, f'static\\models_pics', modelo.image_file)				
+				if os.path.exists(old_picture_path) and modelo.image_file != "default_eq.png":
+					os.remove(old_picture_path)					
 				picture_file = save_picture(form.picture.data, 'models_pics')
 				modelo.image_file = picture_file
 			modelo.marca_id = form.marca.data
@@ -109,7 +113,7 @@ def delete_modelo(modelo_id):
 		db.session.commit()
 		picture_path = os.path.join(current_app.root_path, f'static\\models_pics', modelo.image_file)		
 		if os.path.exists(picture_path) and modelo.image_file != "default_eq.png":
-			os.remove(picture_path)			
+			os.remove(picture_path)
 		flash("El modelo ha sido eliminado!", 'success')
 		return redirect(url_for('modelos.all_modelos'))
 	except Exception as e:

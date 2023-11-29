@@ -357,7 +357,7 @@ class ErrorLog(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	error = db.Column(db.String(250), nullable=False)	
+	error = db.Column(db.Text, nullable=False)	
 	traceback = db.Column(db.Text, nullable=True)	
 
 	def __repr__(self):

@@ -57,7 +57,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.marca(class="chosen form-control form-control") }}
+								{{ form.marca(class="select2 form-control form-control") }}
 							{% endif %}					
 						</div>
 						<div id="picture" class="form-group">
@@ -93,14 +93,14 @@
 						<div class="form-group">							
 							{{ form.tipo_modelo.label(class="form-select-label") }}<span class="red"> *</span>							
 							{% if form.tipo_modelo.errors %}
-								{{ form.tipo_modelo(class="form-select form-select-sm custom-select is-invalid") }}
+								{{ form.tipo_modelo(class="form-select form-select-sm is-invalid") }}
 								<div class="invalid-feedback">
 									{% for error in form.tipo_modelo.errors %}
 										<span>{{ error }}</span>
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.tipo_modelo(class="chosen form-control form-control") }}
+								{{ form.tipo_modelo(class="select2 form-control form-control") }}
 							{% endif %}
 						</div>
 						

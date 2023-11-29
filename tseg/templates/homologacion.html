@@ -37,14 +37,14 @@
 						<div id="descripcion" class="form-group">					
 							{{ form.modelo.label(class="form-control-label") }}	<span class="red"> *</span>				
 							{% if form.modelo.errors %}
-								{{ form.modelo(class="form-select form-select-sm custom-select is-invalid") }}
+								{{ form.modelo(class="form-select form-select-sm is-invalid") }}
 								<div class="invalid-feedback">
 									{% for error in form.modelo.errors %}
 										<span>{{ error }}</span>
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.modelo(class="form-select form-select-sm custom-select") }}
+								{{ form.modelo(class="form-select form-select-sm") }}
 							{% endif %}
 						</div>
 					</div>	

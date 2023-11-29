@@ -47,7 +47,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.role(class="form-select form-select custom-select") }}
+								{{ form.role(id="select_role", class="select2 form-select form-select") }}
 							{% endif %}
 						</div>
 					</div>
@@ -65,7 +65,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.password(class="form-control form-control") }}
+								{{ form.password(class="form-control form-control", title="La contraseña debe ser de al menos 4 caracteres") }}
 							{% endif %}
 						</div>
 						<div class="form-group">
@@ -93,4 +93,10 @@
 			</div>
 		</form>
 	</div>
+	<script src="{{ url_for('static', filename='js/select_to_null.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			limpiarSeleccion('#select_role');
+		});
+	</script>
 {% endblock content %}

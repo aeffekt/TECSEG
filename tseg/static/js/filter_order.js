@@ -1,19 +1,22 @@
-// Pone en la barra de navegacion los valores de orderBy y orderOrder
-document.getElementById('filterButton').addEventListener('click', function() {
+// captura con el boton el elemento del select2
+document.getElementById('filterButton').addEventListener('click', function() {   
     let url = new URL(window.location.href);
     let selectItem = document.getElementById('selectItem').value;
-    let orderBy = document.getElementById('orderBy').value;
-    let orderOrder = document.getElementById('orderOrder').value;
-    
-    //deshabilitado, ver en toolbar.html y utils.js
-    //let datepicker1 = document.getElementById('datepicker1').value;
-    //let datepicker2 = document.getElementById('datepicker2').value;    
-
     url.searchParams.set('selectItem', selectItem);
-    url.searchParams.set('orderBy', orderBy);
-    url.searchParams.set('orderOrder', orderOrder);
-    //url.searchParams.set('datepicker1', datepicker1);
-    //url.searchParams.set('datepicker2', datepicker2);
-    
     window.location.href = url;
 });
+
+
+// Pone en la barra de navegacion los valores de orderBy y orderOrder
+function toolbar_js() {
+    let url = new URL(window.location.href);
+    let orderBy = document.getElementById('orderBy').value;
+    let orderOrder = document.getElementById('orderOrder').value;        
+    url.searchParams.set('orderBy', orderBy);
+    url.searchParams.set('orderOrder', orderOrder);    
+    window.location.href = url;
+};
+
+// captura los dos elementos del filtro
+document.getElementById('orderBy').addEventListener('change', toolbar_js);
+document.getElementById('orderOrder').addEventListener('change', toolbar_js);

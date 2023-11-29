@@ -20,7 +20,10 @@
                             <b>{{ equipment.frecuencia_eq.canal }} {{ equipment.frecuencia_eq.rango }}</b> -
                         {% endif %}
                         {% if equipment.numSerie %}
-                            Nº serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b> CH: <b>{{ equipment.frecuencias }}</b>
+                            Nº serie: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}-{{ equipment.numSerie }}</b> 
+                            {% if equipment.frecuencias %}
+                                CH: {% for f in equipment.frecuencias %} <b>{{ f }}</b> {% endfor %}
+                            {% endif %}
                         {% else %}
                             O.T.: <b>{{ equipment.detalle_trabajo.orden_trabajo.codigo }}</b>
                         {% endif %}

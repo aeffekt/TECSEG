@@ -120,7 +120,7 @@
                     </li>                                        
                 {% endfor %}
             {% endif %}
-            {% if orden_trabajo.notes != None %}
+            {% if orden_trabajo.notes %}
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="Notes-tab" 
                                 data-bs-toggle="tab" 
@@ -207,16 +207,18 @@
         {% endfor %}
     {% endif %}
 
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show" id="Notes" role="tabpanel" aria-labelledby="Notes-tab">
-            <br>
-            <article class="media content-section-list">
-                <div class="media-body">
-                    <p class="article-title">{{ orden_trabajo.notes }}</p>
-                </div>
-            </article>
-        </div>		
-    </div>    
+    {% if orden_trabajo.notes %}
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show" id="Notes" role="tabpanel" aria-labelledby="Notes-tab">
+                <br>
+                <article class="media content-section-list">
+                    <div class="media-body">
+                        <p class="article-title">{{ orden_trabajo.notes }}</p>
+                    </div>
+                </article>
+            </div>		
+        </div>    
+    {% endif %}
     
      <!-- Modal OT -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

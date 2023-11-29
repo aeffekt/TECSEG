@@ -2,17 +2,21 @@ from flask_wtf import FlaskForm
 from flask import flash
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, IntegerField
 from wtforms.validators import DataRequired, ValidationError, Optional, Email, NumberRange
-from tseg.models import Cond_fiscal, Iibb, Pais, Client
+from tseg.models import Cond_fiscal, Iibb, Pais, Client, Provincia, Localidad
 
 class ClientForm(FlaskForm):
 	def __init__(self, objeto=None):
 		super(ClientForm, self).__init__()  # Llamar al constructor de la clase padre		
 		self.cond_fiscal.choices = [(cond_fiscal.id, cond_fiscal.nombre) for cond_fiscal in Cond_fiscal.query.all()]
-		self.cond_fiscal.choices.insert(0, (0,''))
+		self.cond_fiscal.choices.insert(0, (-1,''))
 		self.iibb.choices = [(iibb.jurisdiccion, iibb) for iibb in Iibb.query.order_by(Iibb.jurisdiccion.asc()).all()]
-		self.iibb.choices.insert(0, (0, ''))
+		self.iibb.choices.insert(0, (-1, ''))
+		self.localidad.choices = [l.nombre for l in Localidad.query.all()]
+		self.localidad.choices.insert(0,'')
+		self.provincia.choices = [p for p in Provincia.query.all()]
+		self.provincia.choices.insert(0,'')
 		self.pais.choices = [p for p in Pais.query.all()]
-		self.pais.choices.insert(0,'') # agrega item "sin datos"
+		self.pais.choices.insert(0,'')
 		self.objeto = objeto
 
 	nombre = StringField('Nombre', validators=[DataRequired()], render_kw={'autofocus': True})
@@ -24,9 +28,9 @@ class ClientForm(FlaskForm):
 
 	direccion = StringField('Dirección (Calle y número)')
 	codigo_postal = IntegerField('Código Postal', validators=[Optional(), NumberRange(min=1000, max=9999)])
-	localidad = StringField('Localidad')
-	provincia = StringField('Provincia')	
-	pais = SelectField('Pais', coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
+	localidad = SelectField('Localidad', coerce=str, validate_choice=False)
+	provincia = SelectField('Provincia', coerce=str, validate_choice=False)	
+	pais = SelectField('Pais', coerce=str, validate_choice=False)
 
 	cuit = IntegerField('CUIT/CUIL', validators=[Optional(), NumberRange(min= 20000000000, max=33999999999)])
 	cond_fiscal = SelectField('Condición fiscal', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})

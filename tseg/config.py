@@ -22,7 +22,7 @@ class Config:
 	TEXTAREA_ROWS = 2
 	
 	ORDER_USUARIOS = {"username": "Nombre",
-					"role_id": "Tipo usuario"					
+					"role_id": "Tipo usuario"
 					}
 	ORDER_CLIENTES = {"id": "Número ID",
 					"nombre": "Nombre",
@@ -32,18 +32,15 @@ class Config:
 	ORDER_EQUIPOS= {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",
 					"anio": "Año de fabricación",
-					"modelo_id": "Modelo",					
-					"frecuencia_id": "Canal / Frecuencia",					
-					"detalle_trabajo_id": "Orden de trabajo",					
 					}
 	ORDER_MODELOS= {"nombre": "Nombre",
 					"date_created": "Fecha creado",
-					"date_modified": "Fecha modificado",					
+					"date_modified": "Fecha modificado",
 					}
-	ORDER_MARCAS= {"nombre": "Nombre"					
+	ORDER_MARCAS= {"nombre": "Nombre"
 					}
 	ORDER_HOMOLOGACION= {"codigo": "Código",
-					"modelo": "Modelo",					
+					"modelo": "Modelo",
 					}
 	ORDER_HISTORIAS = {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",
@@ -58,9 +55,9 @@ class Config:
 					"user_edit_id": "Último editor",
 					}
 	ORDER_OR = {"estado_id": "Estado",
-					"codigo": "Código",					
+					"codigo": "Código",
 					"tecnico_id": "Técnico asignado",
-					"equipo_id": "Equipo",					
+					"equipo_id": "Equipo",
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
 					}

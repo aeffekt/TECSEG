@@ -10,9 +10,9 @@ class ModeloForm(FlaskForm):
 	def __init__(self, objeto=None):
 		super(ModeloForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.marca.choices = [(marca.id ,marca.nombre) for marca in Marca.query.order_by(Marca.id).all()]
-		self.marca.choices.insert(0,(0, ''))
+		self.marca.choices.insert(0,(-1, ''))
 		self.tipo_modelo.choices = [(tipoModelo.id ,tipoModelo.tipo) for tipoModelo in TipoModelo.query.order_by(TipoModelo.id).all()]
-		self.tipo_modelo.choices.insert(0,(0, ''))
+		self.tipo_modelo.choices.insert(0,(-1, ''))
 		self.anio.choices = [f"'{str(year)[2:]}" for year in range(datetime.now().year + 1, 1999, -1)]
 		self.anio.choices.insert(0,' ')
 		self.objeto = objeto

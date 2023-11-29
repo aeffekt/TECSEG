@@ -138,6 +138,7 @@ def update_orden_trabajo(orden_trabajo_id):
 		form.process()
 		form.codigo.data = orden_trabajo.codigo
 		form.content.data = orden_trabajo.content	
+		form.notes.data = orden_trabajo.notes	
 	return render_template('create_orden_trabajo.html', 	
 												title='Editar Orden trabajo', 
 												form=form,

@@ -36,7 +36,7 @@
 								{{ form.username(class="form-control form-control-sm") }}
 							{% endif %}
 						</div>
-						<div id="role" class="form-group">					
+						<div class="form-group">					
 							{{ form.role.label(class="form-control-label") }}
 							{% if form.role.errors %}
 								{{ form.role(class="form-control form-control-sm is-invalid") }}
@@ -45,12 +45,8 @@
 										<span>{{ error }}</span>
 									{% endfor %}
 								</div>
-							{% else %}
-								 {% if current_user.role.role_name != "Admin" %}
-						            {{ form.role(class="form-control form-control-sm", disabled=True) }}
-						        {% else %}
-						            {{ form.role(class="form-select form-select-sm custom-select") }}									
-						        {% endif %}
+							{% else %}								 
+								{{ form.role(id="select_role", class="form-control form-control-sm", disabled=True if current_user.role.role_name != "Admin" else False) }}
 						    {% endif %}	
 						</div>						
 					</div>
@@ -90,4 +86,5 @@
 			</div>
 		</form>
 	</div>
+	
 {% endblock content %}

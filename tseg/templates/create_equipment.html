@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+
 {% block content %}
 	<div class='content-section'>
 		<form method='POST' action="" enctype='multipart/form-data'> <!-- action= when we post go back to same route-->
@@ -17,7 +18,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.detalle_trabajo(class="chosen form-select form-select-sm custom-select", title="Todo equipo debe estar asociado a un detalle de orden de trabajo") }}
+								{{ form.detalle_trabajo(id="detalle_trabajo", class="select2 form-select form-select-sm", title="Todo equipo debe estar asociado a un detalle de orden de trabajo") }}
 							{% endif %}
 						</div>
 
@@ -31,25 +32,46 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.modelo(id="modelo_input", class="chosen form-select form-select-sm custom-select", title="Seleccione el modelo de equipo según lo descripto en el Detalle de orden de trabajo") }}
+								{{ form.modelo(id="modelo", class="select2 form-select form-select-sm", title="Seleccione el modelo de equipo según lo descripto en el Detalle de orden de trabajo") }}
 							{% endif %}
-						</div>						
-
-						<div class="form-group">
-							{{ form.numSerie.label(class="form-control-label") }}
-							{% if form.numSerie.errors %}
-								{{ form.numSerie(class="form-control form-control-sm is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.numSerie.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
+						</div>
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group">
+									{{ form.frecuencias.label(class="form-control-label") }}					
+									{% if form.frecuencias.errors %}
+										{{ form.frecuencias(class="form-control form-control-sm is-invalid") }}
+										<div class="invalid-feedback">
+											{% for error in form.frecuencias.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
+										{{ form.frecuencias(class="select2 form-select form-select-sm", title="Seleccione uno o varios canales") }}
+									{% endif %}
 								</div>
-							{% else %}
-								{{ form.numSerie(class="form-control form-control-sm", placeholder="1/1234", title="Solo completar para equipos LIECOM / IA (ej: 1/1234)", id="numSerie") }}
-							{% endif %}
-						</div>										
+								
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									{{ form.numSerie.label(class="form-control-label") }}
+									{% if form.numSerie.errors %}
+										{{ form.numSerie(class="form-control form-control-sm is-invalid") }}
+										<div class="invalid-feedback">
+											{% for error in form.numSerie.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
+										{{ form.numSerie(class="form-control form-control-sm form-control-font-size-sm", placeholder="1/1234", title="Solo completar para equipos LIECOM / IA (ej: 1/1234)") }}
+									{% endif %}
+								</div>										
+							</div>
+						</div>				
+						
+						
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6">								
 						<div class="form-group">
 							{{ form.anio.label(class="form-control-label") }}<span class="red"> *</span>
 							{% if form.anio.errors %}
@@ -60,42 +82,23 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.anio(class="chosen form-select form-select-sm custom-select", title="Año de fabricación, compra o entrega del equipo") }}
+								{{ form.anio(class="select2 form-select form-select-sm", title="Año de fabricación, compra o entrega del equipo") }}
 							{% endif %}
 						</div>
-						<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								{{ form.frecuencias.label(class="form-control-label") }}					
-								{% if form.frecuencias.errors %}
-									{{ form.frecuencias(class="form-control form-control-sm is-invalid") }}
-									<div class="invalid-feedback">
-										{% for error in form.frecuencias.errors %}
-											<span>{{ error }}</span>
-										{% endfor %}
-									</div>
-								{% else %}
-									{{ form.frecuencias(class="chosen form-select form-select-sm custom-select", title="Por defecto dejar vacío. O Seleccione un canal o frecuencia de trabajo del equipo", multiple="multiple") }}
-								{% endif %}
-							</div>
+						<div class="form-group">
+							{{ form.sistema.label(class="form-control-label") }}					
+							{% if form.sistema.errors %}
+								{{ form.sistema(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.sistema.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.sistema(id="sistema", class="select3 form-control form-control-sm", title="Nombre del Sistema para agrupar equipos dentro de la O.T.") }}
+							{% endif %}
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								{{ form.sistema.label(class="form-control-label") }}					
-								{% if form.sistema.errors %}
-									{{ form.sistema(class="form-control form-control-sm is-invalid") }}
-									<div class="invalid-feedback">
-										{% for error in form.sistema.errors %}
-											<span>{{ error }}</span>
-										{% endfor %}
-									</div>
-								{% else %}
-									{{ form.sistema(class="form-control form-control-sm", title="Por defecto dejar vacío. Dar un nombre de sistema para distinguir dentro del detalle de Orden de Trabajo junto a otros equipos parte de un mismo 'Sistema de equipos'") }}
-								{% endif %}
-							</div>
-						</div>
-					</div>				
-
+						
 						<div class="form-group">
 							{{ form.upload_files.label(class="form-control-label") }}					
 							{% if form.upload_files.errors %}
@@ -134,5 +137,29 @@
 			</div>
 		</form>
 	</div>
+	<script src="{{ url_for('static', filename='js/select_to_null.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/load_sistemas_select.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			limpiarSeleccion('#modelo');
+			limpiarSeleccion('#detalle_trabajo');
+			
+			// carga valores del select SISTEMA cuando inicia excepto si no hay detalle_trabajo seleccionado
+			if(document.querySelector('#detalle_trabajo option:checked')){
+				let dt_id = document.querySelector('#detalle_trabajo option:checked').value;				
+				cargar_select_sistemas(dt_id)
+			}				
+					
+			// carga valores del select SISTEMA cuando cambia de valor
+			$("#detalle_trabajo").change(function(){
+				let dt_id = document.querySelector('#detalle_trabajo option:checked').value;
+				// vacia de elemntos previo
+				$('#sistema').empty();
+				// agrega NULL NULL para que no exista una seleccion automatica del 1er elemento
+				$('#sistema').append($("<option>", { value:null,  text: null }));
+				cargar_select_sistemas(dt_id)
+			});
+		});		
+	</script>
 
 {% endblock content %}

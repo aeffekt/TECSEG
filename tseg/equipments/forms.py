@@ -3,30 +3,30 @@ from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileFi
 from wtforms.validators import DataRequired, ValidationError
 from tseg.models import Modelo, Frecuencia, Detalle_trabajo, Equipment, Orden_trabajo
 from datetime import datetime
-from sqlalchemy.sql import exists
-from tseg import db
 
 
 class EquipmentForm(FlaskForm):
 	def __init__(self, objeto=None):
 		super(EquipmentForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.objeto = objeto
-		self.modelo.choices = [(mod.id, f'{mod}-{mod.descripcion}') for mod in Modelo.query.order_by(Modelo.nombre).all()]
-		self.modelo.choices.insert(0,(0,'')) # agrega item "sin datos"			
-		self.detalle_trabajo.choices = [(d.id, d) for d in Detalle_trabajo.query.all()]
-		self.detalle_trabajo.choices.insert(0,(0,''))
-		self.anio.choices = [int(year) for year in range(datetime.now().year + 1, 1999, -1)]		
+		self.modelo.choices = [(mod.id, f'{mod}-{mod.descripcion}') for mod in Modelo.query.order_by(Modelo.nombre).all()]		
+		self.modelo.choices.insert(0,(-1,''))
+		self.detalle_trabajo.choices = [(d.id, d) for d in Detalle_trabajo.query.all()]		
+		self.detalle_trabajo.choices.insert(0,(-1,''))
+		self.anio.choices = [int(year) for year in range(datetime.now().year + 1, 1999, -1)]
 		self.anio.choices.insert(0,'')
 		self.frecuencias.choices = [(f.id, f) for f in Frecuencia.query.all()]
-		self.frecuencias.choices.insert(0,(0,''))		
+		# Si se esta haciendo un update, carga el sistema ya grabado
+		if objeto:
+			self.sistema.choices = [self.objeto.sistema]
 		
-	modelo = SelectField('Modelo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
-	frecuencias = SelectMultipleField('Canal / Frecuencia', coerce=int, validate_choice=False, render_kw={'data-placeholder': 'Seleccione item(s)'})
-	numSerie = StringField('Orden de equipo y Fecha de entrega')
-	anio = SelectField('Año de fabricación', coerce=str, validate_choice=False, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
+	modelo = SelectField('Modelo', coerce=int, validators=[DataRequired()])
+	frecuencias = SelectMultipleField('Canal/es', coerce=int)
+	numSerie = StringField('Nº serie')
+	anio = SelectField('Año de fabricación', coerce=str, validate_choice=False, validators=[DataRequired()])
 	content = TextAreaField('Descripción')
-	detalle_trabajo = SelectField('Detalle orden de trabajo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
-	sistema = StringField('Sistema')
+	detalle_trabajo = SelectField('Detalle orden de trabajo', coerce=int, validators=[DataRequired()])
+	sistema = SelectField('Sistema', coerce=str, validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item o creé uno nuevo'})
 	upload_files = FileField("Agregar archivos extras")
 	submit = SubmitField('Crear / Actualizar')
 
@@ -53,8 +53,3 @@ class EquipmentForm(FlaskForm):
 	def validate_frecuencias(self, frecuencias):	
 		if frecuencias.data == 0:
 			frecuencias.data=None
-
-	def validate_sistema(self, sistema):	
-		if sistema.data == '':
-			sistema.data=None
-			

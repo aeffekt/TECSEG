@@ -24,58 +24,55 @@
 					</ul>
 				</li>
 			{% endif %}
-			<!-- SECTOR TODOS menos INVITADOS -->
-			{% if current_user.role.role_name != "Invitado" %}
-				<li>
-					<a class="menu-horizontal"><i class="bi bi-people-fill"></i>Atención al Cliente</a>
-					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}"><i class="bi bi-person-plus"></i> Registrar Cliente</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar cliente</a></li>	
-						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}"><i class="bi bi-wrench"></i> Registrar Orden de Reparación</a></li>
-						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Reparación</a></li>
-							<hr>
-							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por Técnico</a></li>
-							<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_reparaciones') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por modelo</a></li>
-					</ul>
-				</li>
-				
-				<li>
-					<a class="menu-horizontal"><i class="bi bi-buildings"></i>Comercial</a>
-					<ul class="menu-vertical">						
-
-						<li><a class="nav-item nav-link" href="{{ url_for('ordenes_trabajo.add_orden_trabajo', client_id=0, orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-journal-text"></i> Registrar Orden de Trabajo</a></li>
-						<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Trabajo</a></li>
-						<hr>		
-						
-						<li><a class="nav-item nav-link" href="{{ url_for('marcas.add_marca') }}"><i class="bi bi-r-circle"></i> Registrar Marca</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('marcas.all_marcas', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar marcas</a></li>
-
-						<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}"><i class="bi bi-pencil"></i> Registrar Modelo</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar modelos</a></li>
-						
-						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}"><i class="bi bi-patch-check"></i> Registrar Homologación</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Homologaciones</a></li>
-						
-						
-					</ul>
-				</li>					
 			
-				<li>
-					<a class="menu-horizontal"><i class="bi bi-cast"></i>Técnico</a>
-					<ul class="menu-vertical">
-						<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=0) }}"><i class="bi bi-tv"></i> Registrar Equipo</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-search"></i> Buscar equipo</a></li>							
+			<li>
+				<a class="menu-horizontal"><i class="bi bi-people-fill"></i>Clientes</a>
+				<ul class="menu-vertical">
+					<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}"><i class="bi bi-person-plus"></i> Registrar Cliente</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar cliente</a></li>	
+					<hr>
+					<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}"><i class="bi bi-wrench"></i> Registrar Orden de Reparación</a></li>
+					<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Reparación</a></li>
 						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-file-earmark-text"></i> Mis historias</a></li>
-						<hr>
-						<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.add_procedimiento') }}"><i class="bi bi-list-check"></i> Registrar Procedimiento técnico</a></li>
-						<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.all_procedimientos', orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-search"></i> Buscar Procedimiento técnico</a></li>
-					</ul>
-				</li>
-				
-			{% endif %}
+						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por Técnico</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_reparaciones') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por modelo</a></li>
+				</ul>
+			</li>
+			
+			<li>
+				<a class="menu-horizontal"><i class="bi bi-buildings"></i>Comercial</a>
+				<ul class="menu-vertical">						
+
+					<li><a class="nav-item nav-link" href="{{ url_for('ordenes_trabajo.add_orden_trabajo', client_id=0, orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-journal-text"></i> Registrar Orden de Trabajo</a></li>
+					<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Trabajo</a></li>
+					<hr>		
+					
+					<li><a class="nav-item nav-link" href="{{ url_for('marcas.add_marca') }}"><i class="bi bi-r-circle"></i> Registrar Marca</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('marcas.all_marcas', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar marcas</a></li>
+
+					<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}"><i class="bi bi-pencil"></i> Registrar Modelo</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar modelos</a></li>
+					
+					<hr>
+					<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}"><i class="bi bi-patch-check"></i> Registrar Homologación</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Homologaciones</a></li>
+					
+					
+				</ul>
+			</li>					
+		
+			<li>
+				<a class="menu-horizontal"><i class="bi bi-cast"></i>Técnico</a>
+				<ul class="menu-vertical">
+					<li><a class="nav-item nav-link" href="{{ url_for('equipments.add_equipment', detalle_trabajo_id=0) }}"><i class="bi bi-tv"></i> Registrar Equipo</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('equipments.all_equipments', orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-search"></i> Buscar equipo</a></li>							
+					<hr>
+					<li><a class="nav-item nav-link" href="{{ url_for('users.user_historias', username=current_user.username, orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-file-earmark-text"></i> Mis historias</a></li>
+					<hr>
+					<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.add_procedimiento') }}"><i class="bi bi-list-check"></i> Registrar Procedimiento técnico</a></li>
+					<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.all_procedimientos', orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-search"></i> Buscar Procedimiento técnico</a></li>
+				</ul>
+			</li>
 			<!-- SECTOR PARA TODOS LOS USUARIOS -->
 			<li>
 				<a title="Ir a mi cuenta" ><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>

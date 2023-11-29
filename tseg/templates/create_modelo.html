@@ -13,14 +13,14 @@
 							{{ form.marca.label(class="form-control-label") }}<span class="red"> *</span>
 							<!-- errores de entrada  -->
 							{% if form.marca.errors %}
-								{{ form.marca(class="form-select form-select-sm custom-select is-invalid") }}
+								{{ form.marca(class="form-select form-select-sm is-invalid") }}
 								<div class="invalid-feedback">
 									{% for error in form.marca.errors %}
 										<span>{{ error }}</span>
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.marca(class="chosen form-control form-control") }}
+								{{ form.marca(id="marca",class="select2 form-control form-control") }}
 							{% endif %}
 						</div>
 						<div class="form-group">
@@ -59,14 +59,14 @@
 							{{ form.tipo_modelo.label(class="form-control-label") }}<span class="red"> *</span>
 							<!-- errores de entrada  -->
 							{% if form.tipo_modelo.errors %}
-								{{ form.tipo_modelo(class="form-select form-select-sm custom-select is-invalid") }}
+								{{ form.tipo_modelo(class="form-select form-select-sm is-invalid") }}
 								<div class="invalid-feedback">
 									{% for error in form.tipo_modelo.errors %}
 										<span>{{ error }}</span>
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.tipo_modelo(class="chosen form-control form-control") }}
+								{{ form.tipo_modelo(id="tipo", class="select2 form-control form-control") }}
 							{% endif %}
 						</div>
 											
@@ -109,4 +109,11 @@
 			</div>
 		</form>
 	</div>
+	<script src="{{ url_for('static', filename='js/select_to_null.js') }}"></script>
+	<script>		
+		$(document).ready(function() {
+			limpiarSeleccion('#marca');
+			limpiarSeleccion('#tipo');			
+		});
+	</script>
 {% endblock content %}
