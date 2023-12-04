@@ -73,21 +73,6 @@ def buscarLista(dBModel, *arg, toFilter=True):
 	return lista
 	
 
-# obtener_informacion_geografica
-def obtener_informacion_geografica(codigo_postal):	
-	localidad_nombre = ''
-	provincia_nombre = ''
-	pais_nombre = ''
-	localidad = Localidad.query.filter_by(cp=codigo_postal).first()
-	if localidad:
-		provincia = Provincia.query.filter(Provincia.id==localidad.provincia_id).first()
-		pais = Pais.query.filter(Pais.id==provincia.pais_id).first()
-		localidad_nombre = localidad.nombre
-		provincia_nombre = provincia.nombre
-		pais_nombre = pais.nombre
-	return localidad_nombre, provincia_nombre, pais_nombre;
-
-
 #guardar imagen en carpeta
 def save_picture(form_picture, folder):
 	img_filename = secrets.token_hex(8) #crea nombre random para la imagen elegida
@@ -125,9 +110,8 @@ def save_picture(form_picture, folder):
 # reset EMAIL
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = Message('TECSEG - Reset de contraseña requerido',
-                  #sender='no-reply@tecseg.local',
-				  sender='arnaiz_agustin@hotmail.com',
+    msg = Message('TECSEG - Reset de contraseña requerido',                  
+				  sender=f'{current_app.config["MAIL_USERNAME"]}',
                   recipients=[user.email])
     msg.body = f'''Usuario: {user.username} \n Para resetear su contraseña use el siguiente link:
 {url_for('users.reset_token', token=token, _external=True)}

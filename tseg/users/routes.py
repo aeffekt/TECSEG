@@ -139,13 +139,10 @@ def reset_request():
 		return redirect(url_for('users.index'))
 	form = RequestResetForm()	
 	if form.validate_on_submit():
-		try:
-			user = User.query.filter_by(email=form.email.data).first()
-			send_reset_email(user)
-			flash('Un email ha sido enviado con las instrucciones para resetear su contraseña.', 'info')
-			return redirect(url_for('users.login'))
-		except Exception as e:
-			error_logger(e)
+		user = User.query.filter_by(email=form.email.data).first()
+		send_reset_email(user)
+		flash('Un email ha sido enviado con las instrucciones para resetear su contraseña (si no lo encuentra busque en SPAM).', 'success')		
+		return redirect(url_for('users.login'))		
 	return render_template('reset_request.html', title='Reset Password', form=form)
 
 

@@ -38,25 +38,25 @@
                 </div>
                 <div class="col-md-1">
                     <a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
-                    <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal{{ loop.index }}" title="Eliminar equipo {{ equipment }}"></a>
+                    <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal-{{ loop.index }}-{{ sistema }}" title="Eliminar equipo {{ equipment }}"></a>
                 </div>
             </div> 
         </div>
     </article>
     <!-- Modal EQUIPOS -->
-    <div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal{{ loop.index }}Label" aria-hidden="true">
+    <div class="modal fade" id="deleteModal-{{ loop.index }}-{{ sistema }}" role="dialog" aria-labelledby="deleteModal-{{ loop.index }}-{{ sistema }}Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModal{{ loop.index }}Label">¿Seguro desea eliminar el Equipo "{{ equipment }}"?</h5>
+                    <h5 class="modal-title" id="deleteModal-{{ loop.index }}-{{ sistema }}Label">¿Seguro desea eliminar el Equipo "{{ equipment }}"?</h5>
                     <button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" tabindex="3" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
-                        <input class="btn btn-danger" type="submit" value="Borrar">
+                        <input class="btn btn-danger" tabindex="4" type="submit" value="Borrar">
                     </form>
                 </div>
             </div>

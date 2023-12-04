@@ -18,7 +18,7 @@
 					<div class="media-body">
 						<a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo.id) }}"><h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo }}</h2></a>
 						<h6 class="article-title">Marca: <b>{{ equipment.modelo.marca }}</b></h6>
-						<h6 class="article-title">Descripción: <b>{{ equipment.modelo.descripcion }}</b></h6>
+						<h6 class="article-content">Descripción: <b>{{ equipment.modelo.descripcion }}</b></h6>
 						{% if equipment.modelo.homologacion %}
 							<h6 class="article-title">Homologación: <b>{{ equipment.modelo.homologacion }}</b></h6>
 						{% endif %}
@@ -79,7 +79,7 @@
 						<small>Descripción:</small>
 					</div>
 					<div class="col-md-9">
-						<h6 class="article-title">{{ equipment.content }}</h6>
+						<h6 class="article-content">{{ equipment.content }}</h6>
 					</div>
 				{% endif %}
 				

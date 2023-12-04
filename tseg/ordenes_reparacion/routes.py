@@ -92,7 +92,9 @@ def add_orden_reparacion(equipment_id):
 @role_required("Admin", "ServicioCliente", "Técnico")
 def update_orden_reparacion(orden_reparacion_id):
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
-	if orden_reparacion.author_or != current_user and orden_reparacion.tecnicoAsignado != current_user:
+	if orden_reparacion.author_or != current_user\
+		and orden_reparacion.tecnicoAsignado != current_user\
+		and current_user.role.role_name != "Admin":
 		flash(f'Solo el autor {orden_reparacion.author_or} o un usuario "Admin" puede editar esta O.R.','warning')
 		abort(403) #http forbidden
 	form = OrdenReparacionForm(orden_reparacion)

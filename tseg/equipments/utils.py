@@ -6,6 +6,7 @@ from tseg.models import dateFormat
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from PyPDF2 import PdfReader, PdfWriter
+import qrcode
 
 
 # generar PDF etiqueta num serie
@@ -24,7 +25,7 @@ def print_etiqueta_pdf(path, equipo):
 	hoja_A4.setFont("Helvetica", font_size)  # Establecer el tamaño de fuente en el lienzo        
 	hoja_A4.setLineWidth(0.5)
 	# texto de la etiqueta
-	hoja_A4.drawCentredString(100, y-50, heading)
+	hoja_A4.drawCentredString(100, y-40, heading)
 	hoja_A4.drawCentredString(35, y-65, 'Modelo')
 	hoja_A4.drawCentredString(100, y-65, modelo)
 	hoja_A4.drawCentredString(35, y-80, 'numSerie')
@@ -36,6 +37,15 @@ def print_etiqueta_pdf(path, equipo):
 	hoja_A4.rect(65, y-55, 70, -44) #  X, Y, DeltaX, DeltaY
 	hoja_A4.line(65, y-70, 135, y-70)
 	hoja_A4.line(65, y-85, 135, y-85)
+
+	# Agregar el código QR con la URL deseada a la etiqueta
+	qr_path = f"{path}/{equipo.id}_qr_code.png"
+	qr_to_code = url_for('equipments.equipment', equipment_id=equipo.id, _external=True)	
+	if generar_qr(qr_to_code, qr_path):
+		# Agregar titulo del código QR
+		hoja_A4.drawCentredString(220, y-40, "Código QR info del equipo")
+		# Agregar el código QR a la etiqueta
+		hoja_A4.drawInlineImage(qr_path, 180, y-120, width=75, height=75)
 	try:
 		# guardar datos
 		hoja_A4.save()
@@ -98,7 +108,7 @@ def print_caratula_pdf(path, equipo):
 	caratula_a4.drawString(380, y-660, 'O.T.Nº :')
 	caratula_a4.drawString(440, y-660, otn)
 	caratula_a4.drawString(70, y-690, 'FECHA :')
-	caratula_a4.drawString(180, y-690, datetime.now().strftime("%d/%m/%y"))	
+	caratula_a4.drawString(180, y-690, datetime.now().strftime("%d/%m/%y"))
 	try:
 		# guardar datos caratula PDF
 		caratula_a4.save()
@@ -116,6 +126,26 @@ def print_caratula_pdf(path, equipo):
 	except Exception as err:
 		flash(f"Ocurrió un error al generar la carátula del manual: {err}",'warning')
 		
+
+# Generar el código QR en base a un PATH y el codigo del qr
+def generar_qr(qr_to_code, qr_path):
+	try:
+		qr = qrcode.QRCode(
+			version=1,
+			error_correction=qrcode.constants.ERROR_CORRECT_L,
+			box_size=10,
+			border=4,
+		)
+		qr.add_data(qr_to_code)
+		qr.make(fit=True)
+		# Crear una imagen del código QR
+		img = qr.make_image(fill_color="black", back_color="white")
+		# Guardar la imagen en el path especificado
+		img.save(qr_path)
+		return True
+	except Exception as e:
+		return False
+
 
 # subir archivos a equipo
 def upload_files(files, equipment):

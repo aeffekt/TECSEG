@@ -1,8 +1,8 @@
 <div class="navbar-nav ">	
 	<button class="menu-toggle" aria-label="Toggle Menu"></button>
-	<a class="navbar-brand-celu" href="/"><img src="./static/images/LOGO_small.png"></a>
+	<a class="navbar-brand-celu"tabindex="1" href="/"><img src="./static/images/LOGO_small.png"></a>
 	<ul class="menu-horizontal">
-		<a class="navbar-brand" href="/"><img src="./static/images/LOGO_small.png"></a>
+		<a class="navbar-brand" tabindex="1"  href="/"><img src="./static/images/LOGO_small.png"></a>
 
 		<!-- SOLO REGISTRADOS -->
 		{% if current_user.is_authenticated %}
@@ -24,9 +24,9 @@
 					</ul>
 				</li>
 			{% endif %}
-			
+			{% if current_user.role.role_name != "Invitado" %}
 			<li>
-				<a class="menu-horizontal"><i class="bi bi-people-fill"></i>Clientes</a>
+				<a  class="menu-horizontal"><i class="bi bi-people-fill"></i>Clientes</a>
 				<ul class="menu-vertical">
 					<li><a class="nav-item nav-link" href="{{ url_for('clients.add_client') }}"><i class="bi bi-person-plus"></i> Registrar Cliente</a></li>
 					<li><a class="nav-item nav-link" href="{{ url_for('clients.all_clients', orderBy='id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar cliente</a></li>	
@@ -41,23 +41,17 @@
 			
 			<li>
 				<a class="menu-horizontal"><i class="bi bi-buildings"></i>Comercial</a>
-				<ul class="menu-vertical">						
-
+				<ul class="menu-vertical">
 					<li><a class="nav-item nav-link" href="{{ url_for('ordenes_trabajo.add_orden_trabajo', client_id=0, orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-journal-text"></i> Registrar Orden de Trabajo</a></li>
 					<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_trabajo.all_ordenes_trabajo', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Trabajo</a></li>
-					<hr>		
-					
+					<hr>
 					<li><a class="nav-item nav-link" href="{{ url_for('marcas.add_marca') }}"><i class="bi bi-r-circle"></i> Registrar Marca</a></li>
 					<li><a class="nav-item nav-link" href="{{ url_for('marcas.all_marcas', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar marcas</a></li>
-
 					<li><a class="nav-item nav-link" href="{{ url_for('modelos.add_modelo') }}"><i class="bi bi-pencil"></i> Registrar Modelo</a></li>
-					<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar modelos</a></li>
-					
+					<li><a class="nav-item nav-link" href="{{ url_for('modelos.all_modelos', orderBy='nombre', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar modelos</a></li>					
 					<hr>
 					<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.add_homologacion') }}"><i class="bi bi-patch-check"></i> Registrar Homologación</a></li>
 					<li><a class="nav-item nav-link" href="{{ url_for('homologaciones.all_homologaciones', orderBy='codigo', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Homologaciones</a></li>
-					
-					
 				</ul>
 			</li>					
 		
@@ -73,6 +67,7 @@
 					<li><a class="nav-item nav-link" href="{{ url_for('procedimientos.all_procedimientos', orderBy='date_modified', orderOrder='desc') }}"><i class="bi bi-search"></i> Buscar Procedimiento técnico</a></li>
 				</ul>
 			</li>
+			{% endif %}
 			<!-- SECTOR PARA TODOS LOS USUARIOS -->
 			<li>
 				<a title="Ir a mi cuenta" ><img class="rounded-circle nav-img" src="{{ url_for('static', filename='profile_pics/' + 	current_user.image_file) }}"></a>

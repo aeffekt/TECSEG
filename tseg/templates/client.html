@@ -105,9 +105,10 @@
 					<div class="col-md-9">
 						<small class="article-title">{{ client.domicilio.direccion }}</small>
 					</div>
-				</div>			
-
-				{% if client.domicilio.localidad %}
+				</div>
+			{% endif %}			
+			{% if client.domicilio.localidad %}
+				{% if client.domicilio.localidad.cp %}
 					<div class="row align-items-center">
 						<div class="col-md-3 text-end">
 							<small>cp:</small> 
@@ -116,42 +117,33 @@
 							<small class="article-title">{{ client.domicilio.localidad.cp }}</small>
 						</div>
 					</div>
-
-					<div class="row align-items-center">
-						<div class="col-md-3 text-end">
-							<small>Localidad:</small> 
-						</div>
-						<div class="col-md-9">
-							<small class="article-title">{{ client.domicilio.localidad.nombre }}</small>
-						</div>
-					</div>
-
-					{% if client.domicilio.localidad.provincia %}
-						<div class="row align-items-center">
-							<div class="col-md-3 text-end">
-								<small>Provincia:</small> 
-							</div>
-							<div class="col-md-9">
-								<small class="article-title">{{ client.domicilio.localidad.provincia.nombre }}</small>
-							</div>
-						</div>
-					
-						{% if client.domicilio.localidad.provincia.pais %}
-							<div class="row align-items-center">
-							<div class="col-md-3 text-end">
-								<small>Pais:</small> 
-							</div>
-							<div class="col-md-9">
-								<small class="article-title">{{ client.domicilio.localidad.provincia.pais.nombre }}</small>
-							</div>
-							</div>
-						{% endif %}
-					{% endif %}
 				{% endif %}
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+						<small>Localidad:</small> 
+					</div>
+					<div class="col-md-9">
+						<small class="article-title">{{ client.domicilio.localidad.nombre }}</small>
+					</div>
+				</div>				
+				<div class="row align-items-center">
+					<div class="col-md-3 text-end">
+						<small>Provincia:</small> 
+					</div>
+					<div class="col-md-9">
+						<small class="article-title">{{ client.domicilio.localidad.provincia.nombre }}</small>
+					</div>
+				</div>
+				<div class="row align-items-center">
+				<div class="col-md-3 text-end">
+					<small>Pais:</small> 
+				</div>
+				<div class="col-md-9">
+					<small class="article-title">{{ client.domicilio.localidad.provincia.pais.nombre }}</small>
+				</div>
+				</div>				
 			{% endif %}
-
 			<hr 80%>
-			
 			<a  class="bi bi-search btn btn-outline-light" title="Ir a equipos del cliente" href="{{ url_for('clients.client_equipments', client_id=client.id) }}"></a>
 			<a class="bi bi-plus-square btn btn-outline-info" title="Agregar Orden de Trabajo" href="{{ url_for('ordenes_trabajo.add_orden_trabajo', client_id = client.id) }}"></a>          
 			<a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar cliente" href="{{ url_for('clients.update_client', client_id=client.id) }}"></a>          

@@ -110,12 +110,11 @@
             {% if sistemas|length() != 0 %}
                 {% for sistema in sistemas %}                
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="Sistema-tab{{sistema}}" 
+                        <button class="nav-link" id="Sistema-tab-{{ loop.index }}-{{ sistema }}" 
                             data-bs-toggle="tab" 
-                            data-bs-target="#Sistema{{sistema}}" 
-                            type="button" 
-                            role="tab" 
-                            aria-controls="Sistema{{sistema}}" 
+                            data-bs-target="#Sistema-{{ loop.index }}-{{ sistema }}" 
+                            type="button" role="tab" 
+                            aria-controls="Sistema-{{ loop.index }}-{{ sistema }}" 
                             aria-selected="true">{{ sistema }} ({{ sistema_equipments[sistema]|length() }})</button>
                     </li>                                        
                 {% endfor %}
@@ -132,7 +131,7 @@
             {% endif %}
     	</ul>        
     
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="tabDetalles">
             <div class="tab-pane fade show active" id="Detalles" role="tabpanel" aria-labelledby="Detalles-tab">
                 <br>
                 {% for detalle_trabajo in lista %}
@@ -187,7 +186,7 @@
             </div>		
         </div>    
 
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="tabEquipos">
             <div class="tab-pane fade show" id="Equipos" role="tabpanel" aria-labelledby="Equipos-tab">
                 <br>
                 {% include "lista_equipos.html" %}
@@ -197,10 +196,10 @@
     
     {% if sistemas|length() != 0 %}
         {% for sistema in sistemas %}                
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade" id="Sistema{{sistema}}" role="tabpanel" aria-labelledby="Sistema{{sistema}}-tab">
+            <div class="tab-content" id="tabSistema-{{ loop.index }}-{{ sistema }}">
+                <div class="tab-pane fade" id="Sistema-{{ loop.index }}-{{ sistema }}" role="tabpanel" aria-labelledby="Sistema-{{ loop.index }}-{{ sistema }}-tab">
                     <br>
-                    {% set equipments = sistema_equipments[sistema] %}
+                    {% set equipments = sistema_equipments[sistema] %}                    
                     {% include "lista_equipos.html" %}
                 </div>
             </div>          
@@ -208,12 +207,12 @@
     {% endif %}
 
     {% if orden_trabajo.notes %}
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="tabNotes">
             <div class="tab-pane fade show" id="Notes" role="tabpanel" aria-labelledby="Notes-tab">
                 <br>
                 <article class="media content-section-list">
                     <div class="media-body">
-                        <p class="article-title">{{ orden_trabajo.notes }}</p>
+                        <p class="article-content">{{ orden_trabajo.notes }}</p>
                     </div>
                 </article>
             </div>		

@@ -19,37 +19,9 @@
 							{% else %}
 								{{ form.codigo(class="form-control form-control-sm", title="Ingresar 6 dígitos: AAMMDD", type="number") }}
 							{% endif %}
-						</div>
-						<div class="form-group">
-							<!-- boottrap  -->
-							{{ form.content.label(class="form-control-label") }}<span class="red"> *</span>
-							<!-- errores de entrada  -->
-							{% if form.content.errors %}
-								{{ form.content(class="form-control form-control-sm is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.content.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
-								</div>
-							{% else %}
-								{{ form.content(class="form-control form-control-sm", rows='6') }}
-							{% endif %}
-						</div>												
+						</div>						
 					</div>
 					<div class="col-md-6">
-						<div class="form-group">
-							{{ form.equipo.label(class="form-control-label") }}<span class="red"> *</span>
-							{% if form.equipo.errors %}
-								{{ form.equipo(class="form-control form-control-sm is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.equipo.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
-								</div>
-							{% else %}
-								{{ form.equipo(id="equipo_select", class="select2 form-select form-select-sm") }}
-							{% endif %}
-						</div>						
 						<div class="form-group">
 							{{ form.tecnico.label(class="form-control-label") }}
 							{% if form.tecnico.errors %}
@@ -63,8 +35,35 @@
 								{{ form.tecnico(id="tecnico_select", class="select2 form-select form-select-sm") }}
 							{% endif %}
 						</div>
-						
 					</div>
+				</div>
+				<div class="form-group">
+					{{ form.equipo.label(class="form-control-label") }}<span class="red"> *</span>
+					{% if form.equipo.errors %}
+						{{ form.equipo(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.equipo.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.equipo(id="equipo_select", class="select2 form-select form-select-sm") }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- boottrap  -->
+					{{ form.content.label(class="form-control-label") }}<span class="red"> *</span>
+					<!-- errores de entrada  -->
+					{% if form.content.errors %}
+						{{ form.content(class="form-control form-control-sm is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.content.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.content(class="form-control form-control-sm", rows='6') }}
+					{% endif %}
 				</div>
 			</fieldset>
 			<br>

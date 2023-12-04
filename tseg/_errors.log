@@ -887,3 +887,8 @@ sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, "Column 'role
 [SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]
 [parameters: {'email': '2arnaizagustin@gmail.com', 'role_id': None, 'user_id': 1}]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+{'Hora': '2023-12-04 12:49:57', 'Usuario': 'admin (Admin)', 'Error': "'int' object has no attribute 'upper'"}
+Traceback (most recent call last):
+  File "C:\Documentos\Dropbox\Sistemas\Proyectos\TECSEG\tseg\clients\routes.py", line 90, in add_client
+    localidad=Localidad(nombre=form.localidad.data.upper(), cp=form.codigo_postal.data, provincia=provincia)
+AttributeError: 'int' object has no attribute 'upper'

@@ -83,7 +83,7 @@ def equipment(equipment_id):
 def add_equipment(detalle_trabajo_id):	
 	form = EquipmentForm()
 	if form.validate_on_submit():
-		try:		
+		try:			
 			equipment = Equipment(numSerie=form.numSerie.data,
 							content=form.content.data,
 							anio=form.anio.data,
@@ -101,7 +101,7 @@ def add_equipment(detalle_trabajo_id):
 				archivos_seleccionados = request.files.getlist('upload_files')
 				if archivos_seleccionados:
 					upload_files(archivos_seleccionados, equipment)
-			flash(f'Equipo {equipment.numSerie} agregado!', 'success')
+			flash(f'Equipo {equipment} agregado!', 'success')
 			return redirect(url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id))
 		except Exception as e:
 			error_logger(e)		
@@ -165,11 +165,12 @@ def delete_equipment(equipment_id):
 	equipment = Equipment.query.get_or_404(equipment_id)
 	detalle_trabajo_id = equipment.detalle_trabajo.id
 	folder_path = get_full_folder_path(equipment)
-	try:
-		shutil.rmtree(folder_path)
-		flash(f"Los archivos del equipo han sido eliminado!", 'success')
-	except Exception as e:
-		flash(f"Ocurrió un error al intentar eliminar los archivos del equipo", 'warning')
+	if os.path.exists(folder_path):
+		try:
+			shutil.rmtree(folder_path)
+			flash(f"Los archivos del equipo han sido eliminado!", 'success')
+		except Exception as e:
+			flash(f"Ocurrió un error al intentar eliminar los archivos del equipo", 'warning')
 	try:
 		# elimina las historias del equipo
 		for historia in equipment.historias:

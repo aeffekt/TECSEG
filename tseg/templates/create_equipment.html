@@ -143,17 +143,19 @@
 		$(document).ready(function() {
 			limpiarSeleccion('#modelo');
 			limpiarSeleccion('#detalle_trabajo');
+			limpiarSeleccion('#sistema');
 			
 			// carga valores del select SISTEMA cuando inicia excepto si no hay detalle_trabajo seleccionado
 			if(document.querySelector('#detalle_trabajo option:checked')){
-				let dt_id = document.querySelector('#detalle_trabajo option:checked').value;				
+				let dt_id = document.querySelector('#detalle_trabajo option:checked').value;
+				$('#sistema').append($("<option>", { value:null,  text: null }));
 				cargar_select_sistemas(dt_id)
-			}				
+			}
 					
 			// carga valores del select SISTEMA cuando cambia de valor
 			$("#detalle_trabajo").change(function(){
 				let dt_id = document.querySelector('#detalle_trabajo option:checked').value;
-				// vacia de elemntos previo
+				// vacia de elemntos previos
 				$('#sistema').empty();
 				// agrega NULL NULL para que no exista una seleccion automatica del 1er elemento
 				$('#sistema').append($("<option>", { value:null,  text: null }));

@@ -18,8 +18,6 @@ class Config:
 	# filtro de los reportes
 	ANIO1 = 1990	
 	ANIO2 = 2099
-
-	TEXTAREA_ROWS = 2
 	
 	ORDER_USUARIOS = {"username": "Nombre",
 					"role_id": "Tipo usuario"

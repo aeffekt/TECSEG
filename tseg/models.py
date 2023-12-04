@@ -321,7 +321,7 @@ class Localidad(db.Model):
 	domicilios = db.relationship('Domicilio', backref='localidad', lazy=True)
 
 	def __repr__(self):
-		return f'{self.cp}'
+		return f"{self.nombre}"
 
 
 class Provincia(db.Model):

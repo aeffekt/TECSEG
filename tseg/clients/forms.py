@@ -4,20 +4,26 @@ from wtforms import StringField, SubmitField, TextAreaField, SelectField, Intege
 from wtforms.validators import DataRequired, ValidationError, Optional, Email, NumberRange
 from tseg.models import Cond_fiscal, Iibb, Pais, Client, Provincia, Localidad
 
+
 class ClientForm(FlaskForm):
 	def __init__(self, objeto=None):
-		super(ClientForm, self).__init__()  # Llamar al constructor de la clase padre		
+		super(ClientForm, self).__init__()  # Llamar al constructor de la clase padre
+		self.objeto = objeto
 		self.cond_fiscal.choices = [(cond_fiscal.id, cond_fiscal.nombre) for cond_fiscal in Cond_fiscal.query.all()]
 		self.cond_fiscal.choices.insert(0, (-1,''))
 		self.iibb.choices = [(iibb.jurisdiccion, iibb) for iibb in Iibb.query.order_by(Iibb.jurisdiccion.asc()).all()]
-		self.iibb.choices.insert(0, (-1, ''))
-		self.localidad.choices = [l.nombre for l in Localidad.query.all()]
-		self.localidad.choices.insert(0,'')
-		self.provincia.choices = [p for p in Provincia.query.all()]
-		self.provincia.choices.insert(0,'')
-		self.pais.choices = [p for p in Pais.query.all()]
+		self.iibb.choices.insert(0, (-1, ''))		
+		self.pais.choices = [p.nombre for p in Pais.query.all()]
 		self.pais.choices.insert(0,'')
-		self.objeto = objeto
+		if self.objeto:
+			if self.objeto.domicilio:
+				self.localidad.choices = [p.nombre for p in Localidad.query.filter_by(provincia_id=self.objeto.domicilio.localidad.provincia.id).all()]
+				self.provincia.choices = [p.nombre for p in Provincia.query.filter_by(pais_id=self.objeto.domicilio.localidad.provincia.pais.id).all()]
+		else:
+			self.provincia.choices = []
+			self.localidad.choices = []
+		self.provincia.choices.insert(0, '')
+		self.localidad.choices.insert(0,'')
 
 	nombre = StringField('Nombre', validators=[DataRequired()], render_kw={'autofocus': True})
 	apellido = StringField('Apellido', validators=[DataRequired()])
@@ -26,7 +32,7 @@ class ClientForm(FlaskForm):
 	telefono = StringField('Teléfono')
 	comments = TextAreaField('Comentarios')
 
-	direccion = StringField('Dirección (Calle y número)')
+	direccion = StringField('Dirección')	
 	codigo_postal = IntegerField('Código Postal', validators=[Optional(), NumberRange(min=1000, max=9999)])
 	localidad = SelectField('Localidad', coerce=str, validate_choice=False)
 	provincia = SelectField('Provincia', coerce=str, validate_choice=False)	
@@ -60,19 +66,36 @@ class ClientForm(FlaskForm):
 								Client.business_name == business_name.data,
 								Client.id != self.objeto.id).first()
 			else:			
-				business_already_exist = Client.query.filter(					        
-								Client.business_name == business_name.data).first()
+				business_already_exist = Client.query.filter(Client.business_name == business_name.data).first()
 			if business_already_exist:
-				raise ValidationError('Ya existe un cliente con el mismo nombre de negocio')		
+				raise ValidationError('Ya existe un cliente con el mismo nombre de negocio')
 		
+	
 	# Validación de domicilio, código postal, país, provincia y localidad
 	def validate_direccion(self, field):		
+		if self.direccion.data == '':
+			self.direccion.data=None
 		# Verifica si al menos uno de los campos está lleno
-		if any([self.codigo_postal.data, self.localidad.data, self.provincia.data, self.pais.data, self.direccion.data]):
-			if not all([self.codigo_postal.data, self.localidad.data, self.provincia.data, self.pais.data, self.direccion.data]):
-				flash("Advertencia! Debe completar: Código Postal, Dirección, Localidad, Provincia y Pais del domicilio, o ninguno de esos datos.", 'warning')
-				raise ValidationError('Completar el resto de los campos de domicilio.')
+		if any([self.localidad.data, self.provincia.data, self.pais.data]):			
+			if not all([self.localidad.data, self.provincia.data, self.pais.data]):
+				flash("Advertencia! Debe completar: Localidad, Provincia y Pais del domicilio, o ninguno de esos datos.", 'warning')
+				raise ValidationError('Completar el resto de los campos de Localidad.')
+			
 
+	# Validación de CP y Localidad
+	def validate_codigo_postal(self, field):	
+		if self.codigo_postal.data != '' and self.localidad.data != '':
+			provincia_data = Provincia.query.filter_by(nombre=self.provincia.data).first()
+			localidad_data = Localidad.query.filter_by(nombre=self.localidad.data, provincia_id=provincia_data.id).first()
+			cp_data = Localidad.query.filter_by(cp=self.codigo_postal.data).first()
+			print()
+			if localidad_data and cp_data and localidad_data != cp_data:
+				flash("Advertencia! Los datos de código postal y localidad no coinciden.", 'warning')
+				raise ValidationError('Este Código postal ya se encuentra registrado con otra Localidad.')
+			elif cp_data and not localidad_data:
+				flash("Advertencia! El código postal ya se encuentra registrado.", 'warning')
+				raise ValidationError('Este Código postal ya se encuentra registrado con otra Localidad.')
+	
 	# Validación de valor NULL para campos no obligatorios
 	def validate_iibb(self, iibb):	
 		if iibb.data == 0:

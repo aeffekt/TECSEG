@@ -40,7 +40,7 @@ def add_procedimiento():
 							)
 			db.session.add(procedimiento)
 			db.session.commit()
-			flash('Se ha guardado el Procedimiento técnico!', 'success')
+			flash('Se ha guardado el procedimiento técnico!', 'success')
 			return redirect(url_for('procedimientos.all_procedimientos', filterBy='date_modified', filterOrder='desc'))
 		except Exception as e:
 			error_logger(e)
@@ -70,7 +70,7 @@ def update_procedimiento(procedimiento_id):
 			procedimiento.date_modified = dateFormat()
 			procedimiento.user_edit = current_user
 			db.session.commit()
-			flash("Su procedimiento ha sido modificado con éxito", 'success')
+			flash("El procedimiento ha sido modificado con éxito", 'success')
 			return redirect(url_for('procedimientos.procedimiento', procedimiento_id=procedimiento.id))
 		except Exception as e:
 			error_logger(e)
@@ -89,7 +89,11 @@ def delete_procedimiento(procedimiento_id):
 	procedimiento = Procedimiento.query.get_or_404(procedimiento_id)	
 	if procedimiento.user_id != current_user.id:
 		abort(403)
-	db.session.delete(procedimiento)
-	db.session.commit()
-	flash("Su procedimiento ha sido eliminado!", 'success')
-	return redirect(url_for('procedimientos.all_procedimientos'))
+	try:
+		db.session.delete(procedimiento)
+		db.session.commit()
+		flash(f"El procedimiento '{procedimiento}' ha sido eliminado!", 'success')
+		return redirect(url_for('procedimientos.all_procedimientos'))
+	except Exception as e:
+		error_logger(e)
+		return redirect(url_for('procedimientos.procedimiento', procedimiento_id=procedimiento.id))

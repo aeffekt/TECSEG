@@ -19,6 +19,7 @@ pip install email_validator
 pip install pillow (image)
 pip install requests
 pip install reportlab
+pip install qrcode
 
 Bootstrap
 chosen

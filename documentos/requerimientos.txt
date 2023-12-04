@@ -13,3 +13,4 @@ pillow==9.5.0
 requests==2.31.0
 reportlab==4.0.4
 PyPDF2==3.0.1
+qrcode==7.4.2

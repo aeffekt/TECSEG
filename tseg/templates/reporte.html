@@ -3,7 +3,7 @@
 <h6 class="border-bottom border-secondary mb-4">{{ nombre_reporte }} ({{ datos_sql|length }})</h6>
 {% if  datos_sql|length != 0 %}
     <div class="row">
-        <div class="col-md-4">        
+        <div class="col-md-5">        
             <table>
                 <thead>
                     <tr>
@@ -31,7 +31,7 @@
                 </tbody>
             </table>
         </div>    
-        <div class="col-md-8">
+        <div class="col-md-7">
             <article class="media content-section">
                 <div class="media-body" style="background: rgba(255,255,255,0.7)">
                     <canvas id="chart"></canvas>

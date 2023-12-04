@@ -2,8 +2,8 @@
 from flask import render_template, Blueprint
 from tseg import db
 from tseg.models import (Orden_reparacion, Equipment, Role, User, 
-						 Provincia, Domicilio, Localidad, Client, 
-						 Detalle_trabajo, Orden_trabajo, Estado_or, Modelo)
+						 Provincia, Pais, Domicilio, Localidad, Client, 
+						 Detalle_trabajo, Orden_trabajo, Estado_or, Modelo, Marca)
 from sqlalchemy import func
 from tseg.users.utils import role_required, cargarFechasFiltroReportes
 import json
@@ -78,6 +78,7 @@ def reporte_zona():
 	fecha1, fecha2 = cargarFechasFiltroReportes()
 	query = db.session.query(
 					    Provincia.nombre.label('Provincia'),
+						func.substring(Pais.nombre, 1, 3).label('Pais'),
 					    func.count(Equipment.id).label('Cantidad')).\
 						join(Localidad, Provincia.localidades).\
 						join(Domicilio, Localidad.domicilios).\
@@ -99,7 +100,7 @@ def reporte_zona():
 							chart_type='pie',
 							labels=labels_json,
 							data=cantidades_json,
-							datos_sql=equipos_por_provincia,							
+							datos_sql=equipos_por_provincia,
 							nombre_reporte='Reporte de equipos LIE / IA instalados por Provincia',
 							title='Reporte por zona',
 							current_year=current_year)
@@ -112,8 +113,10 @@ def reporte_modelo():
 	fecha1, fecha2 = cargarFechasFiltroReportes()
 	query = db.session.query(
 						Modelo.nombre.label('Modelo'),
+						func.substring(Marca.nombre, 1, 3).label('Marca'),
 						func.count(Equipment.id).label('Cantidad'))\
 						.join(Equipment, Equipment.modelo_id == Modelo.id)\
+						.join(Marca, Marca.id == Modelo.marca_id)\
 						.filter(Equipment.anio >= fecha1, Equipment.anio <= fecha2)\
 						.where(Equipment.numSerie != None)\
 						.group_by(Modelo.nombre)\
@@ -138,10 +141,13 @@ def reporte_modelo():
 @role_required("Admin")
 def reporte_anio():
 	#filtrado de fechas
-	fecha1, fecha2 = cargarFechasFiltroReportes()		
+	fecha1, fecha2 = cargarFechasFiltroReportes()
 	query = db.session.query(
 						Equipment.anio.label('Año'),
-						func.count(Equipment.id).label('Cantidad'))\
+						func.count(func.distinct(Orden_trabajo.id)).label('O.T.s'),
+						func.count(Equipment.id).label('Equipos'))\
+						.join(Detalle_trabajo, Detalle_trabajo.id == Equipment.detalle_trabajo_id)\
+						.join(Orden_trabajo, Orden_trabajo.id == Detalle_trabajo.trabajo_id)\
 						.filter(Equipment.anio >= fecha1, Equipment.anio <= fecha2)\
 						.where(Equipment.numSerie != None)\
 						.group_by(Equipment.anio)\
@@ -149,14 +155,14 @@ def reporte_anio():
 	# Obtener los resultados
 	equipos_por_anio = query.all()	
 	anios = [item.Año for item in equipos_por_anio]
-	cantidades = [item.Cantidad for item in equipos_por_anio]
+	cantidades = [item.Equipos for item in equipos_por_anio]
 	labels_json = json.dumps(anios)
-	cantidades_json = json.dumps(cantidades)	
+	cantidades_json = json.dumps(cantidades)
 	return render_template('reporte.html',
 							chart_type='line',
 							labels=labels_json,
-							data=cantidades_json,		
-							datos_sql=equipos_por_anio,							
+							data=cantidades_json,
+							datos_sql=equipos_por_anio,
 							nombre_reporte='Reporte de ventas de equipos LIE / IA por año',
 							title='Reporte de ventas',
 							current_year=current_year)

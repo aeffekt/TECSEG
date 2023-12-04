@@ -78,7 +78,7 @@
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ form.comments(class="form-control form-control-sm", rows='2', tabindex="5") }}
+						{{ form.comments(class="form-control form-control-sm", rows='3', tabindex="5") }}
 					{% endif %}
 				</div>
 				<!-- INFORMACION ADICIONAL -->
@@ -102,7 +102,7 @@
 									{% else %}
 										{{ form.codigo_postal(id="codigo_postal", class="form-control form-control-sm", title="Ingrese 4 digitos para cargar datos de la Localidad", placeholder="Ingresar C.P. primero", tabindex="7") }}
 									{% endif %}
-								</div>
+								</div>							
 								<div class="form-group">									
 									{{ form.direccion.label(class="form-control-label") }}									
 									{% if form.direccion.errors %}
@@ -113,33 +113,7 @@
 											{% endfor %}
 										</div>
 									{% else %}
-										{{ form.direccion(class="form-control form-control-sm", tabindex="8") }}
-									{% endif %}
-								</div>
-								<div class="form-group">									
-									{{ form.localidad.label(class="form-control-label") }}									
-									{% if form.localidad.errors %}
-										{{ form.localidad(class="form-control form-control-sm is-invalid") }}
-										<div class="invalid-feedback">
-											{% for error in form.localidad.errors %}
-												<span>{{ error }}</span>
-											{% endfor %}
-										</div>
-									{% else %}
-										{{ form.localidad(id="localidadSelect", class="select3 form-control form-control-sm", tabindex="9") }}
-									{% endif %}
-								</div>
-								<div class="form-group">									
-									{{ form.provincia.label(class="form-control-label") }}									
-									{% if form.provincia.errors %}
-										{{ form.provincia(class="form-control form-control-sm is-invalid") }}
-										<div class="invalid-feedback">
-											{% for error in form.provincia.errors %}
-												<span>{{ error }}</span>
-											{% endfor %}
-										</div>
-									{% else %}
-										{{ form.provincia(id="provinciaSelect", class="select3 form-control form-control-sm", tabindex="10") }}
+										{{ form.direccion(class="form-control form-control-sm", tabindex="8", placeholder="Calle y Número") }}
 									{% endif %}
 								</div>
 								<div class="form-group">									
@@ -152,7 +126,33 @@
 											{% endfor %}
 										</div>
 									{% else %}
-										{{ form.pais(id="paisSelect", class="select3 form-select form-select-sm", tabindex="11") }}
+										{{ form.pais(id="paisSelect", class="select3 form-select form-select-sm paisSelect", tabindex="11") }}
+									{% endif %}
+								</div>
+								<div class="form-group">									
+									{{ form.provincia.label(class="form-control-label") }}									
+									{% if form.provincia.errors %}
+										{{ form.provincia(class="form-control form-control-sm is-invalid") }}
+										<div class="invalid-feedback">
+											{% for error in form.provincia.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
+										{{ form.provincia(id="provinciaSelect", class="select3 form-control form-control-sm provinciaSelect", tabindex="10") }}
+									{% endif %}
+								</div>
+								<div class="form-group">									
+									{{ form.localidad.label(class="form-control-label") }}									
+									{% if form.localidad.errors %}
+										{{ form.localidad(class="form-control form-control-sm is-invalid") }}
+										<div class="invalid-feedback">
+											{% for error in form.localidad.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
+										{{ form.localidad(id="localidadSelect", class="select3 form-control form-control-sm localidadSelect", tabindex="9") }}
 									{% endif %}
 								</div>
 							</div>								
@@ -233,8 +233,8 @@
 	<script>	
 		// reseta a NULL los select con key=-1	
 		$(document).ready(function() {
-			limpiarSeleccion('#iibb_select');
-			limpiarSeleccion('#cond_fiscal_select');			
+			limpiarSeleccion('#iibb_select')
+			limpiarSeleccion('#cond_fiscal_select')
 		});		
 	</script>
 {% endblock content %}

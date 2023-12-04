@@ -4,7 +4,8 @@ from tseg.models import (Client, Equipment, Pais, Provincia, Localidad,
 						 Domicilio, Cond_fiscal, Iibb, Orden_trabajo, Detalle_trabajo)
 from tseg.clients.forms import ClientForm
 from tseg import db
-from tseg.users.utils import role_required, obtener_informacion_geografica, buscarLista, error_logger
+from tseg.users.utils import role_required, buscarLista, error_logger
+from tseg.clients.utils import populate_provincia, populate_localidad, obtener_informacion_geografica
 
 
 clients = Blueprint('clients', __name__)
@@ -15,9 +16,29 @@ def obtener_datos_geograficos():
 	codigo_postal = request.args.get('codigo_postal')
 	# Utiliza la función "obtener_informacion_geografica"
 	localidad, provincia, pais = obtener_informacion_geografica(codigo_postal)
-	# Retorna los datos en formato JSON
+	# Retorna los datos en formato JSON	
 	return jsonify(localidad=localidad, provincia=provincia, pais=pais)
 
+
+@clients.route('/obtener-datos-provincias')
+def load_provincia_select():	
+	pais_nombre = request.args.get('pais')		
+	provincias_list = populate_provincia(pais_nombre)
+	return jsonify(provincias_list=provincias_list)
+
+
+@clients.route('/obtener-datos-localidades')
+def load_localidad_select():	
+	provincia_nombre = request.args.get('provincia')	
+	localidades_list = populate_localidad(provincia_nombre)
+	return jsonify(localidades_list=localidades_list)
+
+
+@clients.route('/obtener-dato-cp')
+def load_cp():	
+	localidad_nombre = request.args.get('localidad')	
+	localidad = Localidad.query.filter_by(nombre=localidad_nombre).first()	
+	return jsonify(cp=localidad.cp)
 
 @clients.route("/all_clients")
 @login_required
@@ -59,7 +80,7 @@ def add_client():
 	if form.validate_on_submit():
 		try:
 			# busca el ID del pais y comienza a concatenar el domicilio		
-			if form.pais.data != '':			
+			if form.pais.data != '':				
 				pais = Pais.query.filter_by(nombre=form.pais.data).first()
 				if not pais:
 					pais=Pais(nombre=form.pais.data)
@@ -124,9 +145,9 @@ def update_client(client_id):
 					if not provincia:
 						provincia=Provincia(nombre=form.provincia.data, pais=pais)
 						db.session.add(provincia)
-					localidad = Localidad.query.filter_by(nombre=form.localidad.data.upper(), provincia=provincia).first()
+					localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
 					if not localidad:
-						localidad=Localidad(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia)
+						localidad=Localidad(nombre=form.localidad.data.upper(), cp=form.codigo_postal.data, provincia=provincia)
 						db.session.add(localidad)
 					domicilio.localidad = localidad
 			else:
@@ -165,13 +186,12 @@ def update_client(client_id):
 		form.telefono.data = client.telefono
 		form.email.data = client.email
 		form.comments.data = client.comments
-
 		# carga datos de domicilio si existen
 		if client.domicilio:
 			form.direccion.data = client.domicilio.direccion
 			if client.domicilio.localidad:
-				form.localidad.data = client.domicilio.localidad.nombre
 				form.codigo_postal.data = client.domicilio.localidad.cp
+				form.localidad.data = client.domicilio.localidad.nombre				
 				form.provincia.data = client.domicilio.localidad.provincia.nombre
 				form.pais.data = client.domicilio.localidad.provincia.pais.nombre
 		

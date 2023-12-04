@@ -404,6 +404,10 @@ background: var(--content-color);
 width: 90%;
 }
 
+.form-control::placeholder {
+  color: #b0b0b0; /* Puedes ajustar el color según tus preferencias */
+}
+
 .form-group .form-group label{
   margin-top: 5px;
 }
@@ -467,7 +471,8 @@ text-decoration: none;
 }
 
 .article-content {
-white-space: pre-line;
+  color: var(--title-color);
+  white-space: pre-line;
 }
 
 .article-img {
