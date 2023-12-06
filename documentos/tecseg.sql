@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 01-12-2023 a las 22:23:44
+-- Tiempo de generación: 05-12-2023 a las 19:45:46
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`),
   KEY `client_iibb` (`iibb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -73,7 +73,19 @@ INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `tele
 (17, 'Canal', 'Señora del Rosario', 'Canal Señora del Rosario', 30690717197, '03868421768 03868421768', '', NULL, 10, 41, 2, 917),
 (18, 'Adrián', 'Espindola', 'REMAR', 30660569517, '3513 73-2777', 'adrianderemar@gmail.com', NULL, 10, 42, 2, 901),
 (21, 'Daniel', 'Baez', '', NULL, '', '', NULL, 10, 45, NULL, 923),
-(22, 'Ministerio', 'Evangelista', 'CVyV', NULL, '', '', NULL, 10, 46, NULL, NULL);
+(22, 'Ministerio', 'Evangelista', 'CVyV', NULL, '', '', NULL, 10, 46, NULL, NULL),
+(23, 'Fundación', 'NEP', 'Fundación NEP', NULL, '(02901) 43-5784', 'info@fundacionnep.com.ar', 'http://www.fundacionnep.org.ar', 10, 47, 2, 923),
+(24, 'Juan Manuel', 'Vascheta', '', NULL, '', '', NULL, 10, 48, 2, 904),
+(25, 'Leandro', 'Arizmendi', '', NULL, '', '', NULL, 10, 49, NULL, 920),
+(26, 'Graciela', 'Gomez', '', NULL, '', '', NULL, 10, 50, NULL, 904),
+(27, 'Tamara', 'Ramirez', '', NULL, '', '', NULL, 10, 51, NULL, 905),
+(28, 'Oscar', 'Ibañez', '', NULL, '', '', NULL, 10, 52, NULL, 923),
+(29, 'Gerardo', 'Sassone', '', NULL, '', '', NULL, 10, 53, NULL, 904),
+(30, 'Jorge', 'Zarazaga', '', NULL, '', '', NULL, 10, 52, NULL, 923),
+(31, 'Cristián', 'Bazán', '', NULL, '(351) 548 7744', 'cristianbazan@hotmail.com', 'Responsable Administrac.		Bazán Cristian				\r\nRespons  Técnico : Técnico		Izquierdo Claudio\r\ntiene un FM1000 con OR: 200420', 10, 54, NULL, 904),
+(32, 'Guillermo', 'Gonzalez', '', NULL, '', 'opaco72@gmail.com', NULL, 10, 55, NULL, 904),
+(33, 'Cristian', 'Zottos', '', NULL, '', '', NULL, 10, 56, NULL, 917),
+(34, 'Andres', 'Chavez', 'Asociación Maná', NULL, '', 'andres.chavez@mkk14.com', NULL, 10, 57, NULL, 904);
 
 -- --------------------------------------------------------
 
@@ -122,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `orden_detalle` (`reparacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_reparacion`
@@ -134,7 +146,17 @@ INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modifie
 (3, 'El señor Néstor  Busso nos comentó que el problema había desaparecido después de que la gente de videoswitch revisara el sistema, mas haya de que no reportaron ningún cambio o mala configuración, se da por concretada la orden de reparación', '2023-11-11 15:23:29', '2023-11-11 17:33:54', 1, 5),
 (4, 'se programa un 3542 para préstamo: #1 Kingdom TV y #2 VTV', '2022-05-25 12:14:55', '2022-05-25 13:06:49', 1, 6),
 (5, 'Equipo reparado por VideoSwitch', '2023-09-19 12:14:55', '2023-09-19 13:06:51', 1, 6),
-(6, 'Se aguardan datos de Luis Fernández para corroborar si el equipo falla, o se está mal usando sus entradas y por ello se entrecorta la señal', '2023-11-23 21:36:49', '2023-12-01 10:58:34', 10, 6);
+(6, 'Se aguardan datos de Luis Fernández para corroborar si el equipo falla, o se está mal usando sus entradas y por ello se entrecorta la señal', '2023-11-23 21:36:49', '2023-12-05 13:47:29', 1, 6),
+(7, 'Volvió el mismo problema, se va a concretar asistencia de videoswitch nuevamente', '2023-12-04 17:16:07', '2023-12-05 13:47:17', 1, 5),
+(8, '1)Fuente de Alimentación:  Se deberá reparar la fuente de alimentación afectada por una sobretensión de línea con la provisión y cambio de transistores de potencia, reguladores de tensión y diodos.', '2023-12-05 10:24:20', '2023-12-05 13:46:48', 6, 8),
+(9, '2)Amplificador Lineal: Se encuentra en cortocircuito el transistor de potencia del pallet “A”., por lo que se debe proceder a su provisión y cambio. Polarizar el transistor y proceder al reajuste del amplificador en particular y el módulo en su conjunto. Verificar el funcionamiento de las protecciones y pruebas de funcionamiento en general ', '2023-12-05 10:24:20', '2023-12-05 13:46:52', 6, 8),
+(10, 'a)AGC de Video: Se reajustó y controló su funcionamiento. Se enderezó el frente doblado durante el transporte. Se hizo una limpieza general y se colocaron tornillos a la tapa.', '2023-12-05 12:42:57', '2023-12-05 13:46:54', 6, 9),
+(11, 'b)Modulador Canal 10: Se detecta el potenciómetro de ajuste de nivel de video defectuoso por lo que se procede a reemplazarlo. Se ajustó el nivel de salida a 6 dBm.\r\n\r\nTambién se ajustó el detector de ausencia de video y la atenuación del nivel de salidade 6 dB cuando no hay video.\r\n\r\nSe verificó la respuesta en frecuencia dentro del ancho de banda quedando correcta dentro de +/- 0,75 dB.\r\n\r\nSe eliminó distorsión  en el amplificador de entrada de audio.\r\n\r\nSe realizó una limpieza general, enderezando también el frente doblado durante el transporte.\r\n', '2023-12-05 12:42:57', '2023-12-05 13:46:31', 14, 9),
+(14, 'c)Pruebas del conjunto: Se probó al modulador junto con el AGCV 2000 observándose  una buena señal de video sin distorsión ni compresión en los niveles blancos.', '2023-12-05 12:42:57', '2023-12-05 13:46:33', 14, 9),
+(15, 'a)Modulador:  Se detectan el Circuito Integrado Modulador de TV y un transistor de baja señal deteriorados por una probable entrada de descarga eléctrica por la entrada de video. Se procede a su provisión y reemplazo. También se procedió a la provisión y cambio de un capacitor electrolítico de 100 uF en la entrada de video y uno de 10 uf en la placa detectora de video. Se procede a reajustar la tensión del PLL  a 6 V. Se realiza una limpieza y control general.', '2023-12-05 12:42:57', '2023-12-05 13:46:09', 14, 10),
+(16, 'b)Amplificador Lineal: Se realiza una revisión completa del mismo no detectando problemas en el mismo. Se realiza un control general del Amplficador Lineal controlando las polarizaciones y corrientes que se encuentren dentro de los valores normales.', '2023-12-05 12:42:57', '2023-12-05 13:46:12', 14, 10),
+(17, 'c)Transmisor completo: Se pone en funcionamiento verificando las especificaciones técnicas y el funcionamiento de las protecciones. Se lo pone en funcionamiento durante un par de horas quedando en las siguientes condiciones:  Pd=107W.  Pr=00W. AGC= 00V., Isal=6.0A ( Imaggen Roja ). Vsal=27,8 A. Vexc= 8,8V. Vaux= 12,0V. Vlin=212V. 2Da Armónica: - 60 dB. Relación Pv/Ps= 16 db', '2023-12-05 12:42:57', '2023-12-05 13:46:14', 14, 10),
+(18, 'Por los trabajos de reparación de un excitador de FM sin Marca ajustado en la F= 99.3 Mhz, consistentes en:\r\n\r\na)Se pone en marcha y se detecta que no enciende porque le falta el fusible de la alimentación de 220 V. Se efectúa un cálculo para determinar el amperaje más conveniente del mismo colocando uno de 3 Amp. Se pone en marcha y funciona normalmente por lo que se procede a realizarle una revisión completa no detectando problemas. Probablemente el fusible se haya quemado por ser de un amperaje inadecuado ', '2023-12-05 12:42:57', '2023-12-05 13:46:17', 14, 10);
 
 -- --------------------------------------------------------
 
@@ -154,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `detalle_trabajo` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `detalle_OT` (`trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_trabajo`
@@ -239,7 +261,23 @@ INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `dat
 (90, 'Tx TRV600 ctm', 1, '2023-12-01 17:02:43', '2023-12-01 17:02:43', 10, 47),
 (91, 'modulador de tv MTVU05', 1, '2023-12-01 17:02:43', '2023-12-01 17:02:43', 10, 47),
 (92, 'Tx FM1000 stm puls L', 1, '2023-12-01 17:02:43', '2023-12-01 17:02:43', 10, 48),
-(93, 'Modulador FM estereo', 1, '2023-12-01 17:02:43', '2023-12-01 17:02:43', 10, 48);
+(93, 'Modulador FM estereo', 1, '2023-12-01 17:02:43', '2023-12-01 17:02:43', 10, 48),
+(94, 'tx FM500 88,7', 1, '2023-12-05 09:37:52', '2023-12-05 09:37:52', 10, 49),
+(95, 'Tx FM500 92,1', 1, '2023-12-05 10:02:51', '2023-12-05 10:02:51', 10, 50),
+(96, 'Tx FM250', 1, '2023-12-05 10:16:06', '2023-12-05 10:16:06', 10, 51),
+(97, 'Tx FM250 93,7', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 52),
+(98, 'Tx TRV200', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 53),
+(99, 'Modulador consulfem', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 53),
+(100, 'agcv2000', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 53),
+(101, 'Tx Fm500 105,3', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 54),
+(102, 'Tx fm250 95,3', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 55),
+(103, 'Tx FM500 96,9', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 56),
+(104, 'Tx FM500', 1, '2023-12-05 10:24:20', '2023-12-05 10:24:20', 10, 58),
+(105, 'Tx TRV600 CH10', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 59),
+(106, 'agc video', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 59),
+(107, 'modulador tv', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 59),
+(108, 'Tx TRU100 ch40', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 60),
+(109, 'modulador tv', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 60);
 
 -- --------------------------------------------------------
 
@@ -254,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -280,7 +318,18 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (41, 'Sebastián Arias 69', 1954),
 (42, 'Del Barco Centenera 3523', 1),
 (45, NULL, NULL),
-(46, NULL, NULL);
+(46, NULL, NULL),
+(47, 'Kuanip 49', 2404),
+(48, NULL, 1071),
+(49, NULL, 2088),
+(50, NULL, 1182),
+(51, NULL, 1355),
+(52, NULL, 2406),
+(53, NULL, 1166),
+(54, NULL, 1205),
+(55, NULL, 1296),
+(56, NULL, 1975),
+(57, NULL, 1129);
 
 -- --------------------------------------------------------
 
@@ -306,7 +355,7 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `user_id` (`user_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `eq_detalle` (`detalle_trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=228 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
@@ -412,9 +461,25 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (221, '1/0921', '2021', '2023-11-30 12:18:44', '2023-12-01 10:58:02', 'El Equipo se produjo inicialmente para un TRUD500 y luego se transformó a TRU1000 se modificó el cableado del gabinete y se modificó el módulo de potencia.', '45-221_caratula.pdf', '45-221_numSerie.pdf', 10, 92, 86, NULL),
 (222, '1/0219', '2019', '2023-12-01 13:05:13', '2023-12-01 13:05:13', 'Equipo con la etapa de potencia montada sobre disipador recuperado de un modulo Ditel (alodinizado dorado)', NULL, NULL, 10, 93, 89, NULL),
 (223, NULL, '2016', '2023-12-01 17:02:43', '2023-12-01 17:02:43', '', NULL, NULL, 10, 95, 91, NULL),
-(224, '1/0916', '2016', '2023-12-01 17:02:43', '2023-12-01 17:16:34', '1.	Este equipo presenta mucha caída de potencia entre frio y caliente. Cerca de 2dB entre 10ºC y 50ºC\r\n2.	Para solucionar esto se compenso en la entrada con un atenuador hecho con un paralelo de una R de 470 ohm SMD y un NTC 470 ohms SMD colocados en serie y dos R de 56 OHMs en cada punta en paralelo con la entrada y la salida.\r\n3.	La medición del display baja a medida que el equipo se calienta pero la potencia real no varia tanto por la compensación que tiene. Cuando esta a 20ºC la temp ambiente el amp. esta a 32ºC y muestra 600W el display podemos asumir que es la potencia real de RF.\r\n\r\nVER IMAGEN ADJUNTA', NULL, NULL, 10, 94, 90, NULL),
-(225, '1/0816', '2016', '2023-12-01 17:02:43', '2023-12-01 17:24:57', '', NULL, NULL, 10, 87, 92, NULL),
-(226, NULL, '2016', '2023-12-01 17:02:43', '2023-12-01 17:02:43', '', NULL, NULL, 10, 76, 93, NULL);
+(224, '1/0916', '2016', '2023-12-01 17:02:43', '2023-12-01 17:16:34', '1.	Este equipo presenta mucha caída de potencia entre frio y caliente. Cerca de 2dB entre 10ºC y 50ºC\r\n2.	Para solucionar esto se compenso en la entrada con un atenuador hecho con un paralelo de una R de 470 ohm SMD y un NTC 470 ohms SMD colocados en serie y dos R de 56 OHMs en cada punta en paralelo con la entrada y la salida.\r\n3.	La medición del display baja a medida que el equipo se calienta pero la potencia real no varia tanto por la compensación que tiene. Cuando esta a 20ºC la temp ambiente el amp. esta a 32ºC y muestra 600W el display podemos asumir que es la potencia real de RF.\r\n\r\nVER IMAGEN ADJUNTA', '47-224_caratula.pdf', '47-224_numSerie.pdf', 10, 94, 90, NULL),
+(225, '1/0816', '2016', '2023-12-01 17:02:43', '2023-12-01 17:24:57', '', '48-225_caratula.pdf', '48-225_numSerie.pdf', 10, 87, 92, NULL),
+(226, NULL, '2016', '2023-12-01 17:02:43', '2023-12-01 17:02:43', '', NULL, NULL, 10, 76, 93, NULL),
+(227, '1/079', '2009', '2023-12-05 09:37:52', '2023-12-05 09:37:52', '', NULL, NULL, 10, 96, 94, NULL),
+(228, '1/120', '2010', '2023-12-05 10:02:51', '2023-12-05 10:02:51', '', NULL, NULL, 10, 96, 95, NULL),
+(229, '1/011', '2011', '2023-12-05 10:16:06', '2023-12-05 10:16:06', '', NULL, NULL, 10, 97, 96, NULL),
+(230, '1/011', '2011', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 97, 97, NULL),
+(231, '1/012', '2012', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 98, 98, NULL),
+(232, NULL, '2012', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 95, 99, NULL),
+(233, NULL, '2012', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 89, 100, NULL),
+(234, '1/0513', '2013', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 96, 101, NULL),
+(235, '1/0214', '2014', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 97, 102, NULL),
+(236, '1/0515', '2015', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 96, 103, NULL),
+(237, '1/080', '2010', '2023-12-05 10:24:19', '2023-12-05 10:24:19', '', NULL, NULL, 10, 96, 104, NULL),
+(238, NULL, '2012', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 89, 106, NULL),
+(239, '1/082', '2012', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 94, 105, NULL),
+(240, NULL, '2012', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 95, 107, NULL),
+(241, '2/039', '2010', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 100, 108, NULL),
+(242, NULL, '2010', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 90, 109, NULL);
 
 -- --------------------------------------------------------
 
@@ -499,7 +564,19 @@ INSERT INTO `equipos_frecuencias` (`equipment_id`, `frecuencia_id`) VALUES
 (222, 170),
 (223, 9),
 (226, 176),
-(225, 176);
+(225, 176),
+(227, 104),
+(228, 121),
+(230, 129),
+(231, 12),
+(232, 12),
+(234, 187),
+(235, 187),
+(236, 145),
+(239, 10),
+(240, 10),
+(241, 40),
+(242, 40);
 
 -- --------------------------------------------------------
 
@@ -516,7 +593,7 @@ CREATE TABLE IF NOT EXISTS `error_log` (
   `traceback` text,
   PRIMARY KEY (`id`),
   KEY `error_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `error_log`
@@ -542,7 +619,8 @@ INSERT INTO `error_log` (`id`, `date_created`, `user_id`, `error`, `traceback`) 
 (16, '2023-11-29 12:12:44', 1, '(pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'arnaizagustin2@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)', 'Traceback (most recent call last):\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\npymysql.err.IntegrityError: (1048, \"Column \'role_id\' cannot be null\")\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 91, in account\n    db.session.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\scoping.py\", line 553, in commit\n    return self._proxied.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1903, in commit\n    trans.commit(_to_root=True)\n  File \"<string>\", line 2, in commit\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1218, in commit\n    self._prepare_impl()\n  File \"<string>\", line 2, in _prepare_impl\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1193, in _prepare_impl\n    self.session.flush()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4155, in flush\n    self._flush(objects)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4292, in _flush\n    transaction.rollback(_capture_exception=True)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\util\\langhelpers.py\", line 147, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4252, in _flush\n    flush_context.execute()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 467, in execute\n    rec.execute(self)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 644, in execute\n    util.preloaded.orm_persistence.save_obj(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 85, in save_obj\n    _emit_update_statements(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 890, in _emit_update_statements\n    c = connection.execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1414, in execute\n    return meth(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\elements.py\", line 486, in _execute_on_connection\n    return connection._execute_clauseelement(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1638, in _execute_clauseelement\n    ret = self._execute_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1842, in _execute_context\n    return self._exec_single_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1983, in _exec_single_context\n    self._handle_dbapi_exception(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 2326, in _handle_dbapi_exception\n    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\nsqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'arnaizagustin2@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)\n'),
 (17, '2023-11-29 12:14:19', 1, '(pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'2arnaizagustin@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)', 'Traceback (most recent call last):\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\npymysql.err.IntegrityError: (1048, \"Column \'role_id\' cannot be null\")\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 91, in account\n    db.session.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\scoping.py\", line 553, in commit\n    return self._proxied.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1903, in commit\n    trans.commit(_to_root=True)\n  File \"<string>\", line 2, in commit\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1218, in commit\n    self._prepare_impl()\n  File \"<string>\", line 2, in _prepare_impl\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1193, in _prepare_impl\n    self.session.flush()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4155, in flush\n    self._flush(objects)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4292, in _flush\n    transaction.rollback(_capture_exception=True)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\util\\langhelpers.py\", line 147, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4252, in _flush\n    flush_context.execute()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 467, in execute\n    rec.execute(self)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 644, in execute\n    util.preloaded.orm_persistence.save_obj(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 85, in save_obj\n    _emit_update_statements(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 890, in _emit_update_statements\n    c = connection.execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1414, in execute\n    return meth(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\elements.py\", line 486, in _execute_on_connection\n    return connection._execute_clauseelement(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1638, in _execute_clauseelement\n    ret = self._execute_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1842, in _execute_context\n    return self._exec_single_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1983, in _exec_single_context\n    self._handle_dbapi_exception(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 2326, in _handle_dbapi_exception\n    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\nsqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'2arnaizagustin@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)\n'),
 (18, '2023-11-29 12:14:55', 1, '(pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'arnaizagustin2@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)', 'Traceback (most recent call last):\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\npymysql.err.IntegrityError: (1048, \"Column \'role_id\' cannot be null\")\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 91, in account\n    db.session.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\scoping.py\", line 553, in commit\n    return self._proxied.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1903, in commit\n    trans.commit(_to_root=True)\n  File \"<string>\", line 2, in commit\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1218, in commit\n    self._prepare_impl()\n  File \"<string>\", line 2, in _prepare_impl\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1193, in _prepare_impl\n    self.session.flush()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4155, in flush\n    self._flush(objects)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4292, in _flush\n    transaction.rollback(_capture_exception=True)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\util\\langhelpers.py\", line 147, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4252, in _flush\n    flush_context.execute()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 467, in execute\n    rec.execute(self)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 644, in execute\n    util.preloaded.orm_persistence.save_obj(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 85, in save_obj\n    _emit_update_statements(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 890, in _emit_update_statements\n    c = connection.execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1414, in execute\n    return meth(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\elements.py\", line 486, in _execute_on_connection\n    return connection._execute_clauseelement(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1638, in _execute_clauseelement\n    ret = self._execute_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1842, in _execute_context\n    return self._exec_single_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1983, in _exec_single_context\n    self._handle_dbapi_exception(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 2326, in _handle_dbapi_exception\n    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\nsqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'arnaizagustin2@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)\n'),
-(19, '2023-11-29 12:16:43', 1, '(pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'2arnaizagustin@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)', 'Traceback (most recent call last):\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\npymysql.err.IntegrityError: (1048, \"Column \'role_id\' cannot be null\")\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 91, in account\n    db.session.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\scoping.py\", line 553, in commit\n    return self._proxied.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1903, in commit\n    trans.commit(_to_root=True)\n  File \"<string>\", line 2, in commit\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1218, in commit\n    self._prepare_impl()\n  File \"<string>\", line 2, in _prepare_impl\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1193, in _prepare_impl\n    self.session.flush()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4155, in flush\n    self._flush(objects)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4292, in _flush\n    transaction.rollback(_capture_exception=True)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\util\\langhelpers.py\", line 147, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4252, in _flush\n    flush_context.execute()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 467, in execute\n    rec.execute(self)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 644, in execute\n    util.preloaded.orm_persistence.save_obj(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 85, in save_obj\n    _emit_update_statements(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 890, in _emit_update_statements\n    c = connection.execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1414, in execute\n    return meth(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\elements.py\", line 486, in _execute_on_connection\n    return connection._execute_clauseelement(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1638, in _execute_clauseelement\n    ret = self._execute_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1842, in _execute_context\n    return self._exec_single_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1983, in _exec_single_context\n    self._handle_dbapi_exception(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 2326, in _handle_dbapi_exception\n    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\nsqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'2arnaizagustin@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)\n');
+(19, '2023-11-29 12:16:43', 1, '(pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'2arnaizagustin@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)', 'Traceback (most recent call last):\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\npymysql.err.IntegrityError: (1048, \"Column \'role_id\' cannot be null\")\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\users\\routes.py\", line 91, in account\n    db.session.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\scoping.py\", line 553, in commit\n    return self._proxied.commit()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1903, in commit\n    trans.commit(_to_root=True)\n  File \"<string>\", line 2, in commit\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1218, in commit\n    self._prepare_impl()\n  File \"<string>\", line 2, in _prepare_impl\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\state_changes.py\", line 137, in _go\n    ret_value = fn(self, *arg, **kw)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 1193, in _prepare_impl\n    self.session.flush()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4155, in flush\n    self._flush(objects)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4292, in _flush\n    transaction.rollback(_capture_exception=True)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\util\\langhelpers.py\", line 147, in __exit__\n    raise exc_value.with_traceback(exc_tb)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\session.py\", line 4252, in _flush\n    flush_context.execute()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 467, in execute\n    rec.execute(self)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\unitofwork.py\", line 644, in execute\n    util.preloaded.orm_persistence.save_obj(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 85, in save_obj\n    _emit_update_statements(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\orm\\persistence.py\", line 890, in _emit_update_statements\n    c = connection.execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1414, in execute\n    return meth(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\sql\\elements.py\", line 486, in _execute_on_connection\n    return connection._execute_clauseelement(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1638, in _execute_clauseelement\n    ret = self._execute_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1842, in _execute_context\n    return self._exec_single_context(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1983, in _exec_single_context\n    self._handle_dbapi_exception(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 2326, in _handle_dbapi_exception\n    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\base.py\", line 1964, in _exec_single_context\n    self.dialect.do_execute(\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\sqlalchemy\\engine\\default.py\", line 748, in do_execute\n    cursor.execute(statement, parameters)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 158, in execute\n    result = self._query(query)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\cursors.py\", line 325, in _query\n    conn.query(q)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 549, in query\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 779, in _read_query_result\n    result.read()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 1157, in read\n    first_packet = self.connection._read_packet()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\connections.py\", line 729, in _read_packet\n    packet.raise_for_error()\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\protocol.py\", line 221, in raise_for_error\n    err.raise_mysql_exception(self._data)\n  File \"C:\\Users\\NB5\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\pymysql\\err.py\", line 143, in raise_mysql_exception\n    raise errorclass(errno, errval)\nsqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, \"Column \'role_id\' cannot be null\")\n[SQL: UPDATE user SET email=%(email)s, role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'email\': \'2arnaizagustin@gmail.com\', \'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)\n'),
+(22, '2023-12-04 12:49:57', 10, '\'int\' object has no attribute \'upper\'', 'Traceback (most recent call last):\n  File \"C:\\Documentos\\Dropbox\\Sistemas\\Proyectos\\TECSEG\\tseg\\clients\\routes.py\", line 90, in add_client\n    localidad=Localidad(nombre=form.localidad.data.upper(), cp=form.codigo_postal.data, provincia=provincia)\nAttributeError: \'int\' object has no attribute \'upper\'\n');
 
 -- --------------------------------------------------------
 
@@ -970,24 +1048,24 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (68, 'Nueva señal', '2023-04-19 13:05:56', '2023-04-19 13:05:56', 'se agrega señal 16.2', 3, 129, 1),
 (70, 'Módulo', '2023-11-03 10:17:34', '2023-11-03 10:17:34', 'se reparó un módulo', 2, 140, 1),
 (71, 'Reparación RF', '2023-11-08 13:27:23', '2023-11-08 13:27:23', 'se reparó la RF (no hay mayor info al respecto)', 2, 142, 1),
-(72, 'Falla general', '2022-11-04 12:43:56', '2023-11-21 12:43:56', 'por incendio problemas en la señal digital y FO\r\nproblemas en el mux aparente- hay que reparar mux', 2, 159, 10),
-(73, 'Cambio ref. 10MHz', '2022-01-18 12:43:56', '2023-11-21 12:43:56', 'se reparó mux, y se dejó andando junto a otro de back up.\r\nPor falla esporádica de perdida de datos, se cambió la referencia de 10MHz, ahora la genera el modulador y se la pasa a los mux', 3, 159, 10),
-(74, 'Config encoder', '2021-12-27 12:14:55', '2021-12-27 12:14:55', 'Se configuro 4x encoder salida IP NDS3224V \r\nIP=192.168.1.136\r\nIP-OUT: 224.2.2.2:77\r\nencoders entradas 4 y 3 ', 3, 183, 10),
-(75, 'falla conexión al mod', '2022-01-24 12:14:55', '2022-01-22 12:14:55', 'no se tiene acceso al modulador fuera de estudio vía remoto', 1, 182, 10),
-(76, 'está en 720, quieren 1080', '2022-01-26 12:14:55', '2023-11-23 13:00:45', 'Se conectó el nuevo encoder sin display con 2 señales\r\nout-IP 224.2.2.2 port 2236 (in #3) y 2237 (in #4)\r\n!quedo en 720.. quieren 1080\r\n', 2, 183, 10),
-(77, 'Quedó en 1080', '2022-01-28 12:14:55', '2022-01-28 12:14:55', 'Quedó funcionando bien en full-hd', 1, 183, 10),
-(78, 'Mediciones', '2021-02-26 09:43:20', '2021-02-26 09:43:20', 'Se bajaron mediciones del 105.1.. hubo cortes (logicas pasaron de 111110 --> 110110)', 1, 194, 10),
-(79, 'falla >>ROE', '2021-04-01 09:43:20', '2021-04-01 09:43:20', 'conectamos porque hubo problemas de roe con 105,1 - se dejo tomando mediciones', 4, 194, 10),
-(80, 'Potencia baja', '2021-04-15 09:43:20', '2021-04-15 09:43:20', 'Equipo #2 cayo potencia a 20W el dia 12/04/21 a las 8:20 am, ISAL muy baja', 4, 195, 10),
-(81, 'Potencia baja', '2021-05-11 09:43:20', '2021-05-11 09:43:20', 'equipo #3 105,1 potencia a 800W... solucionado', 2, 196, 10),
-(82, 'Potencia un poco Baja', '2021-07-28 09:43:20', '2023-12-01 00:32:49', 'en FREC 101,3MHz x.x.x.214 potencia 910W equipo backup', 4, 197, 10),
-(83, 'Ex Nº Serie', '2023-11-24 09:43:20', '2023-11-24 09:43:20', '140318-1/0514', 3, 172, 10),
-(84, 'O.R Nº:', '2023-11-24 09:43:20', '2023-11-24 09:43:20', '150912', 2, 172, 10),
-(85, 'Origen del modulador', '2017-05-25 09:43:20', '2017-05-25 09:43:20', 'sacado del equipo de Alma TV San Luis', 1, 121, 10),
-(86, 'Potencia de salida', '2017-05-25 09:43:20', '2017-05-25 09:43:20', 'A este se le agrega un atenuador interno de 10 dB para que entregue -10 dBm de salida.\r\nSe ajusta a 150W sin precorrección porque después se pone modulador DEXIN.', 3, 121, 10),
-(87, 'Amp ERA3', '2021-04-27 09:43:20', '2021-04-27 09:43:20', 'se le agregó un Amp. ERA3 en la salida para que diera el nivel 0 dBm. y se setea a -20,5 dBm en el software para que la salida esté en -2dBm y la potencia de salida no pase de 150WRMS en el Amplificador ya que no tendrá precorreción.', 3, 123, 10),
-(88, 'Cambio transistores >>R', '2023-11-24 09:43:20', '2023-12-01 11:00:10', 'Este equipo se rompió 2 veces cuando se probó con ROE de 5dB y 7dB por error y se cambiaron dos transistores quemados en cada vez que se rompió.', 2, 146, 10),
-(89, 'Ajuste proteccion >r', '2023-11-24 09:43:20', '2023-11-24 09:43:20', 'Finalmente se ajusto en el banco la proteccion de ROE 10dB y no se probo mas', 3, 146, 10);
+(72, 'Falla general', '2022-11-04 12:43:56', '2023-11-21 12:43:56', 'por incendio problemas en la señal digital y FO\r\nproblemas en el mux aparente- hay que reparar mux', 2, 159, 1),
+(73, 'Cambio ref. 10MHz', '2022-01-18 12:43:56', '2023-11-21 12:43:56', 'se reparó mux, y se dejó andando junto a otro de back up.\r\nPor falla esporádica de perdida de datos, se cambió la referencia de 10MHz, ahora la genera el modulador y se la pasa a los mux', 3, 159, 1),
+(74, 'Config encoder', '2021-12-27 12:14:55', '2021-12-27 12:14:55', 'Se configuro 4x encoder salida IP NDS3224V \r\nIP=192.168.1.136\r\nIP-OUT: 224.2.2.2:77\r\nencoders entradas 4 y 3 ', 3, 183, 1),
+(75, 'falla conexión al mod', '2022-01-24 12:14:55', '2022-01-22 12:14:55', 'no se tiene acceso al modulador fuera de estudio vía remoto', 1, 182, 1),
+(76, 'está en 720, quieren 1080', '2022-01-26 12:14:55', '2023-11-23 13:00:45', 'Se conectó el nuevo encoder sin display con 2 señales\r\nout-IP 224.2.2.2 port 2236 (in #3) y 2237 (in #4)\r\n!quedo en 720.. quieren 1080\r\n', 2, 183, 1),
+(77, 'Quedó en 1080', '2022-01-28 12:14:55', '2022-01-28 12:14:55', 'Quedó funcionando bien en full-hd', 1, 183, 1),
+(78, 'Mediciones', '2021-02-26 09:43:20', '2021-02-26 09:43:20', 'Se bajaron mediciones del 105.1.. hubo cortes (logicas pasaron de 111110 --> 110110)', 1, 194, 1),
+(79, 'falla >>ROE', '2021-04-01 09:43:20', '2021-04-01 09:43:20', 'conectamos porque hubo problemas de roe con 105,1 - se dejo tomando mediciones', 4, 194, 1),
+(80, 'Potencia baja', '2021-04-15 09:43:20', '2021-04-15 09:43:20', 'Equipo #2 cayo potencia a 20W el dia 12/04/21 a las 8:20 am, ISAL muy baja', 4, 195, 6),
+(81, 'Potencia baja', '2021-05-11 09:43:20', '2021-05-11 09:43:20', 'equipo #3 105,1 potencia a 800W... solucionado', 2, 196, 6),
+(82, 'Potencia un poco Baja', '2021-07-28 09:43:20', '2023-12-01 00:32:49', 'en FREC 101,3MHz x.x.x.214 potencia 910W equipo backup', 4, 197, 6),
+(83, 'Ex Nº Serie', '2023-11-24 09:43:20', '2023-11-24 09:43:20', '140318-1/0514', 3, 172, 1),
+(84, 'Ex O.R Nº:', '2023-11-24 09:43:20', '2023-11-24 09:43:20', '150912', 2, 172, 1),
+(85, 'Origen del modulador', '2017-05-25 09:43:20', '2017-05-25 09:43:20', 'sacado del equipo de Alma TV San Luis', 1, 121, 6),
+(86, 'Potencia de salida', '2017-05-25 09:43:20', '2017-05-25 09:43:20', 'A este se le agrega un atenuador interno de 10 dB para que entregue -10 dBm de salida.\r\nSe ajusta a 150W sin precorrección porque después se pone modulador DEXIN.', 3, 121, 6),
+(87, 'Amp ERA3', '2021-04-27 09:43:20', '2021-04-27 09:43:20', 'se le agregó un Amp. ERA3 en la salida para que diera el nivel 0 dBm. y se setea a -20,5 dBm en el software para que la salida esté en -2dBm y la potencia de salida no pase de 150WRMS en el Amplificador ya que no tendrá precorreción.', 3, 123, 6),
+(88, 'Cambio transistores >>R', '2023-11-24 09:43:20', '2023-12-01 11:00:10', 'Este equipo se rompió 2 veces cuando se probó con ROE de 5dB y 7dB por error y se cambiaron dos transistores quemados en cada vez que se rompió.', 2, 146, 6),
+(89, 'Ajuste proteccion >r', '2023-11-24 09:43:20', '2023-11-24 09:43:20', 'Finalmente se ajusto en el banco la proteccion de ROE 10dB y no se probo mas', 3, 146, 6);
 
 -- --------------------------------------------------------
 
@@ -1082,7 +1160,7 @@ CREATE TABLE IF NOT EXISTS `localidad` (
   `provincia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ciudad_prov` (`provincia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2467 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2468 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `localidad`
@@ -2217,7 +2295,7 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1126, 2987, 'CORDOBA', 4),
 (1127, 3472, 'CORDOBA', 4),
 (1128, 3718, 'CORZUELA', 4),
-(1129, 5000, 'CORDOBA', 4),
+(1129, 5000, 'CORDOBA (CAPITAL)', 4),
 (1130, 5001, 'GENERAL BUSTOS', 4),
 (1131, 5003, 'SANTA ANA', 4),
 (1132, 5006, 'BARRIO SAN VICENTE', 4),
@@ -2774,7 +2852,7 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1683, 6317, 'LA PAMPA', 21),
 (1684, 6319, 'VICTORICA', 21),
 (1685, 6321, 'TELEN', 21),
-(1686, 6323, 'SANTA ÖSABEL', 21),
+(1686, 6323, 'SANTA ISABEL', 21),
 (1687, 6325, 'LA PAMPA', 21),
 (1688, 6326, 'LA PAMPA', 21),
 (1689, 6330, 'CATRILO', 21),
@@ -2931,9 +3009,9 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1840, 3315, 'LEANDRO N. ALEM', 19),
 (1841, 3316, 'MISIONES', 19),
 (1842, 3317, 'MISIONES', 19),
-(1843, 3318, 'MISIONES', 19),
-(1844, 3322, 'SAN IGNACIO', 19);
+(1843, 3318, 'MISIONES', 19);
 INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
+(1844, 3322, 'SAN IGNACIO', 19),
 (1845, 3324, 'GOBERNADOR ROCA', 19),
 (1846, 3326, 'MISIONES', 19),
 (1847, 3327, 'MISIONES', 19),
@@ -3555,7 +3633,8 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (2463, 4276, 'TUCUMAN', 15),
 (2464, 4286, 'TUCUMAN', 15),
 (2465, 4424, 'TUCUMAN', 15),
-(2466, 5157, 'TUCUMAN', 15);
+(2466, 5157, 'TUCUMAN', 15),
+(2467, 2134, 'ROLDAN', 23);
 
 -- --------------------------------------------------------
 
@@ -3609,7 +3688,7 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`),
   KEY `modelo_tipo` (`tipo_modelo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
@@ -3683,7 +3762,12 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (92, 2, 'TRU1000', 'CTM', '604f917228c48325.jpg', '2023-11-30 12:18:44', '2023-11-30 13:30:37', '\'21', NULL, 1),
 (93, 3, 'FM250', 'STM', '8a9d81549c752794.jpg', '2023-12-01 13:05:13', '2023-12-01 13:05:13', '\'19', 3, 3),
 (94, 2, 'TRV600', 'CTM', 'ac46378ae3e58fd3.jpg', '2023-12-01 17:02:43', '2023-12-01 17:02:43', '\'16', NULL, 1),
-(95, 2, 'MTVU05', 'Modulador de TV', 'c104da16643ab2bc.jpg', '2023-12-01 17:02:43', '2023-12-01 17:02:43', NULL, NULL, 5);
+(95, 2, 'MTVU05', 'Modulador de TV CONSULFEM', 'c104da16643ab2bc.jpg', '2023-12-01 17:02:43', '2023-12-05 10:42:05', NULL, NULL, 5),
+(96, 3, 'FM500', 'encendido al frente', '2883fe324d2ff1b0.jpg', '2023-12-05 09:37:52', '2023-12-05 09:37:52', '\'06', 4, 3),
+(97, 3, 'FM250', '', '7aebbf3fd99750e1.JPG', '2023-12-05 10:16:06', '2023-12-05 10:16:06', '\'10', 3, 3),
+(98, 2, 'TRV200', 'CTM', '53547f7eca2568d4.jpg', '2023-12-05 10:24:19', '2023-12-05 10:24:19', NULL, NULL, 1),
+(99, 4, 'NDS3522', 'HD Encoder Modulator Home version', 'cd0158ddf9ea62f2.png', '2023-12-05 10:24:19', '2023-12-05 10:24:19', NULL, NULL, 9),
+(100, 2, 'TRU100', 'STM', '3f8271355ff0c5dd.jpg', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '\'10', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -3708,7 +3792,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
@@ -3717,7 +3801,10 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
 INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `tecnico_id`, `equipo_id`, `user_id`, `estado_id`) VALUES
 (1, '2023-08-18 11:39:42', '2023-08-18 12:04:28', '230818', 'Falla general del Tx', 1, 124, 12, 4),
 (5, '2023-10-25 16:16:46', '2023-12-01 00:29:42', '231025', 'Recibe bien video , pero no el audio, con el equipo muleto no tiene problemas', 1, 122, 12, 2),
-(6, '2022-05-19 12:14:55', '2023-12-01 00:30:58', '220519', 'encoder 3224V falla, calor en integrados de entrada en #1 y #4', 1, 183, 10, 2);
+(6, '2022-05-19 12:14:55', '2023-12-01 00:30:58', '220519', 'encoder 3224V falla, calor en integrados de entrada en #1 y #4', 1, 183, 12, 2),
+(8, '2023-12-05 10:24:19', '2023-12-05 12:43:22', '180604', 'afectado de una sobretensión por la linea de alimentación\r\nrevisar fuente de alimentación y amplificador del FM500 por falla', 14, 237, 12, 4),
+(9, '2023-12-05 12:42:57', '2023-12-05 12:53:36', '200129', 'trabajos de reparación de un Transmisor de Televisión marca LIECOM Modelo TRV 600 ajustado en la Frecuencia de Canal 10, Serie N* 120516-1/082, afectado por una sobretensión de línea ', 14, 239, 12, 4),
+(10, '2023-12-05 12:42:57', '2023-12-05 13:43:36', '191104', 'trabajos de reparación de un Transmisor de Televisión marca IA Electrónica Modelo TRU 100 Serie N* 100220-2/039 ajustado en la Frecuencia del Canal 40, sin potencia de salida ', 14, 241, 12, 4);
 
 -- --------------------------------------------------------
 
@@ -3730,7 +3817,7 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `codigo` int(6) NOT NULL,
+  `codigo` varchar(6) NOT NULL,
   `content` varchar(1000) NOT NULL,
   `notes` text,
   `client_id` int(11) NOT NULL,
@@ -3741,35 +3828,46 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   KEY `user_id` (`user_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_client` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_trabajo`
 --
 
 INSERT INTO `orden_trabajo` (`id`, `date_created`, `date_modified`, `codigo`, `content`, `notes`, `client_id`, `user_id`, `estado_id`) VALUES
-(12, '2022-05-16 19:08:32', '2023-11-29 22:58:11', 220516, 'Red SFN CH18 TRUD1800\r\nEncoder 4 SDI, Remux, Mod VS, Mist-15, 2 descompresores VS\r\nFM5000\r\nEntrega en dos tiempos', '', 1, 4, 3),
-(14, '2021-07-22 11:33:10', '2023-11-06 11:44:17', 210729, 'TV Digital ALL IN ONE TRUD250', NULL, 4, 4, 3),
-(15, '2021-01-22 14:53:13', '2023-11-12 13:36:47', 210101, 'TV Digital Enlace 24G Ubiquiti, TRUD1000, 2 ENC IP, MUX, MOD', NULL, 5, 4, 3),
-(16, '2018-01-23 11:39:42', '2023-11-24 12:37:48', 170725, 'Tv digital TRUD250, enc, mux, mod MHX MIST13', NULL, 2, 4, 3),
-(30, '2023-08-10 12:53:33', '2023-10-26 11:52:48', 230810, 'TV digital all in one TRUD500', NULL, 4, 4, 3),
-(31, '2023-10-25 13:05:56', '2023-11-12 13:35:06', 220505, 'Tv Digital TRUD250 ALL IN ONE CH16', NULL, 3, 4, 3),
-(32, '2023-10-26 13:58:22', '2023-11-23 13:13:39', 221219, 'TRUD2400 digital\r\nSeñal ISDB comprimida, con equipos VS y switchs\r\n', NULL, 6, 4, 2),
-(33, '2023-11-03 10:17:34', '2023-11-15 23:03:06', 180102, 'Tx TRUD250 digital  con 2 NDS3542', NULL, 7, 11, 3),
-(35, '2023-11-09 11:34:53', '2023-11-24 13:23:10', 190915, 'TRUD500 con enc 2 entradas + mux + mod', NULL, 9, 11, 3),
-(36, '2023-11-17 10:42:48', '2023-12-01 18:31:37', 171010, 'TRUD500 y TRUD250:\r\nc/Filtro de máscara. \r\nMIST-13, \r\nMux VS -1000-500, \r\nfibra, \r\nSwitch HP x2, \r\nencoder LA214', '', 10, 10, 3),
-(37, '2023-11-21 13:45:40', '2023-11-21 14:31:59', 231006, 'FM1000W ctm c/MFM4\r\nF: 101.3 105.1 106.3 107.9', NULL, 11, 10, 2),
-(38, '2023-11-22 09:47:41', '2023-12-01 00:31:49', 231120, 'FM2K c/MFM1', '', 12, 10, 1),
-(39, '2023-11-23 10:51:35', '2023-11-23 10:51:35', 180103, 'Enlace movil ISDB', NULL, 13, 10, 3),
-(40, '2023-11-23 12:14:55', '2023-11-23 13:12:53', 180104, 'Enlace 11G - Encoders, Modulador IP', NULL, 14, 10, 3),
-(41, '2023-11-23 12:14:55', '2023-11-23 13:38:27', 220225, 'ENC, MOD, MUX, TRUD900,2 switchs', NULL, 8, 10, 3),
-(42, '2023-11-24 09:37:19', '2023-11-24 13:04:44', 200820, '4 FM1000 CTM (+software)', NULL, 15, 10, 3),
-(43, '2023-11-24 09:43:20', '2023-11-24 10:41:08', 201210, 'TRUD250 ch34, mod 3542 4xHDMI', NULL, 16, 10, 3),
-(44, '2023-11-30 12:18:44', '2023-11-30 12:18:44', 210728, 'TRU350 con agc y modulador tecsys', '\r\n1. Este equipo se entrega con modulador Tecsys original con plaqueta P0330B modificada para que actúe con un bajo ante la ausencia de video. Esta modificación queda funcionando siempre ya que la detección y actuación de la falta de video está conectada internamente y no se puede anular.\r\n2. También se agrega un AGC de Video LIECOM  AGCV2000 que era de otro cliente.\r\n3. El amplificador AMP TRU350 era también de otro cliente y se entrega como usado reacondicionado con otro número de serie.\r\n4. La potencia varía desde frío 415Wps a 340Wps\r\n\r\n\r\n\r\nMEDICIONES DEL VOLTÏMETRO\r\n\r\n			PD                          350\r\n			PR                          010\r\n			P MOD                   01.8\r\n			I SAL                     12.0\r\n			V SAL                    48.0\r\n			V EXC                   24.1\r\n			V AUX                   12.0\r\n			V LIN                     218', 18, 10, 3),
-(45, '2023-11-30 12:18:44', '2023-12-01 00:08:31', 210831, 'TRU1000 con AGC y modulador MTVS06', 'Se usó modulador MTU-06 que entregó otro cliente, un Tecsys en bandeja LIECOM más un AGC de video AGCV2000 LIECOM.\r\n\r\n	El control de potencia reducida por tele-comando se hace con un nivel bajo para que sea compatible con la protección de falta de video ya implementada en dicho modulador. Esto se hace poniendo una versión de placa P 0725-B Rev 03/07/2017 que tiene una salida por alto y otra por bajo para accionar sobre el nivel de salida del modulador. \r\n	El Equipo se produjo inicialmente para un TRUD500 y luego se transformó a TRU1000 se modificó el cableado del gabinete y se modificó el módulo de potencia. 	También se le implementó el AGC y oscilaba la potencia. Para corregirlo se modificó la P0643B cambiando en la entrada del detector PD (que viene de un AD8361 modificado para TV Analog.) Se saca R100K del divisor resistivo de entada PD y se cambia la R serie de 100K por 1M ohms.	\r\n\r\n	Se hizo prueba en cámara térmica y no bajó la potencia.\r\n\r\n	Este cableado no muestra la tensión del AGC ya que está presente en el DB9 Izquierdo del módulo que se conecta solo en el gabinete cuando es TRUD.\r\n\r\n	Se modificó el mapa de memoria de la P0492 en las mediciones de % video y % audio para que coincida con los niveles de tensión ajustados anteriormente para los vúmetros.\r\n\r\n	Se midió la corriente en 220Vca de 10,1 A con señal de Rojo y  11,7A con Negro.', 18, 10, 3),
-(46, '2023-12-01 13:05:13', '2023-12-01 13:05:13', 190101, 'Fm250 Sin modulador stm', 'Equipo con la etapa de potencia montada sobre disipador recuperado de un modulo Ditel (alodinizado dorado).Ver fotografias.\r\n\r\nPolarización transistor MRFE5300 Vgs: 2,92V , Idq: 1,0A\r\n\r\nCalibracion de mediciones:  Med. Pdir: 4,0V / 250W\r\n                            Med Pref:  2,0V / 50W\r\n                            Prot.ROE: 7 dB\r\n                            Med Isal: 0,78V / 7,8A\r\n\r\nAtenuador de entrada: 13 dB, 68-100-68\r\n\r\nSegunda armónica: -65dB\r\n\r\nProtecciones:  Temp. : OK                           Pd  :  254 W\r\n               Vent. : OK                           Pr  :    1 W\r\n               ROE   : OK                           AGC :   XX V\r\n                                                    Isal:  7,8 A\r\n                                                    Vsal: 47,8 V\r\n                                                    Vexc: 24,2 V\r\n                                                    Vaux: 12,0 V\r\n                                                    Vlin: 219  V', 21, 10, 1),
-(47, '2023-12-01 17:02:43', '2023-12-01 17:18:57', 160628, 'TRV600 con MTVU05\r\nCliente:  Aguero Silvia Monica?', 'COMENTARIOS:\r\n\r\n1.	Este equipo presenta mucha caida de potencia entre frio y caliente. Cerca de 2dB entre 10ºC y 50ºC\r\n2.	Para solucionar esto se compenso en la entrada con un atenuador hecho con un paralelo de una R de 470 ohm SMD y un NTC 470 ohms SMD colocados en serie y dos R de 56 OHMs en cada punta en paralelo con la entrada y la salida.\r\n3.	La medición del display baja a medida que el equipo se calienta pero la potencia real no varia tanto por la compensación que tiene. Cuando esta a 20ºC la temp ambiente el amp. esta a 32ºC y muestra 600W el display podemos asumir que es la potencia real de RF.', 10, 10, 3),
-(48, '2023-12-01 17:02:43', '2023-12-01 17:02:43', 160622, 'Fm1000 con modulador fm estereo', '', 22, 10, 3);
+(12, '2022-05-16 19:08:32', '2023-11-29 22:58:11', '220516', 'Red SFN CH18 TRUD1800\r\nEncoder 4 SDI, Remux, Mod VS, Mist-15, 2 descompresores VS\r\nFM5000\r\nEntrega en dos tiempos', '', 1, 4, 3),
+(14, '2021-07-22 11:33:10', '2023-11-06 11:44:17', '210729', 'TV Digital ALL IN ONE TRUD250', NULL, 4, 4, 3),
+(15, '2021-01-22 14:53:13', '2023-11-12 13:36:47', '210101', 'TV Digital Enlace 24G Ubiquiti, TRUD1000, 2 ENC IP, MUX, MOD', NULL, 5, 4, 3),
+(16, '2018-01-23 11:39:42', '2023-11-24 12:37:48', '170725', 'Tv digital TRUD250, enc, mux, mod MHX MIST13', NULL, 2, 4, 3),
+(30, '2023-08-10 12:53:33', '2023-10-26 11:52:48', '230810', 'TV digital all in one TRUD500', NULL, 4, 4, 3),
+(31, '2023-10-25 13:05:56', '2023-11-12 13:35:06', '220505', 'Tv Digital TRUD250 ALL IN ONE CH16', NULL, 3, 4, 3),
+(32, '2023-10-26 13:58:22', '2023-11-23 13:13:39', '221219', 'TRUD2400 digital\r\nSeñal ISDB comprimida, con equipos VS y switchs\r\n', NULL, 6, 4, 2),
+(33, '2023-11-03 10:17:34', '2023-11-15 23:03:06', '180102', 'Tx TRUD250 digital  con 2 NDS3542', NULL, 7, 11, 3),
+(35, '2023-11-09 11:34:53', '2023-11-24 13:23:10', '190915', 'TRUD500 con enc 2 entradas + mux + mod', NULL, 9, 11, 3),
+(36, '2023-11-17 10:42:48', '2023-12-01 18:31:37', '171010', 'TRUD500 y TRUD250:\r\nc/Filtro de máscara. \r\nMIST-13, \r\nMux VS -1000-500, \r\nfibra, \r\nSwitch HP x2, \r\nencoder LA214', '', 10, 11, 3),
+(37, '2023-11-21 13:45:40', '2023-11-21 14:31:59', '231006', 'FM1000W ctm c/MFM4\r\nF: 101.3 105.1 106.3 107.9', NULL, 11, 11, 2),
+(38, '2023-11-22 09:47:41', '2023-12-01 00:31:49', '231120', 'FM2K c/MFM1', '', 12, 11, 1),
+(39, '2023-11-23 10:51:35', '2023-11-23 10:51:35', '180103', 'Enlace movil ISDB', NULL, 13, 11, 3),
+(40, '2023-11-23 12:14:55', '2023-11-23 13:12:53', '180104', 'Enlace 11G - Encoders, Modulador IP', NULL, 14, 11, 3),
+(41, '2023-11-23 12:14:55', '2023-11-23 13:38:27', '220225', 'ENC, MOD, MUX, TRUD900,2 switchs', NULL, 8, 11, 3),
+(42, '2023-11-24 09:37:19', '2023-11-24 13:04:44', '200820', '4 FM1000 CTM (+software)', NULL, 15, 11, 3),
+(43, '2023-11-24 09:43:20', '2023-11-24 10:41:08', '201210', 'TRUD250 ch34, mod 3542 4xHDMI', NULL, 16, 11, 3),
+(44, '2023-11-30 12:18:44', '2023-11-30 12:18:44', '210728', 'TRU350 con agc y modulador tecsys', '\r\n1. Este equipo se entrega con modulador Tecsys original con plaqueta P0330B modificada para que actúe con un bajo ante la ausencia de video. Esta modificación queda funcionando siempre ya que la detección y actuación de la falta de video está conectada internamente y no se puede anular.\r\n2. También se agrega un AGC de Video LIECOM  AGCV2000 que era de otro cliente.\r\n3. El amplificador AMP TRU350 era también de otro cliente y se entrega como usado reacondicionado con otro número de serie.\r\n4. La potencia varía desde frío 415Wps a 340Wps\r\n\r\n\r\n\r\nMEDICIONES DEL VOLTÏMETRO\r\n\r\n			PD                          350\r\n			PR                          010\r\n			P MOD                   01.8\r\n			I SAL                     12.0\r\n			V SAL                    48.0\r\n			V EXC                   24.1\r\n			V AUX                   12.0\r\n			V LIN                     218', 18, 11, 3),
+(45, '2023-11-30 12:18:44', '2023-12-01 00:08:31', '210831', 'TRU1000 con AGC y modulador MTVS06', 'Se usó modulador MTU-06 que entregó otro cliente, un Tecsys en bandeja LIECOM más un AGC de video AGCV2000 LIECOM.\r\n\r\n	El control de potencia reducida por tele-comando se hace con un nivel bajo para que sea compatible con la protección de falta de video ya implementada en dicho modulador. Esto se hace poniendo una versión de placa P 0725-B Rev 03/07/2017 que tiene una salida por alto y otra por bajo para accionar sobre el nivel de salida del modulador. \r\n	El Equipo se produjo inicialmente para un TRUD500 y luego se transformó a TRU1000 se modificó el cableado del gabinete y se modificó el módulo de potencia. 	También se le implementó el AGC y oscilaba la potencia. Para corregirlo se modificó la P0643B cambiando en la entrada del detector PD (que viene de un AD8361 modificado para TV Analog.) Se saca R100K del divisor resistivo de entada PD y se cambia la R serie de 100K por 1M ohms.	\r\n\r\n	Se hizo prueba en cámara térmica y no bajó la potencia.\r\n\r\n	Este cableado no muestra la tensión del AGC ya que está presente en el DB9 Izquierdo del módulo que se conecta solo en el gabinete cuando es TRUD.\r\n\r\n	Se modificó el mapa de memoria de la P0492 en las mediciones de % video y % audio para que coincida con los niveles de tensión ajustados anteriormente para los vúmetros.\r\n\r\n	Se midió la corriente en 220Vca de 10,1 A con señal de Rojo y  11,7A con Negro.', 18, 11, 3),
+(46, '2023-12-01 13:05:13', '2023-12-04 20:01:10', '190101', 'Fm250 Sin modulador stm', 'Equipo con la etapa de potencia montada sobre disipador recuperado de un modulo Ditel (alodinizado dorado).Ver fotografias.\r\n\r\nPolarización transistor MRFE5300 Vgs: 2,92V , Idq: 1,0A\r\n\r\nCalibracion de mediciones:  Med. Pdir: 4,0V / 250W\r\n                            Med Pref:  2,0V / 50W\r\n                            Prot.ROE: 7 dB\r\n                            Med Isal: 0,78V / 7,8A\r\n\r\nAtenuador de entrada: 13 dB, 68-100-68\r\n\r\nSegunda armónica: -65dB\r\n\r\nProtecciones:  Temp. : OK                           Pd  :  254 W\r\n               Vent. : OK                           Pr  :    1 W\r\n               ROE   : OK                           AGC :   XX V\r\n                                                    Isal:  7,8 A\r\n                                                    Vsal: 47,8 V\r\n                                                    Vexc: 24,2 V\r\n                                                    Vaux: 12,0 V\r\n                                                    Vlin: 219  V', 21, 11, 3),
+(47, '2023-12-01 17:02:43', '2023-12-01 17:18:57', '160628', 'TRV600 con MTVU05\r\nCliente:  Aguero Silvia Monica?', 'COMENTARIOS:\r\n\r\n1.	Este equipo presenta mucha caida de potencia entre frio y caliente. Cerca de 2dB entre 10ºC y 50ºC\r\n2.	Para solucionar esto se compenso en la entrada con un atenuador hecho con un paralelo de una R de 470 ohm SMD y un NTC 470 ohms SMD colocados en serie y dos R de 56 OHMs en cada punta en paralelo con la entrada y la salida.\r\n3.	La medición del display baja a medida que el equipo se calienta pero la potencia real no varia tanto por la compensación que tiene. Cuando esta a 20ºC la temp ambiente el amp. esta a 32ºC y muestra 600W el display podemos asumir que es la potencia real de RF.', 10, 11, 3),
+(48, '2023-12-01 17:02:43', '2023-12-01 17:02:43', '160622', 'Fm1000 con modulador fm estereo', '', 22, 11, 3),
+(49, '2023-12-05 09:37:52', '2023-12-05 10:03:34', '081112', 'FM500 88,7', '', 23, 11, 3),
+(50, '2023-12-05 10:02:51', '2023-12-05 10:02:51', '100810', 'FM500 92,1', '', 24, 11, 3),
+(51, '2023-12-05 10:16:06', '2023-12-05 10:16:06', '100731', 'fm250 stm', '', 25, 11, 3),
+(52, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '100920', 'FM250 93,7', '', 26, 10, 3),
+(53, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '110911', 'TRV200 con modulador consulfem', '', 27, 11, 3),
+(54, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '130301', 'Fm500 105,3', '', 28, 11, 3),
+(55, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '131008', 'Fm250 95,3', '', 29, 11, 3),
+(56, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '130320', 'Fm500 96,9', '', 30, 11, 3),
+(58, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '100418', 'FM500', '', 32, 11, 3),
+(59, '2023-12-05 12:42:57', '2023-12-05 12:42:57', '120516', 'TRV600 CH10 + modulador + agc', '', 33, 11, 3),
+(60, '2023-12-05 12:42:57', '2023-12-05 13:37:41', '100220', 'TRU100 ch40 con modulador tv', '', 34, 11, 3);
 
 -- --------------------------------------------------------
 
@@ -3853,7 +3951,7 @@ CREATE TABLE IF NOT EXISTS `provincia` (
   `pais_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `prov_pais` (`pais_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=668 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `provincia`
@@ -3938,9 +4036,7 @@ INSERT INTO `provincia` (`id`, `nombre`, `pais_id`) VALUES
 (76, 'Santa Catarina', 3),
 (77, 'São Paulo', 3),
 (78, 'Sergipe', 3),
-(79, 'Tocantins', 3),
-(666, 'Sin especificar', 21),
-(667, 'chiguagua', 12);
+(79, 'Tocantins', 3);
 
 -- --------------------------------------------------------
 

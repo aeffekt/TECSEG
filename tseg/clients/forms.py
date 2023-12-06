@@ -17,8 +17,9 @@ class ClientForm(FlaskForm):
 		self.pais.choices.insert(0,'')
 		if self.objeto:
 			if self.objeto.domicilio:
-				self.localidad.choices = [p.nombre for p in Localidad.query.filter_by(provincia_id=self.objeto.domicilio.localidad.provincia.id).all()]
-				self.provincia.choices = [p.nombre for p in Provincia.query.filter_by(pais_id=self.objeto.domicilio.localidad.provincia.pais.id).all()]
+				if self.objeto.domicilio.localidad:
+					self.localidad.choices = [p.nombre for p in Localidad.query.filter_by(provincia_id=self.objeto.domicilio.localidad.provincia.id).order_by(Pais.nombre.asc()).all()]
+					self.provincia.choices = [p.nombre for p in Provincia.query.filter_by(pais_id=self.objeto.domicilio.localidad.provincia.pais.id).order_by(Provincia.nombre.asc()).all()]
 		else:
 			self.provincia.choices = []
 			self.localidad.choices = []
@@ -87,9 +88,8 @@ class ClientForm(FlaskForm):
 		if self.codigo_postal.data != '' and self.localidad.data != '':
 			provincia_data = Provincia.query.filter_by(nombre=self.provincia.data).first()
 			localidad_data = Localidad.query.filter_by(nombre=self.localidad.data, provincia_id=provincia_data.id).first()
-			cp_data = Localidad.query.filter_by(cp=self.codigo_postal.data).first()
-			print()
-			if localidad_data and cp_data and localidad_data != cp_data:
+			cp_data = Localidad.query.filter_by(cp=self.codigo_postal.data).first()			
+			if localidad_data and cp_data and localidad_data != cp_data:				
 				flash("Advertencia! Los datos de código postal y localidad no coinciden.", 'warning')
 				raise ValidationError('Este Código postal ya se encuentra registrado con otra Localidad.')
 			elif cp_data and not localidad_data:

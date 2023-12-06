@@ -19,7 +19,7 @@ def add_detalle_reparacion(orden_reparacion_id):
 							author_detalle_reparacion=current_user)		
 			db.session.add(detalle_reparacion)
 			db.session.commit()
-			flash('Se ha guardado la nueva detalle_reparacion de equipo!', 'success')
+			flash('Se ha guardado el nuevo detalle de reparación!', 'success')
 			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion_id, filterBy='date_modified', filterOrder='desc'))
 		except Exception as e:
 			error_logger(e)
@@ -52,7 +52,7 @@ def update_detalle_reparacion(detalle_reparacion_id):
 			detalle_reparacion.date_modified = dateFormat()		
 			db.session.commit()
 			flash("Su detalle de reparación ha sido modificado con éxito", 'success')
-			return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id))
+			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=detalle_reparacion.orden_reparacion.id))
 		except Exception as e:			
 			error_logger(e)			
 			return redirect(url_for('ordenes_reparacions.update_detalle_reparacion', detalle_reparacion_id=detalle_reparacion.id))

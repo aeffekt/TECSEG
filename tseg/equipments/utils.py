@@ -63,8 +63,10 @@ def print_caratula_pdf(path, equipo):
 	tipo_equipo = equipo.modelo.tipo_modelo.tipo
 	numSerie = f'{equipo.detalle_trabajo.orden_trabajo.codigo}-{equipo.numSerie}'	
 	cliente = f"{equipo.detalle_trabajo.orden_trabajo.client.nombre} {equipo.detalle_trabajo.orden_trabajo.client.apellido}"
-	domicilio=f"{equipo.detalle_trabajo.orden_trabajo.client.domicilio.localidad.nombre} ({equipo.detalle_trabajo.orden_trabajo.client.domicilio.localidad.provincia.nombre})"
-	otn = f"{equipo.detalle_trabajo.orden_trabajo.codigo}"	
+	domicilio = ''
+	if equipo.detalle_trabajo.orden_trabajo.client.domicilio.localidad:
+		domicilio=f"{equipo.detalle_trabajo.orden_trabajo.client.domicilio.localidad.nombre} ({equipo.detalle_trabajo.orden_trabajo.client.domicilio.localidad.provincia.nombre})"
+	otn = f"{equipo.detalle_trabajo.orden_trabajo.codigo}"
 	canalFrec = ' '
 	rango = ""
 	if equipo.frecuencias:

@@ -20,7 +20,7 @@ def reporte_reparaciones():
 	fecha1, fecha2 = cargarFechasFiltroReportes()
 	query = db.session.query(
 				Modelo.nombre.label('Modelo'),
-				func.count(Equipment.id).label('Cantidad'))\
+				func.count(Equipment.id).label('Cant'))\
 					.join(Equipment, Equipment.modelo_id == Modelo.id)\
 					.join(Orden_reparacion, Equipment.id == Orden_reparacion.equipo_id)\
 					.filter(Equipment.anio >= fecha1, Equipment.anio <= fecha2)\
@@ -29,7 +29,7 @@ def reporte_reparaciones():
 	# Obtener los resultados
 	equipos_por_modelo = query.all()	
 	modelos = [item.Modelo for item in equipos_por_modelo]
-	cantidades = [item.Cantidad for item in equipos_por_modelo]
+	cantidades = [item.Cant for item in equipos_por_modelo]
 	labels_json = json.dumps(modelos)
 	cantidades_json = json.dumps(cantidades)
 	return render_template('reporte.html',
@@ -79,7 +79,7 @@ def reporte_zona():
 	query = db.session.query(
 					    Provincia.nombre.label('Provincia'),
 						func.substring(Pais.nombre, 1, 3).label('Pais'),
-					    func.count(Equipment.id).label('Cantidad')).\
+					    func.count(Equipment.id).label('Cant')).\
 						join(Localidad, Provincia.localidades).\
 						join(Domicilio, Localidad.domicilios).\
 						join(Client, Domicilio.clientes).\
@@ -93,7 +93,7 @@ def reporte_zona():
 	# Obtener los resultados
 	equipos_por_provincia = query.all()	
 	provincias = [item.Provincia for item in equipos_por_provincia]
-	cantidades = [item.Cantidad for item in equipos_por_provincia]
+	cantidades = [item.Cant for item in equipos_por_provincia]
 	labels_json = json.dumps(provincias)
 	cantidades_json = json.dumps(cantidades)
 	return render_template('reporte.html',
@@ -114,7 +114,7 @@ def reporte_modelo():
 	query = db.session.query(
 						Modelo.nombre.label('Modelo'),
 						func.substring(Marca.nombre, 1, 3).label('Marca'),
-						func.count(Equipment.id).label('Cantidad'))\
+						func.count(Equipment.id).label('Cant'))\
 						.join(Equipment, Equipment.modelo_id == Modelo.id)\
 						.join(Marca, Marca.id == Modelo.marca_id)\
 						.filter(Equipment.anio >= fecha1, Equipment.anio <= fecha2)\
@@ -124,7 +124,7 @@ def reporte_modelo():
 	# Obtener los resultados
 	equipos_por_modelo = query.all()	
 	modelos = [item.Modelo for item in equipos_por_modelo]
-	cantidades = [item.Cantidad for item in equipos_por_modelo]
+	cantidades = [item.Cant for item in equipos_por_modelo]
 	labels_json = json.dumps(modelos)
 	cantidades_json = json.dumps(cantidades)
 	return render_template('reporte.html',

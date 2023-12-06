@@ -228,13 +228,13 @@
 	</form>
 </div>
 <script src="{{ url_for('static', filename='js/cuit.js') }}"></script>
-<script src="{{ url_for('static', filename='js/geolocalizacion.js') }}"></script>
 <script src="{{ url_for('static', filename='js/select_to_null.js') }}"></script>
+<script src="{{ url_for('static', filename='js/geolocalizacion.js') }}"></script>
 	<script>	
 		// reseta a NULL los select con key=-1	
 		$(document).ready(function() {
 			limpiarSeleccion('#iibb_select')
 			limpiarSeleccion('#cond_fiscal_select')
-		});		
+		})
 	</script>
 {% endblock content %}

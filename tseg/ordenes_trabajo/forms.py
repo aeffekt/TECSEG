@@ -1,7 +1,7 @@
 import re
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField
-from wtforms.validators import DataRequired, ValidationError, NumberRange
+from wtforms.validators import DataRequired, ValidationError
 from tseg.models import Client, Orden_trabajo, Estado_ot
 
 class OrdenTrabajoForm(FlaskForm):

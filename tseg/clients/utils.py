@@ -17,12 +17,12 @@ def obtener_informacion_geografica(codigo_postal):
 
 
 def populate_pais():
-	lista_pais = [p.nombre for p in Pais.query.all()]	
+	lista_pais = [p.nombre for p in Pais.query.order_by(Pais.nombre.asc()).all()]	
 	return lista_pais
 
 def populate_provincia(pais):	
 	pais = Pais.query.filter_by(nombre=pais).first()	
-	lista_provincia = [p.nombre for p in Provincia.query.filter_by(pais_id=pais.id).all()]
+	lista_provincia = [p.nombre for p in Provincia.query.filter_by(pais_id=pais.id).order_by(Provincia.nombre.asc()).all()]
 	return lista_provincia
 
 def populate_localidad(provincia):	

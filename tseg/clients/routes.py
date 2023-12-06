@@ -36,7 +36,8 @@ def load_localidad_select():
 
 @clients.route('/obtener-dato-cp')
 def load_cp():	
-	localidad_nombre = request.args.get('localidad')	
+	localidad_nombre = request.args.get('localidad')
+	print(localidad_nombre)
 	localidad = Localidad.query.filter_by(nombre=localidad_nombre).first()	
 	return jsonify(cp=localidad.cp)
 
@@ -89,7 +90,7 @@ def add_client():
 				if not provincia:
 					provincia=Provincia(nombre=form.provincia.data, pais=pais)
 					db.session.add(provincia)			
-				localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
+				localidad = Localidad.query.filter_by(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia).first()
 				if not localidad:
 					localidad=Localidad(nombre=form.localidad.data.upper(), cp=form.codigo_postal.data, provincia=provincia)
 					db.session.add(localidad)
@@ -145,7 +146,7 @@ def update_client(client_id):
 					if not provincia:
 						provincia=Provincia(nombre=form.provincia.data, pais=pais)
 						db.session.add(provincia)
-					localidad = Localidad.query.filter_by(nombre=form.localidad.data, provincia=provincia).first()
+					localidad = Localidad.query.filter_by(nombre=form.localidad.data, cp=form.codigo_postal.data, provincia=provincia).first()
 					if not localidad:
 						localidad=Localidad(nombre=form.localidad.data.upper(), cp=form.codigo_postal.data, provincia=provincia)
 						db.session.add(localidad)
