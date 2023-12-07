@@ -13,18 +13,17 @@ class ClientForm(FlaskForm):
 		self.cond_fiscal.choices.insert(0, (-1,''))
 		self.iibb.choices = [(iibb.jurisdiccion, iibb) for iibb in Iibb.query.order_by(Iibb.jurisdiccion.asc()).all()]
 		self.iibb.choices.insert(0, (-1, ''))		
-		self.pais.choices = [p.nombre for p in Pais.query.all()]
-		self.pais.choices.insert(0,'')
+		self.pais.choices = [(p.id, p.nombre) for p in Pais.query.all()]
+		self.pais.choices.insert(0,(-1, ''))
+		self.provincia.choices = []
+		self.localidad.choices = []
 		if self.objeto:
 			if self.objeto.domicilio:
 				if self.objeto.domicilio.localidad:
-					self.localidad.choices = [p.nombre for p in Localidad.query.filter_by(provincia_id=self.objeto.domicilio.localidad.provincia.id).order_by(Pais.nombre.asc()).all()]
-					self.provincia.choices = [p.nombre for p in Provincia.query.filter_by(pais_id=self.objeto.domicilio.localidad.provincia.pais.id).order_by(Provincia.nombre.asc()).all()]
-		else:
-			self.provincia.choices = []
-			self.localidad.choices = []
-		self.provincia.choices.insert(0, '')
-		self.localidad.choices.insert(0,'')
+					self.localidad.choices = [(str(p.id), p.nombre) for p in Localidad.query.filter_by(provincia_id=self.objeto.domicilio.localidad.provincia.id).order_by(Localidad.nombre.asc()).all()]
+					self.provincia.choices = [(str(p.id), p.nombre) for p in Provincia.query.filter_by(pais_id=self.objeto.domicilio.localidad.provincia.pais.id).order_by(Provincia.nombre.asc()).all()]		
+		self.provincia.choices.insert(0,(-1, ''))
+		self.localidad.choices.insert(0,(-1, ''))
 
 	nombre = StringField('Nombre', validators=[DataRequired()], render_kw={'autofocus': True})
 	apellido = StringField('Apellido', validators=[DataRequired()])
@@ -77,7 +76,7 @@ class ClientForm(FlaskForm):
 		if self.direccion.data == '':
 			self.direccion.data=None
 		# Verifica si al menos uno de los campos está lleno
-		if any([self.localidad.data, self.provincia.data, self.pais.data]):			
+		if any([self.codigo_postal.data, self.localidad.data, self.provincia.data, self.pais.data]):			
 			if not all([self.localidad.data, self.provincia.data, self.pais.data]):
 				flash("Advertencia! Debe completar: Localidad, Provincia y Pais del domicilio, o ninguno de esos datos.", 'warning')
 				raise ValidationError('Completar el resto de los campos de Localidad.')
@@ -85,9 +84,8 @@ class ClientForm(FlaskForm):
 
 	# Validación de CP y Localidad
 	def validate_codigo_postal(self, field):	
-		if self.codigo_postal.data != '' and self.localidad.data != '':
-			provincia_data = Provincia.query.filter_by(nombre=self.provincia.data).first()
-			localidad_data = Localidad.query.filter_by(nombre=self.localidad.data, provincia_id=provincia_data.id).first()
+		if self.codigo_postal.data != '' and self.localidad.data != '':			
+			localidad_data = Localidad.query.filter_by(id=self.localidad.data).first()
 			cp_data = Localidad.query.filter_by(cp=self.codigo_postal.data).first()			
 			if localidad_data and cp_data and localidad_data != cp_data:				
 				flash("Advertencia! Los datos de código postal y localidad no coinciden.", 'warning')
@@ -108,4 +106,4 @@ class ClientForm(FlaskForm):
 	def validate_comments(self, comments):	
 		if comments.data == '':
 			comments.data=None
-			
+	

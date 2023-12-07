@@ -223,7 +223,7 @@
 		<br>
 		<div class="form-group">
 			<!-- boottrap for the submit button  -->
-			{{ form.submit(class="btn btn-outline-info", tabindex="15") }}
+			{{ form.submit(id="clientForm", class="btn btn-outline-info", tabindex="15") }}
 		</div>
 	</form>
 </div>
@@ -235,6 +235,9 @@
 		$(document).ready(function() {
 			limpiarSeleccion('#iibb_select')
 			limpiarSeleccion('#cond_fiscal_select')
+			limpiarSeleccion('#paisSelect')
+			limpiarSeleccion('#provinciaSelect')
+			limpiarSeleccion('#localidadSelect')
 		})
 	</script>
 {% endblock content %}

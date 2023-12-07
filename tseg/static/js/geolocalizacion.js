@@ -1,10 +1,12 @@
 
 // Funcion para captar el codigo postal y buscar GEOLOCALIZACION
 document.addEventListener('DOMContentLoaded', function() {  
+	
 	let codigoPostalInput = document.getElementById('codigo_postal');
 	let paisInput = document.querySelector('.paisSelect')
 	let provinciaInput = document.querySelector('.provinciaSelect')
 	let localidadInput = document.querySelector('.localidadSelect')
+	
 
 	 // Función para actualizar los campos de país, provincia y localidad
 	 function actualizarCamposGeograficos(codigoPostal) {  
@@ -15,9 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			.then(response => response.json())
 			.then(data => {				
 				if(data.localidad != null){
+					// guarda los datos devueltos a partir del CP
 					pais = data.pais
 					provincia = data.provincia
 					localidad = data.localidad
+					// hace otro fetch para asegurarse de buscar la lista de data y despues cargar el select
 					return fetch(`/obtener-datos-provincias?pais=${pais}`)
 				}
 				else{					
@@ -26,19 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			})		  
 			.then(response => response.json())
 			.then(data => {				
-				$('#provinciaSelect').empty()
-				data.provincias_list.forEach(provincia => {
-					$('#provinciaSelect').append(`<option value="${provincia}">${provincia}</option>`)
-				})
+				populate_select('#provinciaSelect', data.provincias_list)
 				return fetch(`/obtener-datos-localidades?provincia=${provincia}`)
 			})
 			.then(response => response.json())
-			.then(data => {
-				$('#localidadSelect').empty();			
-				data.localidades_list.forEach(localidad => {
-					$('#localidadSelect').append(`<option value="${localidad}">${localidad}</option>`)
-				})
-				$('#paisSelect').val(pais).trigger('change')			
+			.then(data => {				
+				populate_select('#localidadSelect', data.localidades_list)
+				// por ultimo carga los datos encontrados a partir de CP
+				$('#paisSelect').val(pais).trigger('change')
 				$('#provinciaSelect').val(provincia).trigger('change')
 				$('#localidadSelect').val(localidad).trigger('change')				
 			})
@@ -50,6 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		paisInput.disabled = false
 		provinciaInput.disabled = false
 		localidadInput.disabled = false
+	}
+
+	function populate_select(select, list){
+		$(select).empty()
+		list.forEach(item => {
+			$(select).append(`<option value="${item[0]}">${item[1]}</option>`)
+		})
 	}
 
 	function limpiar_domicilio(){
@@ -71,10 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			.then(response => response.json())
 			.then(data => {				
 				// vacia la lista para cargar la nueva lista del select
-				$('#provinciaSelect').empty();
-				data.provincias_list.forEach(provincia => {
-					$('#provinciaSelect').append(`<option value="${provincia}">${provincia}</option>`)
-				});
+				populate_select('#provinciaSelect', data.provincias_list)
 				$('#provinciaSelect').val(null).trigger('change')
 				$('#localidadSelect').val(null).trigger('change')
 				})
@@ -89,11 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			.then(response => response.json())
 			.then(data => {				
 			// vacia la lista para cargar la nueva lista del select
-			$('#localidadSelect').empty();			
-			data.localidades_list.forEach(localidad => {
-				$('#localidadSelect').append(`<option value="${localidad}">${localidad}</option>`);
-			});
-			$('#localidadSelect').val(null).trigger('change');			
+			populate_select('#localidadSelect', data.localidades_list)			
+			$('#localidadSelect').val(null).trigger('change')
 			})
 			.catch(error => console.error('Error:', error))		
 	}
@@ -115,6 +115,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#paisSelect').val(null).trigger('change')
 		$('#provinciaSelect').val(null).trigger('change')
 		$('#localidadSelect').val(null).trigger('change')
+		$('#localidadSelect').empty()
+		$('#provinciaSelect').empty()
+		codigoPostalInput.value = ''
 	}
 
 	function provinciaUnSelect() {		
@@ -123,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		localidadInput.disabled = true
 		$('#provinciaSelect').val(null).trigger('change')
 		$('#localidadSelect').val(null).trigger('change')
+		$('#localidadSelect').empty()		
+		codigoPostalInput.value = ''
 	}
 
 	function localidadUnSelect() {

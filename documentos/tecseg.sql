@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-12-2023 a las 19:45:46
+-- Tiempo de generación: 07-12-2023 a las 16:52:32
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `user_id` (`user_id`),
   KEY `client_cf` (`cond_fiscal_id`),
   KEY `client_iibb` (`iibb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -85,7 +85,10 @@ INSERT INTO `client` (`id`, `nombre`, `apellido`, `business_name`, `cuit`, `tele
 (31, 'Cristián', 'Bazán', '', NULL, '(351) 548 7744', 'cristianbazan@hotmail.com', 'Responsable Administrac.		Bazán Cristian				\r\nRespons  Técnico : Técnico		Izquierdo Claudio\r\ntiene un FM1000 con OR: 200420', 10, 54, NULL, 904),
 (32, 'Guillermo', 'Gonzalez', '', NULL, '', 'opaco72@gmail.com', NULL, 10, 55, NULL, 904),
 (33, 'Cristian', 'Zottos', '', NULL, '', '', NULL, 10, 56, NULL, 917),
-(34, 'Andres', 'Chavez', 'Asociación Maná', NULL, '', 'andres.chavez@mkk14.com', NULL, 10, 57, NULL, 904);
+(34, 'Andres', 'Chavez', 'Asociación Maná', NULL, '', 'andres.chavez@mkk14.com', NULL, 10, 57, NULL, 904),
+(35, 'Javier', 'Quiroz', 'CN Goya S.R.L.', NULL, '', '', NULL, 11, 58, NULL, 905),
+(36, 'Samuel', 'Gutnisky', 'Difusora Iberá', NULL, '( 03794) 934522 / (03773) 420087', 'samuelgutnisky@hotmail.com', 'difusoraiberasrl@gmail.com', 12, 59, 1, 905),
+(39, 'Adrian', 'melnik', 'Super FM Centro', NULL, '', '', NULL, 10, 62, NULL, 906);
 
 -- --------------------------------------------------------
 
@@ -134,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `detalle_reparacion` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `orden_detalle` (`reparacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_reparacion`
@@ -156,7 +159,20 @@ INSERT INTO `detalle_reparacion` (`id`, `content`, `date_created`, `date_modifie
 (15, 'a)Modulador:  Se detectan el Circuito Integrado Modulador de TV y un transistor de baja señal deteriorados por una probable entrada de descarga eléctrica por la entrada de video. Se procede a su provisión y reemplazo. También se procedió a la provisión y cambio de un capacitor electrolítico de 100 uF en la entrada de video y uno de 10 uf en la placa detectora de video. Se procede a reajustar la tensión del PLL  a 6 V. Se realiza una limpieza y control general.', '2023-12-05 12:42:57', '2023-12-05 13:46:09', 14, 10),
 (16, 'b)Amplificador Lineal: Se realiza una revisión completa del mismo no detectando problemas en el mismo. Se realiza un control general del Amplficador Lineal controlando las polarizaciones y corrientes que se encuentren dentro de los valores normales.', '2023-12-05 12:42:57', '2023-12-05 13:46:12', 14, 10),
 (17, 'c)Transmisor completo: Se pone en funcionamiento verificando las especificaciones técnicas y el funcionamiento de las protecciones. Se lo pone en funcionamiento durante un par de horas quedando en las siguientes condiciones:  Pd=107W.  Pr=00W. AGC= 00V., Isal=6.0A ( Imaggen Roja ). Vsal=27,8 A. Vexc= 8,8V. Vaux= 12,0V. Vlin=212V. 2Da Armónica: - 60 dB. Relación Pv/Ps= 16 db', '2023-12-05 12:42:57', '2023-12-05 13:46:14', 14, 10),
-(18, 'Por los trabajos de reparación de un excitador de FM sin Marca ajustado en la F= 99.3 Mhz, consistentes en:\r\n\r\na)Se pone en marcha y se detecta que no enciende porque le falta el fusible de la alimentación de 220 V. Se efectúa un cálculo para determinar el amperaje más conveniente del mismo colocando uno de 3 Amp. Se pone en marcha y funciona normalmente por lo que se procede a realizarle una revisión completa no detectando problemas. Probablemente el fusible se haya quemado por ser de un amperaje inadecuado ', '2023-12-05 12:42:57', '2023-12-05 13:46:17', 14, 10);
+(18, 'Por los trabajos de reparación de un excitador de FM sin Marca ajustado en la F= 99.3 Mhz, consistentes en:\r\n\r\na)Se pone en marcha y se detecta que no enciende porque le falta el fusible de la alimentación de 220 V. Se efectúa un cálculo para determinar el amperaje más conveniente del mismo colocando uno de 3 Amp. Se pone en marcha y funciona normalmente por lo que se procede a realizarle una revisión completa no detectando problemas. Probablemente el fusible se haya quemado por ser de un amperaje inadecuado ', '2023-12-05 12:42:57', '2023-12-05 13:46:17', 14, 10),
+(19, 'algo\r\nf\r\ns\r\nfds\r\nf\r\nds\r\nf\r\nds\r\nf\r\nds\r\n\r\n\r\n\r\nfds\r\nf\r\nds\r\nfds\r\nf\r\nds\r\n\r\nfds\r\n', '2023-12-06 09:58:10', '2023-12-06 09:58:10', 14, 10),
+(20, 'a)Modulador: Revisión general y verificación de sus especificaciones técnicas.', '2023-12-06 09:58:10', '2023-12-06 09:58:10', 6, 11),
+(21, 'b)Amplificador Lineal: Se detectan rotos el transistor amplificador de saldia y el amplificador híbrido excitador. Por lo tanto se procede a la provisión y cambio de los dos componentes activos. Se procede al ajuste de las tensiones y corrientes de polarización, a reajustar toda la etapa amplificadora.', '2023-12-06 09:58:10', '2023-12-06 09:58:10', 6, 11),
+(22, 'c)Transmisor en su conjunto:  Reparado el amplificador lineal se procede a poner en marcha el conjunto, reajustar las mediciones y protecciones, quedando en funcionamiento en prueba en las siguientes condiciones:  Pd=250W. Pr=6W. AGC= 0,0V Isal= 8,3A. Vsal=47m4V. Vexc= 23,9 V. Vaux= 11,7V- Vlin= 210V', '2023-12-06 09:58:10', '2023-12-06 09:58:10', 6, 11),
+(23, 'a)Modulador: Se le realiza una revisión completa debiéndose reemplazar 6 trimers por estar excesivamente ruidosos. Se realiza un reajuste completo para lograr la respuesta en frecuencia correcta. Se ajustan los niveles de modulación de audio y video y el nivel de salida.', '2023-12-06 11:13:46', '2023-12-06 11:13:46', 6, 12),
+(24, 'b)Amplificador de Potencia: En el gabinete se procede a normalizar la entrada de energía del equipo con provisión y colocación del conector de entrada de 220 V, una bornera de tres contactos con el varistor de protección de sobretensiones y normalización del cableado a la condición original. Además se procede a cambiar el conector N hembra de salida de RF por encontrarse deteriorado el PIN central.', '2023-12-06 11:13:46', '2023-12-06 11:13:46', 6, 12),
+(25, 'En el Módulo Amplificador de Potencia se procede a realizarle una revisión completa procediendo a recalibrar las polarizaciones de los dos transistores para lograr una menor intermodulación. En el excitador se procede a cambiar el amplificador híbrido por estar roto. Por último se realiza un reajuste de la respuesta en frecuencia de todo el módulo .', '2023-12-06 11:13:46', '2023-12-06 11:13:46', 6, 12),
+(26, 'c)Pruebas del conjunto: Finalmente se pone en marcha el transmisor en su conjunto realizando pruebas de funcionamiento ajustando las mediciones y los sistemas de protecciones, quedando en las siguientes condiciones: \r\nPotencia 52Wps. Relación Video/sonido 17 dB., y productos de intermodulación -57 dBc, valores correctos\r\n', '2023-12-06 11:13:46', '2023-12-06 11:13:46', 6, 12),
+(27, 'Respondió Luis Fernandez: \"Hola Agustin, te paso la configuracion del encoder, wmpieza a desenganchar wl video hasta que finalmente se cuelga, inclusive el web server\" con fotos usando entradas #3 y #4\r\n\r\nYa se le envió el msj a VideoSwitch', '2023-12-07 09:17:16', '2023-12-07 09:17:16', 10, 6),
+(33, 'a)Modulador: Provisión y cambio del potenciómetro de control de la desviación por estar muy ruidoso.  Limpieza y revisión general de las especificaciones técnicas. Vcaf= 4,75V. Nivel de salida +20,3 dbm . F = 93.1 Mhz. Valores correctos.', '2023-12-07 12:01:51', '2023-12-07 12:01:51', 14, 14),
+(34, 'b)Fuente de 48V x 1200 :  Limpieza general  y se rehace el conector de entrada de 220 V y se agrega tapa al conector DB 9. Se controla su funcionamiento y se   verifican las protecciones.', '2023-12-07 12:01:51', '2023-12-07 12:01:51', 14, 14),
+(35, 'c)Amplificador Lineal: Limpieza general. Se controlan las polarizaciones de los semiconductores en toda la cadena amplificadora y se verifican las especificaciones técnicas. \r\nSe reemplaza el conector de entrada de los 220 V.\r\n', '2023-12-07 12:01:51', '2023-12-07 12:01:51', 14, 14),
+(36, 'd)Conjunto:  Pruebas de funcionamiento del transmisor en su conjunto quedando en funcionamiento en las siguientes condiciones Pd= 500 W    AGC=  3,0V    Isal= 16,1 A     Vsal=  48,4 V  Vexc=25.8  Vaux=11.8 V. Vlin=211 . Se realiza una prueba con audio, controlando la calidad del mismo y se verifica el funcionamiento de la proteccione. Todo OK', '2023-12-07 12:01:51', '2023-12-07 12:01:51', 14, 14);
 
 -- --------------------------------------------------------
 
@@ -176,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `detalle_trabajo` (
   PRIMARY KEY (`id`),
   KEY `user_detalle` (`user_id`),
   KEY `detalle_OT` (`trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `detalle_trabajo`
@@ -277,7 +293,12 @@ INSERT INTO `detalle_trabajo` (`id`, `content`, `cantidad`, `date_created`, `dat
 (106, 'agc video', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 59),
 (107, 'modulador tv', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 59),
 (108, 'Tx TRU100 ch40', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 60),
-(109, 'modulador tv', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 60);
+(109, 'modulador tv', 1, '2023-12-05 12:42:57', '2023-12-05 12:42:57', 10, 60),
+(110, 'FM250 91,1', 1, '2023-12-06 09:58:10', '2023-12-06 09:58:10', 11, 61),
+(111, 'modulador MFM1', 1, '2023-12-06 09:58:10', '2023-12-06 09:58:10', 11, 61),
+(112, 'TRV50 ch12', 1, '2023-12-06 11:13:46', '2023-12-06 11:13:46', 12, 62),
+(114, 'tx FM500 93,1', 1, '2023-12-07 12:01:51', '2023-12-07 12:20:08', 10, 64),
+(115, 'modulador FM', 1, '2023-12-07 12:01:51', '2023-12-07 12:01:51', 10, 64);
 
 -- --------------------------------------------------------
 
@@ -292,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
   `localidad_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `localidad_id` (`localidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `domicilio`
@@ -329,7 +350,10 @@ INSERT INTO `domicilio` (`id`, `direccion`, `localidad_id`) VALUES
 (54, NULL, 1205),
 (55, NULL, 1296),
 (56, NULL, 1975),
-(57, NULL, 1129);
+(57, NULL, 1129),
+(58, NULL, 1351),
+(59, 'Av. Atanacio Aguirre Km 2', 1405),
+(62, NULL, 1449);
 
 -- --------------------------------------------------------
 
@@ -355,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   KEY `user_id` (`user_id`),
   KEY `equipment_modelo` (`modelo_id`),
   KEY `eq_detalle` (`detalle_trabajo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `equipment`
@@ -406,11 +430,11 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (145, NULL, '2019', '2023-11-09 11:34:53', '2023-11-24 13:24:17', '192.168.1.30\r\nSe usa solo como encoder', NULL, NULL, 1, 58, 48, NULL),
 (146, '1/0219', '2019', '2023-11-09 11:34:53', '2023-11-09 11:34:53', '192.168.1.100', NULL, NULL, 1, 15, 47, NULL),
 (154, '1/1122', '2022', '2023-11-10 15:55:00', '2023-11-21 12:45:38', '10.0.0.92 instalado en PARANA', '220516-1_1122_caratula.pdf', '220516-1_1122.pdf', 1, 20, 12, 'Paraná'),
-(155, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 13:18:33', '4-1 SNMP	\r\n192.168.1.30\r\nsalidas IP 224.2.2.2 12001/3\r\n1 - MULTIVISIÓN HD 8M\r\n2 - SIN NOMBRE SD 3M\r\n3 - SIN NOMBRE/SIN SEÑAL SD 3M', NULL, NULL, 10, 72, 51, 'Estudios'),
+(155, NULL, '2017', '2023-11-17 10:42:48', '2023-12-06 10:50:15', '4-1 SNMP	\r\n192.168.1.136\r\nsalidas IP 224.2.2.2 12001/4\r\n1 - MULTIVISIÓN HD 8M\r\n2 - SIN NOMBRE SD 1,5M\r\n3 - SIN NOMBRE/SIN SEÑAL SD 1,5M\r\n3 - SIN NOMBRE SD 1,5M', NULL, NULL, 10, 72, 51, 'Estudios'),
 (156, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 13:10:39', 'HP.192.168.1.2  admin :: blank\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (NMS Encoder)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (PC Control)\r\n! Port 5: VLAN 5 (DATA Encoder, video MPTS)\r\n! Port 6: VLAN 5 ()\r\n! Port 7: VLAN 1\r\n! Port 8: VLAN 1 (Notebook Control)', NULL, NULL, 10, 49, 52, 'Estudios'),
 (157, NULL, '2017', '2023-11-17 10:42:48', '2023-11-21 11:09:23', 'Switch Planta Transmisora (IP 192.168.1.1):\r\n! Port 1: VLAN 1+5 (Enlace Fibra)\r\n! Port 2: VLAN 1 (Control Mux)\r\n! Port 3: VLAN 1\r\n! Port 4: VLAN 1 (Control Modulador)\r\n! Port 5: VLAN 5 (GbE1 Mux)\r\n! Port 6: VLAN 1 (Control TRUD500)\r\n! Port 7: VLAN 1 (Control equipo analógico)\r\n! Port 8: VLAN 1', NULL, NULL, 10, 49, 52, 'Cerro'),
 (158, '1/1217', '2017', '2023-11-17 11:58:28', '2023-11-24 13:12:23', '192.168.1.100', NULL, NULL, 10, 15, 56, 'Cerro'),
-(159, NULL, '2017', '2023-11-17 11:59:56', '2023-11-21 13:20:46', '192.168.1.40\r\nSe usa la salida \"BTS MONITOR\" la salida ASI parece no andar\r\nModo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM', NULL, NULL, 10, 74, 53, 'Cerro'),
+(159, NULL, '2017', '2023-11-17 11:59:56', '2023-12-06 13:06:51', '192.168.1.40\r\nSe usa la salida \"BTS MONITOR\" la salida ASI parece no andar\r\nModo 3 - IG=1/8\r\nLA=13 64QAM', NULL, NULL, 10, 74, 53, 'Cerro'),
 (160, NULL, '2017', '2023-11-17 12:09:29', '2023-11-21 11:07:50', '', NULL, NULL, 10, 73, 57, 'Cerro'),
 (161, NULL, '2017', '2023-11-17 12:19:28', '2023-12-01 18:30:00', '64QAM 1/16\r\n192.168.1.90\r\n', NULL, NULL, 10, 55, 55, 'Cerro'),
 (162, NULL, '2017', '2023-11-17 12:20:46', '2023-11-21 11:08:42', 'Modo 3 - IG=1/8\r\nLA=1 QPSK\r\nLB=12 64QAM\r\n192.168.1.40', NULL, NULL, 10, 36, 54, 'Cerro'),
@@ -478,8 +502,13 @@ INSERT INTO `equipment` (`id`, `numSerie`, `anio`, `date_created`, `date_modifie
 (238, NULL, '2012', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 89, 106, NULL),
 (239, '1/082', '2012', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 94, 105, NULL),
 (240, NULL, '2012', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 95, 107, NULL),
-(241, '2/039', '2010', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 100, 108, NULL),
-(242, NULL, '2010', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 90, 109, NULL);
+(241, '2/039', '2010', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', '60-241_caratula.pdf', '60-241_numSerie.pdf', 10, 100, 108, NULL),
+(242, NULL, '2010', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '', NULL, NULL, 10, 90, 109, NULL),
+(243, NULL, '2011', '2023-12-06 09:58:10', '2023-12-06 09:58:10', '', NULL, NULL, 6, 76, 111, NULL),
+(244, '5/072', '2011', '2023-12-06 09:58:10', '2023-12-06 09:58:10', '', NULL, NULL, 6, 97, 110, NULL),
+(245, '3/109', '2009', '2023-12-06 11:13:46', '2023-12-06 11:13:46', '', NULL, NULL, 1, 101, 112, NULL),
+(247, '1/050', '2010', '2023-12-07 12:01:51', '2023-12-07 12:01:51', '', NULL, NULL, 10, 96, 114, NULL),
+(248, NULL, '2010', '2023-12-07 12:01:51', '2023-12-07 12:01:51', '', NULL, NULL, 10, 76, 115, NULL);
 
 -- --------------------------------------------------------
 
@@ -576,7 +605,12 @@ INSERT INTO `equipos_frecuencias` (`equipment_id`, `frecuencia_id`) VALUES
 (239, 10),
 (240, 10),
 (241, 40),
-(242, 40);
+(242, 40),
+(243, 116),
+(244, 116),
+(245, 12),
+(247, 126),
+(248, 126);
 
 -- --------------------------------------------------------
 
@@ -1030,7 +1064,7 @@ CREATE TABLE IF NOT EXISTS `historia` (
   KEY `user_id` (`user_id`),
   KEY `equipment_id` (`equipo_id`),
   KEY `historia_tipo` (`tipo_historia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historia`
@@ -1065,7 +1099,10 @@ INSERT INTO `historia` (`id`, `title`, `date_created`, `date_modified`, `content
 (86, 'Potencia de salida', '2017-05-25 09:43:20', '2017-05-25 09:43:20', 'A este se le agrega un atenuador interno de 10 dB para que entregue -10 dBm de salida.\r\nSe ajusta a 150W sin precorrección porque después se pone modulador DEXIN.', 3, 121, 6),
 (87, 'Amp ERA3', '2021-04-27 09:43:20', '2021-04-27 09:43:20', 'se le agregó un Amp. ERA3 en la salida para que diera el nivel 0 dBm. y se setea a -20,5 dBm en el software para que la salida esté en -2dBm y la potencia de salida no pase de 150WRMS en el Amplificador ya que no tendrá precorreción.', 3, 123, 6),
 (88, 'Cambio transistores >>R', '2023-11-24 09:43:20', '2023-12-01 11:00:10', 'Este equipo se rompió 2 veces cuando se probó con ROE de 5dB y 7dB por error y se cambiaron dos transistores quemados en cada vez que se rompió.', 2, 146, 6),
-(89, 'Ajuste proteccion >r', '2023-11-24 09:43:20', '2023-11-24 09:43:20', 'Finalmente se ajusto en el banco la proteccion de ROE 10dB y no se probo mas', 3, 146, 6);
+(89, 'Ajuste proteccion >r', '2023-11-24 09:43:20', '2023-11-24 09:43:20', 'Finalmente se ajusto en el banco la proteccion de ROE 10dB y no se probo mas', 3, 146, 6),
+(90, 'cambio IP', '2023-12-06 09:58:10', '2023-12-06 09:58:10', 'se modificó la IP a 192.168.1.136', 3, 155, 1),
+(91, 'se agregó 4ta señal', '2023-12-06 09:58:10', '2023-12-06 10:58:17', 'Se agregó una 4ta señal en 35.3 ip 224.2.2.2 port 12004', 3, 155, 1),
+(92, 'Falla con entrada #4', '2023-12-07 09:17:16', '2023-12-07 09:17:16', 'no se sintoniza #4 y falla la entradas 2. Se quitó la nueva señal y aguardamos continuidad de Matus', 4, 155, 10);
 
 -- --------------------------------------------------------
 
@@ -1160,7 +1197,7 @@ CREATE TABLE IF NOT EXISTS `localidad` (
   `provincia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ciudad_prov` (`provincia_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2468 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2472 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `localidad`
@@ -2228,39 +2265,28 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1059, 5345, 'FIAMBALA', 3),
 (1060, 5753, 'CATAMARCA', 3),
 (1061, 2189, 'CRUZ ALTA', 4),
-(1062, 2341, 'CORDOBA', 4),
+(1062, 2341, 'COLONIA GERALDINA', 14),
 (1063, 2400, 'SAN FRANCISCO', 4),
-(1064, 2401, 'CORDOBA', 4),
-(1065, 2411, 'CORDOBA', 4),
-(1066, 2412, 'CORDOBA', 4),
+(1064, 2401, 'PLAZA SAN FRANCISCO', 4),
 (1067, 2413, 'FREYRE', 4),
 (1068, 2415, 'PORTEñA', 4),
-(1069, 2417, 'ALTOS DE CHIPIóN', 4),
+(1069, 2417, 'ALTOS DE CHIPIÓN', 4),
 (1070, 2419, 'BRIKMANN', 4),
 (1071, 2421, 'MORTEROS', 4),
-(1072, 2423, 'CORDOBA', 4),
 (1073, 2424, 'COLONIA MARINA', 4),
 (1074, 2426, 'COLONIA SAN BARTOLOMé', 4),
-(1075, 2428, 'CORDOBA', 4),
 (1076, 2432, 'EL TIO', 4),
 (1077, 2433, 'VILLA CONCEPCION DEL TIO', 4),
 (1078, 2434, 'ARROYITO', 4),
 (1079, 2435, 'LA TORDILLA NORTE', 4),
-(1080, 2436, 'CORDOBA', 4),
-(1081, 2516, 'CORDOBA', 4),
 (1082, 2525, 'SAIRA', 4),
 (1083, 2550, 'BELL VILLE', 4),
-(1084, 2551, 'CORDOBA', 4),
 (1085, 2553, 'JUSTINIANO POSSE', 4),
 (1086, 2555, 'ORDO¥EZ', 4),
 (1087, 2557, 'LDIAZABAL', 4),
-(1088, 2558, 'CORDOBA', 4),
 (1089, 2559, 'SAN ANTONIO DE LITíN', 4),
-(1090, 2561, 'CORDOBA', 4),
 (1091, 2563, 'NOETINGER', 4),
-(1092, 2564, 'CORDOBA', 4),
 (1093, 2566, 'SAN MARCOS SUD', 4),
-(1094, 2568, 'CORDOBA', 4),
 (1095, 2572, 'BALLESTEROS', 4),
 (1096, 2580, 'MARCOS JUAREZ', 4),
 (1097, 2581, 'LOS SURGENTES', 4),
@@ -2270,9 +2296,7 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1101, 2589, 'MONTE BUEY', 4),
 (1102, 2592, 'GENERAL ROCA', 4),
 (1103, 2594, 'LEONES', 4),
-(1104, 2619, 'CORDOBA', 4),
 (1105, 2624, 'ARIAS', 4),
-(1106, 2625, 'CORDOBA', 4),
 (1107, 2627, 'GUATIMOZLN', 4),
 (1108, 2645, 'CORRAL DE BUSTOS', 4),
 (1109, 2650, 'CANAIS', 4),
@@ -2282,20 +2306,15 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1113, 2659, 'MONTE MAIZ', 4),
 (1114, 2661, 'ISLA VERDE', 4),
 (1115, 2662, 'ALEJO LEDESMA', 4),
-(1116, 2664, 'CORDOBA', 4),
 (1117, 2670, 'LA CARLOTA', 4),
 (1118, 2671, 'VIAMONTE', 4),
 (1119, 2675, 'CHAZóN', 4),
 (1120, 2677, 'UCACHA', 4),
 (1121, 2679, 'PASCANAS', 4),
 (1122, 2681, 'ETRURIA', 4),
-(1123, 2684, 'CORDOBA', 4),
 (1124, 2686, 'ALEJANDRO', 4),
-(1125, 2875, 'CORDOBA', 4),
-(1126, 2987, 'CORDOBA', 4),
-(1127, 3472, 'CORDOBA', 4),
 (1128, 3718, 'CORZUELA', 4),
-(1129, 5000, 'CORDOBA (CAPITAL)', 4),
+(1129, 5000, 'CORDOBA', 4),
 (1130, 5001, 'GENERAL BUSTOS', 4),
 (1131, 5003, 'SANTA ANA', 4),
 (1132, 5006, 'BARRIO SAN VICENTE', 4),
@@ -2306,44 +2325,25 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1137, 5014, 'BAJADA PUCARA', 4),
 (1138, 5016, 'CIUDADELA', 4),
 (1139, 5101, 'COLONIA TIROLESA', 4),
-(1140, 5103, 'CORDOBA', 4),
 (1141, 5105, 'VILLA ALLENDE', 4),
-(1142, 5107, 'CORDOBA', 4),
 (1143, 5109, 'UNQUILLO', 4),
 (1144, 5111, 'RIO CEBALLOS', 4),
 (1145, 5113, 'SALSIPUEDES', 4),
-(1146, 5115, 'CORDOBA', 4),
-(1147, 5117, 'CORDOBA', 4),
-(1148, 5119, 'CORDOBA', 4),
-(1149, 5120, 'CORDOBA', 4),
 (1150, 5121, 'DESPE¥ADEROS', 4),
 (1151, 5123, 'FERRREIRA', 4),
 (1152, 5125, 'MONTE CRISTO', 4),
 (1153, 5127, 'RIO PRIMERO', 4),
-(1154, 5129, 'CORDOBA', 4),
-(1155, 5131, 'CORDOBA', 4),
 (1156, 5133, 'SANTA ROSA DE RIO 1RO.', 4),
-(1157, 5135, 'CORDOBA', 4),
 (1158, 5137, 'LA PUERTA', 4),
 (1159, 5141, 'BALNEARIA', 4),
-(1160, 5142, 'CORDOBA', 4),
 (1161, 5143, 'MIRAMAR', 4),
 (1162, 5145, 'GENERAL PAZ', 4),
 (1163, 5147, 'AEROPUERTO CORDOBA', 4),
-(1164, 5149, 'CORDOBA', 4),
 (1165, 5151, 'LA CALERA', 4),
 (1166, 5152, 'VILLA CARLOS PAZ', 4),
-(1167, 5153, 'CORDOBA', 4),
-(1168, 5155, 'CORDOBA', 4),
-(1169, 5156, 'CORDOBA', 4),
-(1170, 5158, 'CORDOBA', 4),
-(1171, 5162, 'CORDOBA', 4),
 (1172, 5164, 'SANTA MARIA DE PUNILLA', 4),
-(1173, 5165, 'CORDOBA', 4),
 (1174, 5166, 'COSQUIN', 4),
-(1175, 5168, 'CORDOBA', 4),
 (1176, 5172, 'LA FALDA', 4),
-(1177, 5174, 'CORDOBA', 4),
 (1178, 5175, 'CORDOBA', 4),
 (1179, 5176, 'VILLA GIARDINO', 4),
 (1180, 5178, 'LA CUMBRE', 4),
@@ -2502,7 +2502,7 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1333, 6128, 'CORDOBA', 4),
 (1334, 6132, 'GENERAL LAVALLE', 4),
 (1335, 6134, 'CORDOBA', 4),
-(1336, 6140, 'VICU¥A MACKENNA', 4),
+(1336, 6140, 'VICUÑA MACKENNA', 4),
 (1337, 6141, 'CORDOBA', 4),
 (1338, 6142, 'CORDOBA', 4),
 (1339, 6144, 'CORDOBA', 4),
@@ -3009,8 +3009,7 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1840, 3315, 'LEANDRO N. ALEM', 19),
 (1841, 3316, 'MISIONES', 19),
 (1842, 3317, 'MISIONES', 19),
-(1843, 3318, 'MISIONES', 19);
-INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
+(1843, 3318, 'MISIONES', 19),
 (1844, 3322, 'SAN IGNACIO', 19),
 (1845, 3324, 'GOBERNADOR ROCA', 19),
 (1846, 3326, 'MISIONES', 19),
@@ -3041,7 +3040,8 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1871, 3386, 'MISIONES', 19),
 (1872, 8300, 'NEUQUEN', 20),
 (1873, 8301, 'NEUQUEN', 20),
-(1874, 8305, 'S. P DEL CHA¥AR', 20),
+(1874, 8305, 'S. P DEL CHA¥AR', 20);
+INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (1875, 8309, 'CENTENARIO', 20),
 (1876, 8311, 'EL CHOCON', 20),
 (1877, 8313, 'PICUN LEUFU', 20),
@@ -3634,7 +3634,9 @@ INSERT INTO `localidad` (`id`, `cp`, `nombre`, `provincia_id`) VALUES
 (2464, 4286, 'TUCUMAN', 15),
 (2465, 4424, 'TUCUMAN', 15),
 (2466, 5157, 'TUCUMAN', 15),
-(2467, 2134, 'ROLDAN', 23);
+(2467, 2134, 'ROLDAN', 23),
+(2470, NULL, 'TRINIDAD', 51),
+(2471, NULL, 'CERCADO', 51);
 
 -- --------------------------------------------------------
 
@@ -3688,7 +3690,7 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   KEY `modelo_homologacion` (`homologacion_id`),
   KEY `modelo_marca` (`marca_id`),
   KEY `modelo_tipo` (`tipo_modelo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `modelo`
@@ -3699,7 +3701,7 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (2, 3, 'FM250', 'STM con modulador integrado MFM', '5aa13f857c3c387f.png', '2023-06-30 10:17:39', '2023-12-01 13:15:15', '\'20', 3, 3),
 (3, 2, 'FM500', 'STM', '7e1b8c6f85b042cb.png', '2023-06-30 10:17:39', '2023-11-25 01:24:09', '\'19', 4, 3),
 (4, 2, 'FM1000', 'CTM MFM4', '06da08cbfd9b01b3.JPG', '2023-06-30 10:17:39', '2023-11-25 01:18:55', '\'23', 5, 3),
-(5, 2, 'FM2000', 'STM', '358cc0d84db45d78.png', '2023-06-30 10:17:39', '2023-11-25 01:31:16', '\'21', 6, 3),
+(5, 2, 'FM2000', 'STM', 'ff89be81e26ac4bc.JPG', '2023-06-30 10:17:39', '2023-12-07 13:14:47', '\'21', 6, 3),
 (6, 2, 'FM3000', 'CTM', '44cf1302c3fdd311.png', '2023-06-30 10:17:39', '2023-11-25 01:19:18', '\'23', NULL, 3),
 (8, 2, 'FM7000', 'refrigeración Agua', '1a48bc98edf2bf0d.png', '2023-06-30 10:17:39', '2023-11-25 01:12:55', '\'14', NULL, 3),
 (10, 2, 'FM5000', 'rack CTM', '5534eed205cd1b6d.jpg', '2023-06-30 10:17:39', '2023-11-25 01:20:30', '\'20', 7, 3),
@@ -3767,7 +3769,9 @@ INSERT INTO `modelo` (`id`, `marca_id`, `nombre`, `descripcion`, `image_file`, `
 (97, 3, 'FM250', '', '7aebbf3fd99750e1.JPG', '2023-12-05 10:16:06', '2023-12-05 10:16:06', '\'10', 3, 3),
 (98, 2, 'TRV200', 'CTM', '53547f7eca2568d4.jpg', '2023-12-05 10:24:19', '2023-12-05 10:24:19', NULL, NULL, 1),
 (99, 4, 'NDS3522', 'HD Encoder Modulator Home version', 'cd0158ddf9ea62f2.png', '2023-12-05 10:24:19', '2023-12-05 10:24:19', NULL, NULL, 9),
-(100, 2, 'TRU100', 'STM', '3f8271355ff0c5dd.jpg', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '\'10', NULL, 1);
+(100, 2, 'TRU100', 'STM', '3f8271355ff0c5dd.jpg', '2023-12-05 12:42:57', '2023-12-05 12:42:57', '\'10', NULL, 1),
+(101, 2, 'TRV50', 'STM con modulador integrado', '95f63e3b7e924ab5.jpg', '2023-12-06 11:13:46', '2023-12-06 11:13:46', '\'09', NULL, 1),
+(102, 2, 'FM250', 'CTM', 'd75bfb80e35314c2.png', '2023-12-07 12:01:51', '2023-12-07 12:01:51', '\'22', 3, 3);
 
 -- --------------------------------------------------------
 
@@ -3792,7 +3796,7 @@ CREATE TABLE IF NOT EXISTS `orden_reparacion` (
   KEY `equipment_id` (`equipo_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_tecnico` (`tecnico_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_reparacion`
@@ -3804,7 +3808,10 @@ INSERT INTO `orden_reparacion` (`id`, `date_created`, `date_modified`, `codigo`,
 (6, '2022-05-19 12:14:55', '2023-12-01 00:30:58', '220519', 'encoder 3224V falla, calor en integrados de entrada en #1 y #4', 1, 183, 12, 2),
 (8, '2023-12-05 10:24:19', '2023-12-05 12:43:22', '180604', 'afectado de una sobretensión por la linea de alimentación\r\nrevisar fuente de alimentación y amplificador del FM500 por falla', 14, 237, 12, 4),
 (9, '2023-12-05 12:42:57', '2023-12-05 12:53:36', '200129', 'trabajos de reparación de un Transmisor de Televisión marca LIECOM Modelo TRV 600 ajustado en la Frecuencia de Canal 10, Serie N* 120516-1/082, afectado por una sobretensión de línea ', 14, 239, 12, 4),
-(10, '2023-12-05 12:42:57', '2023-12-05 13:43:36', '191104', 'trabajos de reparación de un Transmisor de Televisión marca IA Electrónica Modelo TRU 100 Serie N* 100220-2/039 ajustado en la Frecuencia del Canal 40, sin potencia de salida ', 14, 241, 12, 4);
+(10, '2023-12-05 12:42:57', '2023-12-06 10:15:15', '191104', 'trabajos de reparación de un Transmisor de Televisión marca IA Electrónica Modelo TRU 100 Serie N* 100220-2/039 ajustado en la Frecuencia del Canal 40, sin potencia de salida ', 14, 241, 12, 2),
+(11, '2023-12-06 09:58:10', '2023-12-06 10:34:41', '190804', 'Transmisor de FM marca IA Electrónica Modelo FM 250, Serie N* 111030-5/072 ,  ajustado en la F= 91.1 Mhz , afectado  por una descarga eléctrica', 6, 244, 6, 4),
+(12, '2023-12-06 11:13:46', '2023-12-06 11:13:46', '190512', 'Por los trabajos de reparación de un Transmisor de Televisión marca LIECOM Modelo TRV50,  de 50 W, ajustado en Canal 12,  Serie N* 090904-3/109,  consistentes en :', 6, 245, 1, 2),
+(14, '2023-12-07 12:01:51', '2023-12-07 12:26:10', '200126', 'reparación de un Transmisor de FM marca IA Electrónica  Modelo FM 500,  Serie N* 100423-1/050 ajustado en la Frecuencia  91.3 Mhz sin potencia de salida', 14, 247, 10, 4);
 
 -- --------------------------------------------------------
 
@@ -3828,7 +3835,7 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   KEY `user_id` (`user_id`),
   KEY `or_estado` (`estado_id`),
   KEY `or_client` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `orden_trabajo`
@@ -3867,7 +3874,10 @@ INSERT INTO `orden_trabajo` (`id`, `date_created`, `date_modified`, `codigo`, `c
 (56, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '130320', 'Fm500 96,9', '', 30, 11, 3),
 (58, '2023-12-05 10:24:20', '2023-12-05 10:24:20', '100418', 'FM500', '', 32, 11, 3),
 (59, '2023-12-05 12:42:57', '2023-12-05 12:42:57', '120516', 'TRV600 CH10 + modulador + agc', '', 33, 11, 3),
-(60, '2023-12-05 12:42:57', '2023-12-05 13:37:41', '100220', 'TRU100 ch40 con modulador tv', '', 34, 11, 3);
+(60, '2023-12-05 12:42:57', '2023-12-05 13:37:41', '100220', 'TRU100 ch40 con modulador tv', '', 34, 11, 3),
+(61, '2023-12-06 09:58:10', '2023-12-06 10:32:11', '111030', 'Transmisor de FM marca IA Electrónica Modelo FM 250, Serie N* 111030-5/072 ,  ajustado en la F= 91.1 Mhz', '', 35, 11, 3),
+(62, '2023-12-06 11:07:16', '2023-12-06 11:07:16', '090904', 'TRV50 con modulador', '', 36, 12, 3),
+(64, '2023-12-07 12:01:51', '2023-12-07 12:01:51', '100423', 'FM500 91,3', '', 39, 10, 3);
 
 -- --------------------------------------------------------
 
@@ -3906,8 +3916,7 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 (17, 'Puerto Rico'),
 (18, 'República Dominicana'),
 (19, 'Uruguay'),
-(20, 'Venezuela'),
-(21, 'Otro');
+(20, 'Venezuela');
 
 -- --------------------------------------------------------
 
@@ -4160,7 +4169,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`),
   KEY `role_id` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `user`
@@ -4168,14 +4177,15 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `email`, `image_file`, `password`, `role_id`) VALUES
 (1, 'Turko', 'arnaizagustin@gmail.com', '3fe04ce3b01015e7.jpg', '$2b$12$kA//4qKktlTfMDbwXLt2iOATL/imj7eAAACh0bUiddV6W/T5tsyFa', 3),
-(4, 'Alejandro', 'toparuiz@mail.com', '2a31ef684d61de2a.jpg', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
+(4, 'Alejandro', 'toparuiz@mail.com', '9d28bd2aa6990310.png', '$2b$12$VrhQjceSifK79HNg0smr2uidZRnklPL3tFbI54TevRvg2LJ8DkMWu', 1),
 (5, 'Atilio', 'atilioavanzini@mail.com', 'd7bbd992b034c0c5.png', '$2b$12$.9g0xMzY6Ov8CEmsuvG5secn12KAfy/JPpffzeYddw81tE.KBg3sy', 3),
-(6, 'Oscar', 'oscar@mail.com', '3291551b75b0a3c4.jpg', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
+(6, 'Oscar', 'oscar@mail.com', 'd10ab5160bbab0cc.png', '$2b$12$2BYblyKU0bxi7P4SVglbVe6UamACecyb5nfsmsa5nEzNvtNlIteIK', 3),
 (10, 'admin', 'arnaiz_agustin@hotmail.com', '69d336fd1cbd7443.jpg', '$2b$12$1uHNmNIuagOpI8FT1PT1Ee96BpSkjdiT9rkoW8ZFbPdn7Vm.Lgbyq', 1),
 (11, 'Tomas', 'tomas@tecseg.com', '19ef28d03b9cbcde.jpg', '$2b$12$nFwkmd5n6bdgmyroTvpjlehN15JEavOoNpEP/R1DXpAx09GjTJNc6', 5),
 (12, 'Juan', 'juan@tecseg.com', 'bd5feecdf59f8abf.jpg', '$2b$12$K2jwJpDeVQyYm0P5iQlGougGR5wG7E.XUb5GadmJEt3PlvijZXRM.', 4),
 (14, 'Jorge', 'jorge@tecseg.com', '6d84bd75556ba63d.jpg', '$2b$12$8fFUwOfpjV.eHRy11awAjexyJ/kFyryGpGNCL2Eg82xZxNSpeRW3e', 3),
-(16, 'Salvador', 'a@a.com', '3c48edfbaeec3e90.jpg', '$2b$12$JtiK1H.DH4Wnk.hFcn8RseHdBpmNko46NvvwtA/ell9x6BDD9oAkG', 2);
+(16, 'Salvador', 'a@a.com', '3c48edfbaeec3e90.jpg', '$2b$12$JtiK1H.DH4Wnk.hFcn8RseHdBpmNko46NvvwtA/ell9x6BDD9oAkG', 2),
+(17, 'Marcelo', 'marce@mail.com', '67e5be29d231fc66.png', '$2b$12$h2dMEMCleNNsZ4LiGm6XSOOHSBcxqd8f4BvKKjZVrXD1az1.WF2qq', 2);
 
 --
 -- Restricciones para tablas volcadas

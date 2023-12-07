@@ -41,7 +41,7 @@ def orden_reparacion(orden_reparacion_id):
 		return redirect(url_for('detalles_reparacion.detalle_reparacion', detalle_reparacion_id=select_item))
 	orden_reparacion = Orden_reparacion.query.get_or_404(orden_reparacion_id)
 	detalles_reparacion =  buscarLista(Detalle_reparacion, orden_reparacion)	
-	orderBy = current_app.config['ORDER_DETALLES_OT']	
+	orderBy = current_app.config['ORDER_DETALLES_OR']	
 	# texto para toolbar
 	item_type="Detalle de reparación"	
 	return render_template("orden_reparacion.html", title=f'O.R. {orden_reparacion}',

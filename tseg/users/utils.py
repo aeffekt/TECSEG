@@ -24,12 +24,14 @@ def buscarLista(dBModel, *arg, toFilter=True):
 			order_by = request.args.get('orderBy', order_by)	
 	sort_column = getattr(dBModel, order_by)
 	# ORDEN
-	order_order = request.args.get('orderOrder', 'desc')
+	order_order = request.args.get('orderOrder', 'desc')	
 	if order_order == "asc":
 		orden = asc(sort_column)
 	else:
-		orden = desc(sort_column)	
+		orden = desc(sort_column)
+	print(orden)
 	lista = dBModel.query.order_by(orden, desc(dBModel.id))
+	print(lista)
 	# Filtros segun *ARG
 	if arg:
 		# filtrado extra de Equipos

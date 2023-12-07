@@ -58,7 +58,7 @@ def print_etiqueta_pdf(path, equipo):
 
 # Carátula de manual PDF
 def print_caratula_pdf(path, equipo):
-	modelo = f'{equipo.modelo.nombre} {equipo.modelo.anio}'
+	modelo = str(equipo.modelo)
 	marca = equipo.modelo.marca.nombre
 	tipo_equipo = equipo.modelo.tipo_modelo.tipo
 	numSerie = f'{equipo.detalle_trabajo.orden_trabajo.codigo}-{equipo.numSerie}'	
