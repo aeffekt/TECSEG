@@ -15,7 +15,7 @@ class OrdenTrabajoForm(FlaskForm):
 	codigo = StringField('Código', validators=[DataRequired()])
 	content = TextAreaField('Descripción', validators=[DataRequired()])
 	client = SelectField('Cliente', coerce=int, validators=[DataRequired(message='Debe seleccionar un cliente')], render_kw={'data-placeholder': 'Seleccione un item...'})
-	estado = SelectField('Estado', coerce=int)
+	estado = SelectField('Estado', coerce=int, validate_choice=False)
 	notes = TextAreaField('Notas')
 	submit = SubmitField('Agregar')
 
@@ -42,3 +42,7 @@ class OrdenTrabajoForm(FlaskForm):
 	def validate_comment(self, comment):
 		if comment.data == '':
 			comment.data=None
+
+	def validate_estado(self, estado):
+		if estado.data == None:			
+			estado.data=1

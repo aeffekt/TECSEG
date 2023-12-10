@@ -55,7 +55,7 @@ class UpdateAccountForm(FlaskForm):
 						validators=[DataRequired(), Length(min=2, max=30)], 
 						render_kw={'autofocus': True})
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', coerce=int, validate_choice=False) # validate_choice=F si no hay error de validacion
+	role = SelectField('Tipo de usuario', coerce=int, validators=[DataRequired()])
 	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Actualizar datos de cuenta')
 

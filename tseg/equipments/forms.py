@@ -9,7 +9,7 @@ class EquipmentForm(FlaskForm):
 	def __init__(self, objeto=None):
 		super(EquipmentForm, self).__init__()  # Llamar al constructor de la clase padre
 		self.objeto = objeto
-		self.modelo.choices = [(mod.id, f'{mod}-{mod.descripcion}') for mod in Modelo.query.order_by(Modelo.nombre).all()]		
+		self.modelo.choices = [(mod.id, f'{mod} -{mod.descripcion[0:35]}') for mod in Modelo.query.order_by(Modelo.nombre).all()]		
 		self.modelo.choices.insert(0,(-1,''))
 		self.detalle_trabajo.choices = [(d.id, d) for d in Detalle_trabajo.query.all()]		
 		self.detalle_trabajo.choices.insert(0,(-1,''))

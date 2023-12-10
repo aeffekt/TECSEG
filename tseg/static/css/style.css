@@ -444,6 +444,10 @@ margin-bottom: 20px;
   border-radius: 4px;
 }
 
+.content-section-list .btn{
+  margin: 2px;
+}
+
 .content-section button{
     margin-top: 20px;
 }
@@ -454,7 +458,12 @@ margin-bottom: 20px;
 
 .select2-results__option {
   color: black; 
-  font-size: 12px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.select2-selection__rendered, .form-control {
+  font-weight: bold;
 }
 
 article input{

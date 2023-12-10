@@ -28,10 +28,8 @@ def buscarLista(dBModel, *arg, toFilter=True):
 	if order_order == "asc":
 		orden = asc(sort_column)
 	else:
-		orden = desc(sort_column)
-	print(orden)
-	lista = dBModel.query.order_by(orden, desc(dBModel.id))
-	print(lista)
+		orden = desc(sort_column)	
+	lista = dBModel.query.order_by(orden, desc(dBModel.id))	
 	# Filtros segun *ARG
 	if arg:
 		# filtrado extra de Equipos

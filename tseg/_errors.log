@@ -892,3 +892,98 @@ Traceback (most recent call last):
   File "C:\Documentos\Dropbox\Sistemas\Proyectos\TECSEG\tseg\clients\routes.py", line 90, in add_client
     localidad=Localidad(nombre=form.localidad.data.upper(), cp=form.codigo_postal.data, provincia=provincia)
 AttributeError: 'int' object has no attribute 'upper'
+{'Hora': '2023-12-09 02:31:36', 'Usuario': 'admin (Admin)', 'Error': '(pymysql.err.IntegrityError) (1048, "Column \'role_id\' cannot be null")\n[SQL: UPDATE user SET role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'role_id\': None, \'user_id\': 10}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)'}
+Traceback (most recent call last):
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\base.py", line 1968, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\cursors.py", line 158, in execute
+    result = self._query(query)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\cursors.py", line 325, in _query
+    conn.query(q)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 779, in _read_query_result
+    result.read()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.IntegrityError: (1048, "Column 'role_id' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Dropbox\Sistemas\Proyectos\TECSEG\tseg\users\routes.py", line 90, in account
+    db.session.commit()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\scoping.py", line 553, in commit
+    return self._proxied.commit()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\session.py", line 1906, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\session.py", line 1221, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\session.py", line 1196, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\session.py", line 4154, in flush
+    self._flush(objects)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\session.py", line 4291, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\session.py", line 4251, in _flush
+    flush_context.execute()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 467, in execute
+    rec.execute(self)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 644, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\persistence.py", line 85, in save_obj
+    _emit_update_statements(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\orm\persistence.py", line 904, in _emit_update_statements
+    c = connection.execute(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    return meth(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\sql\elements.py", line 483, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\base.py", line 1637, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\base.py", line 1987, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\base.py", line 2344, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\base.py", line 1968, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sqlalchemy\engine\default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\cursors.py", line 158, in execute
+    result = self._query(query)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\cursors.py", line 325, in _query
+    conn.query(q)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 779, in _read_query_result
+    result.read()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\Turko\AppData\Local\Programs\Python\Python38-32\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, "Column 'role_id' cannot be null")
+[SQL: UPDATE user SET role_id=%(role_id)s WHERE user.id = %(user_id)s]
+[parameters: {'role_id': None, 'user_id': 10}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

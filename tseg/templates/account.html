@@ -37,7 +37,7 @@
 							{% endif %}
 						</div>
 						<div class="form-group">					
-							{{ form.role.label(class="form-control-label") }}
+							{{ form.role.label(class="form-control-label") }}<span class="red"> *</span>
 							{% if form.role.errors %}
 								{{ form.role(class="form-control form-control-sm is-invalid") }}
 								<div class="invalid-feedback">
@@ -46,7 +46,7 @@
 									{% endfor %}
 								</div>
 							{% else %}								 
-								{{ form.role(id="select_role", class="form-control form-control-sm", disabled=True if current_user.role.role_name != "Admin" else False) }}
+								{{ form.role(id="select_role", class="select2 form-control form-control-sm", disabled=True if current_user.role.role_name != "Admin" else False) }}
 						    {% endif %}	
 						</div>						
 					</div>

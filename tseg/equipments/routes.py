@@ -7,6 +7,7 @@ from tseg.equipments.utils import (print_caratula_pdf, print_etiqueta_pdf, uploa
 								   get_files_info, get_folder_path, delete_file)
 from tseg import db
 import os, shutil # shutil se usa para borrar un directorio mas archivos
+from sqlalchemy.exc import IntegrityError
 
 
 equipments = Blueprint('equipments', __name__)
@@ -161,8 +162,8 @@ def update_equipment(equipment_id):
 
 @equipments.route("/equipment-<int:equipment_id>-delete", methods=['POST'])
 @role_required("Admin", "Técnico")
-def delete_equipment(equipment_id):
-	equipment = Equipment.query.get_or_404(equipment_id)
+def delete_equipment(equipment_id):	
+	equipment = Equipment.query.get_or_404(equipment_id)	
 	detalle_trabajo_id = equipment.detalle_trabajo.id
 	folder_path = get_full_folder_path(equipment)
 	if os.path.exists(folder_path):
@@ -185,8 +186,10 @@ def delete_equipment(equipment_id):
 		db.session.commit()
 		# elimina los archivos del equipo		
 		flash(f"El equipo ha sido eliminado!", 'success')		
-	except Exception as e:
-		error_logger(e)		
+	except IntegrityError  as err:
+		flash(f"El equipo no se pudo eliminar porque se encuentra asociado al menos a una Orden de Reparación", 'warning')		
+	except Exception as e:		
+		error_logger(e)	
 	finally:
 		return redirect(url_for('detalles_trabajo.detalle_trabajo', detalle_trabajo_id=detalle_trabajo_id))
 

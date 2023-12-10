@@ -144,7 +144,7 @@ def generar_qr(qr_to_code, qr_path):
 		img = qr.make_image(fill_color="black", back_color="white")
 		# Guardar la imagen en el path especificado
 		img.save(qr_path)
-		return True
+		return False
 	except Exception as e:
 		return False
 

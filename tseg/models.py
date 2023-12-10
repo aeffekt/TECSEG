@@ -4,6 +4,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from tseg import db, login_manager
 from flask_login import UserMixin
+from markupsafe import Markup, escape
 
 
 # dar formato a la fecha actual NOW
@@ -85,7 +86,7 @@ class Client(db.Model):
 	ordenes_trabajo = db.relationship('Orden_trabajo', backref='client', lazy=True)
 
 	def __repr__(self):
-		return f"[{self.id}] {self.nombre} {self.apellido}, {self.business_name}"
+		return f"[{self.id}] {self.nombre} {self.apellido}{' -'+ self.business_name if self.business_name else ''}"
 
 
 class Cond_fiscal(db.Model):
@@ -113,10 +114,12 @@ class Equipment(db.Model):
 	frecuencias = db.relationship('Frecuencia', secondary=equipos_frecuencias, backref=db.backref('frecuencias', lazy=True))
 
 	def __repr__(self):
-		if self.numSerie:
-			return f'[{self.detalle_trabajo.orden_trabajo.codigo}-{self.numSerie}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
-		else:
-			return f'[{self.detalle_trabajo.orden_trabajo.codigo}] {self.modelo} ({self.detalle_trabajo.orden_trabajo.client.nombre} {self.detalle_trabajo.orden_trabajo.client.apellido})'
+		modelo = self.modelo
+		ot = self.detalle_trabajo.orden_trabajo.codigo
+		serie = self.numSerie
+		cliente_nombre = self.detalle_trabajo.orden_trabajo.client.nombre
+		cliente_apellido = self.detalle_trabajo.orden_trabajo.client.apellido
+		return f'{modelo} ({ot + "-" + serie if serie else ot }, {cliente_nombre} {cliente_apellido})'		
 
 
 class Marca(db.Model):
@@ -274,7 +277,7 @@ class Detalle_trabajo(db.Model):
 	equipments = db.relationship('Equipment', backref='detalle_trabajo', lazy=True, viewonly=True)
 
 	def __repr__(self):
-		return f"{self.orden_trabajo.codigo} {self.content[0:35]}"
+		return f"{self.orden_trabajo.codigo} -{self.content[0:35]} {' (x' + str(self.cantidad) + ')' if self.cantidad != 1 else ''}"
 
 
 class Estado_ot(db.Model):
