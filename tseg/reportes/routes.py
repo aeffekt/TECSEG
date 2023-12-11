@@ -80,6 +80,7 @@ def reporte_zona():
 					    Provincia.nombre.label('Provincia'),
 						func.substring(Pais.nombre, 1, 3).label('Pais'),
 					    func.count(Equipment.id).label('Cant')).\
+						join(Provincia, Pais.provincias).\
 						join(Localidad, Provincia.localidades).\
 						join(Domicilio, Localidad.domicilios).\
 						join(Client, Domicilio.clientes).\
@@ -90,7 +91,7 @@ def reporte_zona():
 						where(Equipment.numSerie != None).\
 						group_by(Provincia.nombre).\
 						order_by(func.count(Equipment.id).desc())
-	# Obtener los resultados
+	# Obtener los resultados	
 	equipos_por_provincia = query.all()	
 	provincias = [item.Provincia for item in equipos_por_provincia]
 	cantidades = [item.Cant for item in equipos_por_provincia]

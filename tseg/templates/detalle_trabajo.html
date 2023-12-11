@@ -36,10 +36,10 @@
                 </div>
                 <div class="col-md-9">
                     <a class="article-title" style="background-color: 
-                    {% if detalle_trabajo.orden_trabajo.estado.descripcion == 'Producción' %}orange
-                    {% elif detalle_trabajo.orden_trabajo.estado.descripcion == 'Entregada' %}lightgreen
-                    {% elif detalle_trabajo.orden_trabajo.estado.descripcion == 'Terminada' %}aqua
-                    {% elif detalle_trabajo.orden_trabajo.estado.descripcion == 'Cancelada' %}darkgrey
+                    {% if detalle_trabajo.orden_trabajo.estado.id == 1 %}orange
+                    {% elif detalle_trabajo.orden_trabajo.estado.id == 2 %}aqua
+                    {% elif detalle_trabajo.orden_trabajo.estado.id == 3 %}lightgreen                    
+                    {% elif detalle_trabajo.orden_trabajo.estado.id == 4 %}darkgrey
                     {% endif %}",
                     href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=detalle_trabajo.orden_trabajo.id) }}">
                     <b>{{ detalle_trabajo.orden_trabajo }}</b></a>
