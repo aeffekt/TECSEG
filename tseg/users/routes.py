@@ -85,7 +85,7 @@ def account(user_id):
 				user.image_file = picture_file
 			user.username = form.username.data
 			user.email = form.email.data
-			if current_user.role.role_name == "Admin":
+			if current_user.role.role_name == "Admin" and form.role.data != None:
 				user.role_id = form.role.data
 			db.session.commit()
 			flash(f"La cuenta {user.username} ha sido actualizada.", 'success')
@@ -96,8 +96,8 @@ def account(user_id):
 			error_logger(e)
 			return redirect(url_for('users.account', user_id=user.id))
 	elif request.method == 'GET':		
-		form.role.default = user.role.id
-		form.process()		
+		form.role.default = user.role.id		
+		form.process()
 		form.username.data = user.username
 		form.email.data = user.email		
 	image_file = url_for("static", filename='profile_pics/'+user.image_file)

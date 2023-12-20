@@ -1,5 +1,4 @@
 {% extends "layout.html" %}
-
 {% block content %}
 	<div class='content-section'>
 		<form method='POST' action="" enctype="multipart/form-data"> <!-- enctype= posee archivos -->
@@ -35,7 +34,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.nombre(class="form-control form-control") }}
+								{{ form.nombre(class="form-control form-control-sm") }}
 							{% endif %}
 						</div>
 						
@@ -82,7 +81,7 @@
 									{% endfor %}
 								</div>
 							{% else %}
-								{{ form.anio(class="form-control form-control") }}
+								{{ form.anio(class="select2 form-select form-select-sm") }}
 							{% endif %}
 						</div>
 						

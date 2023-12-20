@@ -14,3 +14,5 @@ pypdf2==3.0.1
 qrcode==7.4.2
 reportlab==4.0.4
 requests==2.31.0
+Werkzeug==2.3.4
+wfastcgi==3.0.0

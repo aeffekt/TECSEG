@@ -14,13 +14,13 @@ class ModeloForm(FlaskForm):
 		self.tipo_modelo.choices = [(tipoModelo.id ,tipoModelo.tipo) for tipoModelo in TipoModelo.query.order_by(TipoModelo.id).all()]
 		self.tipo_modelo.choices.insert(0,(-1, ''))
 		self.anio.choices = [f"'{str(year)[2:]}" for year in range(datetime.now().year + 1, 1999, -1)]
-		self.anio.choices.insert(0,' ')
+		self.anio.choices.insert(0,'')
 		self.objeto = objeto
 
-	marca = SelectField('Marca',coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
+	marca = SelectField('Marca',coerce=int, validators=[DataRequired()])
 	nombre = StringField('Nombre', validators=[DataRequired()])
-	anio = SelectField('Año del modelo', validate_choice=False, render_kw={'data-placeholder': 'Seleccione un item...'})
-	tipo_modelo = SelectField('Tipo de equipo',coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
+	anio = SelectField('Año del modelo', validate_choice=False)
+	tipo_modelo = SelectField('Tipo de equipo',coerce=int, validators=[DataRequired()])
 	descripcion = TextAreaField('Descripción')
 	picture = FileField('Imagen de equipo', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif', 'webp', 'jpeg'])])
 	submit = SubmitField('Crear / Actualizar')

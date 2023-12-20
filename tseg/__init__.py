@@ -24,11 +24,13 @@ def create_app(config_class=Config):
 	bcrypt.init_app(app)
 	login_manager.init_app(app)
 	mail.init_app(app)
-	# ERROR LOGGER
-	file_handler = FileHandler('tseg/_errors.log')
-	file_handler.setLevel(WARNING)
-	app.logger.addHandler(file_handler)
-
+	# ERROR LOGGER, en try por error en server 2012
+	try:
+		file_handler = FileHandler('tseg/_errors.log')
+		file_handler.setLevel(WARNING)
+		app.logger.addHandler(file_handler)
+	except PermissionError as e:
+		print(f"PermissionError: {e}")
 	# routes se importan acá ya que routes usa "db"
 	from tseg.users.routes import users	
 	from tseg.equipments.routes import equipments

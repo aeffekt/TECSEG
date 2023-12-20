@@ -76,20 +76,6 @@
 
 					</div>
 					<div class="col-md-6">
-						<div id="anio" class="form-group" autofocus>
-							{{ form.anio.label(class="form-control-label") }}
-							{% if form.anio.errors %}
-								{{ form.anio(class="form-control form-control-sm is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.anio.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
-								</div>
-							{% else %}
-								{{ form.anio(class="form-control form-control-sm") }}
-							{% endif %}
-						</div>
-
 						<div class="form-group">							
 							{{ form.tipo_modelo.label(class="form-select-label") }}<span class="red"> *</span>							
 							{% if form.tipo_modelo.errors %}
@@ -103,7 +89,19 @@
 								{{ form.tipo_modelo(class="select2 form-control form-control") }}
 							{% endif %}
 						</div>
-						
+						<div id="anio" class="form-group" autofocus>
+							{{ form.anio.label(class="form-control-label") }}
+							{% if form.anio.errors %}
+								{{ form.anio(class="form-control form-control-sm is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.anio.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.anio(id="anio", class="select2 form-control form-control-sm") }}
+							{% endif %}
+						</div>
 					</div>
 					<div id="descripcion" class="form-group">					
 						{{ form.descripcion.label(class="form-control-label") }}					

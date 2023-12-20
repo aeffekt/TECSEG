@@ -43,19 +43,19 @@ class Config:
 	ORDER_HISTORIAS = {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",
 					"title": "Título", 
-					"tipo_historia_id": "Tipología",
-					"equipo_id": "equipo",
+					"tipo_historia_id": "Tipología",					
+					"user_id": "Id usuario",
 					}
 	ORDER_PROCEDIMIENTOS = {"date_modified": "Fecha modificado",
 					"date_created": "Fecha creado",
 					"title": "Título", 
-					"user_id": "Author",
-					"user_edit_id": "Último editor",
+					"user_id": "Id usuario (autor)",
+					"user_edit_id": "Id usuario (último editor)",
 					}
 	ORDER_OR = {"estado_id": "Estado",
 					"codigo": "Código",
-					"tecnico_id": "Técnico asignado",
-					"equipo_id": "Equipo",
+					"tecnico_id": "Id Técnico asignado",
+					"equipo_id": "Id Equipo",
 					"date_created": "Fecha creado",
 					"date_modified": "Fecha modificado",
 					}
@@ -81,7 +81,7 @@ class Config:
 					"username": "Nombre",
 					}
 	ORDER_ERRORS = {"date_created": "Fecha creado",
-					"user_id": "Usuario",
+					"user_id": "Id usuario",
 					"error": "Tipo de error",
 					}
 	

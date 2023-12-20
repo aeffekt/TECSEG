@@ -110,7 +110,7 @@
 			<div class="content-section">
 				<h5>Modelos:</h5>
 				{% for modelo in modelos %}
-					<a class="article-title" href="{{ url_for('modelos.modelo', modelo_id=modelo.id) }}"><h6><li>{{ modelo.nombre }}</h6></li>
+					<a class="article-title" href="{{ url_for('modelos.modelo', modelo_id=modelo.id) }}"><h6><li>{{ modelo }}</h6></li>
 					</a>
 					{% if searched|lower in modelo.descripcion|lower %}
 						<small class="article-title">{{ modelo.descripcion }}</small>

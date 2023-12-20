@@ -1,6 +1,6 @@
 ﻿TECSEG Tecnología & Seguridad - Agustin Arnaiz 2023
 
-SETUP
+SETUP PYTHON 3.8.10
 
 CMD: 
 pip install -r requerimientos.txt --yes
@@ -21,8 +21,11 @@ pip install requests
 pip install reportlab
 pip install qrcode
 
+pip install wfastcgi
+wfastcgi-enable
+
 Bootstrap
-chosen
+select2
 Chart.js
 
 

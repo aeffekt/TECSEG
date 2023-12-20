@@ -987,3 +987,98 @@ sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, "Column 'role
 [SQL: UPDATE user SET role_id=%(role_id)s WHERE user.id = %(user_id)s]
 [parameters: {'role_id': None, 'user_id': 10}]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+{'Hora': '2023-12-18 13:20:31', 'Usuario': 'admin (Admin)', 'Error': '(pymysql.err.IntegrityError) (1048, "Column \'role_id\' cannot be null")\n[SQL: UPDATE user SET role_id=%(role_id)s WHERE user.id = %(user_id)s]\n[parameters: {\'role_id\': None, \'user_id\': 1}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)'}
+Traceback (most recent call last):
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\cursors.py", line 158, in execute
+    result = self._query(query)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\cursors.py", line 325, in _query
+    conn.query(q)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 779, in _read_query_result
+    result.read()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.IntegrityError: (1048, "Column 'role_id' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Documentos\Dropbox\Sistemas\Proyectos\TECSEG\tseg\users\routes.py", line 90, in account
+    db.session.commit()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\scoping.py", line 553, in commit
+    return self._proxied.commit()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\session.py", line 1903, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\session.py", line 1218, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\session.py", line 1193, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\session.py", line 4155, in flush
+    self._flush(objects)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\session.py", line 4292, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\session.py", line 4252, in _flush
+    flush_context.execute()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 467, in execute
+    rec.execute(self)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\unitofwork.py", line 644, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\persistence.py", line 85, in save_obj
+    _emit_update_statements(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\orm\persistence.py", line 890, in _emit_update_statements
+    c = connection.execute(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\base.py", line 1414, in execute
+    return meth(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\sql\elements.py", line 486, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\base.py", line 2326, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\sqlalchemy\engine\default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\cursors.py", line 158, in execute
+    result = self._query(query)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\cursors.py", line 325, in _query
+    conn.query(q)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 779, in _read_query_result
+    result.read()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\NB5\AppData\Local\Programs\Python\Python38\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, "Column 'role_id' cannot be null")
+[SQL: UPDATE user SET role_id=%(role_id)s WHERE user.id = %(user_id)s]
+[parameters: {'role_id': None, 'user_id': 1}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

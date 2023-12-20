@@ -1,6 +1,5 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from flask import flash
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -55,7 +54,7 @@ class UpdateAccountForm(FlaskForm):
 						validators=[DataRequired(), Length(min=2, max=30)], 
 						render_kw={'autofocus': True})
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	role = SelectField('Tipo de usuario', coerce=int, validators=[DataRequired()])
+	role = SelectField('Tipo de usuario', coerce=int, validate_choice=False)
 	picture = FileField('Imagen de usuario', validators=[FileAllowed(['jpg', 'png', 'bmp', 'gif'])])
 	submit = SubmitField('Actualizar datos de cuenta')
 
