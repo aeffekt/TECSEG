@@ -131,15 +131,6 @@ position: relative;
   color: rgb(255, 255, 255);  
 }
 
-.menu-horizontal > li > a::before {
-  content: "\025f9"; /* Código unicode para la flecha hacia la derecha */
-  position: absolute;
-  top: 50%;
-  left: 22px;
-  transition: transform 0.5s;
-  color: #1c232f37;
-}
-
 .menu-horizontal > li:hover{     
     color:white;
     transition: all .3s linear;

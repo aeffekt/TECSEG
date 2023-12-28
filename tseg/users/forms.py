@@ -63,6 +63,11 @@ class UpdateAccountForm(FlaskForm):
 		if ' ' in username.data:
 			raise ValidationError('El nombre de usuario no puede contener espacios')
 
+	def validate_email(self, field):
+		mail_already_exist = User.query.filter_by(email=self.email.data).where(User.username!=self.username.data).first()
+		if mail_already_exist:
+			raise ValidationError('Ese Email ya está en uso. Por favor, elija uno diferente')
+
 
 class UpdatePassword(FlaskForm):
 	old_password = PasswordField('Contraseña Actual',
