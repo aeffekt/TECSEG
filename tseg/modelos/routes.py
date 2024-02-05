@@ -34,7 +34,7 @@ def all_modelos():
 
 
 @modelos.route("/modelo-<int:modelo_id>-update", methods=['GET', 'POST'])
-@role_required("Admin", "Comercial", "Técnico")
+@login_required
 def modelo(modelo_id):
 	modelo = Modelo.query.get_or_404(modelo_id)	
 	form = ModeloForm(modelo)

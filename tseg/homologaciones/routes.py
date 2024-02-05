@@ -25,7 +25,7 @@ def all_homologaciones():
 
 
 @homologaciones.route("/homologacion-<int:homologacion_id>-update", methods=['GET', 'POST'])
-@role_required("Admin", "Comercial")
+@login_required
 def homologacion(homologacion_id):
 	homologacion = Homologacion.query.get_or_404(homologacion_id)
 	form = HomologacionForm(homologacion)
@@ -49,7 +49,7 @@ def homologacion(homologacion_id):
 
 
 @homologaciones.route("/add_homologacion", methods=['GET','POST'] )
-@role_required("Admin", "Comercial")
+@role_required("Admin", "Comercial", "Técnico")
 def add_homologacion():
 	form = HomologacionForm()
 	if form.validate_on_submit():		

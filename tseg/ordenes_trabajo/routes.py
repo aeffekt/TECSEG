@@ -60,7 +60,7 @@ def orden_trabajo(orden_trabajo_id):
 	
 
 @ordenes_trabajo.route("/add_orden_trabajo-<string:client_id>", methods=['GET','POST'] )
-@role_required("Admin", "ServicioCliente", "Comercial")
+@role_required("Admin", "ServicioCliente", "Comercial", "Técnico")
 def add_orden_trabajo(client_id):
 	form = OrdenTrabajoForm()
 	client = Client.query.filter_by(id=client_id).first()
@@ -146,7 +146,7 @@ def update_orden_trabajo(orden_trabajo_id):
 
 
 @ordenes_trabajo.route("/orden_trabajo-<int:orden_trabajo_id>-delete", methods=['POST'])
-@role_required("Admin", "Comercial", "ServicioCliente")
+@role_required("Admin", "Comercial", "ServicioCliente", "Técnico")
 def delete_orden_trabajo(orden_trabajo_id):
 	orden_trabajo = Orden_trabajo.query.get_or_404(orden_trabajo_id)
 	if orden_trabajo.author_ot != current_user:

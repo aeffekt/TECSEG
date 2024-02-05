@@ -82,13 +82,13 @@ def client(client_id):
 
 
 @clients.route("/add_client", methods=['GET','POST'] )
-@role_required("ServicioCliente", "Admin", "Comercial")
+@role_required("ServicioCliente", "Admin", "Comercial", "Técnico")
 def add_client():
 	form = ClientForm()
 	if form.validate_on_submit():
 		try:
 			# busca el ID del pais y comienza a concatenar el domicilio		
-			if form.pais.data != '' and form.pais.data != None:
+			if form.pais.data != '' and form.pais.data != None:				
 				pais = Pais.query.filter_by(id=form.pais.data).first()
 				if not pais:
 					pais=Pais(nombre=form.pais.data)

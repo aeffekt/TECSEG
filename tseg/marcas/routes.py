@@ -28,7 +28,7 @@ def all_marcas():
 							item_type=item_type)
 
 @marcas.route("/marca-<int:marca_id>-update", methods=['GET', 'POST'])
-@role_required("Admin", "Comercial")
+@login_required
 def marca(marca_id):
 	marca = Marca.query.get_or_404(marca_id)	
 	form = MarcaForm(marca)
@@ -50,7 +50,7 @@ def marca(marca_id):
 
 
 @marcas.route("/add_marca", methods=['GET','POST'] )
-@role_required("Admin", "Comercial")
+@role_required("Admin", "Comercial", "Técnico")
 def add_marca():
 	form = MarcaForm()
 	if form.validate_on_submit():		

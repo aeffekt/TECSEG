@@ -24,7 +24,7 @@ def create_app(config_class=Config):
 	bcrypt.init_app(app)
 	login_manager.init_app(app)
 	mail.init_app(app)
-	# ERROR LOGGER, en try por error en server 2012
+	# ERROR LOGGER
 	try:
 		file_handler = FileHandler('tseg/_errors.log')
 		file_handler.setLevel(WARNING)
