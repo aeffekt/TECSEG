@@ -60,7 +60,15 @@
                 </div>
             </div>
             <hr 80%>
-            
+            {% if lista.count() == 0 %}
+                <div class="row">
+                    <div class="col-md-1">                        
+                    </div>
+                    <div class="col-md-11 mb-2">
+                        <i class="fs-5 bi bi-arrow-down-circle"> añadir los detalles de la O.T.</i>
+                    </div>
+                </div>
+            {% endif %}
             <a class="bi bi-copy btn btn-outline-light" title="Copiar O.T. completa" href="{{ url_for('ordenes_trabajo.copy_orden_trabajo', orden_trabajo_id=orden_trabajo.id) }}"></a>
             <a class="bi bi-plus-square btn btn-outline-info" title="Añadir Detalle" href="{{ url_for('detalles_trabajo.add_detalle_trabajo', orden_trabajo_id=orden_trabajo.id) }}"></a>
             <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar O.T." href="{{ url_for('ordenes_trabajo.update_orden_trabajo', orden_trabajo_id=orden_trabajo.id) }}"></a>

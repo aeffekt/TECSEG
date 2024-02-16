@@ -224,7 +224,6 @@ class Orden_reparacion(db.Model):
 	estado_id = db.Column(db.Integer, db.ForeignKey('estado_or.id'), nullable=False)
 	detalles_reparacion = db.relationship('Detalle_reparacion', backref='orden_reparacion', lazy=True)
 	
-
 	def __repr__(self):
 		return f"{self.codigo} '{self.estado}'"
 
