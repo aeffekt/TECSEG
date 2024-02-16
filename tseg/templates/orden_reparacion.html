@@ -10,32 +10,24 @@
                 <div class="col-md-9">
                     <h1 class="aticle-title">{{ orden_reparacion.codigo }}</h1></p>
                 </div>
-            </div>
-            <div class="row align-items-center">
                 <div class="col-md-3 text-end">
                     <small>Descripción:</small> 
                 </div>
                 <div class="col-md-9">
                     <h5 class="article-content">{{ orden_reparacion.content }}</h5>
                 </div>
-            </div>
-            <div class="row align-items-center">
                 <div class="col-md-3 text-end">
                     <small>Equipo:</small> 
                 </div>
                 <div class="col-md-9">
                     <a class="article-title" href="{{ url_for('equipments.equipment', equipment_id=orden_reparacion.equipo_id) }}">{{ orden_reparacion.equipo }}</a>
                 </div>
-            </div>
-            <div class="row align-items-center">
                 <div class="col-md-3 text-end">
                     <small>Técnico asignado:</small> 
                 </div>
                 <div class="col-md-9">
                     <h5 class="article-content">{{ orden_reparacion.tecnicoAsignado.username }}</h5>
-                </div>
-            </div>
-            <div class="row align-items-center">
+                </div>            
                 <div class="col-md-3 text-end">
                     <small>Estado O.R.:</small> 
                 </div>
@@ -47,16 +39,29 @@
                     {% elif orden_reparacion.estado.descripcion == 'Resuelta' %}darkgrey
                     {% endif %}">{{ orden_reparacion.estado.descripcion }}</h5>
                 </div>
-            </div>
-                <div class="row align-items-center">
+                {% if orden_reparacion.materiales %}
                     <div class="col-md-3 text-end">
-                        <small>Última modificación:</small> 
+                        <small>Materiales:</small> 
                     </div>
+                    <div class="col-md-9">
+                        <small class="article-title"><b>{{ orden_reparacion.materiales }}</b></small>
+                    </div>
+                {% endif %}
+                {% if orden_reparacion.horas_trabajadas %}
+                    <div class="col-md-3 text-end">
+                        <small>Horas trabajadas:</small> 
+                    </div>
+                    <div class="col-md-9">
+                        <small class="article-title"><b>{{ orden_reparacion.horas_trabajadas }}</b></small>
+                    </div>
+                {% endif %}
+                <div class="col-md-3 text-end">
+                    <small>Última modificación:</small> 
+                </div>
                 <div class="col-md-9">
                     <small class="article-title"><b>{{ orden_reparacion.date_modified }}</b></small>
                 </div>
-            </div>
-            <div class="row align-items-center">
+            
                 <div class="col-md-3 text-end">
                     <small>Fecha de creación:</small> 
                 </div>

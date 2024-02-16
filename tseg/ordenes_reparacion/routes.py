@@ -66,7 +66,9 @@ def add_orden_reparacion(equipment_id):
 				estado_id = 1 # sino, "creada"
 			orden_reparacion = Orden_reparacion(
 								codigo=form.codigo.data, 
-								content=form.content.data, 													
+								content=form.content.data,
+								materiales=form.materiales.data,
+								horas_trabajadas=form.horas_trabajadas.data,
 								author_or=current_user, 
 								tecnicoAsignado=user,
 								estado_id=estado_id,
@@ -110,6 +112,8 @@ def update_orden_reparacion(orden_reparacion_id):
 			orden_reparacion.date_modified = dateFormat()
 			orden_reparacion.codigo = form.codigo.data
 			orden_reparacion.content = form.content.data
+			orden_reparacion.materiales = form.materiales.data
+			orden_reparacion.horas_trabajadas = form.horas_trabajadas.data
 			db.session.commit()
 			flash("Su Orden de Reparación ha sido editada con éxito", 'success')
 			return redirect(url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id))
@@ -121,7 +125,9 @@ def update_orden_reparacion(orden_reparacion_id):
 		form.equipo.default = orden_reparacion.equipo_id	
 		form.process()
 		form.codigo.data = orden_reparacion.codigo
-		form.content.data = orden_reparacion.content	
+		form.content.data = orden_reparacion.content
+		form.materiales.data = orden_reparacion.materiales
+		form.horas_trabajadas.data = orden_reparacion.horas_trabajadas
 	return render_template('create_orden_reparacion.html', 	
 												title='Editar Orden reparacion', 
 												form=form,

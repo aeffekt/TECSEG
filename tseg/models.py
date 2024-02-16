@@ -4,7 +4,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from tseg import db, login_manager
 from flask_login import UserMixin
-from markupsafe import Markup, escape
 
 
 # dar formato a la fecha actual NOW
@@ -216,7 +215,9 @@ class Orden_reparacion(db.Model):
 	date_created = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	date_modified = db.Column(db.DateTime, nullable=False, default=dateFormat())
 	codigo = db.Column(db.String(6), unique=True, nullable=False)
-	content = db.Column(db.Text, nullable=False)	
+	content = db.Column(db.Text, nullable=False)
+	materiales = db.Column(db.Text, nullable=True)
+	horas_trabajadas = db.Column(db.String(250), nullable=True)
 	tecnico_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)

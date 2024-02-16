@@ -13,9 +13,11 @@ class OrdenReparacionForm(FlaskForm):
 		self.objeto = objeto
 
 	codigo = StringField('Código', validators=[DataRequired()])
-	content = TextAreaField('Descripción', validators=[DataRequired()])
-	equipo = SelectField('Equipo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
 	tecnico = SelectField('Técnico encargado', coerce=int, validate_choice=False)
+	equipo = SelectField('Equipo', coerce=int, validators=[DataRequired()], render_kw={'data-placeholder': 'Seleccione un item...'})
+	content = TextAreaField('Descripción', validators=[DataRequired()])
+	materiales = TextAreaField('Materiales')
+	horas_trabajadas = StringField('Horas trabajadas')
 	submit = SubmitField('Agregar')
 
 	def validate_codigo(self, codigo):
