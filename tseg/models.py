@@ -217,7 +217,7 @@ class Orden_reparacion(db.Model):
 	codigo = db.Column(db.String(6), unique=True, nullable=False)
 	content = db.Column(db.Text, nullable=False)
 	materiales = db.Column(db.Text, nullable=True)
-	horas_trabajadas = db.Column(db.String(250), nullable=True)
+	horas_trabajadas = db.Column(db.Text, nullable=True)
 	tecnico_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False, nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	equipo_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
