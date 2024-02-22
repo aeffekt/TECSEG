@@ -41,7 +41,7 @@
 					<h5 class="border-bottom border-secondary mb-4">Órdenes de trabajo Activas</h5>
 					{% for ot in ordenes_trabajo_vigentes %}				
 						<b><a class="link-info link-offset-2 link-underline link-underline-opacity-25" title="{{ ot.content }}" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=ot.id) }}"> </b>
-							{{ ot.codigo }} <b>{{ot.estado}}</b></a>
+							{{ ot.codigo }} <b>{{ot.estado}}</b> {{ot.client.business_name}}</a>
 						<br>
 					{% endfor %}
 					<hr 80%>

@@ -238,14 +238,13 @@ def all_users():
 							item_type=item_type)
 
 
-@users.route("/user-<string:username>-historias")
+@users.route("/user-<int:user_id>-historias")
 @login_required
-def user_historias(username):
+def user_historias(user_id):
 	select_item = request.args.get('selectItem', '')	
 	if select_item:		
 		return redirect(url_for('historias.historia', historia_id=select_item))
-	user = User.query.filter_by(username=username)\
-					.first_or_404()
+	user = User.query.get_or_404(user_id)
 	historias = buscarLista(Historia, user)
 	orderBy = current_app.config["ORDER_HISTORIAS"]
 	return render_template('user_historias.html', 

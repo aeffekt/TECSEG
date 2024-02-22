@@ -148,7 +148,7 @@
 									<h2>{{ historia.title }}</h2>
 									<h6 class="article-title">{{ historia.content }}</h6>
 									<small class="article-content">Última modificación: <b>{{ historia.date_modified.strftime('%d-%m-%Y') }}</b></small>
-									<small>Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <a class="article-title" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}"><b>{{ historia.author_historia.username }}</b></a></small>
+									<small>Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <a class="article-title" href="{{ url_for('users.user_historias', user_id=historia.author_historia.id) }}"><b>{{ historia.author_historia.username }}</b></a></small>
 								</a>
 							</div>
 							<div class="col-md-2 text-end" title="tipo de historia">

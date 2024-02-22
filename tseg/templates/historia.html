@@ -7,7 +7,7 @@
             <div class="row align-items-center">
                 <div class="col-md-11">
                     <div class="article-metadata">
-                        <a title="ir a historias del Autor" class="mr-2" href="{{ url_for('users.user_historias', username=historia.author_historia.username) }}">
+                        <a title="ir a historias del Autor" class="mr-2" href="{{ url_for('users.user_historias', user_id=historia.author_historia.id) }}">
                             <img  class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + historia.author_historia.image_file) }}"><p>{{ historia.author_historia.username }}</a>
                   		<small title="Fecha creación" class="text-muted">{{ historia.date_created.strftime('%Y-%m-%d') }}</small></p>             
                     </div>
