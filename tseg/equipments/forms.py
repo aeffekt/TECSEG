@@ -21,7 +21,7 @@ class EquipmentForm(FlaskForm):
 		else:
 			self.sistema.choices = [(-1,'')]
 		
-	modelo = SelectField('Modelo', coerce=int, validators=[DataRequired()])
+	modelo = SelectField('Modelo', coerce=int, validate_choice=False, validators=[DataRequired()])
 	frecuencias = SelectMultipleField('Canal/es', coerce=int, validate_choice=False)
 	numSerie = StringField('Nº serie')
 	anio = SelectField('Año de fabricación', coerce=str, validate_choice=False, validators=[DataRequired()])

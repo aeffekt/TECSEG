@@ -45,9 +45,7 @@ def historia(historia_id):
 @historias.route("/historia-<int:historia_id>-update", methods=['GET', 'POST'])
 @role_required("Admin", "Técnico")
 def update_historia(historia_id):
-	historia = Historia.query.get_or_404(historia_id)
-	if historia.author_historia != current_user:
-		abort(403) #http forbidden
+	historia = Historia.query.get_or_404(historia_id)	
 	form = HistoriaForm()
 	if form.validate_on_submit():
 		try:

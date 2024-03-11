@@ -48,6 +48,7 @@ def load_cp():
 	localidad = Localidad.query.filter_by(id=localidad_nombre).first()	
 	return jsonify(cp=localidad.cp)
 
+
 @clients.route("/all_clients")
 @login_required
 def all_clients():

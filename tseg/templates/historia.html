@@ -65,12 +65,12 @@
                 </div>
             </div>
         </div>  
-        {% if historia.author_historia == current_user %}
-            <div>
-                <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar historia" href="{{ url_for('historias.update_historia', historia_id=historia.id) }}"></a>
-                <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar historia"></a>
-            </div>
-          {% endif %}        
+        
+        <div>
+            <a  class="bi bi-pencil-fill btn btn-outline-warning" title="Editar historia" href="{{ url_for('historias.update_historia', historia_id=historia.id) }}"></a>
+            <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar historia"></a>
+        </div>
+        
     </article>
      <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
