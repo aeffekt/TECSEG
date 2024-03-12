@@ -33,9 +33,11 @@
 					<hr>
 					<li><a class="nav-item nav-link" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id=0) }}"><i class="bi bi-wrench"></i> Registrar Orden de Reparación</a></li>
 					<li><a class="nav-item nav-link"  href="{{ url_for('ordenes_reparacion.all_ordenes_reparacion', orderBy='estado_id', orderOrder='asc') }}"><i class="bi bi-search"></i> Buscar Orden de Reparación</a></li>
+					{% if current_user.role.role_name == "Admin" or current_user.role.role_name == "ServicioCliente"%}
 						<hr>
 						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_tecnico') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por Técnico</a></li>
 						<li><a class="nav-item nav-link" href="{{ url_for('reportes.reporte_reparaciones') }}"><i class="bi bi-bar-chart"></i> Reporte Reparaciones por modelo</a></li>
+					{% endif %}
 				</ul>
 			</li>
 			
