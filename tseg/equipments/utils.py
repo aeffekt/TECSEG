@@ -151,11 +151,11 @@ def generar_qr(qr_to_code, qr_path):
 
 # subir archivos a equipo
 def upload_files(files, equipment):
-    if files and files[0].filename!='':        
+    if files and files[0].filename != '':
         folder_path = get_full_folder_path(equipment)
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
-        for file in files:			
+        for file in files:
             file.save(f'{folder_path}//{file.filename}') # Then save the file
 
 

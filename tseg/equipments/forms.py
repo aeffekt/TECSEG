@@ -3,6 +3,7 @@ from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileFi
 from wtforms.validators import DataRequired, ValidationError
 from tseg.models import Modelo, Frecuencia, Detalle_trabajo, Equipment, Orden_trabajo
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 
 class EquipmentForm(FlaskForm):
@@ -57,3 +58,4 @@ class EquipmentForm(FlaskForm):
 	def validate_sistema(self, sistema):	
 		if sistema.data == '':
 			sistema.data=None
+	
