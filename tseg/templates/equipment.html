@@ -1,279 +1,317 @@
 {% extends "layout.html" %}
 {% block content %}
-    <article class="media content-section">
-        <div class="media-body">
-            <legend class="border-bottom mb-4">Equipo</legend>
-            <div class="row">
-                <div class="col-md-3">
+<article class="media content-section">
+	<div class="media-body">
+		<legend class="border-bottom mb-4">Equipo</legend>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="img-container">
+					<a href="#" onclick="abrirImagen('{{ image_path+equipment.modelo.image_file }}'); return false;">
+						<img class="rounded-3 account-img" src="{{ image_path+equipment.modelo.image_file }}"
+							alt="Imagen" />
+						<div class="overlay">
+							<div class="overlay-content">Abrir Imagen</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="media-body">
+					<a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo.id) }}">
+						<h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo }}</h2>
+					</a>
+					<h6 class="article-title">Marca: <b>{{ equipment.modelo.marca }}</b></h6>
+					<h6 class="article-content">Descripción: <b>{{ equipment.modelo.descripcion }}</b></h6>
+					{% if equipment.modelo.homologacion %}
+					<h6 class="article-title">Homologación: <b>{{ equipment.modelo.homologacion }}</b></h6>
+					{% endif %}
+					<small class="article-title">Modificado: <b>{{ equipment.modelo.date_modified }}</b></small>
+				</div>
+			</div>
+		</div>
+		<hr 90%>
+		<div class="row">
+			<div class="col-md-3 text-end">
+				{% if equipment.numSerie %}
+				<small>Nº Serie: </small>
+				{% else %}
+				<small>O.T.: </small>
+				{% endif %}
+			</div>
+			<div class="col-md-9">
+				<a class="article-title"
+					href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id) }}">
+					<h5><b class="article-title" title="Ir a la Orden de trabajo">
+							{{ equipment.detalle_trabajo.orden_trabajo.codigo }}{% if equipment.numSerie %}-{{
+							equipment.numSerie }}
+							{% endif %}
+						</b></h5>
+				</a>
+			</div>
+			{% if equipment.sistema %}
+			<div class="col-md-3 text-end">
+				<small>Sistema: </small>
+			</div>
+			<div class="col-md-9">
+				<small><b class="article-title">{{ equipment.sistema }}</b></small>
+			</div>
+			{% endif %}
+
+			{% if equipment.frecuencias %}
+			<div class="col-md-3 text-end">
+				<small>Canal / Frecuencia: </small>
+			</div>
+			<div class="col-md-9">
+				<small><b class="article-title">{% for f in equipment.frecuencias%}{{ f }} {% endfor %} </b></small>
+			</div>
+			{% endif %}
+			<div class="col-md-3 text-end">
+				<small>Cliente:</small>
+			</div>
+			<div class="col-md-9">
+				<a class="article-title" title="Ver datos del cliente"
+					href="{{ url_for('clients.client', client_id=equipment.detalle_trabajo.orden_trabajo.client.id) }}"><b>{{
+						equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{
+						equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b></a>
+			</div>
+
+			<div class="col-md-3 text-end">
+				<small>Año de fabricación:</small>
+			</div>
+			<div class="col-md-9">
+				<span class="article-title"><b>{{ equipment.anio }}</b></span>
+			</div>
+
+			{% if equipment.content %}
+			<div class="col-md-3 text-end">
+				<small>Descripción:</small>
+			</div>
+			<div class="col-md-9">
+				<h6 class="article-content">{{ equipment.content }}</h6>
+			</div>
+			{% endif %}
+
+			<div class="col-md-3 text-end">
+				<small>Última modificación: </small>
+			</div>
+			<div class="col-md-9">
+				<small class="article-title"><b>{{ equipment.date_modified }}</b></small>
+			</div>
+
+			<div class="col-md-3 text-end">
+				<small>Creado el: </small>
+			</div>
+			<div class="col-md-9">
+				<small class="article-title"><b>{{ equipment.date_created }}</b> por <b>{{ equipment.author_eq.username
+						}}</b></small>
+			</div>
+		</div>
+		<div class="col-md-3">
+			{% if equipment.numSerie %}
+			<br>
+			<a class="bi bi-printer btn btn-outline-light" title="Generar Carátula y Etiqueta Nº serie (PDF)"
+				href="{{ url_for('equipments.print_pdfs', equipment_id=equipment.id) }}"></a>
+			{% if equipment.etiqueta_file %}
+			<a class="bi bi-filetype-pdf btn btn-outline-light" title="Abrir archivo de Carátula del manual"
+				href="{{ path }}{{ equipment.caratula_file }}" target="_blank"></a>
+			<a class="bi bi-upc-scan btn btn-outline-light" title="Abrir archivo de etiqueta de Nº serie"
+				href="{{ path }}{{ equipment.etiqueta_file }}" target="_blank"></a>
+			{% endif %}
+			{% endif %}
+		</div>
+
+	</div>
+	<hr 80%>
+	<div class="row">
+		<div class="col-md6">
+			<a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Historia"
+				href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
+			<a class="bi bi-wrench btn btn-outline-info"
+				href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}"
+				title="Añadir O.R."></a>
+			<a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar equipo"
+				href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}"></a>
+			<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal"
+				title="Eliminar equipo"></a>
+		</div>
+	</div>
+</article>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+	<li class="nav-item" role="presentation">
+		<button class="nav-link active" id="historial-tab" data-bs-toggle="tab" data-bs-target="#historial"
+			type="button" role="tab" aria-controls="historial" aria-selected="true">Historial ({{ lista.count()
+			}})</button>
+	</li>
+	{% if reparaciones.count() != 0 %}
+	<li class="nav-item" role="presentation">
+		<button class="nav-link" id="reparaciones-tab" data-bs-toggle="tab" data-bs-target="#reparaciones" type="button"
+			role="tab" aria-controls="reparaciones" aria-selected="false">Órdenes de reparación ({{ reparaciones.count()
+			}})</button>
+	</li>
+	{% endif %}
+	{% if archivos_info|length() != 0 %}
+	<li class="nav-item" role="presentation">
+		<button class="nav-link" id="archivos_info-tab" data-bs-toggle="tab" data-bs-target="#archivos_info"
+			type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Archivos ({{
+			archivos_info|length() }})</button>
+	</li>
+	{% endif %}
+</ul>
+
+<div class="tab-content" id="myTabContent">
+	<div class="tab-pane fade show active" id="historial" role="tabpanel" aria-labelledby="historial-tab">
+		<br>
+		{% for historia in lista %}
+		<article class="media content-section-list">
+			<div class="media-body">
+				<div class="row">
+					<div class="col-md-10">
+						<a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}">
+							<h2>{{ historia.title }}</h2>
+							<h6 class="article-content">{{ historia.content }}</h6>
+							<small class="article-content">Última modificación: <b>{{
+									historia.date_modified.strftime('%d-%m-%Y') }}</b></small>
+							<small>Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el
+								usuario <a class="article-title"
+									href="{{ url_for('users.user_historias', user_id=historia.author_historia.id) }}"><b>{{
+										historia.author_historia.username }}</b></a></small>
+						</a>
+					</div>
+					<div class="col-md-2 text-end" title="tipo de historia">
+						<div class="d-grid">
+							<a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
+										{% elif historia.tipo_historia.tipo == 'Reparación' %}warning
+										{% elif historia.tipo_historia.tipo == 'Modificación' %}info
+										{% elif historia.tipo_historia.tipo == 'Falla' %}danger
+										{% endif %} btn-block btn-sm"
+								href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipo_historia_id=historia.tipo_historia.id) }}"
+								title="Ver todas las historias del tipo '{{ historia.tipo_historia.tipo }}'">
+								{{ historia.tipo_historia.tipo }}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+		{% endfor %}
+	</div>
+	<div class="tab-pane fade" id="reparaciones" role="tabpanel" aria-labelledby="reparaciones-tab">
+		<br>
+		{% for orden_reparacion in reparaciones %}
+		<article class="media content-section-list">
+			<div class="row">
+				<div class="col-md-10">
+					<div class="media-body">
+						<a class="article-title"
+							href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
+							<h2>{{ orden_reparacion.codigo }}</h2>
+							<h6 class="article-title">{{ orden_reparacion.content }}</h6>
+							<small>{{ orden_reparacion.equipo.title }}</small>
+							{% if orden_reparacion.tecnicoAsignado %}
+							<small>Equipo: <b>{{ orden_reparacion.equipo.modelo }}</b> Técnico asignado: <b>{{
+									orden_reparacion.tecnicoAsignado.username }}</b></small>
+							{% endif %}
+						</a>
+					</div>
+				</div>
+				<div class="col-md-2 text-end">
+					<div class="d-grid">
+						<a class="btn btn-{% if orden_reparacion.estado.descripcion == 'Creada' %}warning
+												{% elif orden_reparacion.estado.descripcion == 'Asignada' %}success
+												{% elif orden_reparacion.estado.descripcion == 'Anulada' %}dark
+												{% elif orden_reparacion.estado.descripcion == 'Resuelta' %}secondary
+												{% endif %} btn-block btn-sm"
+							href="{{ url_for('equipments.equipment',  equipment_id=orden_reparacion.equipo.id) }}" ,
+							title="Ir al equipo {{ orden_reparacion.equipo.modelo }}">
+							{{ orden_reparacion.estado.descripcion }}
+						</a>
+					</div>
+				</div>
+			</div>
+		</article>
+		{% endfor %}
+	</div>
+	<div class="tab-pane fade" id="archivos_info" role="tabpanel" aria-labelledby="archivos_info-tab">
+		<br>
+		{% for archivo in archivos_info %}
+		<article class="media content-section-list">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="media-body">
+						<p class="article-title">Nombre: <b>{{ archivo.nombre }}</b></p>
+						<small class="article-title">Subido el: <b>{{ archivo.fecha_creacion }}</b></small>
+						<p class="article-title">Tamaño:<b> {{ (archivo.tamaño / 1024)| round(1) }}</b> Kbytes</p>
+					</div>
+				</div>
+				<div class="col-md-3">
+					{% if archivo.nombre.lower().endswith(('jpg', 'jpeg', 'png', 'bmp', 'gif')) %}
 					<div class="img-container">
-						<a href="#" onclick="abrirImagen('{{ image_path+equipment.modelo.image_file }}'); return false;">
-							<img class="rounded-3 account-img" src="{{ image_path+equipment.modelo.image_file }}" alt="Imagen" />
+						<a href="#" onclick="abrirImagen('{{ folder_path+archivo.nombre }}'); return false;">
+							<img class="rounded-3 account-img" src="{{ folder_path+archivo.nombre }}" alt="Imagen" />
 							<div class="overlay">
 								<div class="overlay-content">Abrir Imagen</div>
 							</div>
 						</a>
 					</div>
-                </div>
-                <div class="col-md-9">
-					<div class="media-body">
-						<a href="{{ url_for('modelos.modelo', modelo_id=equipment.modelo.id) }}"><h2 class="account-heading" title="Modificar datos del modelo">{{ equipment.modelo }}</h2></a>
-						<h6 class="article-title">Marca: <b>{{ equipment.modelo.marca }}</b></h6>
-						<h6 class="article-content">Descripción: <b>{{ equipment.modelo.descripcion }}</b></h6>
-						{% if equipment.modelo.homologacion %}
-							<h6 class="article-title">Homologación: <b>{{ equipment.modelo.homologacion }}</b></h6>
-						{% endif %}
-						<small class="article-title">Modificado: <b>{{ equipment.modelo.date_modified }}</b></small>
-					</div>
-                </div>
-            </div>
-            <hr 90%>
-            <div class="row">
-                <div class="col-md-3 text-end">
-					{% if equipment.numSerie %}
-                    	<small>Nº Serie: </small>
-					{% else %}
-						<small>O.T.: </small>
 					{% endif %}
-                </div>
-                <div class="col-md-9">
-                    <a class="article-title" href="{{ url_for('ordenes_trabajo.orden_trabajo', orden_trabajo_id=equipment.detalle_trabajo.orden_trabajo.id) }}">
-						<h5><b class="article-title" title="Ir a la Orden de trabajo">
-							{{ equipment.detalle_trabajo.orden_trabajo.codigo }}{% if equipment.numSerie %}-{{ equipment.numSerie }}
-							{% endif %}
-						</b></h5>
-					</a>
-                </div>
-				{% if equipment.sistema %}
-					<div class="col-md-3 text-end">
-					<small>Sistema: </small>
-					</div>
-					<div class="col-md-9">
-						<small><b class="article-title" >{{ equipment.sistema }}</b></small>
-					</div>
-				{% endif %}
-				
-				{% if equipment.frecuencias %}
-					<div class="col-md-3 text-end">
-					<small>Canal / Frecuencia: </small>
-					</div>
-					<div class="col-md-9">
-						<small><b class="article-title" >{% for f in equipment.frecuencias%}{{ f }} {% endfor %} </b></small>
-					</div>
-				{% endif %}
-                <div class="col-md-3 text-end">
-                    <small>Cliente:</small>
-                </div>
-                <div class="col-md-9">
-                    <a class="article-title" title="Ver datos del cliente" href="{{ url_for('clients.client', client_id=equipment.detalle_trabajo.orden_trabajo.client.id) }}"><b>{{ equipment.detalle_trabajo.orden_trabajo.client.nombre }} {{ equipment.detalle_trabajo.orden_trabajo.client.apellido }}</b></a>
-                </div>
-				
-				<div class="col-md-3 text-end">
-					<small>Año de fabricación:</small>
 				</div>
-				<div class="col-md-9">
-					<span class="article-title"><b>{{ equipment.anio }}</b></span>
+				<div class="col-md-1 text-end">
+					<a class="bi bi-file-earmark-arrow-down btn btn-outline-light"
+						href="{{ folder_path+archivo.nombre }}" download="{{ archivo.nombre }}"
+						title="Descargar archivo"></a>
+					<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal"
+						data-target="#deleteModal{{ loop.index }}" title="Eliminar archivo {{ archivo.nombre }}"></a>
 				</div>
-				
-				{% if equipment.content %}
-					<div class="col-md-3 text-end">
-						<small>Descripción:</small>
-					</div>
-					<div class="col-md-9">
-						<h6 class="article-content">{{ equipment.content }}</h6>
-					</div>
-				{% endif %}
-				
-				<div class="col-md-3 text-end">
-					<small>Última modificación: </small>
-				</div>
-				<div class="col-md-9">
-					<small class="article-title"><b>{{ equipment.date_modified }}</b></small>
-				</div>
-
-				<div class="col-md-3 text-end">
-					<small>Creado el: </small>
-				</div>
-				<div class="col-md-9">
-					<small class="article-title"><b>{{ equipment.date_created }}</b> por <b>{{ equipment.author_eq.username }}</b></small>
-				</div>
-            </div>            
-			<div class="col-md-3">
-				{% if equipment.numSerie %}
-					<br>
-					<a class="bi bi-printer btn btn-outline-light" title="Generar Carátula y Etiqueta Nº serie (PDF)" href="{{ url_for('equipments.print_pdfs', equipment_id=equipment.id) }}"></a>
-					{% if equipment.etiqueta_file %}
-						<a class="bi bi-filetype-pdf btn btn-outline-light" title="Abrir archivo de Carátula del manual" href="{{ path }}{{ equipment.caratula_file }}" target="_blank"></a>
-						<a class="bi bi-upc-scan btn btn-outline-light" title="Abrir archivo de etiqueta de Nº serie" href="{{ path }}{{ equipment.etiqueta_file }}" target="_blank"></a>
-					{% endif %}
-				{% endif %}
 			</div>
-            
-        </div>
-        <hr 80%>
-        <div class="row">
-            <div class="col-md6">                
-                <a class="bi bi-chat-right-text btn btn-outline-light" title="Añadir Historia" href="{{ url_for('historias.add_historia', equipment_id = equipment.id) }}"></a>
-                <a class="bi bi-wrench btn btn-outline-info" href="{{ url_for('ordenes_reparacion.add_orden_reparacion', equipment_id = equipment.id) }}" title="Añadir O.R."></a>
-                <a class="bi bi-pencil-fill btn btn-outline-warning" title="Editar equipo" href="{{ url_for('equipments.update_equipment', equipment_id=equipment.id) }}"></a>
-                <a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal" title="Eliminar equipo"></a>
-            </div>
-        </div>
-    </article>
-
-	<ul class="nav nav-tabs" id="myTab" role="tablist">
-		<li class="nav-item" role="presentation">
-		  <button class="nav-link active" id="historial-tab" data-bs-toggle="tab" data-bs-target="#historial" type="button" role="tab" aria-controls="historial" aria-selected="true">Historial ({{ lista.count() }})</button>
-		</li>
-		{% if reparaciones.count() != 0 %}
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="reparaciones-tab" data-bs-toggle="tab" data-bs-target="#reparaciones" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Órdenes de reparación ({{ reparaciones.count() }})</button>
-			</li>
-		{% endif %}
-		{% if archivos_info|length() != 0 %}
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="archivos_info-tab" data-bs-toggle="tab" data-bs-target="#archivos_info" type="button" role="tab" aria-controls="reparaciones" aria-selected="false">Archivos ({{ archivos_info|length() }})</button>
-			</li>
-		{% endif %}
-	</ul>
-
-	<div class="tab-content" id="myTabContent">
-		<div class="tab-pane fade show active" id="historial" role="tabpanel" aria-labelledby="historial-tab">
-			<br>
-			{% for historia in lista %}
-				<article class="media content-section-list">
-					<div class="media-body">
-						<div class="row">
-							<div class="col-md-10">
-								<a class="article-title" href="{{ url_for('historias.historia', historia_id=historia.id) }}">
-									<h2>{{ historia.title }}</h2>
-									<h6 class="article-title">{{ historia.content }}</h6>
-									<small class="article-content">Última modificación: <b>{{ historia.date_modified.strftime('%d-%m-%Y') }}</b></small>
-									<small>Fecha de creación: <b>{{ historia.date_created.strftime('%d-%m-%Y') }}</b> por el usuario <a class="article-title" href="{{ url_for('users.user_historias', user_id=historia.author_historia.id) }}"><b>{{ historia.author_historia.username }}</b></a></small>
-								</a>
-							</div>
-							<div class="col-md-2 text-end" title="tipo de historia">
-							<div class="d-grid">
-								<a class="btn btn-{% if historia.tipo_historia.tipo == 'Mensaje' %}light
-										{% elif historia.tipo_historia.tipo == 'Reparación' %}warning
-										{% elif historia.tipo_historia.tipo == 'Modificación' %}info
-										{% elif historia.tipo_historia.tipo == 'Falla' %}danger
-										{% endif %} btn-block btn-sm"
-									href="{{ url_for('equipments.historias_equipo',  equipment_id=equipment.id, tipo_historia_id=historia.tipo_historia.id) }}"
-									title="Ver todas las historias del tipo '{{ historia.tipo_historia.tipo }}'">
-									{{ historia.tipo_historia.tipo }}
-								</a>
-							</div>
-							</div>
-						</div>
+		</article>
+		<!-- Modal ARCHIVOS -->
+		<div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog"
+			aria-labelledby="deleteModal{{ loop.index }}Label" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteModal{{ loop.index }}Label">¿Seguro desea eliminar el archivo
+							"{{ archivo.nombre }}"?</h5>
+						<button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
-				</article>
-			{% endfor %}
-		</div>
-		<div class="tab-pane fade" id="reparaciones" role="tabpanel" aria-labelledby="reparaciones-tab">
-			<br>
-			{% for orden_reparacion in reparaciones %}
-				<article class="media content-section-list">
-					<div class="row">
-						<div class="col-md-10">
-							<div class="media-body">
-								<a class="article-title" href="{{ url_for('ordenes_reparacion.orden_reparacion', orden_reparacion_id=orden_reparacion.id) }}">
-									<h2>{{ orden_reparacion.codigo }}</h2>
-									<h6 class="article-title">{{ orden_reparacion.content }}</h6>
-									<small>{{ orden_reparacion.equipo.title }}</small>
-									{% if orden_reparacion.tecnicoAsignado %}
-										<small>Equipo: <b>{{ orden_reparacion.equipo.modelo }}</b> Técnico asignado: <b>{{ orden_reparacion.tecnicoAsignado.username }}</b></small>
-									{% endif %}
-								</a>
-							</div>
-						</div>
-						<div class="col-md-2 text-end">
-							<div class="d-grid">
-								<a class="btn btn-{% if orden_reparacion.estado.descripcion == 'Creada' %}warning
-												{% elif orden_reparacion.estado.descripcion == 'Asignada' %}success
-												{% elif orden_reparacion.estado.descripcion == 'Anulada' %}dark
-												{% elif orden_reparacion.estado.descripcion == 'Resuelta' %}secondary
-												{% endif %} btn-block btn-sm"
-									href="{{ url_for('equipments.equipment',  equipment_id=orden_reparacion.equipo.id) }}",
-									title="Ir al equipo {{ orden_reparacion.equipo.modelo }}">
-									{{ orden_reparacion.estado.descripcion }}
-								</a>
-							</div>
-						</div>
-					</div>
-				</article>
-			{% endfor %}
-		</div>
-		<div class="tab-pane fade" id="archivos_info" role="tabpanel" aria-labelledby="archivos_info-tab">
-			<br>			
-			{% for archivo in archivos_info %}
-				<article class="media content-section-list">
-					<div class="row">
-						<div class="col-md-8">
-							<div class="media-body">
-								<p class="article-title">Nombre: <b>{{ archivo.nombre }}</b></p>
-								<small class="article-title">Subido el: <b>{{ archivo.fecha_creacion }}</b></small>
-								<p class="article-title">Tamaño:<b> {{ (archivo.tamaño / 1024)| round(1) }}</b> Kbytes</p>
-							</div>
-						</div>
-						<div class="col-md-3">
-							{% if archivo.nombre.lower().endswith(('jpg', 'jpeg', 'png', 'bmp', 'gif')) %}
-								<div class="img-container">
-									<a href="#" onclick="abrirImagen('{{ folder_path+archivo.nombre }}'); return false;">
-										<img class="rounded-3 account-img" src="{{ folder_path+archivo.nombre }}" alt="Imagen" />
-										<div class="overlay">
-											<div class="overlay-content">Abrir Imagen</div>
-										</div>
-									</a>
-								</div>
-							{% endif %}
-						</div>
-						<div class="col-md-1 text-end">
-							<a class="bi bi-file-earmark-arrow-down btn btn-outline-light" href="{{ folder_path+archivo.nombre }}" download="{{ archivo.nombre }}" title="Descargar archivo"></a>
-							<a class="bi bi-trash-fill btn btn-outline-danger" href="#" data-toggle="modal" data-target="#deleteModal{{ loop.index }}" title="Eliminar archivo {{ archivo.nombre }}"></a>
-						</div>
-					</div>
-				</article>
-				<!-- Modal ARCHIVOS -->
-				<div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal{{ loop.index }}Label" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="deleteModal{{ loop.index }}Label">¿Seguro desea eliminar el archivo "{{ archivo.nombre }}"?</h5>
-								<button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-								<form action="{{ url_for('equipments.delete_file_route', file_path=folder_path, file_name=archivo.nombre, equipment_id=equipment.id) }}" method="POST">
-									<input class="btn btn-danger" type="submit" value="Borrar">
-								</form>
-							</div>
-						</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<form
+							action="{{ url_for('equipments.delete_file_route', file_path=folder_path, file_name=archivo.nombre, equipment_id=equipment.id) }}"
+							method="POST">
+							<input class="btn btn-danger" type="submit" value="Borrar">
+						</form>
 					</div>
 				</div>
-			{% endfor %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+<!-- Modal EQUIPO -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{
+					equipment.modelo.nombre }}"?</h5>
+				<button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				<form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
+					<input class="btn btn-danger" type="submit" value="Borrar">
+				</form>
+			</div>
 		</div>
 	</div>
-
-    <!-- Modal EQUIPO -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="deleteModalLabel">¿Seguro desea eliminar el equipo "{{ equipment.modelo.nombre }}"?</h5>
-					<button type="button" class="Cerrar" data-dismiss="modal" aria-label="Cerrar">
-					<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-					<form action="{{ url_for('equipments.delete_equipment', equipment_id=equipment.id) }}" method="POST">
-						<input class="btn btn-danger" type="submit" value="Borrar">
-					</form>
-				</div>
-			</div>
-		</div>
-    </div>	
+</div>
 
 {% endblock content %}
