@@ -60,7 +60,7 @@ NOTE: datetime.datetime fromisoformat requiere Python 3.7 o superior
 
 usar servidor debug (no requiere reiniciar al actualizar)
 CMD: DIR/set FLASK_DEBUG=1
-CMD: flask run
+CMD: python run.py
 Browser: "localhost:5000"
 
 

@@ -37,6 +37,9 @@ body {
   font-family: Montserrat, sans-serif;
   background: var(--background-color);
   color: var(--content-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 main {
@@ -539,9 +542,7 @@ border-color: #bee5eb;
 }
 
 .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    margin-top: auto;
     width: 100%;
     background-color: var(--container-color);
     padding: 0px;

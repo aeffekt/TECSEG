@@ -1,5 +1,5 @@
 # Programa de servicio de postventa par la empresa LIE SRL
-# Diseñado y desaroolado por: Agustin Arnaiz
+# Diseñado y desarrolado por: Agustin Arnaiz
 
 from tseg import create_app
 
